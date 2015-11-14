@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  people: MyString
+  is_support: false
+  content: MyText
+  count: 1
+
+two:
+  title: MyString
+  people: MyString
+  is_support: false
+  content: MyText
+  count: 1
