@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DatumTest < ActiveSupport::TestCase
+class DataitemsControllerTest < ActionController::TestCase
   # test "the truth" do
   #   assert true
   # end

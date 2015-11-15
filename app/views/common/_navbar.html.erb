@@ -3,7 +3,7 @@
 
     <!-- Header -->
     <div class = "navbar-header">
-      <a class="navbar-brand" href="#">正反網頁 Version 1.0</a>
+      <%= link_to "正反網頁 Version 1.0", "/", class: "navbar-brand" %>
     </div>
 
 
@@ -18,7 +18,8 @@
     <!-- 其他項目 -->
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li> <%= link_to("登入", '#') %> </li>
+        <li><%= link_to "管理者頁面", dataitems_path %></li>
+        <li><%= link_to("登入", '#') %></li>
       </ul>
     </div>
   </div>
