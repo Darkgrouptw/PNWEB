@@ -7,6 +7,11 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<br><br>
+<% #版面控制 %>
+<% if request.fullpath != '/'%>
+  <br>
+<% end %>
 
 <%= render "common/navbar" %>
 <%= notice_message %>

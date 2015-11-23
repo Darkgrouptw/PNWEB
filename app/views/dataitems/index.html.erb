@@ -1,8 +1,8 @@
-<div class="col-md-12">
-  <div class="group">
+<div class = "col-md-12">
+  <div class = "group">
     <%= link_to("新增資料", new_dataitem_path, class: "btn btn-primary") %>
   </div>
-  <table class="table table-hover">
+  <table class = "table table-hover">
     <thead>
       <tr>
         <td>#</td>
@@ -24,9 +24,9 @@
           <td><%= item.content %></td>
           <td>
             <% if item.is_support == true %>
-              支持
+              <font color = 'blue'>支持</font>
             <% else %>
-              反對
+              <font color = 'red'>反對</font>
             <% end %>
           </td>
           <td><%= item.count %></td>

@@ -2,8 +2,8 @@
 <%= javascript_include_tag "indexMove.js" %>
 
 <div class = "jumbotron">
-  <div class = "container">
-    <div style = "center" class = "showbox">
+  <div class = "container-fluid">
+    <div style = "margin: 0px auto;" class = "showbox">
       <div class = "imagebox">
         <img src = "http://www.itxueyuan.org/uploads/javascript/demo/lunbo/zuoyou_title/images/1.jpg" alt = "1">
         <img src = "http://www.itxueyuan.org/uploads/javascript/demo/lunbo/zuoyou_title/images/2.jpg" alt = "2">
@@ -17,5 +17,42 @@
         <span rel = "3">3</span>
       </div>
     </div>
+  </div>
+</div>
+<div class = "row">
+  <div class = "col-md-offset-3 col-md-6">
+    <table class = "table table-bordered">
+      <thead>
+        <tr>
+          <td>最新議題</td>
+          <td>名人語錄</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% count = 0 %>
+        <% last_str = '' %>
+        <% #people_copy = @items %>
+        <% #people_copy = people_copy.order('id DESC')%>
+        <% @items.each do |item| %>
+          <% if last_str != item.title%>
+            <% last_str = item.title%>
+            <tr>
+              <td><%= item.title %></td>
+              <td style = "width:300px">
+                <% if count == 0 %>
+                  <%= image_tag "http://img.epochtimes.com/i6/605060558541465.jpg", width: '256' %>
+                <% else %>
+                  <%= image_tag "http://pfp.gol.idv.tw/images/p2-1big.jpg", width: '256' %>
+                <% end %>
+              </td>
+            </tr>
+            <% count+=1 %>
+            <% if count >= 5 %>
+              <% break %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </div>

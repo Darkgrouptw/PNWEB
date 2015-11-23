@@ -1,26 +1,27 @@
-<div class="col-md-4 col-md-offset-4">
-  <h1>新增議題</h1>
+<div class = "row">
+  <div class = "col-md-4 col-md-offset-4">
+    <h1>新增議題</h1>
 
-  <hr>
-  <%= simple_form_for @items do |f| %>
-    <div class="form-group">
-      <%= f.label       "議題" %>
-      <%= f.input_field :title, class: "form-control" %><br>
+    <hr>
+    <%= simple_form_for @items do |f| %>
+      <div class="form-group">
+        <%= f.label       "議題" %>
+        <%= f.input_field :title, class: "form-control" %><br>
 
-      <%= f.label       "人物名稱" %>
-      <%= f.input_field :people, class: "form-control" %><br>
+        <%= f.label       "人物名稱" %>
+        <%= f.input_field :people, class: "form-control" %><br>
 
-      <%= f.label       "支持或反對 (支持請打勾)" %><br>
-      <%= f.input_field :is_support, as: :boolean%>
-      <%= f.label       "支持" %> <br><br>
+        <%= f.label       "支持或反對 (支持請打勾)" %><br>
+        <%= f.input_field :is_support, as: :boolean%>
+        <%= f.label       "支持" %> <br><br>
 
-      <%= f.label       "論述" %>
-      <%= f.input_field :content, class: "form-control" %><br>
+        <%= f.label       "論述" %>
+        <%= f.input_field :content, class: "form-control" %><br>
 
-      <%= f.label       "原址文章連結" %>
-      <%= f.input_field :link, class: "form-control" %><br>
-    </div>
-    <%= f.submit "新增", class: "btn btn-primary", data: { disable_with: "Submitting..." } %>
-  <% end %>
+        <%= f.label       "原址文章連結" %>
+        <%= f.input_field :link, class: "form-control" %><br>
+      </div>
+      <%= f.submit "新增", class: "btn btn-primary", data: { disable_with: "Submitting..." } %>
+    <% end %>
+  </div>
 </div>
-
