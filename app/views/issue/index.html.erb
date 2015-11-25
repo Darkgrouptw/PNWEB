@@ -1,0 +1,44 @@
+<div class = "row">
+  <div class = "col-md-offset-1 col-md-10">
+    <table class = "table table-bordered">
+      <thead>
+        <tr align = "center">
+          <td class = "col-md-10" colspan = "4"> 
+            <%= @items[0].title %> <br>
+            <% if @items[0].title == "一中同表" %>
+              認為「中華民國」與「中華人民共和國」皆是「整個中國」的一部份，
+              二者在各自領域有完整的管轄權，互不隸屬，同時，二者擱置對「整個
+              中國」的主權的爭議。
+            <% else %>
+              中華民國總統馬英九同中共中央總書記、中華人民共和國主席習近平在
+              新加坡香格里拉大酒店大堂層「島嶼宴會廳」內「東陵廳」及「裕廊廳
+              」會面
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td class = "col-md-1">圖片</td>
+          <td class = "col-md-1">支持或反對</td>
+          <td class = "col-md-7">名人觀點</td>
+          <td class = "col-md-1">連結</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @items.each do |item| %>
+        <tr>
+          <td><%= link_to(item.people, peoplelist_path(people: item.people)) %> </td>
+          <td>
+            <% if item.is_support == true %>
+              <font color = "blue">支持</font>
+            <% else %>
+              <font color = "red">反對</font>
+            <% end %>
+          </td>
+          <td><%= item.content %></td>
+          <td><%= link_to("連結", item.link)%></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

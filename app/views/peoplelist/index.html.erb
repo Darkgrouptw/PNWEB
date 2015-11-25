@@ -1,0 +1,37 @@
+<div class = "row">
+  <div class = "col-md-offset-1 col-md-10">
+    <table class = "table table-bordered">
+      <thead>
+        <tr bgcolor = "purple">
+          <td class = "col-md-10" colspan = "5"> 
+            <font color = "white">名人姓名: <%= @items[0].people %></font>
+          </td>
+        </tr>
+        <tr align = "center" bgcolor = "yellow">
+          <td class = "col-md-1">議題</td>
+          <td class = "col-md-1">態度</td>
+          <td class = "col-md-5">論述</td>
+          <td class = "col-md-1">原始文章</td>
+          <td class = "col-md-2">上傳時間</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @items.each do |item| %>
+          <tr align = "center" bgcolor = "skyblue">
+            <td> <%= link_to(item.title, issue_path(title: item.title)) %> </td>
+            <td> 
+              <% if item.is_support == true %> 
+                <font color = "blue">支持</font>
+              <% else %>
+                <font color = "red">反對</font>
+              <% end %>
+            </td>
+            <td> <%= item.content %> </td>
+            <td> <%= link_to("連結", item.link) %> </td>
+            <td> <%= item.created_at.strftime("%Y/%m/%d %H/%M %H:%M:%S") %> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

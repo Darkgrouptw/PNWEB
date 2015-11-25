@@ -31,18 +31,16 @@
       <tbody>
         <% count = 0 %>
         <% last_str = '' %>
-        <% #people_copy = @items %>
-        <% #people_copy = people_copy.order('id DESC')%>
         <% @items.each do |item| %>
-          <% if last_str != item.title%>
-            <% last_str = item.title%>
+          <% if last_str != item.title %>
+            <% last_str = item.title %>
             <tr>
-              <td><%= item.title %></td>
+              <td><%= link_to(item.title,issue_path(title: item.title)) %></td>
               <td style = "width:300px">
                 <% if count == 0 %>
-                  <%= image_tag "http://img.epochtimes.com/i6/605060558541465.jpg", width: '256' %>
+                  <%= link_to(image_tag("http://img.epochtimes.com/i6/911060221481470.jpg", width: '256'), peoplelist_path(people: "吳敦義")) %>
                 <% else %>
-                  <%= image_tag "http://pfp.gol.idv.tw/images/p2-1big.jpg", width: '256' %>
+                  <%= link_to(image_tag("http://donate.iing.tw/daebyday/images/iing.png", width: '256'), peoplelist_path(people:"蔡英文"))%>
                 <% end %>
               </td>
             </tr>
