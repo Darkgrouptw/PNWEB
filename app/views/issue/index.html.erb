@@ -3,7 +3,7 @@
     <table class = "table table-bordered">
       <thead>
         <tr align = "center">
-          <td class = "col-md-10" colspan = "4"> 
+          <td class = "col-md-10" colspan = "6"> 
             <%= @items[0].title %> <br>
             <% if @items[0].title == "一中同表" %>
               認為「中華民國」與「中華人民共和國」皆是「整個中國」的一部份，
@@ -18,6 +18,10 @@
         </tr>
         <tr>
           <td class = "col-md-1">圖片</td>
+
+		  <td class = "col-md-1">頭銜</td>
+		  <td class = "col-md-1">影響指數</td>
+
           <td class = "col-md-1">支持或反對</td>
           <td class = "col-md-7">名人觀點</td>
           <td class = "col-md-1">連結</td>
@@ -27,6 +31,13 @@
         <% @items.each do |item| %>
         <tr>
           <td><%= link_to(item.people, peoplelist_path(people: item.people)) %> </td>
+
+		  <td>
+			豬頭政客
+		  </td>
+		  <td>
+			42689.2
+		  </td>
           <td>
             <% if item.is_support == true %>
               <font color = "blue">支持</font>

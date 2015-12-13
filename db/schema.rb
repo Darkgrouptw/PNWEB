@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20151119120325) do
     t.text     "content"
     t.integer  "count"
     t.string   "link"
+	t.string   "job"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

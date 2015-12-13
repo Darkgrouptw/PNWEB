@@ -41,6 +41,7 @@ class DataitemsController < ApplicationController
      :is_support,
      :content,
      :count,
-     :link)
+     :link,
+	 :job)
   end
 end

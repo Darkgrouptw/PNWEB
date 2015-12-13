@@ -7,6 +7,7 @@ class CreateDataitems < ActiveRecord::Migration
       t.text :content
       t.integer :count
       t.string :link
+	  t.string :job
 
       t.timestamps null: false
     end
