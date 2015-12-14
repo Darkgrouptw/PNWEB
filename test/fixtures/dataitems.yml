@@ -7,6 +7,7 @@ one:
   content: MyText
   count: 1
   link: MyString
+  job: MyString
 
 two:
   title: MyString
@@ -15,3 +16,4 @@ two:
   content: MyText
   count: 1
   link: MyString
+  job: MyString
