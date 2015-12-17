@@ -3,11 +3,12 @@ class CreateDataitems < ActiveRecord::Migration
     create_table :dataitems do |t|
       t.string :title
       t.string :people
+      t.string :job
       t.boolean :is_support
       t.text :content
-      t.integer :count
+      t.string :contenttime
       t.string :link
-	  t.string :job
+      t.integer :count
 
       t.timestamps null: false
     end
