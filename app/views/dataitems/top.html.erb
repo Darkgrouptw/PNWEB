@@ -1,0 +1,37 @@
+<div class = "container">
+	<div class = "col-md-11">
+		<ul class = "nav nav-tabs">
+			<li 
+			<% if @state == 0  %>
+				class = "active"
+			<% end %>
+			><%= link_to "Data_issue", dataitems_data_issues_path %></li>
+			<li
+			<% if @state == 1 %>
+				class = "active"
+			<% end %>
+			><%= link_to "Data_person", dataitems_data_persons_path %></li>
+			<li
+			<% if @state == 2 %>
+			 	class = "active"
+			<% end %>
+			><%= link_to "Data_content", dataitems_data_contents_path %></li>
+			<li
+			<% if @state == 3 %>
+				class = "active"	
+			<% end %>
+			><%= link_to "Data_pointer", dataitems_data_pointers_path %></li>
+		</ul>
+	</div>
+	<div class = "col-md-1">
+		<% if @state == 0 %>
+			<%= link_to "增加", new_dataitems_data_issue_path, class: "btn btn-primary pull-right" %>
+		<% elsif @state == 1 %>
+			<%= link_to "增加", new_dataitems_data_person_path, class: "btn btn-primary pull-right" %>
+		<% elsif @state == 2 %>
+			<%= link_to "增加", new_dataitems_data_content_path, class: "btn btn-primary pull-right" %>
+		<% elsif @state == 3 %>
+			<%= link_to "增加", new_dataitems_data_pointer_path, class: "btn btn-primary pull-right" %>
+		<% end %>
+	</div>
+</div>
