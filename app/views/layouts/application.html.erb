@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PNWEB</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<!-- 版面控制 -->
+<br><br><br>
+
+<%= render "common/navbar" %>
+<%= notice_message %>
+<%= yield %>
+
+<%= render "common/footer" %>
+</body>
+</html>

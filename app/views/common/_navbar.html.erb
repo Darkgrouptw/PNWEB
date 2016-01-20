@@ -1,0 +1,31 @@
+<nav class = "navbar navbar-inverse navbar-fixed-top"> 
+	<div class = "container">
+		<div class = "navbar-header">
+			<!-- 當螢幕太小的時候，可以變成一個按鈕紐縮放 --><!--
+			<button type = "button" class = "navbar-toggle collapsed" data-toggle = "collapse" data-target = "#navbar" aria-expanded = "false" aria-controls = "navbar">
+				<span class = "sr-only">按鈕的斜線</span>
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+			</button>
+
+			<!-- 網頁的 Title -->
+			<a class = "navbar-brand" href="/">正反網頁 Version 2</a>
+		</div>
+
+		<!-- 要縮起來的其他東西 -->
+		<div id = "navbar" class = "collapse navbar-collapse">
+			<!-- 靠左側的按鈕 -->
+			<<ul class = "nav navbar-nav">
+				<li class = "acitve"><a href = "#">關於</a></li>
+			</ul>
+
+			<!-- 靠右側的按鈕 -->
+			<ul class = "nav navbar-nav navbar-right">
+				<li><%= link_to "管理者頁面", dataitems_path(:op => "data_issue") %></li>
+				<li><a href = "#">註冊</a></li>
+				<li><a href = "#">登入</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
