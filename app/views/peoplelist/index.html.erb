@@ -1,0 +1,139 @@
+<% if @persons.where(name: @tags).length >= 1 %>
+<div class = "container">
+<div class = "row">
+  <div class = "col-md-4">
+    <% @persons.where(name: @tags).each do |person| %>
+      <div>
+        <%= person.name %>
+      </div>
+      <div>
+        <%= image_tag person.pic_link, width: "200" %>
+      </div>
+    <% end %>
+  </div>
+  <div class = "col-md-8">
+    <table class = "table table-bordered">
+      <thead>
+        <tr align = "center">
+          <td class = "col-md-8" colspan = "6">
+          </td>
+        </tr>
+        <tr align = "center">
+          <td class = "col-md-1">
+            議題
+          </td>
+          <td class = "col-md-1">
+            態度
+          </td>
+          <td class = "col-md-3">
+            主要論述
+          </td>
+          <td class = "col-md-1">
+            原始文章
+          </td>
+          <td class = "col-md-1">
+            發表時間
+          </td>
+          <td class = "col-md-1">
+            編著
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @persons.where(name: @tags).each do |person| %>
+        <% @pointers.where(person_id: person.id).each do |pointer| %>
+        <% @contents.where(id: pointer.content_id).each do |content| %>
+        <% @issues.where(id: pointer.issue_id).each do |issue| %>
+          <tr align = "center">
+          <td class = "col-md-1">
+            <%= issue.content %>
+          </td>
+          <td class = "col-md-1">
+            <%= content.is_support %>
+          </td>
+          <td class = "col-md-3">
+            <%= content.text %>
+          </td>
+          <td class = "col-md-1">
+            <%= issue.content %>
+          </td>
+          <td class = "col-md-1">
+            <%= issue.updated_at %>
+          </td>
+          <td class = "col-md-1">
+            <%= person.name %>
+          </td>
+        </tr>
+        <% end %>
+        <% end %>
+        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<% else %> 
+
+<div class = "container">
+<div class = "row">
+  <div class = "col-md-offset-1 col-md-10">
+    <table class = "table table-bordered">
+      <thead>
+        <tr align = "center">
+          <td class = "col-md-10" colspan = "7"> 
+            所有議論
+          </td>
+        </tr>
+        <tr>
+          <td class = "col-md-1">姓名</td>
+
+		  <td class = "col-md-2">議題</td>
+		  <td class = "col-md-1">點閱次數</td>
+
+          <td class = "col-md-1">發表日期</td>
+          <td class = "col-md-3">意見</td>
+          <td class = "col-md-1">最初發表</td>
+          <td class = "col-md-1">最後發表</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @pointers.each do |pointer| %>
+        <% @persons.where(id: pointer.person_id).each do |person| %>
+		<% @contents.where(id: pointer.content_id).each do |content| %>
+		<% @issues.where(id: pointer.issue_id).each do |issue| %>
+        <tr>
+        	<td>
+        		<%= person.name %>
+        	</td>
+        	<td>
+        		<%= issue.content %>
+        	</td>
+        	<td>
+        		<%= issue.count %>
+        	</td>
+        	<td>
+        		<%= content.updated_at %>
+        	</td>
+        	<td>
+        		<%= content.text %>
+        	</td>
+        	<td>
+        		<%= issue.created_at %>
+        	</td>
+        	<td>
+        		<%= issue.updated_at %>
+        	</td>
+        </tr>
+        <% end %>
+        <% end %>
+        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<% end %>

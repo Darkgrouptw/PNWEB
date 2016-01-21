@@ -7,4 +7,7 @@ Rails.application.routes.draw do
   	resources :data_contents
   	resources :data_pointers
   end
+
+  get "/peoplelist"	=>	"peoplelist#index"
+  get "/peoplelist/:name"	=>	"peoplelist#index"
 end
