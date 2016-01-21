@@ -12,9 +12,9 @@ class Dataitems::DataPointersController < ApplicationController
 		@item = DataPointer.create(params_check)
 
 		if @item.save
-			redirect_to dataitems_data_people_path, notice: "建立成功"
+			redirect_to dataitems_data_pointers_path, notice: "建立成功"
 		else
-			redirect_to new_dataitems_data_person_path
+			redirect_to new_dataitems_data_pointers_path
 		end
 	end
 
@@ -22,7 +22,7 @@ class Dataitems::DataPointersController < ApplicationController
 		@item = DataPointer.find(params[:id])
 
 		if @item.update(params_check)
-	    	redirect_to dataitems_data_people_path, notice: "修改成功"
+	    	redirect_to dataitems_data_pointers_path, notice: "修改成功"
 	  	else
 	      	render :edit
 	  	end
@@ -35,7 +35,7 @@ class Dataitems::DataPointersController < ApplicationController
 	def destroy
 		@item = DataPointer.find(params[:id])
 		@item.destroy
-		redirect_to dataitems_data_people_path, alert: "刪除成功"
+		redirect_to dataitems_data_pointers_path, alert: "刪除成功"
 	end
 
 	private

@@ -19,8 +19,8 @@
 					<td><%= item.person_id %></td>
 					<td><%= item.content_id %></td>
 					<td>
-						<%= link_to "修改", edit_dataitems_data_person_path(item), class: "btn btn-sm btn-default"%>
-						<%= link_to "刪除", dataitems_data_person_path(item), class: "btn btn-sm btn-default", 
+						<%= link_to "修改", edit_dataitems_data_pointer_path(item), class: "btn btn-sm btn-default"%>
+						<%= link_to "刪除", dataitems_data_pointer_path(item), class: "btn btn-sm btn-default", 
 		                       method: :delete, data: { confirm: "確定刪除嗎?" } %>
 					</td>
 				</tr>
