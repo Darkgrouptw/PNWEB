@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Dataitems::DataPersonsControllerTest < ActionController::TestCase
+class Dataitems::DataPeopleControllerTest < ActionController::TestCase
   # test "the truth" do
   #   assert true
   # end

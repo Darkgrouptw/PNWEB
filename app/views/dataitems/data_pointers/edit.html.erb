@@ -1,0 +1,15 @@
+<div class = "col-md-offset-1 col-md-10">
+	<%= simple_form_for [:dataitems, @item] do |f| %>
+		<div class = "form-group">
+			<%= f.label "議題id" %>
+			<%= f.input_field :issue_id, class: "form-control" %>
+
+			<%= f.label "人的id" %>
+			<%= f.input_field :person_id, class: "form-control" %>
+
+			<%= f.label "內容id" %>
+			<%= f.input_field :content_id, class: "form-control" %>
+		</div>
+		<%= f.submit "儲存", class: "btn btn-primary", data: { disable_with: "Submitting..." } %>
+	<% end %>
+</div>

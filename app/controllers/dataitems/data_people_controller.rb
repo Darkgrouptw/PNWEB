@@ -1,15 +1,15 @@
-class Dataitems::DataPointersController < ApplicationController
+class Dataitems::DataPeopleController < ApplicationController
 	def index
-		@items = DataPointer.all
-		@state = 3
+		@items = DataPerson.all
+		@state = 1
 	end
 
 	def new
-		@item = DataPointer.new
+		@item = DataPerson.new
 	end
 
 	def create
-		@item = DataPointer.create(params_check)
+		@item = DataPerson.create(params_check)
 
 		if @item.save
 			redirect_to dataitems_data_people_path, notice: "建立成功"
@@ -19,7 +19,7 @@ class Dataitems::DataPointersController < ApplicationController
 	end
 
 	def update
-		@item = DataPointer.find(params[:id])
+		@item = DataPerson.find(params[:id])
 
 		if @item.update(params_check)
 	    	redirect_to dataitems_data_people_path, notice: "修改成功"
@@ -29,11 +29,11 @@ class Dataitems::DataPointersController < ApplicationController
 	end
 
 	def edit
-		@item = DataPointer.find(params[:id])
+		@item = DataPerson.find(params[:id])
 	end
 
 	def destroy
-		@item = DataPointer.find(params[:id])
+		@item = DataPerson.find(params[:id])
 		@item.destroy
 		redirect_to dataitems_data_people_path, alert: "刪除成功"
 	end
@@ -41,6 +41,6 @@ class Dataitems::DataPointersController < ApplicationController
 	private
 
 	def params_check
-		params.require(:data_pointer).permit(:issue_id, :person_id, :content_id)
+		params.require(:data_person).permit(:name, :pic_link)
 	end
 end
