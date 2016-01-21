@@ -2,7 +2,7 @@
 	<%= simple_form_for [:dataitems, @item] do |f| %>
 		<div class = "form-group">
 			<%= f.label "內容" %>
-			<%= f.input_field :content, class: "form-control" %>
+			<%= f.input_field :content, class: "form-control", style: "height: 500px" %>
 
 			<%= f.label "Parent Node（沒有就 -1）" %>
 			<%= f.input_field :parent_id, class: "form-control" %>
