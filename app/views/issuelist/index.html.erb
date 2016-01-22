@@ -1,0 +1,85 @@
+<% if @issues.where(id: @tags).length >= 1 %>
+<div class = "container">
+<div class = "row">
+  <div class = "col-md-4">
+    <% @issues.where(id: @tags).each do |issue| %>
+      <div>
+        <%= issue.content %>
+        <% @issues.where(parent_id: @tags).each do |sub_issue| %>
+          <div>
+            <blockquote>
+              <%= sub_issue.content %>
+            </blockquote>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class = "col-md-8">
+    <table class = "table table-bordered">
+      <thead>
+        <tr align = "center">
+          <td class = "col-md-8" colspan = "5">
+          </td>
+        </tr>
+        <tr align = "center">
+          <td class = "col-md-1">
+            姓名
+          </td>
+          <td class = "col-md-4">
+            主要論述
+          </td>
+          <td class = "col-md-1">
+            原始文章
+          </td>
+          <td class = "col-md-1">
+            發表時間
+          </td>
+          <td class = "col-md-1">
+            編著
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @issues.where(parent_id: @tags).each do |issue| %>
+        <% @pointers.where(issue_id: issue.id).each do |pointer| %>
+        <% @persons.where(id: pointer.person_id).each do |person| %>
+        <% @contents.where(id: pointer.content_id).each do |content| %>
+          <tr align = "center">
+          <td class = "col-md-1">
+            <% link = "/peoplelist/"+person.name %>
+            <a href = <%= link %> >
+              <%= person.name %>
+            </a>
+          </td>
+          <td class = "col-md-4">
+            <%= content.text %>
+          </td>
+          <td class = "col-md-1">
+            <% link = "/issuelist/"+issue.id.to_s%>
+            <a href = <%= link %> >
+              <%= issue.content %>
+            </a>
+          </td>
+          <td class = "col-md-1">
+            <%= issue.updated_at %>
+          </td>
+          <td class = "col-md-1">
+            <%= person.name %>
+          </td>
+        </tr>
+        <% end %>
+        <% end %>
+        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<% else %> 
+
+
+
+<% end %>

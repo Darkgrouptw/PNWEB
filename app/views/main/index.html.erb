@@ -13,7 +13,10 @@
 					<% @issues.where(parent_id: -1).order(:updated_at).each do |issue| %>
 						<tr>
 							<td>
+								<% link="issuelist/"+issue.id.to_s%>
+								<a href = <%= link %> >
 								<%= issue.content %>
+								</a>
 							</td>
 						</tr>
 					<% end %>
@@ -45,7 +48,11 @@
 					<% @contents.where(id: pointer.content_id).each do |content| %>
 						<tr>
 							<td>
-								<%= person.name %>
+								<% link="peoplelist/"+person.name%>
+								<a href = <%= link %> >
+									<%= person.name %>
+								</a>
+								
 							</td>
 							<td>
 								<%= content.text %>

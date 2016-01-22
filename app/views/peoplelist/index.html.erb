@@ -55,7 +55,10 @@
             <%= content.text %>
           </td>
           <td class = "col-md-1">
-            <%= issue.content %>
+            <% link = "/issuelist/"+issue.id.to_s%>
+            <a href = <%= link %> >
+              <%= issue.content %>
+            </a>
           </td>
           <td class = "col-md-1">
             <%= issue.updated_at %>
@@ -105,10 +108,16 @@
 		<% @issues.where(id: pointer.issue_id).each do |issue| %>
         <tr>
         	<td>
-        		<%= person.name %>
+        		<% link = "/peoplelist/"+person.name %>
+            <a href = <%= link %> >
+              <%= person.name %>
+            </a>
         	</td>
         	<td>
-        		<%= issue.content %>
+            <% link = "/issuelist/"+issue.id.to_s%>
+            <a href = <%= link %> >
+              <%= issue.content %>
+            </a>
         	</td>
         	<td>
         		<%= issue.count %>
