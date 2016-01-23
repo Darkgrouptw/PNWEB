@@ -46,18 +46,25 @@
         <% @issues.where(id: pointer.issue_id).each do |issue| %>
           <tr align = "center">
           <td class = "col-md-1">
-            <%= issue.content %>
+            <% link = "/issuelist/"+issue.id.to_s %>
+            <a href = <%= link %> >
+              <%= issue.content %>
+            </a>
           </td>
           <td class = "col-md-1">
-            <%= content.is_support %>
+            <% if content.is_support == true %>
+              支持
+            <% else %>
+              反對
+            <% end %>
           </td>
           <td class = "col-md-3">
             <%= content.text %>
           </td>
           <td class = "col-md-1">
-            <% link = "/issuelist/"+issue.id.to_s%>
+            <% link = content.link %>
             <a href = <%= link %> >
-              <%= issue.content %>
+              原始文章
             </a>
           </td>
           <td class = "col-md-1">

@@ -1,4 +1,92 @@
 <div class = "container">
+	<div id="myCarousel" class="carousel slide">
+  <ol class="carousel-indicators">
+	<% first=0 %>
+	<% @pointers.all.each do |pointer| %> 
+		<% if first==0 %>
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<% first = first + 1%>
+		<% else %>
+			<li data-target="#myCarousel" data-slide-to= <%= first %> ></li>
+			<% first = first + 1%>
+		<% end %>
+	<% end %>
+  </ol>
+  <!-- Carousel items -->
+  <div class="carousel-inner">
+	<% first=0 %>
+	<% @pointers.all.each do |pointer| %>
+	<% @issues.where(id: pointer.issue_id).each do |issue| %>
+	<% @persons.where(id: pointer.person_id).each do |person| %>
+	<% @contents.where(id: pointer.content_id).each do |content| %>
+		<% if first ==0 %>
+			
+				<div class="active item">
+					<div align = "center" >
+						<img src = "http://www.itxueyuan.org/uploads/javascript/demo/lunbo/zuoyou_title/images/2.jpg" alt = "2">
+						<div class="carousel-caption">
+							<h4>
+								<% link="issuelist/"+issue.id.to_s%>
+								<a href = <%= link %> >
+								<%= issue.content %>
+								</a>
+							</h4>
+							<% if content.text.length > 50 %>
+								<p>
+									點擊標題看更多
+								</p>
+							<% else %>
+								<p>
+									<%= content.text %>
+								</p>
+							<% end %>
+							
+						</div>
+					</div>
+				 </div>
+			<% first = 1 %>
+		<% else %>
+			<div class="item">
+				<div align = "center" >
+				<img src = "http://www.itxueyuan.org/uploads/javascript/demo/lunbo/zuoyou_title/images/3.jpg" alt = "3">
+				<div class="carousel-caption">
+					
+						<h4>
+							<% link="issuelist/"+issue.id.to_s%>
+							<a href = <%= link %> >
+							<%= issue.content %>
+							</a>
+						</h4>
+						<% if content.text.length > 50 %>
+							<p>
+								點擊標題看更多
+							</p>
+						<% else %>
+							<p>
+								<%= content.text %>
+							</p>
+						<% end %>
+				</div>
+				</div>
+			</div>
+		<% end %>    
+	<% end %>
+	<% end %>
+	<% end %>
+	<% end %>
+  </div>
+  <!-- Carousel nav -->
+  <a class="carousel-control left" href="#myCarousel" data-slide="prev">上一個</a>
+  <a class="carousel-control right" href="#myCarousel" data-slide="next">下一個</a>
+</div>
+
+<div align = "center" >
+	<% link="issuelist/" %>
+	<a href = <%= link %> >
+		所有語錄
+	</a>
+	
+</div>
 	<div class = "row">
 		<div class = "col-md-4">
 			<table class = "table table-bordered">
@@ -10,7 +98,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% @issues.where(parent_id: -1).order(:updated_at).each do |issue| %>
+					<% @issues.where(parent_id: -1).order(:updated_at ).reverse.each do |issue| %>
 						<tr>
 							<td>
 								<% link="issuelist/"+issue.id.to_s%>
@@ -42,7 +130,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<% @issues.order(:count).each do |issue| %>
+					<% @issues.order(:count).reverse.each do |issue| %>
 					<% @pointers.where(issue_id: issue.id).each do |pointer| %>
 					<% @persons.where(id: pointer.person_id).each do |person| %>
 					<% @contents.where(id: pointer.content_id).each do |content| %>
