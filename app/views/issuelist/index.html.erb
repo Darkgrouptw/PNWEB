@@ -2,54 +2,51 @@
 <div class = "container">
 <div class = "row">
 	<div class = "col-md-4">
-		<% @issues.where(id: @tags).each do |issue| %>
-			<% if issue.parent_id == -1 %>
-				<div>
-							<%= issue.content %>
-					<blockquote>
-						<% @issues.where(parent_id: @tags).each do |sub_issue| %>
-							<div>
-								<blockquote>
-									<% link = "/issuelist/"+sub_issue.id.to_s %>
-									<a href = <%= link %> >
-										<%= sub_issue.content %>
-									</a>
-								</blockquote>
-							</div>
-						<% end %>
-					</blockquote>
-				
-				</div>
-			<% else %>
-				<% @issues.where(id: issue.parent_id).each do |parent_issue| %>
-					<div>
-						<a>
-										<% link = "/issuelist/"+parent_issue.id.to_s %>
-										<a href = <%= link %> >
-											<%= parent_issue.content %>
-										</a>
-						</a>
-						<blockquote>
-							<% @issues.where(parent_id: parent_issue.id).each do |sub_issue| %>
-								<div>
-									<blockquote>
-										<% if sub_issue.id.to_s == @tags %>
-											<%= sub_issue.content %>
-										<% else %>
-											<% link = "/issuelist/"+sub_issue.id.to_s %>
-											<a href = <%= link %> >
-											<%= sub_issue.content %>
-											</a>
-										<% end %>
-									</blockquote>
-								</div>
-							<% end %>
-						</blockquote>
-					
-					</div>
-				<% end %>
-			<% end %>
+
+		<% tag_issue = @issues.where(id: @tags)[0] %>
+		<% temp_issue = tag_issue %>
+		<% while temp_issue.parent_id != -1 %>
+			<% temp_issue =@issues.where(id: temp_issue.parent_id)[0] %>
 		<% end %>
+
+		<%	def sayH() %>
+		<%		return "H" %>
+		<%	end %>
+
+		<%	def runTree(issue) %>
+			<div> 
+				<%	@issues.where(parent_id: issue.id).each do |sub_issue| %> 
+					<blockquote>
+						<% if sub_issue.id.to_s == @tags %>
+							<%= sub_issue.content %>
+						<% else %>
+							<% link = "/issuelist/" + sub_issue.id.to_s %>
+							<a href = <%= link %> >
+								<%= sub_issue.content %>
+							</a>
+						<% end %>
+						<% runTree(sub_issue) %>
+					</blockquote>
+				<% end %>
+			</div>
+		<%	end %>
+
+		<div>
+			<% if temp_issue.id.to_s == @tags %>
+				<%= temp_issue.content %>
+			<% else %>
+				<% link = "/issuelist/" + temp_issue.id.to_s %>
+				<a href = <%= link %> >
+					<%= temp_issue.content %>
+				</a>
+			<% end %>
+			<blockquote>
+				<% runTree(temp_issue) %>
+			</blockquote>
+		</div>
+
+
+		
 	</div>
 	<div class = "col-md-8">
 		<table class = "table table-bordered">
