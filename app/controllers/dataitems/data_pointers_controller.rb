@@ -1,6 +1,6 @@
 class Dataitems::DataPointersController < ApplicationController
 	def index
-		@items = DataPointer.all
+		@items = DataPointer.all.order(:id)
 		@state = 3
 	end
 
@@ -41,6 +41,6 @@ class Dataitems::DataPointersController < ApplicationController
 	private
 
 	def params_check
-		params.require(:data_pointer).permit(:issue_id, :person_id, :content_id)
+		params.require(:data_pointer).permit(:issue_id, :person_id, :content_id, :pic_link)
 	end
 end

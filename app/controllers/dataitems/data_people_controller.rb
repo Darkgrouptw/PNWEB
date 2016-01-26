@@ -1,6 +1,6 @@
 class Dataitems::DataPeopleController < ApplicationController
 	def index
-		@items = DataPerson.all
+		@items = DataPerson.all.order(:id)
 		@state = 1
 	end
 

@@ -1,6 +1,6 @@
 class Dataitems::DataContentsController < ApplicationController
 	def index
-		@items = DataContent.all
+		@items = DataContent.all.order(:id)
 		@state = 2
 	end
 
