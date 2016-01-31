@@ -1,7 +1,7 @@
 <div class = "container">
 	<div id="myCarousel" class="carousel slide">
   <ol class="carousel-indicators">
-	<% first=0 %>
+	<% first = 0 %>
 	<% @pointers.all.each do |pointer| %> 
 		<% if first==0 %>
 			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -19,11 +19,11 @@
 	<% @issues.where(id: pointer.issue_id).each do |issue| %>
 	<% @persons.where(id: pointer.person_id).each do |person| %>
 	<% @contents.where(id: pointer.content_id).each do |content| %>
-		<% if first ==0 %>
+		<% if first == 0 %>
 			
 				<div class="active item">
 					<div align = "center" >
-						<img src = "http://www.itxueyuan.org/uploads/javascript/demo/lunbo/zuoyou_title/images/2.jpg" alt = "2">
+						<%= image_tag pointer.pic_link, height: "500px", alt: "2" %>
 						<div class="carousel-caption">
 							<h4>
 								<% link="issuelist/"+issue.id.to_s%>
@@ -48,7 +48,7 @@
 		<% else %>
 			<div class="item">
 				<div align = "center" >
-				<img src = "http://www.itxueyuan.org/uploads/javascript/demo/lunbo/zuoyou_title/images/3.jpg" alt = "3">
+				<%= image_tag pointer.pic_link, height: "500px", alt: "3" %>
 				<div class="carousel-caption">
 					
 						<h4>
