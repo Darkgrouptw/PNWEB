@@ -13,7 +13,7 @@
 	<% end %>
   </ol>
   <!-- Carousel items -->
-  <div class="carousel-inner">
+  <div class="carousel-inner" style="background-color: #000000">
 	<% first=0 %>
 	<% @pointers.all.each do |pointer| %>
 	<% @issues.where(id: pointer.issue_id).each do |issue| %>
@@ -23,23 +23,22 @@
 			
 				<div class="active item">
 					<div align = "center" >
-						<%= image_tag pointer.pic_link, height: "500px", alt: "2" %>
+						<% if pointer.pic_link.nil? || pointer.pic_link.empty?%>
+							<%= image_tag 'http://i.imgur.com/TbBAqpV.png', height: "500px", alt: "1" %>
+						<% else %>
+							<%= image_tag pointer.pic_link, height: "500px", alt: "1" %>
+						<% end %>
+						
 						<div class="carousel-caption">
 							<h4>
 								<% link="issuelist/"+issue.id.to_s%>
-								<a href = <%= link %> >
-								<%= issue.content %>
-								</a>
+								<div style="color: #ffffff">
+									<%= issue.content %>
+								</div>
 							</h4>
-							<% if content.text.length > 50 %>
-								<p>
-									點擊標題看更多
-								</p>
-							<% else %>
-								<p>
-									<%= content.text %>
-								</p>
-							<% end %>
+							<a class="btn btn-lg btn-primary" href="<%= link %>" role="button"  >
+								點擊看更多
+							</a>
 							
 						</div>
 					</div>
@@ -48,24 +47,23 @@
 		<% else %>
 			<div class="item">
 				<div align = "center" >
-				<%= image_tag pointer.pic_link, height: "500px", alt: "3" %>
+					<% if pointer.pic_link.nil? || pointer.pic_link.empty?%>
+						<%= image_tag "http://i.imgur.com/TbBAqpV.png", height: "500px",alt: "2" %>
+					<% else %>
+						<%= image_tag pointer.pic_link, height: "500px", alt: "2" %>
+						<p><%= pointer.pic_link %></p>
+					<% end %>
 				<div class="carousel-caption">
 					
 						<h4>
 							<% link="issuelist/"+issue.id.to_s%>
-							<a href = <%= link %> >
-							<%= issue.content %>
-							</a>
+							<div style="color: #ffffff">
+								<%= issue.content %>
+							</div>
 						</h4>
-						<% if content.text.length > 50 %>
-							<p>
-								點擊標題看更多
-							</p>
-						<% else %>
-							<p>
-								<%= content.text %>
-							</p>
-						<% end %>
+						<a class="btn btn-lg btn-primary" href="<%= link %>" role="button"  >
+								點擊看更多
+						</a>
 				</div>
 				</div>
 			</div>
@@ -75,9 +73,18 @@
 	<% end %>
 	<% end %>
   </div>
+
   <!-- Carousel nav -->
-  <a class="carousel-control left" href="#myCarousel" data-slide="prev">上一個</a>
-  <a class="carousel-control right" href="#myCarousel" data-slide="next">下一個</a>
+
+  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+<span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
+</span>
+<span class="sr-only">Previous</span>
+</a>
+  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+  	<span class="glyphicon glyphicon-chevron-right" aria-hidden="true">
+</span><span class="sr-only">Next</span>
+</a>
 </div>
 
 <div align = "center" >
@@ -143,7 +150,15 @@
 								
 							</td>
 							<td>
-								<%= content.text %>
+								<% link="issuelist/"+pointer.issue_id.to_s%>
+								<a href = <%= link %> >
+									<% if content.text.length > 30%>
+										<%= '點擊看更多'%>
+									<% else %>
+										<%= content.text %>
+									<% end %>
+								</a>
+								
 							</td>
 						</tr>
 					<% end %>
