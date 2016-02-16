@@ -16,7 +16,7 @@
 		<%	def runTree(issue) %>
 			<div> 
 				<%	@issues.where(parent_id: issue.id).each do |sub_issue| %> 
-					&nbsp&nbsp&nbsp&nbsp
+					<blockquote>
 						<% if sub_issue.id.to_s == @tags %>
 							<%= sub_issue.content %>
 						<% else %>
@@ -26,6 +26,7 @@
 							</a>
 						<% end %>
 						<% runTree(sub_issue) %>
+					</blockquote>
 				<% end %>
 			</div>
 		<%	end %>
@@ -39,8 +40,9 @@
 					<%= temp_issue.content %>
 				</a>
 			<% end %>
-			&nbsp&nbsp&nbsp&nbsp
+			<blockquote>
 				<% runTree(temp_issue) %>
+			</blockquote>
 		</div>
 
 
