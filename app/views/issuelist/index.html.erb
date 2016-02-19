@@ -6,12 +6,10 @@
 		<% tag_issue = @issues.where(id: @tags)[0] %>
 		<% temp_issue = tag_issue %>
 		<% while temp_issue.parent_id != -1 %>
+			<% temp_issue.count = temp_issue.count + 1 %>
 			<% temp_issue =@issues.where(id: temp_issue.parent_id)[0] %>
 		<% end %>
-
-		<%	def sayH() %>
-		<%		return "H" %>
-		<%	end %>
+		<% temp_issue.count = temp_issue.count + 1 %>
 
 		<%	def runTree(issue) %>
 			<div> 

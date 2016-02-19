@@ -104,7 +104,12 @@
 					</tr>
 				</thead>
 				<tbody>
+					<% time=0 %>
 					<% @issues.where(parent_id: -1).order(:updated_at ).reverse.each do |issue| %>
+					<% if time>=10 %>
+						<% break %>
+					<% end %>
+					<% time=time+1 %>
 						<tr>
 							<td>
 								<% link="issuelist/"+issue.id.to_s%>
@@ -113,6 +118,7 @@
 								</a>
 							</td>
 						</tr>
+						
 					<% end %>
 				</tbody>
 			</table>
@@ -136,10 +142,15 @@
 					</tr>
 				</thead>
 				<tbody>
+					<% time=0 %>
 					<% @issues.order(:count).reverse.each do |issue| %>
 					<% @pointers.where(issue_id: issue.id).each do |pointer| %>
 					<% @persons.where(id: pointer.person_id).each do |person| %>
 					<% @contents.where(id: pointer.content_id).each do |content| %>
+					<% if time >=10 %>
+						<% break %>
+					<% end %>
+					<% time=time+1 %>
 						<tr>
 							<td>
 								<% link="peoplelist/"+person.name%>
