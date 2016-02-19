@@ -6,5 +6,4 @@ class IssuelistController < ApplicationController
 		@persons=DataPerson.all
 		@pointers=DataPointer.all
 	end
-
 end
