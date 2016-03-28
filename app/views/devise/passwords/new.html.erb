@@ -1,15 +1,25 @@
-<h2>Forgot your password?</h2>
+<div class="container">
+    <div class="jumbotron">
+        <h2 style="text-align: center;">忘記密碼？</h2>
+        
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+                
+                    <%= f.error_notification %>
+                    <div class="form-inputs">
+                        <%= f.label "信箱" %> <br>
+                        <%= f.input_field :email, style: "width: 300px", required: true, autofocus: true %> <br>
+                    </div>
 
-<%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= f.error_notification %>
+                    <div style="text-align:center; margin-top: 10px;">
+                        <%= f.button :submit, "送重新密碼的驗證信", class: "btn btn-primary", style: "width: 200px;" %>
+                    </div>
+                <% end %>
+                
+                <%= render "devise/shared/links" %>
+            </div>
+        </div>
+    </div>
+</div>
 
-  <div class="form-inputs">
-    <%= f.input :email, required: true, autofocus: true %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Send me reset password instructions" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
