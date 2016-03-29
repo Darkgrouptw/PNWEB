@@ -1,28 +1,31 @@
 <% if @issues.where(id: @tags).length >= 1 %>
-<div class = "container">
+<div class = "container"><font color="white">
 <div class = "row">
 	<div class = "col-md-4">
-
+		<!-- 找到指定issuse-->
 		<% tag_issue = @issues.where(id: @tags)[0] %>
+		<!-- 找到指定根issuse-->
 		<% temp_issue = tag_issue %>
-		<% while temp_issue.parent_id != -1 %>
-			<% temp_issue.count = temp_issue.count + 1 %>
-			<% temp_issue.update(count: temp_issue.count + 1) %>
-			<% temp_issue =@issues.where(id: temp_issue.parent_id)[0] %>
+		<% while temp_issue.trunk_id != -1 %>
+			<% temp_issue.popularity = temp_issue.popularity + 1 %>
+			<% temp_issue.update(popularity: temp_issue.popularity + 1) %>
+			<% temp_issue =@issues.where(id: temp_issue.trunk_id)[0] %>
 		<% end %>
-		<% temp_issue.count = temp_issue.count + 1 %>
-		<% temp_issue.update(count: temp_issue.count + 1) %>
+		<!-- 增加issuse熱門程度-->
+		<% temp_issue.popularity = temp_issue.popularity + 1 %>
+		<% temp_issue.update(popularity: temp_issue.popularity + 1) %>
 
+		<!-- Tree iterative-->
 		<%	def runTree(issue) %>
 			<div> 
-				<%	@issues.where(parent_id: issue.id).each do |sub_issue| %> 
+				<%	@issues.where(trunk_id: issue.id).each do |sub_issue| %> 
 					<blockquote>
 						<% if sub_issue.id.to_s == @tags %>
-							<%= sub_issue.content %>
+							<%= sub_issue.title %>
 						<% else %>
 							<% link = "/issuelist/" + sub_issue.id.to_s %>
 							<a href = <%= link %> >
-								<%= sub_issue.content %>
+								<%= sub_issue.title %>
 							</a>
 						<% end %>
 						<% runTree(sub_issue) %>
@@ -30,14 +33,14 @@
 				<% end %>
 			</div>
 		<%	end %>
-
+		<!-- 產生Tree -->
 		<div>
 			<% if temp_issue.id.to_s == @tags %>
-				<%= temp_issue.content %>
+				<%= temp_issue.title %>
 			<% else %>
 				<% link = "/issuelist/" + temp_issue.id.to_s %>
 				<a href = <%= link %> >
-					<%= temp_issue.content %>
+					<%= temp_issue.title %>
 				</a>
 			<% end %>
 			<blockquote>
@@ -45,14 +48,16 @@
 			</blockquote>
 		</div>
 
-
-		
 	</div>
 	<div class = "col-md-8">
+		<!-- 產生comment table -->
+			
+				<!-- 正 table-->
 		<table class = "table table-bordered">
 			<thead>
 				<tr align = "center">
 					<td class = "col-md-8" colspan = "5">
+						正方
 					</td>
 				</tr>
 				<tr align = "center">
@@ -74,51 +79,113 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% @issues.where(id: @tags).each do |issue| %>
-				<% @pointers.where(issue_id: issue.id).each do |pointer| %>
-				<% @persons.where(id: pointer.person_id).each do |person| %>
-				<% @contents.where(id: pointer.content_id).each do |content| %>
-					<tr align = "center">
-					<td class = "col-md-1">
-						<% link = "/peoplelist/"+person.name %>
-						<a href = <%= link %> >
-							<%= person.name %>
-						</a>
-					</td>
-					<td class = "col-md-4">
-						<%= content.text %>
-					</td>
-					<td class = "col-md-1">
-						<% link = content.link %>
-						<a href = <%= link %> >
-							原始文章
-						</a>
-					</td>
-					<td class = "col-md-1">
-						<%= issue.updated_at %>
-					</td>
-					<td class = "col-md-1">
-						<%= person.name %>
-					</td>
-				</tr>
-				<% end %>
-				<% end %>
-				<% end %>
+				<% @datadetail.where(id: issue.datadetail_id).where(is_support: true).each do |detail| %>
+					<tr>
+						<td>
+							<% @persons.where(id: detail.people_id).each do |person| %>
+							<% link = "/peoplelist/"+person.id.to_s %>
+							<a href = <%= link %>>
+								<%= person.name %>
+							</a>
+							<% end %>
+						</td>
+						<td>
+							<%= detail.content %>
+						</td>
+						<td>
+							<% link = "/detaillist/"+detail.id.to_s %>
+							<a href = <%= link %>>
+								點我看更多
+							</a>
+						</td>
+						<td>
+							<%= detail.created_at %>
+						</td>
+						<td>
+							<% @users.where(id: detail.post_id).each do |user| %>
+								<% link = "/userlist/"+user.id.to_s %>
+								<a href = <%= link %>>
+									<%= user.nickname %>
+								</a>
+							<% end %>
+						</td>
+					</tr>
 				<% end %>
 			</tbody>
 		</table>
+		<table class = "table table-bordered">
+			<thead>
+				<tr align = "center">
+					<td class = "col-md-8" colspan = "5">
+						反方
+					</td>
+				</tr>
+				<tr align = "center">
+					<td class = "col-md-1">
+						姓名
+					</td>
+					<td class = "col-md-4">
+						主要論述
+					</td>
+					<td class = "col-md-1">
+						原始文章
+					</td>
+					<td class = "col-md-1">
+						發表時間
+					</td>
+					<td class = "col-md-1">
+						編著
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				<% @datadetail.where(id: issue.datadetail_id).where(is_support: false).each do |detail| %>
+					<tr>
+						<td>
+							<% @persons.where(id: detail.people_id).each do |person| %>
+							<% link = "/peoplelist/"+person.id.to_s %>
+							<a href = <%= link %>>
+								<%= person.name %>
+							</a>
+							<% end %>
+						</td>
+						<td>
+							<%= detail.content %>
+						</td>
+						<td>
+							<% link = "/detaillist/"+detail.id.to_s %>
+							<a href = <%= link %>>
+								點我看更多
+							</a>
+						</td>
+						<td>
+							<%= detail.created_at %>
+						</td>
+						<td>
+							<% @users.where(id: detail.post_id).each do |user| %>
+								<% link = "/userlist/"+user.id.to_s %>
+								<a href = <%= link %>>
+									<%= user.nickname %>
+								</a>
+							<% end %>
+						</td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+		
 	</div>
 </div>
 </div>
 
 <% else %> 
 
-<div class = "row">
+<div class = "row"><font color="white">
 	<div class = "col-md-offset-2 col-md-8">
 		<table class="table table-bordered" >
 			<thead>
 				<tr align = "center">
-					<td class = "col-md-8" colspan = "6">
+					<td class = "col-md-8" colspan = "3">
 					</td>
 				</tr>
 				<tr align = "center">
@@ -126,16 +193,7 @@
 						議題
 					</td>
 					<td class = "col-md-1">
-						候選議題
-					</td>
-					<td class = "col-md-1">
-						推(+)
-					</td>
-					<td class = "col-md-1">
-						不推(-)
-					</td>
-					<td class = "col-md-1">
-						總共分數(=)
+						點閱數
 					</td>
 					<td class = "col-md-1">
 						提出時間
@@ -143,35 +201,26 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% @issues.where(parent_id: -1).each do |issue| %>
+				<% @issues.where(trunk_id: -1).each do |issue| %>
 					<tr >
-							<% issue_length = (@issues.where(parent_id: issue.id).length+1).to_s %>
+						<td>
+							<% link = "/issuelist/"+issue.id.to_s %>
+							<a href = <%= link %>>
+								<%= issue.title %>
+							</a>
+						</td>
+						<td>
+							<%= issue.popularity %>
+						</td>
+							<%= issue.created_at %>
+						<td>
+						</td>
 							<th rowspan= <%= issue_length %> align = "center" >  
 								<% link = "/issuelist/"+issue.id.to_s %>
 								<a href = <%= link %> >
-									<%= issue.content %>
+									<%= issue.title %>
 								</a>
 							</th>
-							<% @issues.where(parent_id: issue.id).each do |sub_issue| %>
-							<% @pointers.where(issue_id: sub_issue.id).each do |pointer|  %>
-							<% @persons.where(id: pointer.person_id).each do |person| %>
-							<% @contents.where(id: pointer.content_id).each do |content| %>
-								<tr>
-									<td>
-										<% link = "/issuelist/"+sub_issue.id.to_s %>
-										<a href = <%= link %> >
-											<%= sub_issue.content %> 
-										</a>
-									</td>
-									<td> <%= sub_issue.agree %></td>
-									<td> <%= sub_issue.disagree %></td>
-									<td> <%= sub_issue.agree - sub_issue.disagree %> </td>
-									<td> <%= sub_issue.updated_at %> </td>
-								</tr>
-							<% end %>
-							<% end %>
-							<% end %>
-							<% end %>
 					</tr>
 				<% end %>
 			</tbody>
