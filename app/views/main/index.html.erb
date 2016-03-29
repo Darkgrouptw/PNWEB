@@ -2,7 +2,7 @@
 	<div id="myCarousel" class="carousel slide">
   <ol class="carousel-indicators">
 	<% first = 0 %>
-	<% @pointers.all.each do |pointer| %> 
+	<% @details.each do |detail| %> 
 		<% if first==0 %>
 			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 			<% first = first + 1%>
@@ -15,25 +15,23 @@
   <!-- Carousel items -->
   <div class="carousel-inner" style="background-color: #000000">
 	<% first=0 %>
-	<% @pointers.all.each do |pointer| %>
-	<% @issues.where(id: pointer.issue_id).each do |issue| %>
-	<% @persons.where(id: pointer.person_id).each do |person| %>
-	<% @contents.where(id: pointer.content_id).each do |content| %>
+	<% @details.each do |detail| %>
 		<% if first == 0 %>
 			
 				<div class="active item">
 					<div align = "center" >
-						<% if pointer.pic_link.nil? || pointer.pic_link.empty?%>
+						<!-- 以後改 -->
+						<% if true %>
 							<%= image_tag 'http://i.imgur.com/TbBAqpV.png', height: "500px", alt: "1" %>
 						<% else %>
-							<%= image_tag pointer.pic_link, height: "500px", alt: "1" %>
+							<%= image_tag detail.pic_link, height: "500px", alt: "1" %>
 						<% end %>
 						
 						<div class="carousel-caption">
 							<h4>
-								<% link="issuelist/"+issue.id.to_s%>
+								<% link="detaillist/"+detail.id.to_s%>
 								<div style="color: #ffffff">
-									<%= issue.content %>
+									<%= detail.content %>
 								</div>
 							</h4>
 							<a class="btn btn-lg btn-primary" href="<%= link %>" role="button"  >
@@ -47,7 +45,8 @@
 		<% else %>
 			<div class="item">
 				<div align = "center" >
-					<% if pointer.pic_link.nil? || pointer.pic_link.empty?%>
+					<!-- 以後改 -->
+					<% if true %>
 						<%= image_tag "http://i.imgur.com/TbBAqpV.png", height: "500px",alt: "2" %>
 					<% else %>
 						<%= image_tag pointer.pic_link, height: "500px", alt: "2" %>
@@ -55,9 +54,9 @@
 				<div class="carousel-caption">
 					
 						<h4>
-							<% link="issuelist/"+issue.id.to_s%>
+							<% link="detaillist/"+detail.id.to_s%>
 							<div style="color: #ffffff">
-								<%= issue.content %>
+								<%= detail.content %>
 							</div>
 						</h4>
 						<a class="btn btn-lg btn-primary" href="<%= link %>" role="button"  >
@@ -68,22 +67,19 @@
 			</div>
 		<% end %>    
 	<% end %>
-	<% end %>
-	<% end %>
-	<% end %>
   </div>
 
   <!-- Carousel nav -->
 
-  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-<span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
-</span>
-<span class="sr-only">Previous</span>
-</a>
-  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-  	<span class="glyphicon glyphicon-chevron-right" aria-hidden="true">
-</span><span class="sr-only">Next</span>
-</a>
+	<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true">
+		</span>
+		<span class="sr-only">Previous</span>
+	</a>
+	<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true">
+		</span><span class="sr-only">Next</span>
+	</a>
 </div>
 
 <div align = "center" >
@@ -105,7 +101,7 @@
 				</thead>
 				<tbody>
 					<% time=0 %>
-					<% @issues.where(parent_id: -1).order(:updated_at ).reverse.each do |issue| %>
+					<% @issues.where(trunk_id: -1).order(:updated_at ).reverse.each do |issue| %>
 					<% if time>=10 %>
 						<% break %>
 					<% end %>
@@ -114,7 +110,7 @@
 							<td>
 								<% link="issuelist/"+issue.id.to_s%>
 								<a href = <%= link %> >
-								<%= issue.content %>
+								<%= issue.title %>
 								</a>
 							</td>
 						</tr>
@@ -143,37 +139,33 @@
 				</thead>
 				<tbody>
 					<% time=0 %>
-					<% @issues.order(:count).reverse.each do |issue| %>
-					<% @pointers.where(issue_id: issue.id).each do |pointer| %>
-					<% @persons.where(id: pointer.person_id).each do |person| %>
-					<% @contents.where(id: pointer.content_id).each do |content| %>
+					<% @details.each do |detail| %>
 					<% if time >=10 %>
 						<% break %>
 					<% end %>
 					<% time=time+1 %>
 						<tr>
 							<td>
-								<% link="peoplelist/"+person.name%>
+								<% link="peoplelist/"+detail.people_id.to_s %>
 								<a href = <%= link %> >
-									<%= person.name %>
+									<% @persons.where(id: detail.people_id).each do |person| %>
+										<%= person.name %>
+									<% end %>
 								</a>
 								
 							</td>
 							<td>
-								<% link="issuelist/"+pointer.issue_id.to_s%>
+								<% link="detaillist/"+detail.id.to_s%>
 								<a href = <%= link %> >
-									<% if content.text.length > 30%>
+									<% if detail.content.length > 30%>
 										<%= '點擊看更多'%>
 									<% else %>
-										<%= content.text %>
+										<%= detail.content.text %>
 									<% end %>
 								</a>
 								
 							</td>
 						</tr>
-					<% end %>
-					<% end %>
-					<% end %>
 					<% end %>
 				</tbody>
 			</table>

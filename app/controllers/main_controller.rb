@@ -1,10 +1,8 @@
 class MainController < ApplicationController
 	def index
-		@contents = DataContent.all
 		@issues=DataIssue.all
 		@persons=DataPerson.all
-		@pointers=DataPointer.all
-        
+        @details=DataDetail.order(:count).reverse.first(10)
         if user_signed_in?
             logger.debug "!!!!! Has user login !!!!!"
             if current_user.email == "darkgrouptw@gmail.com" || current_user.email == "b10215014@mail.ntust.edu.tw"
