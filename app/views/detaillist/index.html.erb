@@ -1,0 +1,107 @@
+<% if @detail.length >= 1 %>
+<div class = "container"><font color="white">
+<div class = "row">
+  <div class = "col-md-12">
+    <table class = "table table-bordered">
+      <thead>
+        <tr align = "center">
+          <td class = "col-md-12" colspan = "7">
+          </td>
+        </tr>
+        <tr align = "center">
+          <td class = "col-md-1"><font color="white">
+            名人
+          </td>
+          <td class = "col-md-1"><font color="white">
+            議題
+          </td>
+          <td class = "col-md-1"><font color="white">
+            態度
+          </td>
+          <td class = "col-md-6"><font color="white">
+            主要論述
+          </td>
+          <td class = "col-md-1"><font color="white">
+            發表時間
+          </td>
+          <td class = "col-md-1"><font color="white">
+            編者
+          </td>
+          <td class = "col-md-1"><font color="white">
+            原始資料
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td>
+              <%= @person.name %>
+            </td>
+            <td>
+              <%= @issue.title %>
+            </td>
+            <td>
+              <% if @detail.is_support == true %>
+                支持
+              <% else %>
+                反對
+              <% end %>
+            </td>
+            <td>
+              <%= @detail.content %>
+            </td>
+            <td>
+              <%= @detail.created_at %>
+            </td>
+            <td>
+              <%= @user.nickname %>
+            </td>
+            <td>
+              <% link = @detail.link %>
+                <a href = <%= link %> >
+                  參考資料
+                </a>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+    <table class = "table table-bordered">
+      <thead>
+        <tr align = "center">
+          <td class = "col-md-12" colspan = "3">
+          </td>
+        </tr>
+        <tr align = "center">
+          <td>使用者</td>
+          <td>內文</td>
+          <td>時間</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @comments.each do |comment| %>
+          <tr>
+            <td>
+              <%= comment.post_id %>
+            </td>
+            <td>
+              <%= comment.content %>
+            </td>
+            <td>
+              <%= comment.created_at %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<% else %> 
+
+<div class = "container"><font color="white">
+  施工中
+</div>
+
+<% end %>

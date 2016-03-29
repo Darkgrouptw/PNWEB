@@ -1,0 +1,2 @@
+module DetaillistHelper
+end
