@@ -1,17 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  content: MyText
-  count: 1
-  parent_id: 1
-  sub_id: MyString
-  agree: 1
-  disagree: 1
+  title: MyString
+  post: MyText
+  is_candidate: false
+  trunk_id: 1
+  popularity: 1
+  datadetail_id: MyString
 
 two:
-  content: MyText
-  count: 1
-  parent_id: 1
-  sub_id: MyString
-  agree: 1
-  disagree: 1
+  title: MyString
+  post: MyText
+  is_candidate: false
+  trunk_id: 1
+  popularity: 1
+  datadetail_id: MyString

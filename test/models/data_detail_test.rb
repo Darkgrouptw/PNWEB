@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DataPointerTest < ActiveSupport::TestCase
+class DataDetailTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

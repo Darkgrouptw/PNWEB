@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DataContentTest < ActiveSupport::TestCase
+class DataCommentTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

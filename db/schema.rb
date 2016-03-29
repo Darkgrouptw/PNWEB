@@ -11,44 +11,61 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160325040413) do
+ActiveRecord::Schema.define(version: 20160329102830) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "data_contents", force: :cascade do |t|
-    t.boolean  "is_support"
-    t.text     "text"
-    t.string   "link"
+  create_table "data_comments", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "data_details", force: :cascade do |t|
+    t.boolean  "is_support"
+    t.text     "content"
+    t.string   "link"
+    t.integer  "count"
+    t.integer  "count_like"
+    t.integer  "count_dislike"
+    t.integer  "post_id"
+    t.integer  "people_id"
+    t.integer  "issue_id"
+    t.string   "comment_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "data_issues", force: :cascade do |t|
-    t.text     "content"
-    t.integer  "count"
-    t.integer  "parent_id"
-    t.string   "sub_id"
-    t.integer  "agree"
-    t.integer  "disagree"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "title"
+    t.text     "post"
+    t.boolean  "is_candidate"
+    t.integer  "trunk_id"
+    t.integer  "popularity"
+    t.string   "datadetail_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
-  create_table "data_people", force: :cascade do |t|
+  create_table "data_pesons", force: :cascade do |t|
     t.string   "name"
-    t.string   "pic_link"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "pic_link_string"
+    t.string   "description"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
-  create_table "data_pointers", force: :cascade do |t|
-    t.integer  "issue_id"
-    t.string   "person_id"
-    t.string   "content_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "pic_link"
+  create_table "dataissues", force: :cascade do |t|
+    t.string   "title"
+    t.text     "post"
+    t.boolean  "is_candidate"
+    t.integer  "trunk_id"
+    t.integer  "popularity"
+    t.string   "datadetail_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "users", force: :cascade do |t|

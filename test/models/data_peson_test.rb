@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DataPersonTest < ActiveSupport::TestCase
+class DataPesonTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
