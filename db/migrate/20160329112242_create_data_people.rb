@@ -1,6 +1,6 @@
-class CreateDataPesons < ActiveRecord::Migration
+class CreateDataPeople < ActiveRecord::Migration
   def change
-    create_table :data_pesons do |t|
+    create_table :data_people do |t|
       t.string :name
       t.string :pic_link_string
       t.string :description
