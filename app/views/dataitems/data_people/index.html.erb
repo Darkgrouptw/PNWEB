@@ -7,7 +7,8 @@
 					<td class = "col-md-1">ID</td>
 					<td class = "col-md-2">人物名稱</td>
 					<td class = "col-md-5">圖片</td>
-					<td class = "col-md-4">操作按鈕</td>
+					<td class = "col-md-2">描述</td>
+					<td class = "col-md-2">操作按鈕</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -16,8 +17,9 @@
 					<td><%= item.id %></td>
 					<td><%= item.name %></td>
 					<td><%= image_tag item.pic_link, width: "200" %></td>
-					<td>
-						<%= link_to "修改", edit_dataitems_data_person_path(item), class: "btn btn-sm btn-default"%>
+                    <td><%= item.description %></td>
+                    <td>
+						<%= link_to "修改", edit_dataitems_data_person_path(item), class: "btn btn-sm btn-default" %>
 						<%= link_to "刪除", dataitems_data_person_path(item), class: "btn btn-sm btn-default", 
 		                       method: :delete, data: { confirm: "確定刪除嗎?" } %>
 					</td>

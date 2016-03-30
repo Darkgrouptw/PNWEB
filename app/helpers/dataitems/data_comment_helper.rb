@@ -1,0 +1,2 @@
+module Dataitems::DataCommentHelper
+end

@@ -1,2 +1,0 @@
-module Dataitems::DataPointersHelper
-end
