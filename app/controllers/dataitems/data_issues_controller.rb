@@ -11,9 +11,7 @@ class Dataitems::DataIssuesController < ApplicationController
 	def create
 		@item = DataIssue.create(params_check)
 
-		@item.count = 0
-		@item.agree = 0
-		@item.disagree = 0
+        @item.popularity = 0
 		if @item.save
 			redirect_to dataitems_data_issues_path, notice: "建立成功"
 		else

@@ -1,21 +1,23 @@
-<div class = "col-md-offset-1 col-md-10">
-	<%= simple_form_for [:dataitems, @item] do |f| %>
-		<div class = "form-group">
-			<%= f.label "議題名稱" %>
-            <%= f.input_field :title, class: "form-control" %>
-            
-			<%= f.label "議題內容" %>
-            <%= f.input_field :post, class: "form-control", style: "height: 500px" %>
-            
-            <%= f.label "候選" %>
-            <%= f.input_field :post, class: "form-control" %>
+<div class="container">
+    <div class="jumbotron">
+        <%= simple_form_for [:dataitems, @item] do |f| %>
+            <div class = "form-group">
+                <%= f.label "議題名稱" %>  <br>
+                <%= f.input_field :title, class: "form-control" %> <br>
 
-			<%= f.label "Parent Node（沒有就 -1）" %>
-            <%= f.input_field :trunk_id, class: "form-control" %>
+                <%= f.label "議題內容" %> <br>
+                <%= f.input_field :post, class: "form-control", style: "height: 500px" %> <br>
 
-            <%= f.label "DataDetail（沒有不用填）" %>
-            <%= f.input_field :datadetail_id, class: "form-control" %>
-		</div>
-		<%= f.submit "儲存", class: "btn btn-primary", data: { disable_with: "Submitting..." } %>
-	<% end %>
+                <%= f.label "候選" %> <br>
+                <%= f.input_field :post, class: "form-control" %> <br>
+
+                <%= f.label "Parent Node（沒有就 -1）" %> <br>
+                <%= f.input_field :trunk_id, class: "form-control" %> <br>
+
+                <%= f.label "DataDetail（沒有不用填）" %> <br>
+                <%= f.input_field :datadetail_id, class: "form-control" %> <br>
+            </div>
+            <%= f.submit "儲存", class: "btn btn-primary", data: { disable_with: "Submitting..." } %>
+        <% end %>
+    </div>
 </div>
