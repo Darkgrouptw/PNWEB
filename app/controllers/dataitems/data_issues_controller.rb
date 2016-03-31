@@ -44,6 +44,6 @@ class Dataitems::DataIssuesController < ApplicationController
 	private
 
 	def params_check
-		params.require(:data_issue).permit(:content, :parent_id, :count, :sub_id, :agree, :disagree)
+        params.require(:data_issue).permit(:title, :post, :is_candidate, :trunk_id, :popularity, :datadetail_id)
 	end
 end
