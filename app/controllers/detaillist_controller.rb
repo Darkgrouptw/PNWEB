@@ -6,7 +6,8 @@ class DetaillistController < ApplicationController
 			@issue = DataIssue.where(id: d.issue_id)
 			@person = DataPerson.where(id: d.people_id)
 			@user = User.where(id: d.post_id)
-			@comments = DataComment.where(id: @detail.comment_id)
+			@strings = detail.comment_id.split(",")
+			@comments = DataComment.where(:id => @strings)
 		end
 	end
 end

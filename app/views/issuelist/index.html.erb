@@ -1,5 +1,6 @@
+<font color="white">
 <% if @issues.where(id: @tags).length >= 1 %>
-<div class = "container"><font color="white">
+<div class = "container">
 <div class = "row">
 	<div class = "col-md-4">
 		<!-- 找到指定issuse-->
@@ -8,11 +9,11 @@
 		<% temp_issue = tag_issue %>
 		<% while temp_issue.trunk_id != -1 %>
 			<% temp_issue.popularity = temp_issue.popularity + 1 %>
-			<% temp_issue.update(popularity: temp_issue.popularity + 1) %>
+			<% temp_issue.update(popularity: temp_issue.popularity) %>
 			<% temp_issue =@issues.where(id: temp_issue.trunk_id)[0] %>
 		<% end %>
 		<!-- 增加issuse熱門程度-->
-		<% temp_issue.popularity = temp_issue.popularity + 1 %>
+		<% temp_issue.popularity = temp_issue.popularity %>
 		<% temp_issue.update(popularity: temp_issue.popularity + 1) %>
 
 		<!-- Tree iterative-->
@@ -43,15 +44,14 @@
 					<%= temp_issue.title %>
 				</a>
 			<% end %>
-			<blockquote>
 				<% runTree(temp_issue) %>
-			</blockquote>
 		</div>
 
 	</div>
 	<div class = "col-md-8">
 		<!-- 產生comment table -->
-			
+			<div align = "center"><%= @me.title %></div>
+			<button type="button" ><font color = "black">我要議論</font></button>
 				<!-- 正 table-->
 		<table class = "table table-bordered">
 			<thead>
@@ -79,7 +79,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% @datadetail.where(id: issue.datadetail_id).where(is_support: true).each do |detail| %>
+				<% if @me.datadetail_id.nil? || @me.datadetail_id.empty? %>
+				<% @datadetail.where(id: @me.datadetail_id).where(is_support: true).each do |detail| %>
 					<tr>
 						<td>
 							<% @persons.where(id: detail.people_id).each do |person| %>
@@ -111,6 +112,7 @@
 						</td>
 					</tr>
 				<% end %>
+				<% end %>
 			</tbody>
 		</table>
 		<table class = "table table-bordered">
@@ -139,7 +141,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% @datadetail.where(id: issue.datadetail_id).where(is_support: false).each do |detail| %>
+				<% @datadetail.where(id: @me.datadetail_id).where(is_support: false).each do |detail| %>
 					<tr>
 						<td>
 							<% @persons.where(id: detail.people_id).each do |person| %>
@@ -180,12 +182,13 @@
 
 <% else %> 
 
-<div class = "row"><font color="white">
+<div class = "row">
 	<div class = "col-md-offset-2 col-md-8">
 		<table class="table table-bordered" >
 			<thead>
 				<tr align = "center">
 					<td class = "col-md-8" colspan = "3">
+						所有議題
 					</td>
 				</tr>
 				<tr align = "center">
@@ -212,15 +215,10 @@
 						<td>
 							<%= issue.popularity %>
 						</td>
-							<%= issue.created_at %>
+							
 						<td>
+							<%= issue.created_at %>
 						</td>
-							<th rowspan= <%= issue_length %> align = "center" >  
-								<% link = "/issuelist/"+issue.id.to_s %>
-								<a href = <%= link %> >
-									<%= issue.title %>
-								</a>
-							</th>
 					</tr>
 				<% end %>
 			</tbody>
@@ -229,3 +227,4 @@
 </div>
 
 <% end %>
+</font>
