@@ -1,13 +1,21 @@
 class DetaillistController < ApplicationController
 	def index
+		@all_detail = true
 		@tags = params[:detail_id]
 		@detail = DataDetail.where(id: @tags)
-		@detail.each do |d|
-			@issue = DataIssue.where(id: d.issue_id)
-			@person = DataPerson.where(id: d.people_id)
-			@user = User.where(id: d.post_id)
-			@strings = detail.comment_id.split(",")
+		if @detail.where(id: @tags).length >= 1
+			
+			@me = @detail.where(id: @tags)[0]
+			@issue = DataIssue.where(id: @me.issue_id)[0]
+			@person = DataPerson.where(id: @me.people_id)[0]
+			@user = User.where(id: @me.post_id)[0]
+			if !@me.comment_id.nil? && !@me.comment_id.empty?
+				@strings = @me.comment_id.split(",")
+			end
 			@comments = DataComment.where(:id => @strings)
+			@all_detail = false
+		else
+			@all_detail = true
 		end
 	end
 end

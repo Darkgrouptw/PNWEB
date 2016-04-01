@@ -1,4 +1,4 @@
-<% if @detail.length >= 1 %>
+<% if !@all_detail %>
 <div class = "container"><font color="white">
 <div class = "row">
   <div class = "col-md-12">
@@ -35,29 +35,38 @@
       <tbody>
           <tr>
             <td>
-              <%= @person.name %>
+              <% link = "/peoplelist/"+ @person.name%>
+              <a href = <%= link %> >
+                <%= @person.name %>
+              </a>
             </td>
             <td>
-              <%= @issue.title %>
+              <% link = "/issuelist/"+ @issue.id.to_s %>
+              <a href = <%= link %> >
+                <%= @issue.title %>
+              </a>
             </td>
             <td>
-              <% if @detail.is_support == true %>
+              <% if @me.is_support == true %>
                 支持
               <% else %>
                 反對
               <% end %>
             </td>
             <td>
-              <%= @detail.content %>
+              <%= @me.content %>
             </td>
             <td>
-              <%= @detail.created_at %>
+              <%= @me.created_at %>
             </td>
             <td>
-              <%= @user.nickname %>
+              <% link = "/userlist/"+ @user.id.to_s%>
+              <a href = <%= link %> >
+                <%= @user.nickname %>
+              </a>
             </td>
             <td>
-              <% link = @detail.link %>
+              <% link = @me.link %>
                 <a href = <%= link %> >
                   參考資料
                 </a>

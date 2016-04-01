@@ -5,9 +5,10 @@ class IssuelistController < ApplicationController
 		@all_issue = true
 		if @issues.where(id: @tags).length >= 1
 			@me = @issues.where(id: @tags)[0]
-			@datadetail=DataDetail.where(issue_id: @me.id)
+			@details=DataDetail.where(issue_id: @me.id)
 			@users=User.all
 			@all_issue = false
+			@persons=DataPerson.all
 		else
 			@all_issue = true
 		end
