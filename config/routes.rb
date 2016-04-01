@@ -14,5 +14,7 @@ Rails.application.routes.draw do
     get "/issuelist/"=>	"issuelist#index"
     get "/issuelist/:issue_id"=>	"issuelist#index"
     get "/detaillist/" => "detaillist#index"
-    get "/detaillist/:detail_id" => "detaillist#index" 
+    get "/detaillist/:detail_id" => "detaillist#index"
+    get "/userlist/" => "userlist#index"
+    get "/userlist/:user_id" => "userlist#index"
 end

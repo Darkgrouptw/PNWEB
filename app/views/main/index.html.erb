@@ -112,7 +112,7 @@
 					<% time=time+1 %>
 						<tr>
 							<td>
-								<% link="issuelist/"+issue.id.to_s%>
+								<% link="/issuelist/"+issue.id.to_s%>
 								<a href = <%= link %> >
 								<%= issue.title %>
 								</a>
@@ -150,7 +150,7 @@
 					<% time=time+1 %>
 						<tr>
 							<td>
-								<% link="peoplelist/"+detail.people_id.to_s %>
+								<% link="/peoplelist/"+detail.people_id.to_s %>
 								<a href = <%= link %> >
 									<% @persons.where(id: detail.people_id).each do |person| %>
 										<%= person.name %>
@@ -159,7 +159,7 @@
 								
 							</td>
 							<td>
-								<% link="detaillist/"+detail.id.to_s%>
+								<% link="/detaillist/"+detail.id.to_s%>
 								<a href = <%= link %> >
 									<% if detail.content.length > 30%>
 										<%= '點擊看更多'%>
