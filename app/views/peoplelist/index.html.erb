@@ -1,33 +1,53 @@
-<% if @person.length >= 1 %>
-<div class = "container">
+<% if !@all_people %>
+<div class = "container"><font color="white">
 <div class = "row">
   <div class = "col-md-4">
       <div>
-        <%= person.name %>
+        <%= @person.name %>
       </div>
       <div>
-        <% if person.pic_link.nil? || person.pic_link.empty?  %>
+        <% if @person.pic_link.nil? || @person.pic_link.empty?  %>
           <%= image_tag 'http://i.imgur.com/TbBAqpV.png', width: "200" %>
         <% else %>
-          <%= image_tag person.pic_link, width: "200" %>
+          <%= image_tag @person.pic_link, width: "200" %>
         <% end %>
       </div>
   </div>
   <div class = "col-md-8">
     <table class = "table table-bordered">
       <thead>
+        <tr>
+          <td class = "col-md-8" colspan = "1">關於 <%= @person.name %>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
         <tr align = "center">
-          <td class = "col-md-8" colspan = "6">
+          <td><%= @person.description %></td>
+        </tr>
+      </tbody>
+      
+    </table>
+  </div>
+</div>
+<div class = "row">
+  <div><br></div>
+  <div class = "col-md-12">
+    <table class = "table table-bordered">
+      <thead>
+        <tr align = "center">
+          <td class = "col-md-12" colspan = "6">
+            <%= @person.name %> 說過的話
           </td>
         </tr>
         <tr align = "center">
-          <td class = "col-md-1"><font color="white">
+          <td class = "col-md-3"><font color="white">
             議題
           </td>
           <td class = "col-md-1"><font color="white">
             態度
           </td>
-          <td class = "col-md-3"><font color="white">
+          <td class = "col-md-5"><font color="white">
             主要論述
           </td>
           <td class = "col-md-1"><font color="white">
@@ -44,7 +64,7 @@
       <tbody>
           <% @details.each do |detail| %>
             <tr align = "center">
-              <td class = "col-md-1"><font color="white">
+              <td class = "col-md-1">
                 <% @issues.where(id: detail.issue_id).each do |issue| %>
                   <% link = "/issuelist/"+issue.id.to_s %>
                   <a href = <%= link %> >
@@ -86,7 +106,7 @@
   </div>
 </div>
 </div>
-
+</font>
 <% else %> 
 
 <div class = "container">
@@ -118,7 +138,7 @@
               <% if human.pic_link.nil? || human.pic_link.empty?  %>
                 <%= image_tag 'http://i.imgur.com/TbBAqpV.png', width: "200" %>
               <% else %>
-                <%= image_tag detail.pic_link, width: "200" %>
+                <%= image_tag human.pic_link, width: "200" %>
               <% end %>
             </td>
             <td><font color="white">

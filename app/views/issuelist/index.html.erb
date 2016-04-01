@@ -1,5 +1,5 @@
 <font color="white">
-<% if @issues.where(id: @tags).length >= 1 %>
+<% if !@all_issue %>
 <div class = "container">
 <div class = "row">
 	<div class = "col-md-4">
