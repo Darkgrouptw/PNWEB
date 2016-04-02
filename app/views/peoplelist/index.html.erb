@@ -2,10 +2,10 @@
 <div class = "container"><font color="white">
 <div class = "row">
   <div class = "col-md-4">
-      <div>
+      <div align = "center">
         <%= @person.name %>
       </div>
-      <div>
+      <div align = "center">
         <% if @person.pic_link.nil? || @person.pic_link.empty?  %>
           <%= image_tag 'http://i.imgur.com/TbBAqpV.png', width: "200" %>
         <% else %>
