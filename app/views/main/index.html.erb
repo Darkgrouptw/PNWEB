@@ -150,12 +150,12 @@
 					<% time=time+1 %>
 						<tr>
 							<td>
-								<% link="/peoplelist/"+detail.people_id.to_s %>
-								<a href = <%= link %> >
-									<% @persons.where(id: detail.people_id).each do |person| %>
+								<% @persons.where(id: detail.people_id).each do |person| %>
+									<% link="/peoplelist/"+person.name %>
+									<a href = <%= link %> >
 										<%= person.name %>
-									<% end %>
-								</a>
+									</a>
+								<% end %>
 								
 							</td>
 							<td>

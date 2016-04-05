@@ -101,7 +101,7 @@
 					<tr>
 						<td>
 							<% @persons.where(id: detail.people_id).each do |person| %>
-							<% link = "/peoplelist/"+person.id.to_s %>
+							<% link = "/peoplelist/"+person.name %>
 							<a href = <%= link %>>
 								<%= person.name %>
 							</a>
@@ -162,7 +162,7 @@
 					<tr>
 						<td>
 							<% @persons.where(id: detail.people_id).each do |person| %>
-							<% link = "/peoplelist/"+person.id.to_s %>
+							<% link = "/peoplelist/"+person.name %>
 							<a href = <%= link %>>
 								<%= person.name %>
 							</a>
