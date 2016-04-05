@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="jumbotron">
+        <%= simple_form_for @detail, :url => create_issuelist_path(params[:issue_id]), method: "post"  do |f| %>
+            <div class = "form-group">
+                <%= f.label "是否支持" %> <br>
+                <%= f.input_field :is_support, class: "form-control" %> <br>
+
+                <%= f.label "內容" %> <br>
+                <%= f.input_field :content, class: "form-control", style: "height: 500px" %> <br>
+
+                <%= f.label "連結" %> <br>
+                <%= f.input_field :link, class: "form-control" %> <br>
+
+                <%= f.label "哪一個人的 ID" %> <br>
+                <%= f.input_field :people_id, class: "form-control" %> <br>
+                
+            </div>
+            <%= f.submit "儲存", class: "btn btn-primary", data: { disable_with: "Submitting..." } %>
+        <% end %>
+    </div>
+</div>

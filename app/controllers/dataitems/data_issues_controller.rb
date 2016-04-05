@@ -12,6 +12,7 @@ class Dataitems::DataIssuesController < ApplicationController
 		@item = DataIssue.create(params_check)
 
         @item.popularity = 0
+        @item.datadetail_id = ""
 		if @item.save
 			redirect_to dataitems_data_issues_path, notice: "建立成功"
 		else

@@ -64,7 +64,7 @@
 						<%= @me.post %>
 					</td>
 					<td class = "col-md-1">
-						<button type="button" style="float: right;"><font color = "black">我要議論</font></button>
+                        <%= link_to("我要評論", new_issuelist_path(@tags), class: "btn btn-default btn-xs") %>
 					</td>
 				</tr>
 			</tbody>

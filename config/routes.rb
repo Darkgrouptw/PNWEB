@@ -11,10 +11,15 @@ Rails.application.routes.draw do
 
     get "/peoplelist"	=>	"peoplelist#index"
     get "/peoplelist/:name"	=>	"peoplelist#index"
-    get "/issuelist/"=>	"issuelist#index"
-    get "/issuelist/:issue_id"=>	"issuelist#index"
     get "/detaillist/" => "detaillist#index"
     get "/detaillist/:detail_id" => "detaillist#index"
     get "/userlist/" => "userlist#index"
     get "/userlist/:user_id" => "userlist#index"
+    
+    
+    
+    get     "/issuelist/"               =>	"issuelist#index"
+    get     "/issuelist/:issue_id"      =>	"issuelist#index"
+    get     "/issuelist/:issue_id/new"  =>  "issuelist#new",            :as => "new_issuelist"
+    post    "/issuelist/:issue_id"      =>  "issuelist#create",         :as => "create_issuelist"          
 end
