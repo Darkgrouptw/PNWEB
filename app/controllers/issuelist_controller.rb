@@ -21,7 +21,7 @@ class IssuelistController < ApplicationController
     
     def create
         @detail = DataDetail.create(detail_params)
-        
+        @detail.issue_id = params[:issue_id]
         @detail.count = 0
         @detail.count_like = 0
         @detail.count_dislike = 0
