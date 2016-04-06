@@ -96,8 +96,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% if @me.datadetail_id.nil? || @me.datadetail_id.empty? %>
 				<% @details.where(is_support: true).each do |detail| %>
+				<% if detail.issue_id == @me.id %>
 					<tr>
 						<td>
 							<% @persons.where(id: detail.people_id).each do |person| %>
@@ -128,6 +128,7 @@
 							<% end %>
 						</td>
 					</tr>
+				<% else %>
 				<% end %>
 				<% end %>
 			</tbody>
@@ -159,6 +160,7 @@
 			</thead>
 			<tbody>
 				<% @details.where(is_support: false).each do |detail| %>
+				<% if detail.issue_id == @me.id %>
 					<tr>
 						<td>
 							<% @persons.where(id: detail.people_id).each do |person| %>
@@ -189,6 +191,8 @@
 							<% end %>
 						</td>
 					</tr>
+				<% else %>
+				<% end %>
 				<% end %>
 			</tbody>
 		</table>
