@@ -3,7 +3,7 @@
         <%= simple_form_for @detail, :url => create_issuelist_path(params[:issue_id]), method: "post"  do |f| %>
             <div class = "form-group">
                 <%= f.label "是否支持" %> <br>
-                <%= f.input_field :is_support, class: "form-control" %> <br>
+                <%= f.input_field :is_support %> <br>
 
                 <%= f.label "內容" %> <br>
                 <%= f.input_field :content, class: "form-control", style: "height: 500px" %> <br>
