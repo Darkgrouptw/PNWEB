@@ -5,8 +5,8 @@ class IssuelistController < ApplicationController
 		@all_issue = true
 		if @issues.where(id: @tags).length >= 1
 			@me = @issues.where(id: @tags)[0]
-			@strings = @me[:datadetail_id].split(/,/)
-			@details=DataDetail.where(@strings.include? :id)
+			@strings = @me.datadetail_id.split(/,/)
+			@details=DataDetail.where(id: @strings)
 			@users=User.all
 			@all_issue = false
 			@persons=DataPerson.all
