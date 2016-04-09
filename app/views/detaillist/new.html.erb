@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="jumbotron">
+        <%= simple_form_for @comment, :url => create_detaillist_path(params[:detail_id]), method: "post"  do |f| %>
+            <div class = "form-group">
+
+                <%= f.label "內容" %> <br>
+                <%= f.input_field :content, class: "form-control", style: "height: 500px" %> <br>
+                
+            </div>
+            <%= f.submit "儲存", class: "btn btn-primary", data: { disable_with: "Submitting..." } %>
+        <% end %>
+    </div>
+</div>

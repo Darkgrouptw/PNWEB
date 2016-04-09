@@ -18,4 +18,11 @@ class DetaillistController < ApplicationController
 			@all_detail = true
 		end
 	end
+
+	def new
+		@comment = DataComment.new
+	end
+
+	def create
+    end
 end

@@ -21,5 +21,8 @@ Rails.application.routes.draw do
     get     "/issuelist/"               =>	"issuelist#index"
     get     "/issuelist/:issue_id"      =>	"issuelist#index"
     get     "/issuelist/:issue_id/new"  =>  "issuelist#new",            :as => "new_issuelist"
-    post    "/issuelist/:issue_id"      =>  "issuelist#create",         :as => "create_issuelist"          
+    post    "/issuelist/:issue_id"      =>  "issuelist#create",         :as => "create_issuelist"
+    
+    get     "/detaillist/:detail_id/new" => "detaillist#new",           :as => "new_detallist"
+    post    "/detaillist/:detail_id"    =>  "detaillist#create",        :as => "create_detaillist"
 end
