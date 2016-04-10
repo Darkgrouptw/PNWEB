@@ -79,19 +79,23 @@
       <thead>
         <tr align = "center">
           <td class = "col-md-12" colspan = "3">
+            相關討論
           </td>
         </tr>
         <tr align = "center">
-          <td>使用者</td>
-          <td>內文</td>
-          <td>時間</td>
+          <td class = "col-md-3">使用者</td>
+          <td class = "col-md-6">內文</td>
+          <td class = "col-md-3">時間</td>
         </tr>
       </thead>
       <tbody>
+        <% if !@comments.nil? %>
         <% @comments.each do |comment| %>
           <tr>
             <td>
-              <%= comment.post_id %>
+              <% @talkers.where(id: comment.post_id).each do |talker| %>
+                <%= talker.nickname %>
+              <% end %>
             </td>
             <td>
               <%= comment.content %>
@@ -100,6 +104,7 @@
               <%= comment.created_at %>
             </td>
           </tr>
+        <% end %>
         <% end %>
       </tbody>
     </table>
