@@ -5,7 +5,7 @@
     <table class = "table table-bordered">
       <thead>
         <tr align = "right">
-          <td class = "col-md-12" colspan = "7">
+          <td class = "col-md-12" colspan = "8">
               <%= link_to "我要 👍", thumb_detaillist_path(detail_id: params[:detail_id], :thumb => "1"), method: :post, class: "btn-default", style: "width:200px;"%>
             </font>
             <p class = "col-md-2"></p>
@@ -23,7 +23,7 @@
           <td class = "col-md-1"><font color="white">
             態度
           </td>
-          <td class = "col-md-6"><font color="white">
+          <td class = "col-md-5"><font color="white">
             主要論述
           </td>
           <td class = "col-md-1"><font color="white">
@@ -34,6 +34,9 @@
           </td>
           <td class = "col-md-1"><font color="white">
             原始資料
+          </td>
+          <td class = "col-md-1">
+            👍 與👎
           </td>
         </tr>
       </thead>
@@ -75,6 +78,12 @@
                 <a href = <%= link %> >
                   參考資料
                 </a>
+            </td>
+            <td>
+              👍 
+              <%= @me.count_like.to_s %>
+              👎 
+              <%= @me.count_dislike.to_s %>
             </td>
           </tr>
       </tbody>

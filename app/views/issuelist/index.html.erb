@@ -73,7 +73,7 @@
 		<table class = "table table-bordered">
 			<thead>
 				<tr align = "center">
-					<td class = "col-md-8" colspan = "5">
+					<td class = "col-md-8" colspan = "6">
 						正方
 					</td>
 				</tr>
@@ -81,7 +81,7 @@
 					<td class = "col-md-1">
 						姓名
 					</td>
-					<td class = "col-md-4">
+					<td class = "col-md-3">
 						主要論述
 					</td>
 					<td class = "col-md-1">
@@ -92,6 +92,9 @@
 					</td>
 					<td class = "col-md-1">
 						編著
+					</td>
+					<td class = "col-md-1">
+						👍 與👎
 					</td>
 				</tr>
 			</thead>
@@ -127,6 +130,15 @@
 								</a>
 							<% end %>
 						</td>
+						<td>
+							<%= detail.created_at %>
+						</td>
+						<td>
+							👍 
+							<%= detail.count_like.to_s %>
+							👎 
+							<%= detail.count_dislike.to_s %>
+						</td>
 					</tr>
 				<% else %>
 				<% end %>
@@ -136,7 +148,7 @@
 		<table class = "table table-bordered">
 			<thead>
 				<tr align = "center">
-					<td class = "col-md-8" colspan = "5">
+					<td class = "col-md-8" colspan = "6">
 						反方
 					</td>
 				</tr>
@@ -144,7 +156,7 @@
 					<td class = "col-md-1">
 						姓名
 					</td>
-					<td class = "col-md-4">
+					<td class = "col-md-3">
 						主要論述
 					</td>
 					<td class = "col-md-1">
@@ -155,6 +167,9 @@
 					</td>
 					<td class = "col-md-1">
 						編著
+					</td>
+					<td class = "col-md-1">
+						👍 與👎
 					</td>
 				</tr>
 			</thead>
@@ -189,6 +204,12 @@
 									<%= user.nickname %>
 								</a>
 							<% end %>
+						</td>
+						<td>
+							👍 
+							<%= detail.count_like.to_s %>
+							👎 
+							<%= detail.count_dislike.to_s %>
 						</td>
 					</tr>
 				<% else %>

@@ -44,15 +44,19 @@ class DetaillistController < ApplicationController
     end
     
     def thumb
+    	@detail = DataDetail.where(id: params[:detail_id])
         if params[:thumb] == "1"
             flash[:notice] = "推成功！！"
+            #@detail.count_like = @detail.count_like +1
+            #@detail.update(count_like: @detail.count_like)
         elsif params[:thumb] == "0"
             flash[:notice] = "不推成功！！"
+            #@detail.count_dislike = @detail.count_dislike +1
+            #@detail.update(count_dislike: @detail.count_dislike)
         else
             flash[:notice] = "失敗！！"
         end
-        
-        redirect_to "/"
+        redirect_to "/detaillist/"+params[:detail_id]
         #"detaillist/" + params[:detail_id]
     end
 
