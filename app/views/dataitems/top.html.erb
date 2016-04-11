@@ -11,6 +11,11 @@
                 class = "active"
             <% end %>
                 ><%= link_to "Data_person", dataitems_data_people_path %></li>
+            <li
+            <% if @state == 2 %>
+                class = "active"
+            <% end %>
+                ><%# link_to "DataComent", %></li>
 		</ul>
 	</div>
 	<div class = "col-md-1">

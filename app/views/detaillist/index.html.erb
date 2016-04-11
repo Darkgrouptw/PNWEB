@@ -6,12 +6,10 @@
       <thead>
         <tr align = "right">
           <td class = "col-md-12" colspan = "7">
-            <font color="black" >
-              <input type="button" value = "我要 👍" style:"width: 200px" onclick="runTree()"></input>
+              <%= link_to "我要 👍", thumb_detaillist_path(detail_id: params[:detail_id], :thumb => "1"), method: :post, class: "btn-default", style: "width:200px;"%>
             </font>
             <p class = "col-md-2"></p>
-            <font color="black" >
-              <input type="button" value = "我要 👎" style:"width: 200px" onclick="runTree()"></input>
+              <%= link_to "我要 👎", thumb_detaillist_path(detail_id: params[:detail_id], :thumb => "0"), method: :post, class: "btn-default", style: "width:200px;" %>
             </font>
           </td>
         </tr>

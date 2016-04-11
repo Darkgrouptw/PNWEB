@@ -42,6 +42,19 @@ class DetaillistController < ApplicationController
 			render :new
 		end
     end
+    
+    def thumb
+        if params[:thumb] == "1"
+            flash[:notice] = "推成功！！"
+        elsif params[:thumb] == "0"
+            flash[:notice] = "不推成功！！"
+        else
+            flash[:notice] = "失敗！！"
+        end
+        
+        redirect_to "/"
+        #"detaillist/" + params[:detail_id]
+    end
 
     def detail_params
         params.require(:data_detail).permit(:is_support, :content, :link, :count, :count_like, :count_dislike, :post_id, :people_id, :issue_id, :comment_id, :comment_id, :issue_id)
