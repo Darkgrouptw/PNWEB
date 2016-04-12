@@ -44,15 +44,13 @@ class DetaillistController < ApplicationController
     end
     
     def thumb
-    	@detail = DataDetail.where(id: params[:detail_id])
+    	@detail = DataDetail.where(id: params[:detail_id])[0]
         if params[:thumb] == "1"
             flash[:notice] = "推成功！！"
-            #@detail.count_like = @detail.count_like +1
-            #@detail.update(count_like: @detail.count_like)
+            @detail.update(count_like: @detail.count_like + 1)
         elsif params[:thumb] == "0"
             flash[:notice] = "不推成功！！"
-            #@detail.count_dislike = @detail.count_dislike +1
-            #@detail.update(count_dislike: @detail.count_dislike)
+            @detail.update(count_dislike: @detail.count_dislike + 1)
         else
             flash[:notice] = "失敗！！"
         end
