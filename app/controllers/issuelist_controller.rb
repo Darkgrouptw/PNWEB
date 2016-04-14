@@ -7,9 +7,17 @@ class IssuelistController < ApplicationController
 			@me = @issues.where(id: @tags)[0]
 			@strings = @me.datadetail_id.split(/,/)
 			@details=DataDetail.where(id: @strings)
-			@users=User.all
+            @detail_supprot = @details.where(is_support: true).order(:count_like).reverse
+            @detail_disSupport = @details.where(is_support: false).order(:count_dislike).reverse
+            user = []
+            person = []
+            @details.each do |detail|
+                user.push([detail.post_id])
+                person.push([detail.people_id])
+            end
+			@users=User.where(id: user)
+            @persons=DataPerson.where(id: person)
 			@all_issue = false
-			@persons=DataPerson.all
 		else
 			@all_issue = true
 		end

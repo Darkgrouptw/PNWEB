@@ -105,7 +105,7 @@
 				</thead>
 				<tbody>
 					<% time=0 %>
-					<% @issues.where(trunk_id: -1).order(:updated_at ).reverse.each do |issue| %>
+					<% @issues.each do |issue| %>
 					<% if time>=10 %>
 						<% break %>
 					<% end %>

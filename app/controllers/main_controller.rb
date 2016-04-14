@@ -1,8 +1,12 @@
 class MainController < ApplicationController
 	def index
-		@issues=DataIssue.all
-		@persons=DataPerson.all
+		@issues=DataIssue.where(trunk_id: -1).order(:created_at).reverse.first(10)
         @details=DataDetail.order(:count).reverse.first(10)
+        person = []
+        @details.each do |detail|
+            person.push([detail.people_id])
+        end
+        @persons=DataPerson.where(id: person)
         if user_signed_in?
             logger.debug "!!!!! Has user login !!!!!"
             if current_user.email == "darkgrouptw@gmail.com" || current_user.email == "b10215014@mail.ntust.edu.tw"

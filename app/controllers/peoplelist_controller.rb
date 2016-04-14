@@ -5,9 +5,15 @@ class PeoplelistController < ApplicationController
 		@all_people = true
 		if @person.where(name: @tags).length >= 1
 			@person = @person[0]
-			@details=DataDetail.where(people_id: @person.id)
-			@issues=DataIssue.all
-			@users=User.all
+			@details=DataDetail.where(people_id: @person.id).order(:count).reverse
+			issue = []
+			user = []
+			@details.each do |detail|
+				issue.push([detail.issue_id])
+				user.push([detail.post_id])
+			end
+			@issues = DataIssue.where(id: issue)
+			@users=User.where(id: user)
 			@all_people = false
 		else
 			@all_people = true

@@ -6,8 +6,14 @@ class UserlistController < ApplicationController
 		if @user.where(id: @tags).length >= 1
 			@user = @user[0]
 			@details=DataDetail.where(post_id: @user.id)
-			@issues=DataIssue.all
-			@people = DataPerson.all
+			person = []
+			issue = []
+			@details.each do |detail|
+				person.push([detail.people_id])
+				issue.push([detail.issue_id])
+			end
+			@issues=DataIssue.where(id: issue)
+			@people = DataPerson.where(id: person)
 			@all_people = false
 		else
 			@all_people = true

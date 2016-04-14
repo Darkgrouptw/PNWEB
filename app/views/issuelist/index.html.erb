@@ -99,7 +99,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% @details.where(is_support: true).each do |detail| %>
+				<% @detail_supprot.each do |detail| %>
 				<% if detail.issue_id == @me.id %>
 					<tr>
 						<td>
@@ -171,7 +171,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% @details.where(is_support: false).each do |detail| %>
+				<% @detail_disSupport.each do |detail| %>
 				<% if detail.issue_id == @me.id %>
 					<tr>
 						<td>
