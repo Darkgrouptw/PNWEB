@@ -1,6 +1,6 @@
 <font color="white">
 <% if !@all_issue %>
-<div class = "container">
+<div class = "container-fluid">
 <div class = "row">
 	<div class = "col-md-4">
 		<!-- 找到指定issuse-->
@@ -46,8 +46,9 @@
 			<% end %>
 				<% runTree(temp_issue) %>
 		</div>
-
 	</div>
+    
+    
 	<div class = "col-md-8">
 		<!-- 產生comment table -->
 		<table class = "table">
@@ -69,7 +70,7 @@
 				</tr>
 			</tbody>
 		</table>
-				<!-- 正 table-->
+        <!-- 正 table-->
 		<table class = "table table-bordered">
 			<thead>
 				<tr align = "center">
@@ -88,13 +89,13 @@
 						原始文章
 					</td>
 					<td class = "col-md-1">
+						👍 與👎
+					</td>
+					<td class = "col-md-1">
 						發表時間
 					</td>
 					<td class = "col-md-1">
 						編著
-					</td>
-					<td class = "col-md-1">
-						👍 與👎
 					</td>
 				</tr>
 			</thead>
@@ -120,7 +121,13 @@
 							</a>
 						</td>
 						<td>
-							<%= detail.created_at %>
+							👍 
+							<%= detail.count_like.to_s %>
+							👎 
+							<%= detail.count_dislike.to_s %>
+						</td>
+						<td>
+                            <%= detail.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
 						</td>
 						<td>
 							<% @users.where(id: detail.post_id).each do |user| %>
@@ -129,12 +136,6 @@
 									<%= user.nickname %>
 								</a>
 							<% end %>
-						</td>
-						<td>
-							👍 
-							<%= detail.count_like.to_s %>
-							👎 
-							<%= detail.count_dislike.to_s %>
 						</td>
 					</tr>
 				<% else %>
@@ -160,13 +161,13 @@
 						原始文章
 					</td>
 					<td class = "col-md-1">
+						👍 與👎
+					</td>
+					<td class = "col-md-1">
 						發表時間
 					</td>
 					<td class = "col-md-1">
 						編著
-					</td>
-					<td class = "col-md-1">
-						👍 與👎
 					</td>
 				</tr>
 			</thead>
@@ -192,7 +193,13 @@
 							</a>
 						</td>
 						<td>
-							<%= detail.created_at %>
+							👍 
+							<%= detail.count_like.to_s %>
+							👎 
+							<%= detail.count_dislike.to_s %>
+						</td>
+						<td>
+                            <%= detail.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
 						</td>
 						<td>
 							<% @users.where(id: detail.post_id).each do |user| %>
@@ -201,12 +208,6 @@
 									<%= user.nickname %>
 								</a>
 							<% end %>
-						</td>
-						<td>
-							👍 
-							<%= detail.count_like.to_s %>
-							👎 
-							<%= detail.count_dislike.to_s %>
 						</td>
 					</tr>
 				<% else %>
@@ -254,7 +255,6 @@
 						<td>
 							<%= issue.popularity %>
 						</td>
-							
 						<td>
 							<%= issue.created_at %>
 						</td>

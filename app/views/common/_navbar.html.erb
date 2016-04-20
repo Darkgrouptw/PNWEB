@@ -1,5 +1,5 @@
 <nav class = "navbar navbar-inverse navbar-fixed-top"> 
-	<div class = "container">
+	<div class = "container-fluid">
 		<div class = "navbar-header">
 			<!-- 當螢幕太小的時候，可以變成一個按鈕紐縮放 -->
 			<button type = "button" class = "navbar-toggle collapsed" data-toggle = "collapse" data-target = "#navbar-login" aria-expanded = "false" aria-controls = "navbar">
@@ -10,7 +10,7 @@
 			</button>
 
 			<!-- 網頁的 Title -->
-			<a class = "navbar-brand" href="/">正反網頁 Version 3.0.0</a>
+			<a class = "navbar-brand" href="/">正反網頁 Version 3.2.0</a>
 		</div>
 
 		<!-- 要縮起來的其他東西 -->
@@ -38,8 +38,14 @@
                         <li> <%= link_to "帳號設定", edit_user_registration_path %> </li>
                         <li> <%= link_to("登出", destroy_user_session_path, method: :delete) %> </li>
                         
+                        <% #分隔線 %>
+                        <li class="divider"></li>
                         <% #要變成最高管理權限 %>
-                        
+                        <% if current_user.high_power == true %>
+                            <li> <%= link_to "有最高權限", "/" %> </li>
+                        <% else %>
+                            <li> <%= link_to "普通", "/" %> </li>
+                        <% end %>
                     </ul>
               </li>
             <% end %>
