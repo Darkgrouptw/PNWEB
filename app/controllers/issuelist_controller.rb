@@ -24,7 +24,12 @@ class IssuelistController < ApplicationController
 	end
     
     def new
-        @detail = DataDetail.new
+        if current_user == nil
+            flash[:alert] = "請先登入!!"
+            redirect_to :back
+        else
+            @detail = DataDetail.new
+        end
     end
     
     def create
@@ -33,16 +38,21 @@ class IssuelistController < ApplicationController
         @detail.count = 0
         @detail.count_like = 0
         @detail.count_dislike = 0
-        @detail.post_id = current_user.id
-            @detail.comment_id = ""
-        if @detail.save
-            @tags = params[:issue_id]
-            @issue = DataIssue.where(:id => @tags)[0]
-            @issue.datadetail_id = @issue.datadetail_id + @detail.id.to_s + ","
-            @issue.update(issue_params)
-            redirect_to issuelist_path
+        if current_user == nil
+            flash[:alert] = "請先登入!!"
+            redirect_to :back
         else
-            render :new
+            @detail.post_id = current_user.id
+                @detail.comment_id = ""
+            if @detail.save
+                @tags = params[:issue_id]
+                @issue = DataIssue.where(:id => @tags)[0]
+                @issue.datadetail_id = @issue.datadetail_id + @detail.id.to_s + ","
+                @issue.update(issue_params)
+                redirect_to issuelist_path
+            else
+                render :new
+            end
         end
     end
     
