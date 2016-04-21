@@ -78,7 +78,7 @@
 						正方
 					</td>
 				</tr>
-				<tr align = "center">
+				<tr style="text-align:center">
 					<td class = "col-md-1">
 						姓名
 					</td>
@@ -90,9 +90,11 @@
 					</td>
 					<td class = "col-md-1">
 						👍 與👎
+                        <%= link_to "(排序)", "/issuelist/" + params[:issue_id] %>
 					</td>
 					<td class = "col-md-1">
 						發表時間
+                        <%= link_to "(排序)", "/issuelist/" + params[:issue_id] + "?orderby=Time" %>
 					</td>
 					<td class = "col-md-1">
 						編著
@@ -102,7 +104,7 @@
 			<tbody>
 				<% @detail_supprot.each do |detail| %>
 				<% if detail.issue_id == @me.id %>
-					<tr>
+					<tr style="text-align:center">
 						<td>
 							<% @persons.where(id: detail.people_id).each do |person| %>
 							<% link = "/peoplelist/"+person.name %>
@@ -145,7 +147,7 @@
 		</table>
 		<table class = "table table-bordered">
 			<thead>
-				<tr align = "center">
+				<tr style="text-align:center">
 					<td class = "col-md-8" colspan = "6">
 						反方
 					</td>
@@ -162,9 +164,11 @@
 					</td>
 					<td class = "col-md-1">
 						👍 與👎
+                        <%= link_to "(排序)", "/issuelist/" + params[:issue_id] %>
 					</td>
 					<td class = "col-md-1">
 						發表時間
+                        <%= link_to "(排序)", "/issuelist/" + params[:issue_id] + "?orderby=Time" %>
 					</td>
 					<td class = "col-md-1">
 						編著
@@ -174,7 +178,7 @@
 			<tbody>
 				<% @detail_disSupport.each do |detail| %>
 				<% if detail.issue_id == @me.id %>
-					<tr>
+					<tr style="text-align:center">
 						<td>
 							<% @persons.where(id: detail.people_id).each do |person| %>
 							<% link = "/peoplelist/"+person.name %>
@@ -226,7 +230,7 @@
 	<div class = "col-md-offset-2 col-md-8">
 		<table class="table table-bordered" >
 			<thead>
-				<tr align = "center">
+				<tr style="text-align:center">
 					<td class = "col-md-8" colspan = "3">
 						所有議題
 					</td>
@@ -245,7 +249,7 @@
 			</thead>
 			<tbody>
 				<% @issues.where(trunk_id: -1).each do |issue| %>
-					<tr >
+					<tr style="text-align:center">
 						<td>
 							<% link = "/issuelist/"+issue.id.to_s %>
 							<a href = <%= link %>>

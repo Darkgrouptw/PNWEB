@@ -6,11 +6,19 @@ class IssuelistController < ApplicationController
 		if @issues.where(id: @tags).length >= 1
 			@me = @issues.where(id: @tags)[0]
 			@strings = @me.datadetail_id.split(/,/)
-			@details=DataDetail.where(id: @strings)
-            @detail_supprot = @details.where(is_support: true).order(:count_like).reverse
-            @detail_disSupport = @details.where(is_support: false).order(:count_dislike).reverse
+			@details = DataDetail.where(id: @strings)
             user = []
             person = []
+            
+            # 要判斷是用什麼來排序
+            if params[:orderby] == "Time"
+                @detail_supprot = @details.where(is_support: true).order(:created_at).reverse
+                @detail_disSupport = @details.where(is_support: false).order(:created_at).reverse
+            else
+                @detail_supprot = @details.where(is_support: true).order(:count_like).reverse
+                @detail_disSupport = @details.where(is_support: false).order(:count_dislike).reverse
+            end
+            
             @details.each do |detail|
                 user.push([detail.post_id])
                 person.push([detail.people_id])
