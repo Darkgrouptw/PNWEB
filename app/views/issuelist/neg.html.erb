@@ -1,0 +1,107 @@
+<font color="white">
+<div class = "container-fluid">
+    <div class = "row">
+        <% if !@all_issue %>
+            <div class = "col-md-12">
+                <!-- 產生comment table -->
+                <table class = "table">
+                    <thead>
+                        <tr align = "center">
+                            <td class = "col-md-8" colspan = "2">
+                                <%= @me.title %>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class = "col-md-7">
+                                <%= @me.post %>
+                            </td>
+                            <td class = "col-md-1">
+                                <%= link_to("我要評論", new_issuelist_path(@tags), class: "btn btn-default btn-xs") %>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- 正 table-->
+                <table class = "table table-bordered">
+                    <thead>
+                        <tr align = "center">
+                            <td class = "col-md-8" colspan = "6">
+                                正方
+                            </td>
+                        </tr>
+                        <tr style="text-align:center">
+                            <td class = "col-md-1">
+                                姓名
+                            </td>
+                            <td class = "col-md-3">
+                                主要論述
+                            </td>
+                            <td class = "col-md-1">
+                                原始文章
+                            </td>
+                            <td class = "col-md-1">
+                                👍 與👎
+                                <%= link_to "(排序)", "/issuelist/" + params[:issue_id] + "/negative"%>
+                            </td>
+                            <td class = "col-md-1">
+                                上線時間
+                                <%= link_to "(排序)", "/issuelist/" + params[:issue_id] + "/negative?orderby=Time" %>
+                            </td>
+                            <td class = "col-md-1">
+                                編著
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% @detail_disSupport.each do |detail| %>
+                        <% if detail.issue_id == @me.id %>
+                            <tr style="text-align:center">
+                                <td>
+                                    <% @persons.where(id: detail.people_id).each do |person| %>
+                                    <% link = "/peoplelist/"+person.name %>
+                                    <a href = <%= link %>>
+                                        <%= person.name %>
+                                    </a>
+                                    <% end %>
+                                </td>
+                                <td>
+                                    <%= detail.content %>
+                                </td>
+                                <td>
+                                    <% link = "/detaillist/"+detail.id.to_s %>
+                                    <a href = <%= link %>>
+                                        點我看更多
+                                    </a>
+                                </td>
+                                <td>
+                                    👍 
+                                    <%= detail.count_like.to_s %>
+                                    👎 
+                                    <%= detail.count_dislike.to_s %>
+                                </td>
+                                <td>
+                                    <%= detail.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
+                                </td>
+                                <td>
+                                    <% @users.where(id: detail.post_id).each do |user| %>
+                                        <% link = "/userlist/"+user.id.to_s %>
+                                        <a href = <%= link %>>
+                                            <%= user.nickname %>
+                                        </a>
+                                    <% end %>
+                                </td>
+                            </tr>
+                        <% else %>
+                        <% end %>
+                        <% end %>
+                    </tbody>
+                </table>
+        <% else %> 
+            Something is wrong
+        <% end %>
+        </div>
+</div>
+
+</font>

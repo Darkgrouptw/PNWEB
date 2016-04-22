@@ -2,7 +2,7 @@
 <% if !@all_issue %>
 <div class = "container-fluid">
 <div class = "row">
-	<div class = "col-md-4">
+	<div class = "col-md-2">
 		<!-- 找到指定issuse-->
 		<% tag_issue = @issues.where(id: @tags)[0] %>
 		<!-- 找到指定根issuse-->
@@ -49,7 +49,7 @@
 	</div>
     
     
-	<div class = "col-md-8">
+	<div class = "col-md-10">
 		<!-- 產生comment table -->
 		<table class = "table">
 			<thead>
@@ -93,7 +93,7 @@
                         <%= link_to "(排序)", "/issuelist/" + params[:issue_id] %>
 					</td>
 					<td class = "col-md-1">
-						發表時間
+						上線時間
                         <%= link_to "(排序)", "/issuelist/" + params[:issue_id] + "?orderby=Time" %>
 					</td>
 					<td class = "col-md-1">
@@ -102,49 +102,73 @@
 				</tr>
 			</thead>
 			<tbody>
-				<% @detail_supprot.each do |detail| %>
-				<% if detail.issue_id == @me.id %>
-					<tr style="text-align:center">
-						<td>
-							<% @persons.where(id: detail.people_id).each do |person| %>
-							<% link = "/peoplelist/"+person.name %>
-							<a href = <%= link %>>
-								<%= person.name %>
-							</a>
-							<% end %>
-						</td>
-						<td>
-							<%= detail.content %>
-						</td>
-						<td>
-							<% link = "/detaillist/"+detail.id.to_s %>
-							<a href = <%= link %>>
-								點我看更多
-							</a>
-						</td>
-						<td>
-							👍 
-							<%= detail.count_like.to_s %>
-							👎 
-							<%= detail.count_dislike.to_s %>
-						</td>
-						<td>
-                            <%= detail.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
-						</td>
-						<td>
-							<% @users.where(id: detail.post_id).each do |user| %>
-								<% link = "/userlist/"+user.id.to_s %>
-								<a href = <%= link %>>
-									<%= user.nickname %>
-								</a>
-							<% end %>
-						</td>
-					</tr>
-				<% else %>
-				<% end %>
-				<% end %>
+                <% # 確定小於五個的時候，才顯示，點擊看更多 %>
+                <% i = 0 %>
+                <% @detail_supprot.each do |detail| %>
+                    <% if detail.issue_id == @me.id %>
+                        <% i = i + 1 %>
+                        <tr style="text-align:center">
+                            <td>
+                                <% @persons.where(id: detail.people_id).each do |person| %>
+                                    <% link = "/peoplelist/"+person.name %>
+                                    <a href = <%= link %>>
+                                        <%= person.name %>
+                                    </a>
+                                <% end %>
+                            </td>
+                            <td>
+                                <%= detail.content %>
+                            </td>
+                            <td>
+                                <% link = "/detaillist/"+detail.id.to_s %>
+                                <a href = <%= link %>>
+                                    點我看更多
+                                </a>
+                            </td>
+                            <td>
+                                👍 
+                                <%= detail.count_like.to_s %>
+                                👎 
+                                <%= detail.count_dislike.to_s %>
+                            </td>
+                            <td>
+                                <%= detail.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
+                            </td>
+                            <td>
+                                <% @users.where(id: detail.post_id).each do |user| %>
+                                    <% link = "/userlist/"+user.id.to_s %>
+                                    <a href = <%= link %>>
+                                        <%= user.nickname %>
+                                    </a>
+                                <% end %>
+                            </td>
+                        </tr>
+                    <% end %>
+                    <% if i == 5 %>
+                        <% # 為了要讓中間的東西不見 %>
+                        <tr style="text-align:center;">
+                            <td colspan="6">
+                                <table border="0" style="width:100%;">
+                                    <tr>
+                                        <td colspan="6">
+                                            ⋮
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6">
+                                            <%= link_to "點擊觀看更多", p_issuelist_path %>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <% break %>
+                    <% end %>
+                <% end %>
 			</tbody>
 		</table>
+        
+        <% # 反方的開始 %>
 		<table class = "table table-bordered">
 			<thead>
 				<tr style="text-align:center">
@@ -167,7 +191,7 @@
                         <%= link_to "(排序)", "/issuelist/" + params[:issue_id] %>
 					</td>
 					<td class = "col-md-1">
-						發表時間
+						上線時間
                         <%= link_to "(排序)", "/issuelist/" + params[:issue_id] + "?orderby=Time" %>
 					</td>
 					<td class = "col-md-1">
@@ -176,98 +200,119 @@
 				</tr>
 			</thead>
 			<tbody>
+                <% # 確定小於五個的時候，才顯示，點擊看更多 %>
+                <% i = 0 %>
 				<% @detail_disSupport.each do |detail| %>
-				<% if detail.issue_id == @me.id %>
-					<tr style="text-align:center">
-						<td>
-							<% @persons.where(id: detail.people_id).each do |person| %>
-							<% link = "/peoplelist/"+person.name %>
-							<a href = <%= link %>>
-								<%= person.name %>
-							</a>
-							<% end %>
-						</td>
-						<td>
-							<%= detail.content %>
-						</td>
-						<td>
-							<% link = "/detaillist/"+detail.id.to_s %>
-							<a href = <%= link %>>
-								點我看更多
-							</a>
-						</td>
-						<td>
-							👍 
-							<%= detail.count_like.to_s %>
-							👎 
-							<%= detail.count_dislike.to_s %>
-						</td>
-						<td>
-                            <%= detail.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
-						</td>
-						<td>
-							<% @users.where(id: detail.post_id).each do |user| %>
-								<% link = "/userlist/"+user.id.to_s %>
-								<a href = <%= link %>>
-									<%= user.nickname %>
-								</a>
-							<% end %>
-						</td>
-					</tr>
-				<% else %>
+                    <% if detail.issue_id == @me.id %>
+                        <% i = i + 1 %>
+                        <tr style="text-align:center">
+                            <td>
+                                <% @persons.where(id: detail.people_id).each do |person| %>
+                                <% link = "/peoplelist/"+person.name %>
+                                <a href = <%= link %>>
+                                    <%= person.name %>
+                                </a>
+                                <% end %>
+                            </td>
+                            <td>
+                                <%= detail.content %>
+                            </td>
+                            <td>
+                                <% link = "/detaillist/"+detail.id.to_s %>
+                                <a href = <%= link %>>
+                                    點我看更多
+                                </a>
+                            </td>
+                            <td>
+                                👍 
+                                <%= detail.count_like.to_s %>
+                                👎 
+                                <%= detail.count_dislike.to_s %>
+                            </td>
+                            <td>
+                                <%= detail.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
+                            </td>
+                            <td>
+                                <% @users.where(id: detail.post_id).each do |user| %>
+                                    <% link = "/userlist/"+user.id.to_s %>
+                                    <a href = <%= link %>>
+                                        <%= user.nickname %>
+                                    </a>
+                                <% end %>
+                            </td>
+                        </tr>
+                    <% end %>
+                    <% if i == 5 %>
+                        <% # 為了要讓中間的東西不見 %>
+                        <tr style="text-align:center;">
+                            <td colspan="6">
+                                <table border="0" style="width:100%;">
+                                    <tr>
+                                        <td colspan="6">
+                                            ⋮
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6">
+                                            <%= link_to "點擊觀看更多", n_issuelist_path %>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    <% break %>
+                    <% end %>
 				<% end %>
-				<% end %>
+                
 			</tbody>
 		</table>
-		
 	</div>
 </div>
 </div>
 
 <% else %> 
-
-<div class = "row">
-	<div class = "col-md-offset-2 col-md-8">
-		<table class="table table-bordered" >
-			<thead>
-				<tr style="text-align:center">
-					<td class = "col-md-8" colspan = "3">
-						所有議題
-					</td>
-				</tr>
-				<tr align = "center">
-					<td class = "col-md-1">
-						議題
-					</td>
-					<td class = "col-md-1">
-						點閱數
-					</td>
-					<td class = "col-md-1">
-						提出時間
-					</td>
-				</tr>
-			</thead>
-			<tbody>
-				<% @issues.where(trunk_id: -1).each do |issue| %>
-					<tr style="text-align:center">
-						<td>
-							<% link = "/issuelist/"+issue.id.to_s %>
-							<a href = <%= link %>>
-								<%= issue.title %>
-							</a>
-						</td>
-						<td>
-							<%= issue.popularity %>
-						</td>
-						<td>
-							<%= issue.created_at %>
-						</td>
-					</tr>
-				<% end %>
-			</tbody>
-		</table>
-	</div>
-</div>
-
+    <% # 要顯示所有的議題 %>
+    <div class = "row">
+        <div class = "col-md-offset-2 col-md-8">
+            <table class="table table-bordered" >
+                <thead>
+                    <tr style="text-align:center">
+                        <td class = "col-md-8" colspan = "3">
+                            所有議題
+                        </td>
+                    </tr>
+                    <tr align = "center">
+                        <td class = "col-md-1">
+                            議題
+                        </td>
+                        <td class = "col-md-1">
+                            點閱數
+                        </td>
+                        <td class = "col-md-1">
+                            提出時間
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @issues.where(trunk_id: -1).each do |issue| %>
+                        <tr style="text-align:center">
+                            <td>
+                                <% link = "/issuelist/"+issue.id.to_s %>
+                                <a href = <%= link %>>
+                                    <%= issue.title %>
+                                </a>
+                            </td>
+                            <td>
+                                <%= issue.popularity %>
+                            </td>
+                            <td>
+                                <%= issue.created_at %>
+                            </td>
+                        </tr>
+                    <% end %>
+                </tbody>
+            </table>
+        </div>
+    </div>
 <% end %>
 </font>

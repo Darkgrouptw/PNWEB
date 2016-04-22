@@ -19,7 +19,5 @@ class PeoplelistController < ApplicationController
 			@all_people = true
 			@persons=DataPerson.all
 		end
-		
-		
 	end
 end
