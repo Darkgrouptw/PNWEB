@@ -115,6 +115,16 @@ class IssuelistController < ApplicationController
         @detail.count = 0
         @detail.count_like = 0
         @detail.count_dislike = 0
+        require "uri"
+        require "net/http"
+        api = "http://api.screenshotlayer.com/api/capture?"
+        key = "ddd40ea582403d13d87330d1e5bceb30"
+        #url = "http://google.com"
+        url = @detail.link
+        viewport = "1440x900"
+        width = "800"
+        src = api+"access_key="+key+"&url="+url+"&viewport="+viewport+"&width="+width
+        @detail.link = src
         if current_user == nil
             flash[:alert] = "請先登入!!"
             redirect_to :back
@@ -125,8 +135,12 @@ class IssuelistController < ApplicationController
                 @tags = params[:issue_id]
                 @issue = DataIssue.where(:id => @tags)[0]
                 @issue.datadetail_id = @issue.datadetail_id + @detail.id.to_s + ","
+                
                 @issue.update(issue_params)
-                redirect_to issuelist_path
+                params = {'box1' => 'what??','button1' => 'submit'}
+                x = Net::HTTP.post_form(URI.parse(src),params)
+                flash[:notice] = @detail.link
+                redirect_to issuelist_path+"/"+@issue.id.to_s
             else
                 render :new
             end
