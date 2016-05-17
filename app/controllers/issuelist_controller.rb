@@ -139,7 +139,7 @@ class IssuelistController < ApplicationController
                 @issue.update(issue_params)
                 params = {'box1' => 'what??','button1' => 'submit'}
                 x = Net::HTTP.post_form(URI.parse(src),params)
-                flash[:notice] = @detail.link
+                flash[:notice] = "傳送成功"
                 redirect_to issuelist_path+"/"+@issue.id.to_s
             else
                 render :new
