@@ -121,8 +121,8 @@ class IssuelistController < ApplicationController
         key = "ddd40ea582403d13d87330d1e5bceb30"
         #url = "http://google.com"
         url = @detail.link
-        viewport = "1440x900"
-        width = "800"
+        viewport = "1080x1920"
+        width = "1080"
         src = api+"access_key="+key+"&url="+url+"&viewport="+viewport+"&width="+width
         @detail.link = src
         if current_user == nil
