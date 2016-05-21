@@ -117,14 +117,20 @@ class IssuelistController < ApplicationController
         @detail.count_dislike = 0
         require "uri"
         require "net/http"
-        api = "http://api.screenshotlayer.com/api/capture?"
-        key = "ddd40ea582403d13d87330d1e5bceb30"
-        #url = "http://google.com"
+        require "open-uri"
+        
+        api = "http://api.page2images.com/directlink?"
         url = @detail.link
-        viewport = "1080x1920"
-        width = "1080"
-        src = api+"access_key="+key+"&url="+url+"&viewport="+viewport+"&width="+width
-        @detail.link = src
+        p2i_device = "6"
+        p2i_screen="1024x768"
+        p2i_size="1024x0"
+        p2i_fullpage="1"
+        p2i_key="8e549b1ac48187d3"
+        src = api+"p2i_url="+url+"&p2i_device="+p2i_device+"&p2i_screen="+p2i_screen+"&p2i_size="+p2i_size+"&p2i_fullpage="+p2i_fullpage+"&p2i_key="+p2i_key;
+        open('pageBackUp/'+@detail.issue_id.to_s+@detail.id.to_s+'.png','wb')do |file|
+            file << open(src).read
+        end
+        @detail.link = @detail.issue_id.to_s+@detail.id.to_s
         if current_user == nil
             flash[:alert] = "請先登入!!"
             redirect_to :back

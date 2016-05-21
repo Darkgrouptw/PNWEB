@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'pagebackup/index'
+
     devise_for :users        
     root  "main#index"
 
@@ -28,4 +30,7 @@ Rails.application.routes.draw do
     get     "/detaillist/:detail_id/new" => "detaillist#new",           :as => "new_detallist"
     post    "/detaillist/:detail_id"    =>  "detaillist#create",        :as => "create_detaillist"
     post    "/detaillist/:detail_id/thumb" => "detaillist#thumb",        :as => "thumb_detaillist"
+    
+    get     "/pagebackup/"              =>  "pagebackup#index"
+    get     "/pagebackup/:image_id"     =>  "pagebackup#index"
 end
