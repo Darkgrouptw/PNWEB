@@ -11,6 +11,7 @@ class CreateDataDetails < ActiveRecord::Migration
       t.integer :people_id
       t.integer :issue_id
       t.string :comment_id
+      t.integer :backup_id
 
       t.timestamps null: false
     end
