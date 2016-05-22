@@ -33,7 +33,7 @@
             編者
           </td>
           <td class = "col-md-1"><font color="white">
-            原始資料
+            參考資料
           </td>
           <td class = "col-md-1">
             👍 與👎
@@ -74,9 +74,14 @@
               </a>
             </td>
             <td>
-              <% link = "/pagebackup/"+@me.link+".png" %>
+              <% link = @me.link %>
                 <a href = <%= link %> >
-                  參考資料
+                  原始網頁
+                </a>
+                <br>
+              <% link = "/pagebackup/"+@me.backup_id.to_s+".png" %>
+                <a href = <%= link %> >
+                  備份圖片
                 </a>
             </td>
             <td>
