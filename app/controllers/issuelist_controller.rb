@@ -127,7 +127,7 @@ class IssuelistController < ApplicationController
         p2i_fullpage="1"
         p2i_key="8e549b1ac48187d3"
         src = api+"p2i_url="+url+"&p2i_device="+p2i_device+"&p2i_screen="+p2i_screen+"&p2i_size="+p2i_size+"&p2i_fullpage="+p2i_fullpage+"&p2i_key="+p2i_key;
-        open('pageBackUp/'+@detail.issue_id.to_s+@detail.id.to_s+'.png','wb')do |file|
+        open('public/pageBackUp/'+@detail.issue_id.to_s+@detail.id.to_s+'.png','wb')do |file|
             file << open(src).read
         end
         @detail.link = @detail.issue_id.to_s+@detail.id.to_s

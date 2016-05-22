@@ -31,6 +31,4 @@ Rails.application.routes.draw do
     post    "/detaillist/:detail_id"    =>  "detaillist#create",        :as => "create_detaillist"
     post    "/detaillist/:detail_id/thumb" => "detaillist#thumb",        :as => "thumb_detaillist"
     
-    get     "/pagebackup/"              =>  "pagebackup#index"
-    get     "/pagebackup/:image_id"     =>  "pagebackup#index"
 end
