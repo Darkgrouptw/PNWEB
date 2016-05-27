@@ -17,7 +17,7 @@ class Dataitems::DataDetailsController < ApplicationController
 	end
 
 	def destroy
-		@item = DataDetails.find(params[:id])
+		@item = DataDetail.find(params[:id])
 		@item.destroy
         redirect_to dataitems_data_details_path, notice: "刪除成功"
 	end
