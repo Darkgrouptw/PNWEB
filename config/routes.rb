@@ -8,7 +8,7 @@ Rails.application.routes.draw do
         resources :data_issues
         resources :data_people
         resources :data_details
-        resources :data_comment
+        #resources :data_comment
     end
 
     get "/peoplelist"	=>	"peoplelist#index"
