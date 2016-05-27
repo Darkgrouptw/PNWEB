@@ -118,18 +118,27 @@ class IssuelistController < ApplicationController
         require "uri"
         require "net/http"
         require "open-uri"
-        
+        require 'json'
         api = "http://api.page2images.com/directlink?"
+        rest_api = "http://api.page2images.com/restfullink"
         url = @detail.link
         p2i_device = "6"
         p2i_screen="1024x768"
         p2i_size="1024x0"
         p2i_fullpage="1"
         p2i_key="8e549b1ac48187d3"
+        rest_key="42b2fe10a13f636c"
+        p2i_wait="0"
         src = api+"p2i_url="+url+"&p2i_device="+p2i_device+"&p2i_screen="+p2i_screen+"&p2i_size="+p2i_size+"&p2i_fullpage="+p2i_fullpage+"&p2i_key="+p2i_key;
-        open('public/pageBackUp/'+@detail.issue_id.to_s+@detail.id.to_s+'.png','wb')do |file|
-            file << open(src).read
-        end
+        parameters = {
+            "p2i_url" => url,
+            "p2i_key" => rest_key,
+            "p2i_device" => p2i_device,
+            "p2i_size" => p2i_size,
+            "p2i_screen" => p2i_screen,
+            "p2i_fullpage" => p2i_fullpage,
+            "p2i_wait" => p2i_wait
+        }
         @detail.backup_id = @detail.issue_id.to_s+@detail.id.to_s
         if current_user == nil
             flash[:alert] = "請先登入!!"
@@ -138,14 +147,37 @@ class IssuelistController < ApplicationController
             @detail.post_id = current_user.id
                 @detail.comment_id = ""
             if @detail.save
+
+                prossing = true
+                maxWatingTime = 60
+                start_time = Time.new
+                while(prossing && (Time.new - start_time) < maxWatingTime)
+                    resp = Net::HTTP.post_form URI(rest_api),parameters
+                    resp_text = resp.body
+                    result = JSON.parse(resp.body)
+                    puts "000000000000000000"
+                    puts resp.body
+                    puts "000000000000000000"
+                    if result["status"] == "finished"
+                        open('public/pageBackUp/'+@detail.issue_id.to_s+@detail.id.to_s+'.png','wb')do |file|
+                            file << open(result["image_url"]).read
+                        end
+                        prossing = false
+                    elsif result["status"] == "processing"
+                        sleep(5);
+                    end
+                end
+
                 @tags = params[:issue_id]
                 @issue = DataIssue.where(:id => @tags)[0]
                 @issue.datadetail_id = @issue.datadetail_id + @detail.id.to_s + ","
-                
                 @issue.update(issue_params)
-                params = {'box1' => 'what??','button1' => 'submit'}
-                x = Net::HTTP.post_form(URI.parse(src),params)
-                flash[:notice] = "傳送成功"
+                if(prossing)
+                    flash[:alert] = "圖片備份失敗"
+                else
+                    flash[:notice] = "傳送成功"
+                end
+                
                 redirect_to issuelist_path+"/"+@issue.id.to_s
             else
                 render :new
