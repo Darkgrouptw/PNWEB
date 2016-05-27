@@ -26,13 +26,14 @@
                                 <% if item.backup_id == 0 %>
                                     圖片正在存入當中，或沒有接收到
                                 <% else %>
-                                    <%= image_tag "/pagebackup/" + item.backup_id +  ".png", width: "200" %>
+                                    <%= image_tag "/pageBackUp/" + item.backup_id.to_s +  ".png", width: "200" %>
                                 <% end %>
                             </td>
                             <td><%= item.count %></td>
-                            <td><%= item.count_link %></td>
+                            <td><%= item.count_like %></td>
                             <td><%= item.count_dislike %></td>
-                            <td><%= item.description %></td>
+                            <td><%= item.post_id %></td>
+                            <td><%= item.people_id %></td>
                             <td>
 				        		<%= link_to "刪除", dataitems_data_person_path(item), class: "btn btn-sm btn-default", 
 		                             method: :delete, data: { confirm: "確定刪除嗎?" } %>
