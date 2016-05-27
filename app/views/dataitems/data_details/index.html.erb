@@ -35,7 +35,7 @@
                             <td><%= item.post_id %></td>
                             <td><%= item.people_id %></td>
                             <td>
-				        		<%= link_to "刪除", dataitems_data_person_path(item), class: "btn btn-sm btn-default", 
+                                <%= link_to "刪除", dataitems_data_details_path(item), class: "btn btn-sm btn-default", 
 		                             method: :delete, data: { confirm: "確定刪除嗎?" } %>
 				        	</td>
 				        </tr>
