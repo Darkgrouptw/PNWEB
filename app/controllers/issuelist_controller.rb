@@ -115,12 +115,14 @@ class IssuelistController < ApplicationController
         @detail.count = 0
         @detail.count_like = 0
         @detail.count_dislike = 0
+        @detail.backup_id = @detail.issue_id.to_s+@detail.id.to_s
         require "uri"
         require "net/http"
         require "open-uri"
         require 'json'
         api = "http://api.page2images.com/directlink?"
         rest_api = "http://api.page2images.com/restfullink"
+        p2i_callback = "https://npweb.herokuapp.com/issuelist/p2i_callback/"+@detail.backup_id.to_s
         url = @detail.link
         p2i_device = "6"
         p2i_screen="1024x768"
@@ -130,6 +132,7 @@ class IssuelistController < ApplicationController
         rest_key="42b2fe10a13f636c"
         p2i_wait="0"
         src = api+"p2i_url="+url+"&p2i_device="+p2i_device+"&p2i_screen="+p2i_screen+"&p2i_size="+p2i_size+"&p2i_fullpage="+p2i_fullpage+"&p2i_key="+p2i_key;
+        call_back_src = rest_api+"?"+"p2i_url="+url+"&p2i_device="+p2i_device+"&p2i_screen="+p2i_screen+"&p2i_size="+p2i_size+"&p2i_fullpage="+p2i_fullpage+"&p2i_key="+p2i_key+"&p2i_callback"+p2i_callback;
         parameters = {
             "p2i_url" => url,
             "p2i_key" => rest_key,
@@ -139,7 +142,8 @@ class IssuelistController < ApplicationController
             "p2i_fullpage" => p2i_fullpage,
             "p2i_wait" => p2i_wait
         }
-        @detail.backup_id = @detail.issue_id.to_s+@detail.id.to_s
+        call_back_mode = true
+        
         if current_user == nil
             flash[:alert] = "請先登入!!"
             redirect_to :back
@@ -147,26 +151,31 @@ class IssuelistController < ApplicationController
             @detail.post_id = current_user.id
                 @detail.comment_id = ""
             if @detail.save
-
                 prossing = true
                 maxWatingTime = 60
                 start_time = Time.new
-                while(prossing && (Time.new - start_time) < maxWatingTime)
-                    resp = Net::HTTP.post_form URI(rest_api),parameters
-                    resp_text = resp.body
-                    result = JSON.parse(resp.body)
-                    puts "000000000000000000"
-                    puts resp.body
-                    puts "000000000000000000"
-                    if result["status"] == "finished"
-                        open('public/pageBackUp/'+@detail.issue_id.to_s+@detail.id.to_s+'.png','wb')do |file|
-                            file << open(result["image_url"]).read
+                if(call_back_mode)
+                    resp = Net::HTTP.post_form URI(call_back_src)
+                else
+                    while(prossing && (Time.new - start_time) < maxWatingTime)
+                        resp = Net::HTTP.post_form URI(rest_api),parameters
+                        resp_text = resp.body
+                        result = JSON.parse(resp.body)
+                        puts "000000000000000000"
+                        puts resp.body
+                        puts "000000000000000000"
+                        if result["status"] == "finished"
+                            open('public/pageBackUp/'+@detail.issue_id.to_s+@detail.id.to_s+'.png','wb')do |file|
+                                file << open(result["image_url"]).read
+                            end
+                            prossing = false
+                        elsif result["status"] == "processing"
+                            sleep(5);
                         end
-                        prossing = false
-                    elsif result["status"] == "processing"
-                        sleep(5);
                     end
                 end
+                
+                
 
                 @tags = params[:issue_id]
                 @issue = DataIssue.where(:id => @tags)[0]
@@ -185,6 +194,19 @@ class IssuelistController < ApplicationController
         end
     end
     
+    def backup
+        require 'json'
+        @tags = params[:token]
+        result = JSON.parse(params[:1])
+        puts "000000000000000000"
+        puts params[:1]
+        puts "000000000000000000"
+        if result["status"] == "finished"
+            open('public/pageBackUp/'+@tags+'.png','wb')do |file|
+                file << open(result["image_url"]).read
+            end
+        end
+    end
     
     private
     
