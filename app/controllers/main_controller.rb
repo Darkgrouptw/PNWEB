@@ -1,5 +1,10 @@
 class MainController < ApplicationController
 	def index
+        
+        puts "------------------------------"
+        puts "Main"
+        puts "------------------------------"
+        
 		@issues=DataIssue.where(trunk_id: -1).order(:created_at).reverse.first(10)
         @details=DataDetail.order(:count).reverse.first(10)
         person = []
