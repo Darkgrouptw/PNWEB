@@ -145,7 +145,7 @@ class IssuelistController < ApplicationController
         puts "-------------------------------"
         puts "Src Start"
         puts "-------------------------------"
-        src = api+"p2i_url="+url+"&p2i_device="+p2i_device+"&p2i_screen="+p2i_screen+"&p2i_size="+p2i_size+"&p2i_fullpage="+p2i_fullpage+"&p2i_key="+p2i_key;
+        src = api+"p2i_url="+url+"&p2i_device="+p2i_device+"&p2i_screen="+p2i_screen+"&p2i_size="+p2i_size+"&p2i_fullpage="+p2i_fullpage+"&p2i_key="+p2i_key
         call_back_src = rest_api+"?"+"p2i_url="+url+"&p2i_device="+p2i_device+"&p2i_screen="+p2i_screen+"&p2i_size="+p2i_size+"&p2i_fullpage="+p2i_fullpage+"&p2i_key="+rest_key+"&p2i_callback"+p2i_callback
                 
         puts "-------------------------------"
@@ -176,13 +176,13 @@ class IssuelistController < ApplicationController
                     puts "-------------------------------"
                     puts "HTTP POST "
                     puts "-------------------------------"
-                    resp = Net::HTTP.post_form URI(call_back_src)
+                    resp = Net::HTTP.get_response(call_back_src)
                     puts "-------------------------------"
                     puts resp.body
                     puts "-------------------------------"
                 else
                     while(prossing && (Time.new - start_time) < maxWatingTime)
-                        resp = Net::HTTP.post_form URI(rest_api),parameters
+                        resp = Net::HTTP.post_form(URI(rest_api), parameters)
                         resp_text = resp.body
                         result = JSON.parse(resp.body)
                         puts "000000000000000000"
