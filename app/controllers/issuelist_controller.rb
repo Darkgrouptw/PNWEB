@@ -110,16 +110,26 @@ class IssuelistController < ApplicationController
     end
     
     def create
+        puts "-------------------------------"
+        puts "Create DataDetail"
+        puts "-------------------------------"
         @detail = DataDetail.create(detail_params)
         @detail.issue_id = params[:issue_id]
         @detail.count = 0
         @detail.count_like = 0
         @detail.count_dislike = 0
         @detail.backup_id = @detail.issue_id.to_s+@detail.id.to_s
+        puts "-------------------------------"
+        puts "Require Start"
+        puts "-------------------------------"
         require "uri"
         require "net/http"
         require "open-uri"
         require 'json'
+        
+        puts "-------------------------------"
+        puts "Require End"
+        puts "-------------------------------"
         api = "http://api.page2images.com/directlink?"
         rest_api = "http://api.page2images.com/restfullink"
         p2i_callback = "https://npweb.herokuapp.com/issuelist/p2i_callback/"+@detail.backup_id.to_s
