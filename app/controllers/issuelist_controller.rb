@@ -132,7 +132,7 @@ class IssuelistController < ApplicationController
         puts "-------------------------------"
         api = "http://api.page2images.com/directlink?"
         rest_api = "http://api.page2images.com/restfullink"
-        p2i_callback = "https://npweb.herokuapp.com/issuelist/p2i_callback/"+@detail.backup_id.to_s
+        p2i_callback = "https://npweb.herokuapp.com/p2i_callback/"+@detail.backup_id.to_s
         url = @detail.link
         p2i_device = "6"
         p2i_screen="1024x768"
