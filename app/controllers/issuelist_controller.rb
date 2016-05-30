@@ -162,6 +162,11 @@ class IssuelistController < ApplicationController
         }
         call_back_mode = true
         
+        
+        puts "-------------------------------"
+        puts call_back_src
+        puts "-------------------------------"
+        
         if current_user == nil
             flash[:alert] = "請先登入!!"
             redirect_to :back
@@ -198,9 +203,6 @@ class IssuelistController < ApplicationController
                         end
                     end
                 end
-                puts "-------------------------------"
-                puts call_back_src
-                puts "-------------------------------"
                 
 
                 @tags = params[:issue_id]
