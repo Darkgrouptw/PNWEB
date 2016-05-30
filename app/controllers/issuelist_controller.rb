@@ -198,7 +198,9 @@ class IssuelistController < ApplicationController
                         end
                     end
                 end
-                
+                puts "-------------------------------"
+                puts p2i_callback
+                puts "-------------------------------"
                 
 
                 @tags = params[:issue_id]
