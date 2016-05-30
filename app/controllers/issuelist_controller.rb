@@ -198,9 +198,9 @@ class IssuelistController < ApplicationController
         require 'json'
         @tags = params[:token]
         #result = JSON.parse(params[:1])
-        #puts "000000000000000000"
-        #puts params[:1]
-        #puts "000000000000000000"
+        puts "000000000000000000"
+        puts @tags
+        puts "000000000000000000"
         #if result["status"] == "finished"
         #    open('public/pageBackUp/'+@tags+'.png','wb')do |file|
         #        file << open(result["image_url"]).read
