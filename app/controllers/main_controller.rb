@@ -1,6 +1,5 @@
 class MainController < ApplicationController
 	def index
-        
         puts "------------------------------"
         puts "Main"
         puts "------------------------------"

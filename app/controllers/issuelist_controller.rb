@@ -174,9 +174,9 @@ class IssuelistController < ApplicationController
                 start_time = Time.new
                 if(call_back_mode)
                     puts "-------------------------------"
-                    puts "HTTP POST "
+                    puts "HTTP POST"
                     puts "-------------------------------"
-                    resp = Net::HTTP.get_response(call_back_src)
+                    resp = Net::HTTP.get_response(URI(call_back_src))
                     puts "-------------------------------"
                     puts resp.body
                     puts "-------------------------------"
@@ -203,7 +203,7 @@ class IssuelistController < ApplicationController
 
                 @tags = params[:issue_id]
                 @issue = DataIssue.where(:id => @tags)[0]
-                @issue.datadetail_id = @issue.datadetail_id + @detail.id.to_s + ","
+                @issue.datadetail_id = @issue.datadetail_id + "_" + @detail.id.to_s + ","
                 @issue.update(issue_params)
                 if(prossing)
                     flash[:alert] = "圖片備份失敗"
