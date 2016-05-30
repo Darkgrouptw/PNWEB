@@ -199,7 +199,7 @@ class IssuelistController < ApplicationController
                     end
                 end
                 puts "-------------------------------"
-                puts p2i_callback
+                puts call_back_src
                 puts "-------------------------------"
                 
 

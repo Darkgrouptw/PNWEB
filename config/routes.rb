@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     get     "/issuelist/:issue_id"      =>	"issuelist#index"
     get     "/issuelist/:issue_id/new"  =>  "issuelist#new",            :as => "new_issuelist"
     post    "/issuelist/:issue_id"      =>  "issuelist#create",         :as => "create_issuelist"
-    get     "/p2i_callback/:token"      =>  "issuelist#backup"
+    post    "/p2i_callback/:token"      =>  "issuelist#backup"
     
     
     get     "/issuelist/:issue_id/positive" => "issuelist#pos",         :as => "p_issuelist"
