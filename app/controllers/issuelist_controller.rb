@@ -156,6 +156,9 @@ class IssuelistController < ApplicationController
                 start_time = Time.new
                 if(call_back_mode)
                     resp = Net::HTTP.post_form URI(call_back_src)
+                    puts "-------------------------------"
+                    puts resp.body
+                    puts "-------------------------------"
                 else
                     while(prossing && (Time.new - start_time) < maxWatingTime)
                         resp = Net::HTTP.post_form URI(rest_api),parameters
