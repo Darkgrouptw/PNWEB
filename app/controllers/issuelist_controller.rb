@@ -153,7 +153,7 @@ class IssuelistController < ApplicationController
             "p2i_screen" => p2i_screen,
             "p2i_fullpage" => p2i_fullpage,
             "p2i_wait" => p2i_wait
-            }d
+            }
         
         if current_user == nil
             flash[:alert] = "請先登入!!"
