@@ -173,10 +173,10 @@ class IssuelistController < ApplicationController
             @detail.comment_id = ""
             if @detail.save
                 # 開一個 Thread 去取東西
+                prossing = true
                 Thread.new do
                     maxWatingTime = 60
-                    prossing = true
-                    start_time = Time.new
+                    start_time = Time.new 
                     
                     while(prossing && (Time.new - start_time) < maxWatingTime)
                         resp = Net::HTTP.post_form(URI(rest_api), parameters)
@@ -195,20 +195,18 @@ class IssuelistController < ApplicationController
                         end
                     end
                 end
-            end
                 
 
-            @tags = params[:issue_id]
-            @issue = DataIssue.where(:id => @tags)[0]
-            @issue.datadetail_id = @issue.datadetail_id + "_" + @detail.id.to_s + ","
-            @issue.update(issue_params)
-            if(prossing)
-                flash[:alert] = "圖片備份失敗"
-            else
-                flash[:notice] = "傳送成功"
-            end
-            
-            redirect_to issuelist_path+"/"+@issue.id.to_s
+                @tags = params[:issue_id]
+                @issue = DataIssue.where(:id => @tags)[0]
+                @issue.datadetail_id = @issue.datadetail_id + "_" + @detail.id.to_s + ","
+                @issue.update(issue_params)
+                if(prossing)
+                    flash[:alert] = "圖片正在備份中"
+                else
+                    flash[:notice] = "傳送成功"
+                end
+                redirect_to issuelist_path+"/"+@issue.id.to_s
             else
                 render :new
             end
