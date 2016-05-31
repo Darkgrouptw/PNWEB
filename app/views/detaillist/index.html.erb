@@ -43,10 +43,12 @@
       <tbody>
           <tr>
             <td>
-              <% link = "/peoplelist/"+ @person.name%>
-              <a href = <%= link %> >
-                <%= @person.name %>
-              </a>
+                <% if @person != nil %>
+                    <% link = "/peoplelist/"+ @person.name%>
+                    <a href = <%= link %> >
+                        <%= @person.name %>
+                    </a>
+                <% end %>
             </td>
             <td>
               <% link = "/issuelist/"+ @issue.id.to_s %>
@@ -81,12 +83,12 @@
                 <br>
                 <% #測試圖片存不存在 %>
                 <% link = "/pageBackUp/"+@me.backup_id.to_s+".png" %>
-                <% if File_exist?(link) %>
+                <% if File.exist?(link) %>
                     <a href = <%= link %> >
                       備份圖片
                     </a>
                 <% else %>
-                    圖片正在備份中，請稍候重新整理！！
+                    <br>圖片備份中!!<br>請稍後重新整理!!
                 <% end %>
             </td>
             <td>
