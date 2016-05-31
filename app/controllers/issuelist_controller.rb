@@ -186,7 +186,7 @@ class IssuelistController < ApplicationController
                         puts resp.body
                         puts "000000000000000000"
                         if result["status"] == "finished"
-                            open('public/pageBackUp/'+@detail.issue_id.to_s+@detail.id.to_s+'.png','wb')do |file|
+                            open('public/pageBackUp/'+@detail.issue_id.to_s + "_"+@detail.id.to_s+'.png','wb')do |file|
                                 file << open(result["image_url"]).read
                             end
                             prossing = false
