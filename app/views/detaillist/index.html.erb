@@ -83,8 +83,9 @@
                 <br>
                 <% #測試圖片存不存在 %>
                 <% link = "pageBackUp/"+@me.backup_id.to_s+".png" %>
-                <% puts "link => " + Rails.root.to_s %>
-                <% puts "123123" +  File.exist?(Rails.root + "public/" + link) %>
+                <% puts "link0 => " + Rails.root.to_s %>
+                <% puts "link1 => " + File.exist?(Rails.root + "../public/" + link).to_s %>
+                <% puts "link2 =>" + File.exist?(Rails.root + "public/" + link).to_s %>
                 <% if File.exist?(Rails.root + link) %>
                     <a href = <%= "/"+link %> >
                       備份圖片
