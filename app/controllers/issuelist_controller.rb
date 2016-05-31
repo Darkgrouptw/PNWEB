@@ -145,8 +145,8 @@ class IssuelistController < ApplicationController
         puts "-------------------------------"
         puts "Src Start"
         puts "-------------------------------"
-        src = api+"p2i_url="+url+"&p2i_device="+p2i_device+"&p2i_screen="+p2i_screen+"&p2i_size="+p2i_size+"&p2i_fullpage="+p2i_fullpage+"&p2i_key="+p2i_key
-        call_back_src = rest_api+"?"+"p2i_url="+url+"&p2i_device="+p2i_device+"&p2i_screen="+p2i_screen+"&p2i_size="+p2i_size+"&p2i_fullpage="+p2i_fullpage+"&p2i_key="+rest_key+"&p2i_callback="+p2i_callback
+        #src = api+"p2i_url="+url+"&p2i_device="+p2i_device+"&p2i_screen="+p2i_screen+"&p2i_size="+p2i_size+"&p2i_fullpage="+p2i_fullpage+"&p2i_key="+p2i_key
+        #call_back_src = rest_api+"?"+"p2i_url="+url+"&p2i_device="+p2i_device+"&p2i_screen="+p2i_screen+"&p2i_size="+p2i_size+"&p2i_fullpage="+p2i_fullpage+"&p2i_key="+rest_key+"&p2i_callback="+p2i_callback
                 
         puts "-------------------------------"
         puts "Parameters"
@@ -160,11 +160,9 @@ class IssuelistController < ApplicationController
             "p2i_fullpage" => p2i_fullpage,
             "p2i_wait" => p2i_wait
         }
-        call_back_mode = true
         
         
         puts "-------------------------------"
-        puts call_back_src
         puts "-------------------------------"
         
         if current_user == nil
@@ -172,20 +170,14 @@ class IssuelistController < ApplicationController
             redirect_to :back
         else
             @detail.post_id = current_user.id
-                @detail.comment_id = ""
+            @detail.comment_id = ""
             if @detail.save
-                prossing = true
-                maxWatingTime = 60
-                start_time = Time.new
-                if(call_back_mode)
-                    puts "-------------------------------"
-                    puts "HTTP POST"
-                    puts "-------------------------------"
-                    resp = Net::HTTP.get_response(URI(call_back_src))
-                    puts "-------------------------------"
-                    puts resp.body
-                    puts "-------------------------------"
-                else
+                # 開一個 Thread 去取東西
+                Thread.new do
+                    maxWatingTime = 60
+                    prossing = true
+                    start_time = Time.new
+                    
                     while(prossing && (Time.new - start_time) < maxWatingTime)
                         resp = Net::HTTP.post_form(URI(rest_api), parameters)
                         resp_text = resp.body
@@ -203,39 +195,26 @@ class IssuelistController < ApplicationController
                         end
                     end
                 end
+            end
                 
 
-                @tags = params[:issue_id]
-                @issue = DataIssue.where(:id => @tags)[0]
-                @issue.datadetail_id = @issue.datadetail_id + "_" + @detail.id.to_s + ","
-                @issue.update(issue_params)
-                if(prossing)
-                    flash[:alert] = "圖片備份失敗"
-                else
-                    flash[:notice] = "傳送成功"
-                end
-                
-                redirect_to issuelist_path+"/"+@issue.id.to_s
+            @tags = params[:issue_id]
+            @issue = DataIssue.where(:id => @tags)[0]
+            @issue.datadetail_id = @issue.datadetail_id + "_" + @detail.id.to_s + ","
+            @issue.update(issue_params)
+            if(prossing)
+                flash[:alert] = "圖片備份失敗"
+            else
+                flash[:notice] = "傳送成功"
+            end
+            
+            redirect_to issuelist_path+"/"+@issue.id.to_s
             else
                 render :new
             end
         end
     end
-    
-    def backup
-        require 'json'
-        @tags = params[:token]
-        #result = JSON.parse(params[:1])
-        puts "000000000000000000"
-        puts @tags
-        puts "000000000000000000"
-        #if result["status"] == "finished"
-        #    open('public/pageBackUp/'+@tags+'.png','wb')do |file|
-        #        file << open(result["image_url"]).read
-        #    end
-        #end
-    end
-    
+
     private
     
     def detail_params
