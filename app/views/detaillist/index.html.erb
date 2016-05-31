@@ -79,10 +79,15 @@
                   原始網頁
                 </a>
                 <br>
-              <% link = "/pageBackUp/"+@me.backup_id.to_s+".png" %>
-                <a href = <%= link %> >
-                  備份圖片
-                </a>
+                <% #測試圖片存不存在 %>
+                <% link = "/pageBackUp/"+@me.backup_id.to_s+".png" %>
+                <% if File_exist?(link) %>
+                    <a href = <%= link %> >
+                      備份圖片
+                    </a>
+                <% else %>
+                    圖片正在備份中，請稍候重新整理！！
+                <% end %>
             </td>
             <td>
               👍 
