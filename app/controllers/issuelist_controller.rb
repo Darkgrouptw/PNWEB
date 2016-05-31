@@ -143,12 +143,6 @@ class IssuelistController < ApplicationController
         p2i_wait="0"
         
         puts "-------------------------------"
-        puts "Src Start"
-        puts "-------------------------------"
-        #src = api+"p2i_url="+url+"&p2i_device="+p2i_device+"&p2i_screen="+p2i_screen+"&p2i_size="+p2i_size+"&p2i_fullpage="+p2i_fullpage+"&p2i_key="+p2i_key
-        #call_back_src = rest_api+"?"+"p2i_url="+url+"&p2i_device="+p2i_device+"&p2i_screen="+p2i_screen+"&p2i_size="+p2i_size+"&p2i_fullpage="+p2i_fullpage+"&p2i_key="+rest_key+"&p2i_callback="+p2i_callback
-                
-        puts "-------------------------------"
         puts "Parameters"
         puts "-------------------------------"
         parameters = {
@@ -159,11 +153,7 @@ class IssuelistController < ApplicationController
             "p2i_screen" => p2i_screen,
             "p2i_fullpage" => p2i_fullpage,
             "p2i_wait" => p2i_wait
-        }
-        
-        
-        puts "-------------------------------"
-        puts "-------------------------------"
+            }d
         
         if current_user == nil
             flash[:alert] = "請先登入!!"
