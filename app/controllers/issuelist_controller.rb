@@ -118,7 +118,7 @@ class IssuelistController < ApplicationController
         @detail.count = 0
         @detail.count_like = 0
         @detail.count_dislike = 0
-        @detail.backup_id = @detail.issue_id.to_s+@detail.id.to_s
+        @detail.backup_id = @detail.issue_id.to_s+"_"+@detail.id.to_s
         puts "-------------------------------"
         puts "Require Start"
         puts "-------------------------------"
@@ -186,9 +186,15 @@ class IssuelistController < ApplicationController
                         puts resp.body
                         puts "000000000000000000"
                         if result["status"] == "finished"
+                            puts "-------------------------------"
+                            puts "Save the File"
+                            puts "-------------------------------"
                             open('public/pageBackUp/'+@detail.issue_id.to_s + "_"+@detail.id.to_s+'.png','wb')do |file|
                                 file << open(result["image_url"]).read
                             end
+                            puts "-------------------------------"
+                            puts "Finish"
+                            puts "-------------------------------"
                             prossing = false
                         elsif result["status"] == "processing"
                             sleep(5);
@@ -199,7 +205,7 @@ class IssuelistController < ApplicationController
 
                 @tags = params[:issue_id]
                 @issue = DataIssue.where(:id => @tags)[0]
-                @issue.datadetail_id = @issue.datadetail_id + "_" + @detail.id.to_s + ","
+                @issue.datadetail_id = @issue.datadetail_id + @detail.id.to_s + ","
                 @issue.update(issue_params)
                 if(prossing)
                     flash[:alert] = "圖片正在備份中"
