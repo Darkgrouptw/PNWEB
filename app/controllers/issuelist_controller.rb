@@ -16,7 +16,7 @@ class IssuelistController < ApplicationController
                 @detail_disSupport = @details.where(is_support: false).order(:created_at).reverse
             else
                 @detail_supprot = @details.where(is_support: true).order(:count_like).reverse
-                @detail_disSupport = @details.where(is_support: false).order(:count_dislike).reverse
+                @detail_disSupport = @details.where(is_support: false).order(:count_like).reverse
             end
             
             i = 0
