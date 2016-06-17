@@ -54,7 +54,13 @@ class DetaillistController < ApplicationController
         else
             flash[:notice] = "失敗！！"
         end
-        redirect_to "/detaillist/"+params[:detail_id]
+        #http://localhost:3000/detaillist/19/thumb?from_issue=true&issue_id=1&negative_page=0&postive_page=1&thumb=1
+        if(params[:from_issue] != nil && params[:from_issue] == "true")
+        	#http://localhost:3000/issuelist/1/1/0
+        	redirect_to "/issuelist/" + params[:issue_id] + "/" + params[:postive_page] + "/" + params[:negative_page]
+        else
+        	redirect_to "/detaillist/"+params[:detail_id]
+    	end
         #"detaillist/" + params[:detail_id]
     end
 

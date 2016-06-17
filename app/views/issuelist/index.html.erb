@@ -86,7 +86,7 @@
                         當時頭銜
                     </td>
                     <td class = "col-md-1">
-                        間接意見
+                        直接意見
                     </td>
 					<td class = "col-md-1">
 						主要論述
@@ -135,10 +135,18 @@
                                 <% end %>
                             </td>
                             <td>
-                                頭銜
+                                <% if(detail.title_at_that_time != nil)%>
+                                    <%= detail.title_at_that_time %>
+                                <% else %>
+                                    無頭銜
+                                <% end %>
                             </td>
                             <td>
-                                是
+                                <% if(detail.is_direct)%>
+                                    是
+                                <% else %>
+                                    否
+                                <% end %>
                             </td>
 
                             <td>
@@ -151,22 +159,47 @@
                                 </a>
                             </td>
                             <td>
-                                媒體
+                                <% if(detail.news_media != nil)%>
+                                    <%= detail.news_media %>
+                                <% else %>
+                                    無
+                                <% end %>
                             </td>
                             <td>
-                                報導時間
+                                <% if(detail.reported_at != nil)%>
+                                    <%= detail.reported_at %>
+                                <% else %>
+                                    無
+                                <% end %>
                             </td>
                             <td>
-                                來源
+                                <% link = detail.link %>
+                                <a href = <%= link %> >
+                                來源網頁
+                                </a>
                             </td>
                             <td>
-                                備份
+                                <% #測試圖片存不存在 %>
+                                <% link = "pageBackUp/"+detail.backup_id.to_s+".png" %>
+                                <% puts Dir.entries(Rails.root + "public/pageBackUp/") %>
+                                <% if File.exist?(Rails.root + "public/" + link) %>
+                                    <a href = <%= "/"+link %> >
+                                      備份圖片
+                                    </a>
+                                <% else %>
+                                    <br>圖片備份中!!<br>請稍後重新整理!!
+                                <% end %>
                             </td>
                             <td>
                                 👍 
                                 <%= detail.count_like.to_s %>
                                 👎 
                                 <%= detail.count_dislike.to_s %>
+                                <br>
+                                <%= link_to "我要 👍", thumb_detaillist_path(detail_id: detail.id, :thumb => "1" ,from_issue: true ,issue_id: @tags,postive_page: @postive_page,negative_page: @negative_page), method: :post, class: "btn-default", style: "width:200px;"%>
+                                <br>
+                                <p class = "col-md-2"></p>
+                                  <%= link_to "我要 👎", thumb_detaillist_path(detail_id: detail.id, :thumb => "0" ,from_issue: true,issue_id: @tags ,postive_page: @postive_page,negative_page: @negative_page), method: :post, class: "btn-default", style: "width:200px;" %>
                             </td>
                             <td>
                                 <%= detail.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
@@ -243,7 +276,7 @@
                         當時頭銜
                     </td>
                     <td class = "col-md-1">
-                        間接意見
+                        直接意見
                     </td>
                     <td class = "col-md-1">
                         主要論述
@@ -292,10 +325,18 @@
                                 <% end %>
                             </td>
                             <td>
-                                頭銜
+                                <% if(detail.title_at_that_time != nil)%>
+                                    <%= detail.title_at_that_time %>
+                                <% else %>
+                                    無頭銜
+                                <% end %>
                             </td>
                             <td>
-                                是
+                                <% if(detail.is_direct)%>
+                                    是
+                                <% else %>
+                                    否
+                                <% end %>
                             </td>
 
                             <td>
@@ -308,22 +349,47 @@
                                 </a>
                             </td>
                             <td>
-                                媒體
+                                <% if(detail.news_media != nil)%>
+                                    <%= detail.news_media %>
+                                <% else %>
+                                    無
+                                <% end %>
                             </td>
                             <td>
-                                報導時間
+                                <% if(detail.reported_at != nil)%>
+                                    <%= detail.reported_at %>
+                                <% else %>
+                                    無
+                                <% end %>
                             </td>
                             <td>
-                                來源
+                                <% link = detail.link %>
+                                <a href = <%= link %> >
+                                來源網頁
+                                </a>
                             </td>
                             <td>
-                                備份
+                                <% #測試圖片存不存在 %>
+                                <% link = "pageBackUp/"+detail.backup_id.to_s+".png" %>
+                                <% puts Dir.entries(Rails.root + "public/pageBackUp/") %>
+                                <% if File.exist?(Rails.root + "public/" + link) %>
+                                    <a href = <%= "/"+link %> >
+                                      備份圖片
+                                    </a>
+                                <% else %>
+                                    <br>圖片備份中!!<br>請稍後重新整理!!
+                                <% end %>
                             </td>
                             <td>
                                 👍 
                                 <%= detail.count_like.to_s %>
                                 👎 
                                 <%= detail.count_dislike.to_s %>
+                                <br>
+                                <%= link_to "我要 👍", thumb_detaillist_path(detail_id: detail.id, :thumb => "1" ,from_issue: true ,issue_id: @tags,postive_page: @postive_page,negative_page: @negative_page), method: :post, class: "btn-default", style: "width:200px;"%>
+                                <br>
+                                <p class = "col-md-2"></p>
+                                  <%= link_to "我要 👎", thumb_detaillist_path(detail_id: detail.id, :thumb => "0" ,from_issue: true,issue_id: @tags ,postive_page: @postive_page,negative_page: @negative_page), method: :post, class: "btn-default", style: "width:200px;" %>
                             </td>
                             <td>
                                 <%= detail.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
