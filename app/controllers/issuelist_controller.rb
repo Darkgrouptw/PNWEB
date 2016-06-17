@@ -247,7 +247,7 @@ class IssuelistController < ApplicationController
     private
     
     def detail_params
-        params.require(:data_detail).permit(:is_support, :content, :link, :count, :count_like, :count_dislike, :post_id, :people_id, :issue_id, :comment_id, :comment_id, :issue_id)
+        params.require(:data_detail).permit(:is_support, :content, :link, :count, :count_like, :count_dislike, :post_id, :people_id, :issue_id, :comment_id, :comment_id, :issue_id,:is_direct,:title_at_that_time,:reported_at,:news_media)
     end
     
     def issue_params
