@@ -4,6 +4,9 @@ class IssuelistController < ApplicationController
 		@issues=DataIssue.all.order(:created_at)
 		@all_issue = true
 		if @issues.where(id: @tags).length >= 1
+
+
+            
 			@me = @issues.where(id: @tags)[0]
 			@strings = @me.datadetail_id.split(/,/)
 			@details = DataDetail.where(id: @strings)
@@ -19,15 +22,47 @@ class IssuelistController < ApplicationController
                 @detail_disSupport = @details.where(is_support: false).order(:count_like).reverse
             end
             
-            i = 0
-            @details.each do |detail|
-                user.push([detail.post_id])
-                person.push([detail.people_id])
-                i = i + 1
-                if i == 5
-                    break
+            @numberPerPage = 5
+            @PageExtend = 2
+            @postive_page = "0"
+            @negative_page = "0"
+            if(params[:positive_page] != nil)
+                @postive_page = params[:positive_page] 
+            end
+            if(params[:negative_page] != nil)
+                @negative_page = params[:negative_page]
+            end
+            @PositiveHasNextPage = true
+            @PositiveHasLastPage = false
+            @NegativeHasNextPage = true
+            @NegativeHasLastPage = false
+            if(@postive_page.to_i > 0)
+                @PositiveHasLastPage = true
+            end
+            if(@negative_page.to_i > 0)
+                @NegativeHasLastPage = true
+            end
+            if( (@negative_page.to_i + 1 ) * @numberPerPage > @detail_disSupport.length)
+                @NegativeHasNextPage = false
+            end
+            if( (@postive_page.to_i + 1 ) * @numberPerPage > @detail_supprot.length)
+                @PositiveHasNextPage = false
+            end
+
+            for i in 0..@numberPerPage-1
+                index = @numberPerPage * @postive_page.to_i + i
+                if(@detail_supprot.length > index)
+                    user.push(@detail_supprot[index].post_id)
+                    person.push(@detail_supprot[index].people_id)
+                end
+                index = @numberPerPage * @negative_page.to_i + i
+                if(@detail_disSupport.length > index)
+                    user.push(@detail_disSupport[index].post_id)
+                    person.push(@detail_disSupport[index].people_id)
                 end
             end
+
+
 			@users=User.where(id: user)
             @persons=DataPerson.where(id: person)
 			@all_issue = false

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     
     get     "/issuelist/"               =>	"issuelist#index"
     get     "/issuelist/:issue_id"      =>	"issuelist#index"
+    get     "/issuelist/:issue_id/:positive_page/:negative_page" =>  "issuelist#index"
     get     "/issuelist/:issue_id/new"  =>  "issuelist#new",            :as => "new_issuelist"
     post    "/issuelist/:issue_id"      =>  "issuelist#create",         :as => "create_issuelist"
     

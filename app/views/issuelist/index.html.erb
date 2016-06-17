@@ -74,7 +74,7 @@
 		<table class = "table table-bordered">
 			<thead>
 				<tr align = "center">
-					<td class = "col-md-8" colspan = "6">
+					<td class = "col-md-8" colspan = "12">
 						正方
 					</td>
 				</tr>
@@ -82,12 +82,30 @@
 					<td class = "col-md-1">
 						姓名
 					</td>
-					<td class = "col-md-3">
+                    <td class = "col-md-1">
+                        當時頭銜
+                    </td>
+                    <td class = "col-md-1">
+                        間接意見
+                    </td>
+					<td class = "col-md-1">
 						主要論述
 					</td>
-					<td class = "col-md-1">
-						原始文章
-					</td>
+                    <td class = "col-md-1">
+                        論述內容
+                    </td>
+                    <td class = "col-md-1">
+                        發表媒體
+                    </td>
+                    <td class = "col-md-1">
+                        發表時間
+                    </td>
+                    <td class = "col-md-1">
+                        文章來源
+                    </td>
+                    <td class = "col-md-1">
+                        備份資料
+                    </td>
 					<td class = "col-md-1">
 						👍 與👎
                         <%= link_to "(排序)", "/issuelist/" + params[:issue_id] %>
@@ -102,12 +120,12 @@
 				</tr>
 			</thead>
 			<tbody>
-                <% # 確定小於五個的時候，才顯示，點擊看更多 %>
-                <% i = 0 %>
-                <% @detail_supprot.each do |detail| %>
-                    <% if detail.issue_id == @me.id %>
-                        <% i = i + 1 %>
+                <% for i in 0..@numberPerPage-1 %>
+                    <% index = @numberPerPage * @postive_page.to_i + i %>
+                    <% if(@detail_supprot.length > index) %>
+                        <% detail = @detail_supprot[index] %>
                         <tr style="text-align:center">
+
                             <td>
                                 <% @persons.where(id: detail.people_id).each do |person| %>
                                     <% link = "/peoplelist/"+person.name %>
@@ -117,6 +135,13 @@
                                 <% end %>
                             </td>
                             <td>
+                                頭銜
+                            </td>
+                            <td>
+                                是
+                            </td>
+
+                            <td>
                                 <%= detail.content %>
                             </td>
                             <td>
@@ -124,6 +149,18 @@
                                 <a href = <%= link %>>
                                     點我看更多
                                 </a>
+                            </td>
+                            <td>
+                                媒體
+                            </td>
+                            <td>
+                                報導時間
+                            </td>
+                            <td>
+                                來源
+                            </td>
+                            <td>
+                                備份
                             </td>
                             <td>
                                 👍 
@@ -144,27 +181,49 @@
                             </td>
                         </tr>
                     <% end %>
-                    <% if i == 5 %>
-                        <% # 為了要讓中間的東西不見 %>
-                        <tr style="text-align:center;">
-                            <td colspan="6">
-                                <table border="0" style="width:100%;">
-                                    <tr>
-                                        <td colspan="6">
-                                            ⋮
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6">
-                                            <%= link_to "點擊觀看更多", p_issuelist_path %>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <% break %>
-                    <% end %>
                 <% end %>
+                <tr style="text-align:center;">
+                    <td colspan="12">
+                        <table border="0" style="width:100%;">
+                            <tr>
+                                <td colspan="12" style="text-align:right;">
+                                    <% if(@PositiveHasLastPage) %>
+                                        <%= link_to "上一頁", "/issuelist/" + @tags + "/" + ( @postive_page.to_i - 1 ).to_s + "/" + @negative_page %>
+                                    <% end %>
+                                    <%= " " %>
+                                    <% if(@postive_page.to_i - @PageExtend > 0) %>
+                                        <%= link_to "1", "/issuelist/" + @tags + "/" + "0" + "/" + @negative_page %>
+                                        <% if(@postive_page.to_i - @PageExtend > 1) %>
+                                            <%= "。。。" %>
+                                        <% end %>
+                                    <% end %>
+                                    <% lastPage = ( @detail_supprot.length / @numberPerPage )%>
+                                    <% for j in 1..@PageExtend %>
+                                        <% i = @PageExtend - j + 1 %>
+                                        <% if(@postive_page.to_i - i > -1) %>
+                                            <%= link_to ( @postive_page.to_i - i + 1).to_s, "/issuelist/" + @tags + "/" + ( @postive_page.to_i - i ).to_s + "/" + @negative_page %>
+                                        <% end %>
+                                    <% end %>
+                                    <%= ( @postive_page.to_i + 1 ).to_s %>
+                                    <% for i in 1..@PageExtend %>
+                                        <% if(@postive_page.to_i + i < lastPage + 1) %>
+                                            <%= link_to ( @postive_page.to_i + i + 1).to_s, "/issuelist/" + @tags + "/" + ( @postive_page.to_i + i ).to_s + "/" + @negative_page %>
+                                        <% end %>
+                                    <% end %>
+                                    <% if(@postive_page.to_i + @PageExtend < lastPage ) %>
+                                        <% if(@postive_page.to_i + @PageExtend < lastPage - 1) %>
+                                            <%= "。。。" %>
+                                        <% end %>
+                                        <%= link_to (lastPage + 1).to_s, "/issuelist/" + @tags + "/" + lastPage.to_s + "/" + @negative_page %>
+                                    <% end %>
+                                    <% if(@PositiveHasNextPage) %>
+                                        <%= link_to "下一頁", "/issuelist/" + @tags + "/" + ( @postive_page.to_i + 1 ).to_s + "/" + @negative_page %>
+                                    <% end %>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
 			</tbody>
 		</table>
         
@@ -172,20 +231,38 @@
 		<table class = "table table-bordered">
 			<thead>
 				<tr style="text-align:center">
-					<td class = "col-md-8" colspan = "6">
+					<td class = "col-md-8" colspan = "12">
 						反方
 					</td>
 				</tr>
 				<tr align = "center">
 					<td class = "col-md-1">
-						姓名
-					</td>
-					<td class = "col-md-3">
-						主要論述
-					</td>
-					<td class = "col-md-1">
-						原始文章
-					</td>
+                        姓名
+                    </td>
+                    <td class = "col-md-1">
+                        當時頭銜
+                    </td>
+                    <td class = "col-md-1">
+                        間接意見
+                    </td>
+                    <td class = "col-md-1">
+                        主要論述
+                    </td>
+                    <td class = "col-md-1">
+                        論述內容
+                    </td>
+                    <td class = "col-md-1">
+                        發表媒體
+                    </td>
+                    <td class = "col-md-1">
+                        發表時間
+                    </td>
+                    <td class = "col-md-1">
+                        文章來源
+                    </td>
+                    <td class = "col-md-1">
+                        備份資料
+                    </td>
 					<td class = "col-md-1">
 						👍 與👎
                         <%= link_to "(排序)", "/issuelist/" + params[:issue_id] %>
@@ -200,20 +277,27 @@
 				</tr>
 			</thead>
 			<tbody>
-                <% # 確定小於五個的時候，才顯示，點擊看更多 %>
-                <% i = 0 %>
-				<% @detail_disSupport.each do |detail| %>
-                    <% if detail.issue_id == @me.id %>
-                        <% i = i + 1 %>
+                <% for i in 0..@numberPerPage-1 %>
+                    <% index = @numberPerPage * @negative_page.to_i + i %>
+                    <% if(@detail_disSupport.length > index) %>
+                        <% detail = @detail_disSupport[index] %>
                         <tr style="text-align:center">
+
                             <td>
                                 <% @persons.where(id: detail.people_id).each do |person| %>
-                                <% link = "/peoplelist/"+person.name %>
-                                <a href = <%= link %>>
-                                    <%= person.name %>
-                                </a>
+                                    <% link = "/peoplelist/"+person.name %>
+                                    <a href = <%= link %>>
+                                        <%= person.name %>
+                                    </a>
                                 <% end %>
                             </td>
+                            <td>
+                                頭銜
+                            </td>
+                            <td>
+                                是
+                            </td>
+
                             <td>
                                 <%= detail.content %>
                             </td>
@@ -222,6 +306,18 @@
                                 <a href = <%= link %>>
                                     點我看更多
                                 </a>
+                            </td>
+                            <td>
+                                媒體
+                            </td>
+                            <td>
+                                報導時間
+                            </td>
+                            <td>
+                                來源
+                            </td>
+                            <td>
+                                備份
                             </td>
                             <td>
                                 👍 
@@ -242,29 +338,50 @@
                             </td>
                         </tr>
                     <% end %>
-                    <% if i == 5 %>
-                        <% # 為了要讓中間的東西不見 %>
-                        <tr style="text-align:center;">
-                            <td colspan="6">
-                                <table border="0" style="width:100%;">
-                                    <tr>
-                                        <td colspan="6">
-                                            ⋮
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="6">
-                                            <%= link_to "點擊觀看更多", n_issuelist_path %>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    <% break %>
-                    <% end %>
-				<% end %>
-                
-			</tbody>
+                <% end %>
+                <tr style="text-align:center;">
+                    <td colspan="12">
+                        <table border="0" style="width:100%;">
+                            <tr>
+                                <td colspan="12" style="text-align:right;">
+                                    <% if(@NegativeHasLastPage) %>
+                                        <%= link_to "上一頁", "/issuelist/" + @tags + "/" + @postive_page + "/" + ( @negative_page.to_i - 1 ).to_s %>
+                                    <% end %>
+                                    <%= " " %>
+                                    <% if(@negative_page.to_i - @PageExtend > 0) %>
+                                        <%= link_to "1", "/issuelist/" + @tags + "/" + @postive_page + "/" + "0" %>
+                                        <% if(@negative_page.to_i - @PageExtend > 1) %>
+                                            <%= "。。。" %>
+                                        <% end %>
+                                    <% end %>
+                                    <% lastPage = ( @detail_disSupport.length / @numberPerPage )%>
+                                    <% for j in 1..@PageExtend %>
+                                        <% i = @PageExtend - j + 1 %>
+                                        <% if(@negative_page.to_i - i > -1) %>
+                                            <%= link_to ( @negative_page.to_i - i + 1).to_s, "/issuelist/" + @tags + "/" + @postive_page + "/" + ( @negative_page.to_i - i ).to_s %>
+                                        <% end %>
+                                    <% end %>
+                                    <%= ( @negative_page.to_i + 1 ).to_s %>
+                                    <% for i in 1..@PageExtend %>
+                                        <% if(@negative_page.to_i + i < lastPage + 1) %>
+                                            <%= link_to ( @negative_page.to_i + i + 1).to_s, "/issuelist/" + @tags + "/" + @postive_page + "/" + ( @negative_page.to_i + i ).to_s %>
+                                        <% end %>
+                                    <% end %>
+                                    <% if(@negative_page.to_i + @PageExtend < lastPage ) %>
+                                        <% if(@negative_page.to_i + @PageExtend < lastPage - 1) %>
+                                            <%= "。。。" %>
+                                        <% end %>
+                                        <%= link_to (lastPage + 1).to_s, "/issuelist/" + @tags + "/" + @postive_page + "/" + lastPage.to_s %>
+                                    <% end %>
+                                    <% if(@NegativeHasNextPage) %>
+                                        <%= link_to "下一頁", "/issuelist/" + @tags + "/" + @postive_page + "/" + ( @negative_page.to_i + 1 ).to_s %>
+                                    <% end %>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
 		</table>
 	</div>
 </div>
