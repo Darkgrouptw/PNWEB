@@ -11,21 +11,21 @@ Rails.application.routes.draw do
         #resources :data_comment
     end
 
-    get "/peoplelist"	=>	"peoplelist#index"
-    get "/peoplelist/:name"	=>	"peoplelist#index"
-    get "/detaillist/" => "detaillist#index"
-    get "/detaillist/:detail_id" => "detaillist#index"
-    get "/userlist/" => "userlist#index"
-    get "/userlist/:user_id" => "userlist#index"
+    get     "/peoplelist"                   =>	"peoplelist#index"
+    get     "/peoplelist/:name"             =>	"peoplelist#index"
+    get     "/detaillist/"                  => "detaillist#index"
+    get     "/detaillist/:detail_id"        => "detaillist#index"
+    get     "/userlist/"                    => "userlist#index"
+    get     "/userlist/:user_id"            => "userlist#index"
     
     
-    get     "/issuelist/"               =>	"issuelist#index"
-    get     "/issuelist/:issue_id"      =>	"issuelist#index"
+    get     "/issuelist/"                   =>	"issuelist#index"
+    get     "/issuelist/:issue_id"          =>	"issuelist#index"
     get     "/issuelist/:issue_id/:positive_page/:negative_page" =>  "issuelist#index"
-    get     "/issuelist/:issue_id/new"  =>  "issuelist#new",            :as => "new_issuelist"
-    post    "/issuelist/:issue_id"      =>  "issuelist#create",         :as => "create_issuelist"
+    get     "/issuelist/:issue_id/new"      =>  "issuelist#new",            :as => "new_issuelist"
+    post    "/issuelist/:issue_id"          =>  "issuelist#create",         :as => "create_issuelist"
     
-    get     "/detaillist/:detail_id/new" => "detaillist#new",           :as => "new_detallist"
-    post    "/detaillist/:detail_id"    =>  "detaillist#create",        :as => "create_detaillist"
-    post    "/detaillist/:detail_id/thumb" => "detaillist#thumb",        :as => "thumb_detaillist"
+    get     "/detaillist/:detail_id/new"    => "detaillist#new",        :as => "new_detallist"
+    post    "/detaillist/:detail_id"        =>  "detaillist#create",    :as => "create_detaillist"
+    post    "/detaillist/:detail_id/thumb"  => "detaillist#thumb",      :as => "thumb_detaillist"
 end

@@ -62,7 +62,6 @@ class IssuelistController < ApplicationController
                 end
             end
 
-
 			@users=User.where(id: user)
             @persons=DataPerson.where(id: person)
 			@all_issue = false
