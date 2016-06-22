@@ -18,7 +18,5 @@ class UserlistController < ApplicationController
 		else
 			@all_people = true
 		end
-		
-		
 	end
 end

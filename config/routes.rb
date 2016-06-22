@@ -8,7 +8,6 @@ Rails.application.routes.draw do
         resources :data_issues
         resources :data_people
         resources :data_details
-        #resources :data_comment
     end
 
     get     "/peoplelist"                   =>	"peoplelist#index"
@@ -22,10 +21,11 @@ Rails.application.routes.draw do
     get     "/issuelist/"                   =>	"issuelist#index"
     get     "/issuelist/:issue_id"          =>	"issuelist#index"
     get     "/issuelist/:issue_id/:positive_page/:negative_page" =>  "issuelist#index"
-    get     "/issuelist/:issue_id/new"      =>  "issuelist#new",            :as => "new_issuelist"
-    post    "/issuelist/:issue_id"          =>  "issuelist#create",         :as => "create_issuelist"
+    post    "/issuelist/:issue_id/Report"   =>  "issuelist#report",     :as => "report_issuelist"
+    get     "/issuelist/:issue_id/new"      =>  "issuelist#new",        :as => "new_issuelist"
+    post    "/issuelist/:issue_id"          =>  "issuelist#create",     :as => "create_issuelist"
     
     get     "/detaillist/:detail_id/new"    => "detaillist#new",        :as => "new_detallist"
-    post    "/detaillist/:detail_id"        =>  "detaillist#create",    :as => "create_detaillist"
+    post    "/detaillist/:detail_id"        => "detaillist#create",    :as => "create_detaillist"
     post    "/detaillist/:detail_id/thumb"  => "detaillist#thumb",      :as => "thumb_detaillist"
 end

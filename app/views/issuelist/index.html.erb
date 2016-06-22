@@ -80,10 +80,7 @@
 				</tr>
 				<tr style="text-align:center">
 					<td class = "col-md-1">
-						姓名
-					</td>
-                    <td class = "col-md-1">
-                        當時頭銜
+						姓名（當時頭銜）
                     </td>
                     <td class = "col-md-1">
                         直接意見
@@ -110,6 +107,9 @@
 						👍 與👎
                         <%= link_to "(排序)", "/issuelist/" + params[:issue_id] %>
 					</td>
+                    <td class = "col-md-1">
+                        檢舉
+                    </td>
 					<td class = "col-md-1">
 						上線時間
                         <%= link_to "(排序)", "/issuelist/" + params[:issue_id] + "?orderby=Time" %>
@@ -125,7 +125,6 @@
                     <% if(@detail_supprot.length > index) %>
                         <% detail = @detail_supprot[index] %>
                         <tr style="text-align:center">
-
                             <td>
                                 <% @persons.where(id: detail.people_id).each do |person| %>
                                     <% link = "/peoplelist/"+person.name %>
@@ -133,13 +132,13 @@
                                         <%= person.name %>
                                     </a>
                                 <% end %>
-                            </td>
-                            <td>
+                                （
                                 <% if(detail.title_at_that_time != nil)%>
                                     <%= detail.title_at_that_time %>
                                 <% else %>
                                     無頭銜
                                 <% end %>
+                                ）
                             </td>
                             <td>
                                 <% if(detail.is_direct)%>
@@ -199,7 +198,11 @@
                                 <%= link_to "我要 👍", thumb_detaillist_path(detail_id: detail.id, :thumb => "1" ,from_issue: true ,issue_id: @tags,postive_page: @postive_page,negative_page: @negative_page), method: :post, class: "btn-default", style: "width:200px;"%>
                                 <br>
                                 <p class = "col-md-2"></p>
-                                  <%= link_to "我要 👎", thumb_detaillist_path(detail_id: detail.id, :thumb => "0" ,from_issue: true,issue_id: @tags ,postive_page: @postive_page,negative_page: @negative_page), method: :post, class: "btn-default", style: "width:200px;" %>
+                                  <%= link_to "我要 👎", thumb_detaillist_path(detail_id: detail.id, :thumb => "0" ,from_issue: true,issue_id: @tags ,postive_page: @postive_page, negative_page: @negative_page), method: :post, class: "btn-default", style: "width:200px;" %>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#ReportModal" id="ReportModal_Button" issue_name="<%= temp_issue.title %>" post_name="<%= @users.where(id: detail.post_id)[0].nickname %>" content="<%= detail.content %>" detail_id="<%= detail.id %>"
+                                >我要檢舉</button>
                             </td>
                             <td>
                                 <%= detail.created_at.strftime("%Y/%m/%d %H:%M:%S") %>
@@ -270,10 +273,7 @@
 				</tr>
 				<tr align = "center">
 					<td class = "col-md-1">
-                        姓名
-                    </td>
-                    <td class = "col-md-1">
-                        當時頭銜
+                        姓名（當時頭銜）
                     </td>
                     <td class = "col-md-1">
                         直接意見
@@ -300,6 +300,9 @@
 						👍 與👎
                         <%= link_to "(排序)", "/issuelist/" + params[:issue_id] %>
 					</td>
+                    <td class = "col-md-1">
+                        檢舉
+                    </td>
 					<td class = "col-md-1">
 						上線時間
                         <%= link_to "(排序)", "/issuelist/" + params[:issue_id] + "?orderby=Time" %>
@@ -315,7 +318,6 @@
                     <% if(@detail_disSupport.length > index) %>
                         <% detail = @detail_disSupport[index] %>
                         <tr style="text-align:center">
-
                             <td>
                                 <% @persons.where(id: detail.people_id).each do |person| %>
                                     <% link = "/peoplelist/"+person.name %>
@@ -323,8 +325,6 @@
                                         <%= person.name %>
                                     </a>
                                 <% end %>
-                            </td>
-                            <td>
                                 <% if(detail.title_at_that_time != nil)%>
                                     <%= detail.title_at_that_time %>
                                 <% else %>
@@ -332,6 +332,7 @@
                                 <% end %>
                             </td>
                             <td>
+                                
                                 <% if(detail.is_direct)%>
                                     是
                                 <% else %>
@@ -499,3 +500,55 @@
     </div>
 <% end %>
 </font>
+
+<!-- div Modal -->
+<%= javascript_include_tag "ReportModal.js" %>
+<div class="modal fade" id="ReportModal" role="dialog">
+    <div class="modal-dialog">
+        
+        <!-- Modal 裡面的內容 -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">我要檢舉  —  </h4>
+            </div>
+            
+            <!-- 表單 -->
+            <form id="ReportForm" method="post">
+                <div class="modal-body">
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="rule1" id="CheckRule1">原始文章的截圖不符合規定</label>
+                    </div>
+                    <div class="checkbox" style="padding-left:40px;">
+                        <label><input type="checkbox" value="rule2" id="CheckRule2">根本不是這篇文章</label>
+                    </div>
+                    <div class="checkbox" style="padding-left:40px;">
+                        <label><input type="checkbox" value="rule3" id="CheckRule3">不完整</label>
+                    </div>
+                    <div class="checkbox" style="padding-left:80px;">
+                        <label><input type="checkbox" value="rule4" id="CheckRule4">沒有標題</label>
+                    </div>
+                    <div class="checkbox" style="padding-left:80px;">
+                        <label><input type="checkbox" value="rule5" id="CheckRule5">主文沒有全部擷取</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="rule6" id="CheckRule6">原始文章中沒有這段話</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="rule7" id="CheckRule7">原始文章陪提到作者有講這段話</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="rule8" id="CheckRule8">原始文章中提到的被編者局部改寫了</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="rule9" id="CheckRule9">原始文章中提到的作者講的這段話，應該被歸於贊成／反對的另一邊</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">確定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
