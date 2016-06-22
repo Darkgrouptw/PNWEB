@@ -5,8 +5,7 @@ class CreateDataDetails < ActiveRecord::Migration
       t.text :content
       t.string :link
       t.integer :count
-      t.integer :count_like
-      t.integer :count_dislike
+      t.text :like_dislike_list_id
       t.integer :post_id
       t.integer :people_id
       t.integer :issue_id
