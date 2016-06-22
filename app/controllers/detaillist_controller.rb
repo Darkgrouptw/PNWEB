@@ -1,4 +1,6 @@
 class DetaillistController < ApplicationController
+    before_filter :authenticate_user!, only: [:new, :create, :thumb]
+    
 	def index
 		@all_detail = true
 		@tags = params[:detail_id]

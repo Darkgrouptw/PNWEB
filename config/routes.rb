@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     post    "/issuelist/:issue_id"          =>  "issuelist#create",     :as => "create_issuelist"
     
     get     "/detaillist/:detail_id/new"    => "detaillist#new",        :as => "new_detallist"
-    post    "/detaillist/:detail_id"        => "detaillist#create",    :as => "create_detaillist"
+    post    "/detaillist/:detail_id"        => "detaillist#create",     :as => "create_detaillist"
     post    "/detaillist/:detail_id/thumb"  => "detaillist#thumb",      :as => "thumb_detaillist"
+    
+    get     "/ReportList"                   => "reportlist#index",      :as => "reportlist"
 end
