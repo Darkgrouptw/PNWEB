@@ -1,4 +1,6 @@
 <%= stylesheet_link_tag "/css/glyphicon.css" %>
+<%= stylesheet_link_tag "/css/notifications.css" %>
+
 <nav class = "navbar navbar-inverse navbar-fixed-top"> 
 	<div class = "container-fluid">
 		<div class = "navbar-header">
@@ -29,7 +31,16 @@
                     <li><%= link_to("登入", new_user_session_path) %></li>
                 <% else %>
                     <% #有登入的時候 %>
-                    <li><a>通知<span class="glyphicon glyphicon-sort-by-attributes-alt"></span></a></li>
+                    <% #通知的 Dropdown %>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">通知<span class="badge notifications_Number">4</span></a>
+                        <ul class="dropdown-menu notifications_Box">
+                            <li class="dropdown-header">通知</li>
+                            <li><a>通知1</a></li>
+                            <li><a>通知2</a></li>
+                        </ul>
+                    </li>
+                
                     <% if current_user.high_power %>
                         <li><%= link_to "檢舉頁面", reportlist_path %></li>
                         <li><%= link_to "管理者頁面", dataitems_data_issues_path %></li>

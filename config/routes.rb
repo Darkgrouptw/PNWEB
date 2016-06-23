@@ -10,12 +10,14 @@ Rails.application.routes.draw do
         resources :data_details
     end
 
+    get     "/thread/"                      =>  "main#thread"
+    
     get     "/peoplelist"                   =>	"peoplelist#index"
     get     "/peoplelist/:name"             =>	"peoplelist#index"
-    get     "/detaillist/"                  => "detaillist#index"
-    get     "/detaillist/:detail_id"        => "detaillist#index"
-    get     "/userlist/"                    => "userlist#index"
-    get     "/userlist/:user_id"            => "userlist#index"
+    get     "/detaillist/"                  =>  "detaillist#index"
+    get     "/detaillist/:detail_id"        =>  "detaillist#index"
+    get     "/userlist/"                    =>  "userlist#index"
+    get     "/userlist/:user_id"            =>  "userlist#index"
     
     
     get     "/issuelist/"                   =>	"issuelist#index"

@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem "devise"
+gem "rest-client"
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
