@@ -29,7 +29,7 @@
                     <li><%= link_to("登入", new_user_session_path) %></li>
                 <% else %>
                     <% #有登入的時候 %>
-                    <li><%= link_to "通知", "/", class: "glyphicon glyphicon-envelope" %></li>
+                    <li><a>通知<span class="glyphicon glyphicon-sort-by-attributes-alt"></span></a></li>
                     <% if current_user.high_power %>
                         <li><%= link_to "檢舉頁面", reportlist_path %></li>
                         <li><%= link_to "管理者頁面", dataitems_data_issues_path %></li>
