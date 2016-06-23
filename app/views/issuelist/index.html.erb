@@ -105,14 +105,14 @@
                     </td>
 					<td class = "col-md-1">
 						👍 與👎
-                        <%= link_to "(排序)", "/issuelist/" + params[:issue_id] %>
+                        <%= link_to "<span class='glyphicon glyphicon-sort-by-attributes-alt'></span>", "/issuelist/" + params[:issue_id] %>
 					</td>
                     <td class = "col-md-1">
                         檢舉
                     </td>
 					<td class = "col-md-1">
 						上線時間
-                        <%= link_to "(排序)", "/issuelist/" + params[:issue_id] + "?orderby=Time" %>
+                        <%= link_to "<span class='glyphicon glyphicon-sort-by-attributes-alt'></span>", "/issuelist/" + params[:issue_id] + "?orderby=Time" %>
 					</td>
 					<td class = "col-md-1">
 						編著
@@ -127,7 +127,7 @@
                         <tr style="text-align:center">
                             <td>
                                 <% @persons.where(id: detail.people_id).each do |person| %>
-                                    <% link = "/peoplelist/"+person.name %>
+                                    <% link = "/peoplelist/" + person.name %>
                                     <a href = <%= link %>>
                                         <%= person.name %>
                                     </a>
@@ -298,14 +298,14 @@
                     </td>
 					<td class = "col-md-1">
 						👍 與👎
-                        <%= link_to "(排序)", "/issuelist/" + params[:issue_id] %>
+                        <%= link_to "<span class='glyphicon glyphicon-sort-by-attributes-alt'></span>", "/issuelist/" + params[:issue_id] %>
 					</td>
                     <td class = "col-md-1">
                         檢舉
                     </td>
 					<td class = "col-md-1">
 						上線時間
-                        <%= link_to "(排序)", "/issuelist/" + params[:issue_id] + "?orderby=Time" %>
+                        <%= link_to "<span class='glyphicon glyphicon-sort-by-attributes-alt'></span>", "/issuelist/" + params[:issue_id] + "?orderby=Time" %>
 					</td>
 					<td class = "col-md-1">
 						編著
