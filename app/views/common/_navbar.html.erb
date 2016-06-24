@@ -60,14 +60,15 @@
                         
                         <% #要變成最高管理權限 %>
                         <% if current_user.high_power == true %>
-                            <li> <%= link_to "有最高權限", "/" %> </li>
+                            <li class="dropdown-header">管理者</li>
+                                <li> <%= link_to "管理其他最高權限", manage_power_path %></li>
                             <% if @Is_EmailThrea_nil %>
                                 <li> <%= link_to "開啟定時寄信功能", open_email_thread_path, method: :patch %></li>
                             <% else %>
                                 <li> <%= link_to "關閉定時寄信功能", close_email_thread_path, method: :patch %></li>
                             <% end %>
                         <% else %>
-                            <li> <%= link_to "普通", "/" %> </li>
+                            <li class="dropdown-header">普通使用者</li>
                         <% end %>
                     </ul>
               </li>

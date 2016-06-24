@@ -31,6 +31,22 @@ class MainController < ApplicationController
     end
     
     # 
+    # 管理誰可以是最高權限，誰不是最高權限
+    #
+    def manage_power
+        if !user_signed_in?
+            flash[:warning] = "你不能使用這個喔"
+            redirect_to "/"
+            return
+        end
+        if current_user.high_power
+            flash[:warning] = "你不能使用這個喔"
+            redirect_to "/"
+            return
+        end
+    end
+    
+    # 
     # 開一個 EmailThread 來執行定時寄信的功能 (設定時間為禮拜六 凌晨4點)
     #
     def open_thread
@@ -43,8 +59,8 @@ class MainController < ApplicationController
             $EmailThread = Thread.new do
                 while true do
                     sleep(10.minutes)
-                    if @EmailDate.friday? and @EmailDate.hour == 18
-                    #if @EmailDate.tuesday? and @EmailDate.hour == 4
+                    #if @EmailDate.friday? and @EmailDate.hour == 18
+                    if @EmailDate.tuesday? and @EmailDate.hour == 4
                         puts "=========================================="
                         puts "Start To Send Email on " + @EmailDate.to_s
                         puts "=========================================="
@@ -74,7 +90,6 @@ class MainController < ApplicationController
     
     private
     def send_email
-        puts "Testing..... Succeess"
         require "rest-client"
         if true
             # 這個是 測試版本
