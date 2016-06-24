@@ -39,7 +39,6 @@ class Dataitems::DataPeopleController < ApplicationController
 	end
 
 	private
-
 	def params_check
         params.require(:data_person).permit(:name, :pic_link, :description)
 	end

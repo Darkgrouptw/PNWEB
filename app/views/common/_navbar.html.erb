@@ -54,14 +54,18 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li> <%= link_to "帳號設定", edit_user_registration_path %> </li>
-                        <li> <%= link_to("登出", destroy_user_session_path, method: :delete) %> </li>
-                        
+                        <li> <%= link_to "登出", destroy_user_session_path, method: :delete  %> </li>
                         <% #分隔線 %>
                         <li class="divider"></li>
                         
                         <% #要變成最高管理權限 %>
                         <% if current_user.high_power == true %>
                             <li> <%= link_to "有最高權限", "/" %> </li>
+                            <% if @Is_EmailThrea_nil %>
+                                <li> <%= link_to "開啟定時寄信功能", open_email_thread_path, method: :patch %></li>
+                            <% else %>
+                                <li> <%= link_to "關閉定時寄信功能", close_email_thread_path, method: :patch %></li>
+                            <% end %>
                         <% else %>
                             <li> <%= link_to "普通", "/" %> </li>
                         <% end %>

@@ -10,7 +10,8 @@ Rails.application.routes.draw do
         resources :data_details
     end
 
-    get     "/thread/"                      =>  "main#thread"
+    patch   "/open_thread/"                 =>  "main#open_thread",     :as => "open_email_thread"
+    patch   "/close_thread/"                =>  "main#close_thread",    :as => "close_email_thread"
     
     get     "/peoplelist"                   =>	"peoplelist#index"
     get     "/peoplelist/:name"             =>	"peoplelist#index"
