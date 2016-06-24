@@ -17,8 +17,12 @@ class IssuelistController < ApplicationController
                 @detail_supprot = @details.where(is_support: true).order(:created_at).reverse
                 @detail_disSupport = @details.where(is_support: false).order(:created_at).reverse
             else
-                @detail_supprot = @details.where(is_support: true).order(:count_like).reverse
-                @detail_disSupport = @details.where(is_support: false).order(:count_like).reverse
+                details_id=[]
+                for i in 0..@details.length
+
+                end
+                @detail_supprot = @details.where(is_support: true)
+                @detail_disSupport = @details.where(is_support: false)
             end
             
             @numberPerPage = 5
@@ -85,8 +89,6 @@ class IssuelistController < ApplicationController
         @detail = DataDetail.create(detail_params)
         @detail.issue_id = params[:issue_id]
         @detail.count = 0
-        @detail.count_like = 0
-        @detail.count_dislike = 0
         @detail.backup_id = @detail.issue_id.to_s+"_"+@detail.id.to_s
         puts "-------------------------------"
         puts "Require Start"
@@ -181,7 +183,7 @@ class IssuelistController < ApplicationController
     private
     
     def detail_params
-        params.require(:data_detail).permit(:is_support, :content, :link, :count, :count_like, :count_dislike, :post_id, :people_id, :issue_id, :comment_id, :comment_id, :issue_id,:is_direct,:title_at_that_time,:reported_at,:news_media)
+        params.require(:data_detail).permit(:is_support, :content, :link, :count, :count_dislike, :post_id, :people_id, :issue_id, :comment_id, :comment_id, :issue_id,:is_direct,:title_at_that_time,:reported_at,:news_media)
     end
     
     def issue_params
