@@ -10,7 +10,7 @@
 		  <td class = "col-md-1"><font color="white">
 			議論
 		  </td>
-		  <td class = "col-md-5"><font color="white">
+		  <td class = "col-md-4"><font color="white">
 			檢舉原因
 		  </td>
 		  <td class = "col-md-1"><font color="white">
@@ -22,6 +22,9 @@
 		  <td class = "col-md-3"><font color="white">
 			審核結果
 		  </td>
+		  <td class = "col-md-1"><font color="white">
+		  	審核
+		  </td>
 		</tr>
 	  </thead>
 	  <tbody>
@@ -31,12 +34,20 @@
 	  		<% user = @user.where(id: detail.post_id)[0] %>
 			<tr>
 				<td class = "col-md-1"><font color="white">
-					<%= issue.title %>
+					<% link = "/issuelist/"+issue.id.to_s %>
+						<a href = <%= link %>>
+							<%= issue.title %>
+						</a>
+					
 				</td>
 				<td class = "col-md-1"><font color="white">
-					<%= detail.content%>
+					<% link = "/detaillist/"+detail.id.to_s %>
+						<a href = <%= link %>>
+							<%= detail.content%>
+						</a>
+					
 				</td>
-				<td class = "col-md-5"><font color="white">
+				<td class = "col-md-4"><font color="white">
 					檢舉原因
 				</td>
 				<td class = "col-md-1"><font color="white">
@@ -49,9 +60,21 @@
 					<% if detail.is_report && !item.is_check %>
 						未審核
 					<% elsif detail.is_report && item.is_check%>
-						檢舉成功
+						檢舉成立
 					<% else %>
 						檢舉駁回
+					<% end %>
+				</td>
+				<td class = "col-md-1">
+					<% if item.is_check %>
+						已審核
+					<% else %>
+						<%= link_to "檢舉成立", reportlist_check_path(detail_id: detail.id,
+							report_id: item.id,
+							is_banded: true), method: :post, class: "btn-default", style: "width:200px;" %>
+                        <%= link_to "檢舉駁回", reportlist_check_path(detail_id: detail.id,
+							report_id: item.id,
+							is_banded: false), method: :post, class: "btn-default", style: "width:200px;" %>
 					<% end %>
 				</td>
 			</tr>

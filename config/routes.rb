@@ -41,4 +41,6 @@ Rails.application.routes.draw do
     post    "/detaillist/:detail_id/thumb_cancel"   =>  "detaillist#thumb_cancel",  :as => "thumb_cancel_detaillist"
     
     get     "/ReportList"                   => "reportlist#index",      :as => "reportlist"
+    post    "/ReportList/check"             => "reportlist#check",      :as => "reportlist_check"
+    post    "/ReportList/new"               => "reportlist#new",        :as => "reportlist_new"
 end

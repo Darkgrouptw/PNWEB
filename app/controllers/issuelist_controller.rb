@@ -30,8 +30,8 @@ class IssuelistController < ApplicationController
                 for i in 0..@details.length
 
                 end
-                @detail_supprot = @details.where(is_support: true)
-                @detail_disSupport = @details.where(is_support: false)
+                @detail_supprot = @details.where(is_support: true).where(is_report: false)
+                @detail_disSupport = @details.where(is_support: false).where(is_report: false)
             end
             
             @numberPerPage = 5
