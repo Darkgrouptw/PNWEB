@@ -1,2 +1,62 @@
-<h1>Reportlist#index</h1>
-<p>Find me in app/views/reportlist/index.html.erb</p>
+<div class = "container"><font color="white">
+<div class = "row">
+  <div class = "col-md-12">
+	<table class = "table table-bordered">
+	  <thead>
+		<tr align = "center">
+		  <td class = "col-md-1"><font color="white">
+			所屬議題
+		  </td>
+		  <td class = "col-md-1"><font color="white">
+			議論
+		  </td>
+		  <td class = "col-md-5"><font color="white">
+			檢舉原因
+		  </td>
+		  <td class = "col-md-1"><font color="white">
+			編者
+		  </td>
+		  <td class = "col-md-1"><font color="white">
+			檢舉時間
+		  </td>
+		  <td class = "col-md-3"><font color="white">
+			審核結果
+		  </td>
+		</tr>
+	  </thead>
+	  <tbody>
+	  	<% @reportDetail.each do |item| %>
+	  		<% detail = @detail.where(id: item.detail_id)[0] %>
+	  		<% issue = @issue.where(id: detail.issue_id)[0] %>
+	  		<% user = @user.where(id: detail.post_id)[0] %>
+			<tr>
+				<td class = "col-md-1"><font color="white">
+					<%= issue.title %>
+				</td>
+				<td class = "col-md-1"><font color="white">
+					<%= detail.content%>
+				</td>
+				<td class = "col-md-5"><font color="white">
+					檢舉原因
+				</td>
+				<td class = "col-md-1"><font color="white">
+					<%= user.nickname %>
+				</td>
+				<td class = "col-md-1"><font color="white">
+					<%= item.created_at %>
+				</td>
+				<td class = "col-md-3"><font color="white">
+					<% if detail.is_report && !item.is_check %>
+						未審核
+					<% elsif detail.is_report && item.is_check%>
+						檢舉成功
+					<% else %>
+						檢舉駁回
+					<% end %>
+				</td>
+			</tr>
+		<% end %>
+	  </tbody>
+	</table>
+</div>
+</div>
