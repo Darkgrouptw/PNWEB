@@ -1,6 +1,12 @@
 class IssuelistController < ApplicationController
     before_filter :authenticate_user!, only: [:new, :create]
     
+    module Vote_state
+        NO_VOTE = 1
+        SUPPORT_VOTE = 2
+        DISSUPPORT_VOTE = 3
+    end
+
 	def index
 		@tags = params[:issue_id]
 		@issues=DataIssue.all.order(:created_at)
@@ -9,13 +15,16 @@ class IssuelistController < ApplicationController
 			@me = @issues.where(id: @tags)[0]
 			@strings = @me.datadetail_id.split(/,/)
 			@details = DataDetail.where(id: @strings)
+            @likeDislikeList = LikeDislikeList.where(post_id: current_user)
+
+
             user = []
             person = []
             
             # 要判斷是用什麼來排序
             if params[:orderby] == "Time"
-                @detail_supprot = @details.where(is_support: true).order(:created_at).reverse
-                @detail_disSupport = @details.where(is_support: false).order(:created_at).reverse
+                @detail_supprot = @details.where(is_support: true).where(is_report: false).order(:created_at).reverse
+                @detail_disSupport = @details.where(is_support: false).where(is_report: false).order(:created_at).reverse
             else
                 details_id=[]
                 for i in 0..@details.length

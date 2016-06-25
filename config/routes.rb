@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     get     "/detaillist/:detail_id/new"    => "detaillist#new",        :as => "new_detallist"
     post    "/detaillist/:detail_id"        => "detaillist#create",     :as => "create_detaillist"
     post    "/detaillist/:detail_id/thumb"  => "detaillist#thumb",      :as => "thumb_detaillist"
+    post    "/detaillist/:detail_id/thumb_cancel"   =>  "detaillist#thumb_cancel",  :as => "thumb_cancel_detaillist"
     
     get     "/ReportList"                   => "reportlist#index",      :as => "reportlist"
 end

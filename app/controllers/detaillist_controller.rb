@@ -49,7 +49,7 @@ class DetaillistController < ApplicationController
     	#that user vote the detail 
     	#notes!! this function isn't check the issue is been vote by user for over 3 times
     	@detail = DataDetail.where(id: params[:detail_id])[0]
-    	@likeDislikeLists = LikeDislikeLists.where(detail_id: @detail.id)
+    	@likeDislikeLists = LikeDislikeList.where(detail_id: @detail.id)
     	has_vote = false
     	@likeDislikeLists.each do |likeDislikeList|
     		if likeDislikeList.post_id = params[:current_user]
@@ -58,24 +58,33 @@ class DetaillistController < ApplicationController
     	end
     	if has_vote
     		#do something if the user have already vote this detail
+    		if(params[:from_issue] != nil && params[:from_issue] == "true")
+        	#http://localhost:3000/issuelist/1/1/0
+        		redirect_to "/issuelist/" + params[:issue_id] + "/" + params[:postive_page] + "/" + params[:negative_page]
+        	else
+        		redirect_to "/detaillist/"+params[:detail_id]
+    		end
     		return
     	end
     	#create new  like_dislike_list item
-    	@newLike_dislike_list = LikeDislikeLists.new
-    	@newLike_dislike_list.update(create_at: "",
+    	time = Time.new
+    	@newLike_dislike_list = LikeDislikeList.new
+    	@newLike_dislike_list.update(created_at: time.inspect,
     		detail_id: @detail.id,
     		is_like: (params[:thumb] == "1") ? true : false,
     		post_id: params[:current_user])
 
     	#update details like_dislike_list
-    	like_dislike_list = @detail.like_dislike_list_id.split("|")
-    	novalue = false
+    	like_dislike_list = @detail.like_dislike_list_id
+    	if like_dislike_list == nil
+    		like_dislike_list = ""
+    	end
+    	like_dislike_list = like_dislike_list.split("|")
     	like_list = ""
     	dislike_list = ""
     	if like_dislike_list.length == 2
-    		novalue = true
-    		like_list = like_dislike_list[0].split(",")
-    		dislike_list = like_dislike_list[1].split(",")
+    		like_list = like_dislike_list[0]
+    		dislike_list = like_dislike_list[1]
     	end
 
         if params[:thumb] == "1"
@@ -108,6 +117,62 @@ class DetaillistController < ApplicationController
         #"detaillist/" + params[:detail_id]
     end
 
+    def thumb_cancel
+    	
+    	@likeDislikeLists = LikeDislikeList.where(detail_id: params[:detail_id]).where(post_id: params[:current_user])
+    	list_id = @likeDislikeLists[0].id
+    	@detail = DataDetail.where(id: params[:detail_id])[0]
+    	#update detaile's list
+    	like_dislike_list = @detail.like_dislike_list_id
+    	if like_dislike_list == nil
+    		like_dislike_list = ""
+    	end
+    	like_dislike_list = like_dislike_list.split("|")
+    	like_list = ""
+    	dislike_list = ""
+    	like_list_item = []
+    	dislike_list_item = []
+    	if like_dislike_list.length == 0
+    	elsif like_dislike_list.length == 1
+    		like_list_item = like_dislike_list[0].split(",")
+    	else
+    		like_list_item = like_dislike_list[0].split(",")
+    		dislike_list_item = like_dislike_list[1].split(",")
+    	end
+    	
+    	
+    	like_list_item.each do |item|
+    		is_first = true
+    		if item.to_i != list_id
+    			if is_first
+    				like_list = like_list + item
+    			else
+    				like_list = like_list + "," + item
+    			end
+    		end
+    	end
+    	dislike_list_item.each do |item|
+    		is_first = true
+    		if item.to_i != list_id
+    			if is_first
+    				dislike_list = dislike_list + item
+    			else
+    				dislike_list = dislike_list + "," + item
+    			end
+    		end
+    	end
+    	@detail.update(like_dislike_list_id: like_list + "|" + dislike_list)
+    	#kill vote data
+    	@likeDislikeLists.destroy_all
+    	#redirect
+    	if(params[:from_issue] != nil && params[:from_issue] == "true")
+        	#http://localhost:3000/issuelist/1/1/0
+        	redirect_to "/issuelist/" + params[:issue_id] + "/" + params[:postive_page] + "/" + params[:negative_page]
+        else
+        	redirect_to "/detaillist/"+params[:detail_id]
+    	end
+    	
+    end
     def detail_params
         params.require(:data_detail).permit(:is_support, :content, :link, :count, :count_dislike, :post_id, :people_id, :issue_id, :comment_id, :comment_id, :issue_id)
     end
