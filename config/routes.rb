@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'reportlist/index'
+
+  get 'reportlist/new'
+
+  get 'reportlist/create'
+
   get 'pagebackup/index'
 
     devise_for :users        
