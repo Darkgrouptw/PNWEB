@@ -98,6 +98,7 @@ class IssuelistController < ApplicationController
         @detail = DataDetail.create(detail_params)
         @detail.issue_id = params[:issue_id]
         @detail.count = 0
+        @detail.is_report = false
         @detail.backup_id = @detail.issue_id.to_s+"_"+@detail.id.to_s
         puts "-------------------------------"
         puts "Require Start"
@@ -192,7 +193,7 @@ class IssuelistController < ApplicationController
     private
     
     def detail_params
-        params.require(:data_detail).permit(:is_support, :content, :link, :count, :count_dislike, :post_id, :people_id, :issue_id, :comment_id, :comment_id, :issue_id,:is_direct,:title_at_that_time,:reported_at,:news_media)
+        params.require(:data_detail).permit(:is_support, :content, :link, :like_dislike_list_id, :post_id, :people_id, :issue_id, :comment_id, :comment_id, :issue_id,:is_direct,:title_at_that_time,:reported_at, :news_media, :is_report)
     end
     
     def issue_params
