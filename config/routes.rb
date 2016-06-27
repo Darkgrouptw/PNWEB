@@ -1,11 +1,4 @@
 Rails.application.routes.draw do
-  get 'reportlist/index'
-
-  get 'reportlist/new'
-
-  get 'reportlist/create'
-
-  get 'pagebackup/index'
 
     devise_for :users        
     root  "main#index"
@@ -42,5 +35,4 @@ Rails.application.routes.draw do
     
     get     "/ReportList"                   => "reportlist#index",      :as => "reportlist"
     post    "/ReportList/check"             => "reportlist#check",      :as => "reportlist_check"
-    #post    "/ReportList/new"               => "reportlist#new",        :as => "reportlist_new"
 end

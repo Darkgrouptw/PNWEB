@@ -1,11 +1,11 @@
 class IssuelistController < ApplicationController
     before_filter :authenticate_user!, only: [:new, :create]
     
-    module Vote_state
-        NO_VOTE = 1
-        SUPPORT_VOTE = 2
-        DISSUPPORT_VOTE = 3
-    end
+    #module Vote_state
+    #    NO_VOTE = 1
+    #    SUPPORT_VOTE = 2
+    #    DISSUPPORT_VOTE = 3
+    #end
 
 	def index
 		@tags = params[:issue_id]
@@ -173,7 +173,6 @@ class IssuelistController < ApplicationController
                     end
                 end
                 
-
                 @tags = params[:issue_id]
                 @issue = DataIssue.where(:id => @tags)[0]
                 @issue.datadetail_id = @issue.datadetail_id + @detail.id.to_s + ","
@@ -187,6 +186,26 @@ class IssuelistController < ApplicationController
             else
                 render :new
             end
+        end
+    end
+    
+    #
+    # 議題 report 之後，要把東西議題的 is_report 設為 true，然後新增一筆資料在 ReportDetail 裡 
+    #
+    def report
+        tempStr = ""
+        9.times do |i|
+            tempTitle = "rule" + (i+1).to_s
+            if params[tempTitle] == "on"
+                tempStr += (i+1).to_s + ","
+            end
+        end
+        
+        @report = ReportDetail.create(detail_id: params[:issue_id], is_check: false, cause: tempStr)
+        if @report.save
+            redirect_to "/issuelist/" + params[:issue_id], notice: "檢舉成功"
+        else
+            redirect_to "/issuelist/" + params[:issue_id], notice: "檢舉失敗"
         end
     end
 

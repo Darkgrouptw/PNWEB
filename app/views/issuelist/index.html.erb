@@ -624,32 +624,33 @@
             <!-- 表單 -->
             <form id="ReportForm" method="post">
                 <div class="modal-body">
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
                     <div class="checkbox">
-                        <label><input type="checkbox" value="rule1" id="CheckRule1">原始文章的截圖不符合規定</label>
+                        <label><input type="checkbox" name="rule1" id="CheckRule1">原始文章的截圖不符合規定<%=  %></label>
                     </div>
                     <div class="checkbox" style="padding-left:40px;">
-                        <label><input type="checkbox" value="rule2" id="CheckRule2">根本不是這篇文章</label>
+                        <label><input type="checkbox" name="rule2" id="CheckRule2">根本不是這篇文章</label>
                     </div>
                     <div class="checkbox" style="padding-left:40px;">
-                        <label><input type="checkbox" value="rule3" id="CheckRule3">不完整</label>
+                        <label><input type="checkbox" name="rule3" id="CheckRule3">不完整</label>
                     </div>
                     <div class="checkbox" style="padding-left:80px;">
-                        <label><input type="checkbox" value="rule4" id="CheckRule4">沒有標題</label>
+                        <label><input type="checkbox" name="rule4" id="CheckRule4">沒有標題</label>
                     </div>
                     <div class="checkbox" style="padding-left:80px;">
-                        <label><input type="checkbox" value="rule5" id="CheckRule5">主文沒有全部擷取</label>
+                        <label><input type="checkbox" name="rule5" id="CheckRule5">主文沒有全部擷取</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" value="rule6" id="CheckRule6">原始文章中沒有這段話</label>
+                        <label><input type="checkbox" name="rule6" id="CheckRule6">原始文章中沒有這段話</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" value="rule7" id="CheckRule7">原始文章陪提到作者有講這段話</label>
+                        <label><input type="checkbox" name="rule7" id="CheckRule7">原始文章陪提到作者有講這段話</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" value="rule8" id="CheckRule8">原始文章中提到的被編者局部改寫了</label>
+                        <label><input type="checkbox" name="rule8" id="CheckRule8">原始文章中提到的被編者局部改寫了</label>
                     </div>
                     <div class="checkbox">
-                        <label><input type="checkbox" value="rule9" id="CheckRule9">原始文章中提到的作者講的這段話，應該被歸於贊成／反對的另一邊</label>
+                        <label><input type="checkbox" name="rule9" id="CheckRule9">原始文章中提到的作者講的這段話，應該被歸於贊成／反對的另一邊</label>
                     </div>
                 </div>
                 <div class="modal-footer">
