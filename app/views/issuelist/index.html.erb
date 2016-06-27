@@ -33,6 +33,24 @@
         end
         return result
     end
+
+    def calculator_thumbUp(text)
+        length_text = 0
+        if text != nil && text.split('|')[0] != nil
+            length_text = text.split('|')[0].split(',').length
+        else
+            length_text = 0
+        end
+        return length_text
+    end
+
+    def calculator_thumbDown(text)
+        length_text = 0
+        if text != nil && text.split('|')[1] != nil
+            length_text = text.split('|')[1].split(',').length
+        end
+        return length_text
+    end
 %>
 <font color="white">
 <% if !@all_issue %>
@@ -227,9 +245,9 @@
                             </td>
                             <td>
                                 👍 
-                                <%= detail.count %>
+                                <%= calculator_thumbUp(detail.like_dislike_list_id) %>
                                 👎 
-                                <%= detail.count %>
+                                <%= calculator_thumbDown(detail.like_dislike_list_id) %>
                                 <br>
                                 <% state =  detail_vote_state(detail.id)%>
                                 <% if state != 0 %>
@@ -453,9 +471,9 @@
                             </td>
                             <td>
                                 👍 
-                                <%= detail.count %>
+                                <%= calculator_thumbUp(detail.like_dislike_list_id) %>
                                 👎 
-                                <%= detail.count %>
+                                <%= calculator_thumbDown(detail.like_dislike_list_id) %>
                                 <br>
                                 <% state =  detail_vote_state(detail.id)%>
                                 <% if state != 0 %>

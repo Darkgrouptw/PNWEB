@@ -1,3 +1,53 @@
+<%
+  def detail_vote_state(detail_id)
+      result = 0
+      @likeDislikeList.each do |item|
+          if item.detail_id == detail_id
+              if item.is_like
+                  result = 1
+              else
+                  result = 2
+              end
+              break
+          end
+      end
+      return result
+  end
+  def is_too_much_vote()
+      result = false
+      detail_ids = @issue.datadetail_id.split(',')
+      detail_ids = detail_ids.map(&:to_i)
+      limit = 3
+      count = 0
+      @likeDislikeList.each do |item|
+          if detail_ids.include? item.detail_id
+              count = count + 1
+          end
+      end
+      if count >= limit
+          result = true
+      else
+          result = false
+      end
+      return result
+  end
+  def calculator_thumbUp(text)
+      length_text = 0
+      if text != nil && text.split('|')[0] != nil
+          length_text = text.split('|')[0].split(',').length
+      else
+          length_text = 0
+      end
+      return length_text
+  end
+  def calculator_thumbDown(text)
+      length_text = 0
+      if text != nil && text.split('|')[1] != nil
+          length_text = text.split('|')[1].split(',').length
+      end
+      return length_text
+  end
+%>
 <% if !@all_detail %>
 <div class = "container"><font color="white">
 <div class = "row">
@@ -6,11 +56,34 @@
       <thead>
         <tr align = "right">
           <td class = "col-md-12" colspan = "12">
-              <%= link_to "我要 👍", thumb_detaillist_path(detail_id: params[:detail_id], :thumb => "1"), method: :post, class: "btn-default", style: "width:200px;"%>
-            </font>
-            <p class = "col-md-2"></p>
-              <%= link_to "我要 👎", thumb_detaillist_path(detail_id: params[:detail_id], :thumb => "0"), method: :post, class: "btn-default", style: "width:200px;" %>
-            </font>
+            <% state =  detail_vote_state(@me.id)%>
+              <% if state != 0 %>
+                  <% vote = "👍" %>
+                  <% if state == 1 %>
+                      <% vote = "👍" %>
+                  <% else %>
+                      <% vote = "👎" %>
+                  <% end %>
+                  <%= "你已經投"+ vote +"了" %>
+                  <br>
+                  <%= %>
+                  <%= link_to "收回" + vote, thumb_cancel_detaillist_path(
+                  from_issue: false ,
+                  detail_id: @me.id,
+                  current_user: current_user.id), method: :post, class: "btn-default", style: "width:200px;"%>
+              <% elsif is_too_much_vote() %>
+              你已經對此議題投的票已達上限
+              <% else %>
+                  <%= link_to "我要 👍", thumb_detaillist_path(detail_id: @me.id,
+               :thumb => "1" ,
+               from_issue: false ,
+               current_user: current_user.id), method: :post, class: "btn-default", style: "width:200px;"%>
+              <br>
+                <%= link_to "我要 👎", thumb_detaillist_path(detail_id: @me.id,
+                 :thumb => "0" ,
+                 from_issue: false,
+                  current_user: current_user.id), method: :post, class: "btn-default", style: "width:200px;" %>
+              <% end %>
           </td>
         </tr>
         <tr align = "center">
@@ -122,9 +195,9 @@
             </td>
             <td>
               👍
-              <%= @me.count %>
+              <%= calculator_thumbUp(@me.like_dislike_list_id) %>
               👎 
-              <%= @me.count %>
+              <%= calculator_thumbDown(@me.like_dislike_list_id) %>
             </td>
           </tr>
       </tbody>

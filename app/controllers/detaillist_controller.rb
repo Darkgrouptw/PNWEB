@@ -11,6 +11,7 @@ class DetaillistController < ApplicationController
 			@issue = DataIssue.where(id: @me.issue_id)[0]
 			@person = DataPerson.where(id: @me.people_id)[0]
 			@user = User.where(id: @me.post_id)[0]
+			@likeDislikeList = LikeDislikeList.where(post_id: current_user)
 			if !@me.comment_id.nil? && !@me.comment_id.empty?
 				@strings = @me.comment_id.split(/,/)
 				@comments = DataComment.where(id: @strings).order(:created_at).reverse

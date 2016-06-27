@@ -26,12 +26,56 @@ class IssuelistController < ApplicationController
                 @detail_supprot = @details.where(is_support: true).where(is_report: false).order(:created_at).reverse
                 @detail_disSupport = @details.where(is_support: false).where(is_report: false).order(:created_at).reverse
             else
-                details_id=[]
-                for i in 0..@details.length
-
-                end
                 @detail_supprot = @details.where(is_support: true).where(is_report: false)
                 @detail_disSupport = @details.where(is_support: false).where(is_report: false)
+                for i in 0..@detail_supprot.length - 1
+                    length_i = 0
+                    text_i = @detail_supprot[i].like_dislike_list_id
+                    if text_i != nil && text_i.split('|')[0] != nil
+                        length_i = text_i.split('|')[0].split(',').length
+                    else
+                        length_i = 0
+                    end
+                    for j in 0..i
+                        length_j = 0
+                        text_j = @detail_supprot[j].like_dislike_list_id
+                        if text_j != nil && text_j.split('|')[0] != nil
+                            length_j = text_j.split('|')[0].split(',').length
+                        else
+                            length_j = 0
+                        end
+
+                        if length_j < length_i
+                            temp = @detail_supprot[i]
+                            @detail_supprot[i] = @detail_supprot[j]
+                            @detail_supprot[j] = temp
+                        end
+                    end
+                end
+                for i in 0..@detail_disSupport.length - 1
+                    length_i = 0
+                    text_i = @detail_disSupport[i].like_dislike_list_id
+                    if text_i != nil && text_i.split('|')[0] != nil
+                        length_i = text_i.split('|')[0].split(',').length
+                    else
+                        length_i = 0
+                    end
+                    for j in 0..i
+                        length_j = 0
+                        text_j = @detail_disSupport[j].like_dislike_list_id
+                        if text_j != nil && text_j.split('|')[0] != nil
+                            length_j = text_j.split('|')[0].split(',').length
+                        else
+                            length_j = 0
+                        end
+
+                        if length_j < length_i
+                            temp = @detail_disSupport[i]
+                            @detail_disSupport[i] = @detail_disSupport[j]
+                            @detail_disSupport[j] = temp
+                        end
+                    end
+                end
             end
             
             @numberPerPage = 5
@@ -202,6 +246,8 @@ class IssuelistController < ApplicationController
         end
         
         @report = ReportDetail.create(detail_id: params[:issue_id], is_check: false, cause: tempStr)
+        @detail = DataDetail.where(id: params[:issue_id])[0]
+        @detail.update(is_report: true)
         if @report.save
             redirect_to "/issuelist/" + params[:issue_id], notice: "檢舉成功"
         else
