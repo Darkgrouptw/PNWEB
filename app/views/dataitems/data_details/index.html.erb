@@ -32,8 +32,20 @@
                                 <% end %>
                             </td>
                             <td><%= item.count %></td>
-                            <td><%= item.count_like %></td>
-                            <td><%= item.count_dislike %></td>
+                            <% list = item.like_dislike_list_id %>
+                            <% like = 0 %>
+                            <% dislike = 0 %>
+                            <% if list != nil %>
+                                <% list = list.split('|') %>
+                                <% if list[0] != nil %>
+                                    <% like = list[0].split(',').length %>
+                                <% end %>
+                                <% if list[1] != nil %>
+                                    <% dislike = list[1].split(',').length %>
+                                <% end %>
+                            <% end %>
+                            <td><%= like %></td>
+                            <td><%= dislike %></td>
                             <td><%= item.post_id %></td>
                             <td><%= item.people_id %></td>
                             <td>
