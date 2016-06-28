@@ -1,6 +1,7 @@
 $(document).ready(function(){
     // 要將 ReportModal 裡面的 Tile 加上，編輯者，主要論述
-    $("#ReportModal_Button").click(function(){
+    $(".ReportModal_Button").each(function(){
+        $(this).click(function(){
         //alert($(this).attr("detail_id"))
         const strTitle = "我要檢舉  —  ";
         const post_name = $(this).attr("post_name") + "在 ";
@@ -12,8 +13,9 @@ $(document).ready(function(){
         $(".modal-title").text(strTitle + post_name + issue_name + content);
         $("#ReportForm").attr("action", "/issuelist/" + issue_id + "/Report");
         $("#detail_id").attr("value", detail_id);
+        })
     })
-
+    
     // 給 CheckRule 的按鈕規則
     $("#CheckRule1").change(function(){
         if(!$(this).prop("checked"))
