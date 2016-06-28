@@ -234,6 +234,7 @@
                             <td>
                                 <% #測試圖片存不存在 %>
                                 <% link = "pageBackUp/"+detail.backup_id.to_s+".png" %>
+                                <% puts "目錄有" %>
                                 <% puts Dir.entries(Rails.root + "public/pageBackUp/") %>
                                 <% if File.exist?(Rails.root + "public/" + link) %>
                                     <a href = <%= "/"+link %> >
