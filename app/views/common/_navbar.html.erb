@@ -1,6 +1,30 @@
 <%= stylesheet_link_tag "/css/glyphicon.css" %>
 <%= stylesheet_link_tag "/css/notifications.css" %>
-
+<%
+    #
+    #通知數量
+    #
+    if current_user
+        count = 0
+        checkTime = current_user.created_at
+        new_detail = []
+        @likeDislikeList = LikeDislikeList.where(post_id: current_user.id).where(is_like: true)
+        detail_ids = []
+        for i in 0..@likeDislikeList.length - 1
+            detail_ids.push(@likeDislikeList[i].detail_id)
+        end
+        @detail = DataDetail.where(id: detail_ids).where(is_report: false)
+        issue_ids = []
+        for i in 0..@detail.length - 1
+            issue_ids.push(@detail[i].issue_id)
+            if @detail[i].created_at > checkTime
+                count = count + 1
+                new_detail.push(@detail[i])
+            end
+        end
+        @issue = DataIssue.where(id: issue_ids)
+    end
+%>
 <nav class = "navbar navbar-inverse navbar-fixed-top"> 
 	<div class = "container-fluid">
 		<div class = "navbar-header">
@@ -33,11 +57,15 @@
                     <% #有登入的時候 %>
                     <% #通知的 Dropdown %>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown">通知<span class="badge notifications_Number">4</span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown">通知<span class="badge notifications_Number"><%= count %></span></a>
                         <ul class="dropdown-menu notifications_Box">
                             <li class="dropdown-header">通知</li>
-                            <li><a>通知1</a></li>
-                            <li><a>通知2</a></li>
+                            <% for i in 0..new_detail.length - 1 %>
+                            <% detail = new_detail[i] %>
+                            <% issue = @issue.where(id: detail.issue_id)[0] %>
+                            <% link = "/detaillist/"+detail.id.to_s %>
+                            <li><a href = <%= link %>><%= issue.title %> 的 <%= detail.content %> 議論</a></li>
+                            <% end %>
                         </ul>
                     </li>
                 
