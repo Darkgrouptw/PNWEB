@@ -7,20 +7,24 @@
     if current_user
         count_report = ReportDetail.where(is_check: false).length
         count_new_detail = 0
-        checkTime = current_user.updated_at
+        checkTime = current_user.created_at
+        check_new_Time = current_user.updated_at
         new_detail = []
         @likeDislikeList = LikeDislikeList.where(post_id: current_user.id).where(is_like: true)
         detail_ids = []
         for i in 0..@likeDislikeList.length - 1
             detail_ids.push(@likeDislikeList[i].detail_id)
         end
-        @detail = DataDetail.where(id: detail_ids).where(is_report: false)
+        @detail = DataDetail.where(id: detail_ids).where(is_report: false).order(created_at: :desc)
         issue_ids = []
         for i in 0..@detail.length - 1
             issue_ids.push(@detail[i].issue_id)
             if @detail[i].created_at > checkTime
-                count_new_detail = count_new_detail + 1
+                if @detail[i].created_at > check_new_Time
+                    count_new_detail = count_new_detail + 1
+                end
                 new_detail.push(@detail[i])
+
             end
         end
         @issue = DataIssue.where(id: issue_ids)
@@ -65,7 +69,11 @@
                             <% detail = new_detail[i] %>
                             <% issue = @issue.where(id: detail.issue_id)[0] %>
                             <% link = "/detaillist/"+detail.id.to_s %>
-                            <li><a href = <%= link %>><%= issue.title %> 的 <%= detail.content %> 議論</a></li>
+                            <% is_new = ""%>
+                            <% if i < count_new_detail %>
+                            <% is_new = "NEW "%>
+                            <% end %>
+                            <li><a href = <%= link %>><%= is_new %><%= issue.title %> 的 <%= detail.content %> 議論</a></li>
                             <% end %>
                         </ul>
                     </li>
