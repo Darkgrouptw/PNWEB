@@ -245,8 +245,15 @@ class IssuelistController < ApplicationController
             end
         end
         
-        @report = ReportDetail.create(detail_id: params[:issue_id], is_check: false, cause: tempStr)
-        @detail = DataDetail.where(id: params[:issue_id])[0]
+        # 假設檢舉是空的
+        if tempStr == ""
+            flash[:warning] = "檢舉原因不能為空的！！"
+            redirect_to(:back)
+            return
+        end
+        
+        @report = ReportDetail.create(detail_id: params[:detail_id], is_check: false, cause: tempStr)
+        @detail = DataDetail.where(id: params[:detail_id])[0]
         @detail.update(is_report: true)
         if @report.save
             redirect_to "/issuelist/" + params[:issue_id], notice: "檢舉成功"

@@ -6,10 +6,12 @@ $(document).ready(function(){
         const post_name = $(this).attr("post_name") + "在 ";
         const issue_name = $(this).attr("issue_name") + " 底下 po 的 ";
         const content = $(this).attr("content") + " ";
+        const issue_id = $(this).attr("issue_id");
         const detail_id = $(this).attr("detail_id");
 
         $(".modal-title").text(strTitle + post_name + issue_name + content);
-        $("#ReportForm").attr("action", "/issuelist/" + detail_id + "/Report");
+        $("#ReportForm").attr("action", "/issuelist/" + issue_id + "/Report");
+        $("#detail_id").attr("value", detail_id);
     })
 
     // 給 CheckRule 的按鈕規則
