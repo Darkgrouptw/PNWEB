@@ -5,8 +5,9 @@
     #通知數量
     #
     if current_user
-        count = 0
-        checkTime = current_user.created_at
+        count_report = ReportDetail.where(is_check: false).length
+        count_new_detail = 0
+        checkTime = current_user.updated_at
         new_detail = []
         @likeDislikeList = LikeDislikeList.where(post_id: current_user.id).where(is_like: true)
         detail_ids = []
@@ -18,7 +19,7 @@
         for i in 0..@detail.length - 1
             issue_ids.push(@detail[i].issue_id)
             if @detail[i].created_at > checkTime
-                count = count + 1
+                count_new_detail = count_new_detail + 1
                 new_detail.push(@detail[i])
             end
         end
@@ -57,7 +58,7 @@
                     <% #有登入的時候 %>
                     <% #通知的 Dropdown %>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown">通知<span class="badge notifications_Number"><%= count %></span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown">通知<span class="badge notifications_Number"><%= count_new_detail %></span></a>
                         <ul class="dropdown-menu notifications_Box">
                             <li class="dropdown-header">通知</li>
                             <% for i in 0..new_detail.length - 1 %>
@@ -70,7 +71,7 @@
                     </li>
                 
                     <% if current_user.high_power %>
-                        <li><%= link_to "檢舉頁面", reportlist_path %></li>
+                        <li><a href="<%= reportlist_path %>">檢舉頁面<span class="badge notifications_Number"><%= count_report %></span></a></li>
                         <li><%= link_to "管理者頁面", dataitems_data_issues_path %></li>
                     <% end %>
                 
