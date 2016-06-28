@@ -5,7 +5,7 @@ class MainController < ApplicationController
         puts "------------------------------"
         
 		@issues=DataIssue.where(trunk_id: -1).order(:created_at).reverse.first(10)
-        @details=DataDetail.order(:count).reverse.first(10)
+        @details=DataDetail.where(is_report: false).order(:count).reverse.first(10)
         person = []
         @details.each do |detail|
             person.push([detail.people_id])

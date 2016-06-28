@@ -3,7 +3,7 @@ class ReportlistController < ApplicationController
     
     def index
         if current_user.high_power
-            @reportDetail = ReportDetail.order(:created_at)
+            @reportDetail = ReportDetail.order(:is_check).order(created_at: :desc)
             detail_ids = []
             @reportDetail.each do |item|
             	detail_ids.push(item.detail_id)
