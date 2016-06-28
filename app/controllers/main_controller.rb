@@ -28,6 +28,10 @@ class MainController < ApplicationController
         else
             @Is_EmailThrea_nil = false
         end
+        
+        puts Rails.root
+        puts "Tesmp entries"
+        puts Dir.entries
     end
     
     # 
