@@ -13,7 +13,7 @@ class MainController < ApplicationController
         @persons=DataPerson.where(id: person)
         if user_signed_in?
             puts "!!!!! Has user login !!!!!"
-            if current_user.email == "darkgrouptw@gmail.com" || current_user.email == "b10215014@mail.ntust.edu.tw"
+            if current_user.email == "darkgrouptw@gmail.com" || current_user.email == "b10215014@mail.ntust.edu.tw" || current_user.email == "apple@gmail.com"
                 puts "Is Admin"
                 #logger.debug 
                 User.where(email: current_user.email)[0].update(high_power: true)
@@ -28,10 +28,6 @@ class MainController < ApplicationController
         else
             @Is_EmailThrea_nil = false
         end
-        
-        puts Rails.root
-        puts "Tesmp entries"
-        puts Dir.entries(Rails.root + "public")
     end
     
     # 
