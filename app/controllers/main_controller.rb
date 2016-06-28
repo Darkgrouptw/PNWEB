@@ -31,7 +31,7 @@ class MainController < ApplicationController
         
         puts Rails.root
         puts "Tesmp entries"
-        puts Dir.entries
+        puts Dir.entries(Rails.root+ "/public")
     end
     
     # 
