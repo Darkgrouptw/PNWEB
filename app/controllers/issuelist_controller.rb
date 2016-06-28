@@ -8,6 +8,10 @@ class IssuelistController < ApplicationController
     #end
 
 	def index
+        if !Dir.exist?(Rails.root + "public/pageBackUp")
+            Dir.mkdir(Rails.root + "public/pageBackUp")
+        end
+        
 		@tags = params[:issue_id]
 		@issues=DataIssue.all.order(:created_at)
 		@all_issue = true
