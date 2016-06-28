@@ -91,22 +91,27 @@ class MainController < ApplicationController
     private
     def send_email
         require "rest-client"
-        if true
-            # 這個是 測試版本
-            RestClient.post "https://api:key-ddabee7356c4bbecc5c1846d6994a2ec"\
-            "@api.mailgun.net/v3/sandbox2bbf267493614a8b843884423bc7a480.mailgun.org/messages",
-            :from => "正反網頁 <postmaster@sandbox2bbf267493614a8b843884423bc7a480.mailgun.org>",
-            :to => "TestEmail <darkgrouptw@gmail.com>",
-            :subject => "Test test test",
-            :text => "Hello Email 測試"
-        else
-            # 等驗證完後，再把這個打開
-            RestClient.post "https://api:key-ddabee7356c4bbecc5c1846d6994a2ec"\
-            "@api.mailgun.net/v3/dark.npweb.com/messages",
-            :from => "正反網頁 <postmaster@dark.npweb.com>",
-            :to => "Nickname <darkgrouptw@gmail.com>",
-            :subject => "Test test test",
-            :text => "Hello Email 測試"
+        
+        # 每個使用者都傳信過去
+        tempUser = User.all
+        tempuser.each do |u|
+            if true
+                # 這個是 測試版本
+                RestClient.post "https://api:key-ddabee7356c4bbecc5c1846d6994a2ec"\
+                "@api.mailgun.net/v3/sandbox2bbf267493614a8b843884423bc7a480.mailgun.org/messages",
+                :from => "正反網頁 <postmaster@sandbox2bbf267493614a8b843884423bc7a480.mailgun.org>",
+                :to => u.nickname + " <" + u.email + ">",
+                :subject => "Hello Test " + u.nickname,
+                :text => "Hello Email 測試"
+            else
+                # 等驗證完後，再把這個打開
+                RestClient.post "https://api:key-ddabee7356c4bbecc5c1846d6994a2ec"\
+                "@api.mailgun.net/v3/dark.npweb.com/messages",
+                :from => "正反網頁 <postmaster@dark.npweb.com>",
+                :to => u.nickname + " <" + u.email + ">",
+                :subject => "Hello " + u.nickname,
+                :text => "Hello Email 測試"
+            end
         end
 	end
 end
