@@ -18,7 +18,7 @@ class IssuelistController < ApplicationController
 		if @issues.where(id: @tags).length >= 1
 			@me = @issues.where(id: @tags)[0]
 			@strings = @me.datadetail_id.split(/,/)
-			@details = DataDetail.where(id: @strings)
+			@details = DataDetail.where(id: @strings).where(is_report: false)
             @likeDislikeList = LikeDislikeList.where(post_id: current_user)
 
 
@@ -27,11 +27,11 @@ class IssuelistController < ApplicationController
             
             # 要判斷是用什麼來排序
             if params[:orderby] == "Time"
-                @detail_supprot = @details.where(is_support: true).where(is_report: false).order(:created_at).reverse
-                @detail_disSupport = @details.where(is_support: false).where(is_report: false).order(:created_at).reverse
+                @detail_supprot = @details.where(is_support: true).order(:created_at).reverse
+                @detail_disSupport = @details.where(is_support: false).order(:created_at).reverse
             else
-                @detail_supprot = @details.where(is_support: true).where(is_report: false)
-                @detail_disSupport = @details.where(is_support: false).where(is_report: false)
+                @detail_supprot = @details.where(is_support: true)
+                @detail_disSupport = @details.where(is_support: false)
                 for i in 0..@detail_supprot.length - 1
                     length_i = 0
                     text_i = @detail_supprot[i].like_dislike_list_id

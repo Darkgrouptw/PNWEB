@@ -50,14 +50,13 @@ class DetaillistController < ApplicationController
     	#that user vote the detail 
     	#notes!! this function isn't check the issue is been vote by user for over 3 times
     	@detail = DataDetail.where(id: params[:detail_id])[0]
-    	@likeDislikeLists = LikeDislikeList.where(detail_id: @detail.id)
+    	@likeDislikeLists = LikeDislikeList.where(detail_id: @detail.id).where(post_id: params[:current_user])
     	has_vote = false
-    	@likeDislikeLists.each do |likeDislikeList|
-    		if likeDislikeList.post_id = params[:current_user]
-    			has_vote = true
-    		end
+    	if @likeDislikeLists[0] != nil
+    		has_vote = true
     	end
     	if has_vote
+    		flash[:notice] = "你已投過票了"
     		#do something if the user have already vote this detail
     		if(params[:from_issue] != nil && params[:from_issue] == "true")
         	#http://localhost:3000/issuelist/1/1/0
@@ -86,6 +85,8 @@ class DetaillistController < ApplicationController
     	if like_dislike_list.length == 2
     		like_list = like_dislike_list[0]
     		dislike_list = like_dislike_list[1]
+    	elsif like_dislike_list.length == 1
+    		like_list = like_dislike_list[0]
     	end
 
         if params[:thumb] == "1"
@@ -165,6 +166,7 @@ class DetaillistController < ApplicationController
     	@detail.update(like_dislike_list_id: like_list + "|" + dislike_list)
     	#kill vote data
     	@likeDislikeLists.destroy_all
+    	flash[:notice] = "取消投票成功！！"
     	#redirect
     	if(params[:from_issue] != nil && params[:from_issue] == "true")
         	#http://localhost:3000/issuelist/1/1/0

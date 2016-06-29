@@ -25,10 +25,15 @@ class ReportlistController < ApplicationController
     def check
     	@reportDetail = ReportDetail.where(id: params[:report_id])[0]
     	@detail = DataDetail.where(id: params[:detail_id])[0]
+    	@likeDislikeLists = LikeDislikeList.where(detail_id: @detail.id)
     	if params[:is_banded] == "true"
     		@detail.update(is_report: true)
+    		#取消投票
+    		@likeDislikeLists.destroy_all
+    		flash[:notice] = "檢舉成立！！"
     	else
     		@detail.update(is_report: false)
+    		flash[:notice] = "檢舉駁回！！"
     	end
     	@reportDetail.update(is_check: true)
     	redirect_to reportlist_path
