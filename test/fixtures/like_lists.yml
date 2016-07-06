@@ -2,10 +2,8 @@
 
 one:
   detail_id: 1
-  is_like: false
   post_id: 1
 
 two:
   detail_id: 1
-  is_like: false
   post_id: 1

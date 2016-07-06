@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160628065321) do
+ActiveRecord::Schema.define(version: 20160706093106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,13 +28,13 @@ ActiveRecord::Schema.define(version: 20160628065321) do
     t.text     "content"
     t.string   "link"
     t.integer  "count"
-    t.text     "like_dislike_list_id"
+    t.text     "like_list_id"
     t.integer  "post_id"
     t.integer  "people_id"
     t.integer  "issue_id"
     t.string   "comment_id"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "backup_id"
     t.string   "news_media"
     t.string   "reported_at"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20160628065321) do
     t.string   "datadetail_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "tag"
   end
 
   create_table "data_people", force: :cascade do |t|
@@ -62,19 +63,11 @@ ActiveRecord::Schema.define(version: 20160628065321) do
     t.datetime "updated_at",  null: false
   end
 
-  create_table "like_dislike_lists", force: :cascade do |t|
+  create_table "like_lists", force: :cascade do |t|
     t.integer  "detail_id"
-    t.boolean  "is_like"
     t.integer  "post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "migrations", force: :cascade do |t|
-    t.string   "add_is_report_to_data_datadetails"
-    t.boolean  "is_report"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
   end
 
   create_table "notify_lists", force: :cascade do |t|
@@ -92,6 +85,7 @@ ActiveRecord::Schema.define(version: 20160628065321) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "cause"
+    t.integer  "people_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -107,7 +101,7 @@ ActiveRecord::Schema.define(version: 20160628065321) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.boolean  "high_power"
+    t.integer  "level"
     t.string   "nickname"
     t.string   "own"
   end
