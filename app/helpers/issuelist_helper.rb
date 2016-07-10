@@ -1,2 +1,0 @@
-module IssuelistHelper
-end

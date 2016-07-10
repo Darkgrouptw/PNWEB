@@ -1,2 +1,0 @@
-module Dataitems::DataPeopleHelper
-end
