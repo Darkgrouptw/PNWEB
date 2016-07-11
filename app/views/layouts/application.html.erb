@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PNWEB</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+
+    <!-- For moblie --> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<body style="background-color: rgb(45, 62, 80);">
+<!-- 版面控制 -->
+<br><br><br>
+
+<%= render "common/navbar" %>
+<!-- 給 notice_message 使用 -->
+<div class = "container-fluid">
+    <%= notice_message %>
+</div>
+<%= yield %>
+
+<%= render "common/footer" %>
+</body>
+</html>
