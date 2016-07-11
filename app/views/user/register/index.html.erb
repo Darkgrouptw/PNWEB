@@ -1,0 +1,39 @@
+<%= javascript_include_tag "registerEmail.js" %>
+<div class="container">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-7">
+                <h3 style="text-align: center;">使用者規範</h3>
+                <div style="height: 250px;overflow:auto;">
+                    １．原始文字是人類用來紀錄特定事物、簡化圖像而成的書寫符號。文字在發展早期都是圖畫形式的表意文字（象形文字），與語音無甚關係，中國文字便是從此漸次演變而成。有些中文字可以從表面、部首、字旁看到一些聯繫旁通的字義。而這些特色是拼音文字所沒有的。所以古代中國文字在不同的語系區域是擁有不同發音的，即方言的存在。漢朝已經被鄰近的族群借用其文字用作為書寫紀錄。<br>
+
+                    ２．歷經不同演變，部分發展成語言的符號系統，後亦可用來紀錄人生經驗與見聞。一般認為，文字是文明社會的標誌。馬克思主義者認為文字是在階級社會出現後產生的[1]。<br>
+
+                    ３．另一方面，從古埃及文、羅馬文字、及拉丁文字則發展到後期都成為語音符號，即外文的字母，不同的外文字母合併成一個外國文字。由於不同字母分別付予一個音，不同的字母合併成切音（混音），形成音節，合併不合的音節，成為了記錄語音的表音文字。<br>
+                    
+                    １．原始文字是人類用來紀錄特定事物、簡化圖像而成的書寫符號。文字在發展早期都是圖畫形式的表意文字（象形文字），與語音無甚關係，中國文字便是從此漸次演變而成。有些中文字可以從表面、部首、字旁看到一些聯繫旁通的字義。而這些特色是拼音文字所沒有的。所以古代中國文字在不同的語系區域是擁有不同發音的，即方言的存在。漢朝已經被鄰近的族群借用其文字用作為書寫紀錄。<br>
+
+                    ２．歷經不同演變，部分發展成語言的符號系統，後亦可用來紀錄人生經驗與見聞。一般認為，文字是文明社會的標誌。馬克思主義者認為文字是在階級社會出現後產生的[1]。<br>
+
+                    ３．另一方面，從古埃及文、羅馬文字、及拉丁文字則發展到後期都成為語音符號，即外文的字母，不同的外文字母合併成一個外國文字。由於不同字母分別付予一個音，不同的字母合併成切音（混音），形成音節，合併不合的音節，成為了記錄語音的表音文字。<br>
+                </div>
+                <div style="text-align: center;">
+                    <input type="checkbox" id="ReadRule" name="readrule" value="Read">我已閱讀完，且同意使用者規範<br>
+                </div>
+            </div>
+            <div class="col-md-offset-1 col-md-4">
+                <h3 style="text-align: center;">請輸入信箱，發送驗證碼</h3>
+                <br>
+                <% # 驗證表單 %>
+                <form action="<%= register_send_email_path %>" method="post">
+                    <div style="text-align: center;">
+                        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                        <span class="glyphicon glyphicon-envelope" style="font-size: 150px; text-align: center;" aria-hidden="true"></span>
+                        <input type="text" name="email" style="width: 350px;"> <br><br>
+                        <button type="submit" id="submitToSendEmail" class="btn btn-primary" style="width: 200px;" disabled>發送驗證信</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

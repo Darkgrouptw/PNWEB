@@ -1,3 +1,8 @@
 Rails.application.routes.draw do 
-    root  "main#index"
+    root    "main#index"
+    
+    # 註冊頁面
+    get     "RegisterEmail"     =>  "user/register#index",      :as =>  "register_email"
+    post    "RegisterSendEmail" =>  "user/register#sendEmail",  :as =>  "register_send_email"
+    get     "WaitForVerify"     =>  "user/register#wait",       :as =>  "wait_for_verify"    
 end
