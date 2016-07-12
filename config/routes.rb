@@ -6,5 +6,6 @@ Rails.application.routes.draw do
     post    "RegisterSendEmail" =>  "user/register#sendEmail",  :as =>  "register_send_email"
     get     "WaitForVerify"     =>  "user/register#wait",       :as =>  "wait_for_verify"
     get     "VerifyEmail"       =>  "user/register#verify"
-    post    "Register/form"     =>  "user/register#form",       :as =>  "register_form"
+    get     "Register/form"     =>  "user/register#form",       :as =>  "register_form"
+    post    "Register/success"  =>  "user/register#success",    :as =>  "register_success"
 end

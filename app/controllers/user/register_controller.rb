@@ -90,19 +90,52 @@ class User::RegisterController < ApplicationController
             return
         end
         
-        flash[:notice] = "正在跳轉網頁當中..."
-        #item[0].destroy
+        session[:token] = params[:token]
+        session[:email] = params[:email]
+        redirect_to register_form_path
     end
     
     def form
-        @token = params[:token]
-        @email = params[:email]
+        @token = session[:token]
+        @email = session[:email]
+        
+        # 刪除 session
+        session.delete(:token)
+        session.delete(:email)
         
         if !is_uuid(@token) || !is_email(@email)
             redirect_to "/"
             flash[:warning] = "傳送 Form 的參數有問題，請聯絡最高管理者幫忙處理！！"
             return
         end
+    end
+    
+    def success
+        
+        if !is_uuid(params[:token]) || ! is_email(params[:email])
+            redirect_to :back
+            flash[:warning] = "請勿擅自修改資料喔！！"
+            return
+        end
+        
+        # 判斷有沒有這筆資料
+        item = VerifyList.where(email: params[:email])
+        if item.count == 0
+            redirect_to :back
+            flash[:warning] = "請勿擅自修改資料喔！！"
+            return
+        end
+        
+        # 判斷 token 正不正確
+        if item[0].uuid != params[:token]
+            redirect_to :back
+            flash[:warning] = "請勿擅自修改資料喔！！"
+            return
+        end
+        
+        # 接下來要判斷參數對不對，有沒有沒勾的或沒值的
+        
+        #item[0].destry
     end
     
     private
