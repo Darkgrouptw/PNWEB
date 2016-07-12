@@ -1,0 +1,61 @@
+<div class="container">
+    <div class="jumbotron">
+        <h2 style="text-align:center;">註冊頁面</h2>
+        
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <form action="" method="post">
+                    <div class="form-inputs">
+                        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                        <input type="hidden" name="token" value="<%= @token %>">
+                        
+                        <label class="required control-label">信箱</label>
+                        <input type="text" name="email" value="<%= @email %>" style="width: 300px;" retquired="true" disabled>
+                        <br>
+                        
+                        <label class="required control-label">密碼</label>
+                        <input type="text" name="email" value="" style="width: 300px;" retquired="true">
+                        <br>
+                        
+                        <label class="required control-label">確認密碼</label>
+                        <input type="text" name="email" value="" style="width: 300px;" retquired="true">
+                        <br>
+                        
+                        <label class="required control-label">暱稱</label>
+                        <input type="text" name="email" value="" style="width: 300px;" retquired="true">
+                        <br>
+                        
+                        <label class="required control-label">性別</label>
+                        <input type="text" name="email" value="" style="width: 300px;" retquired="true">
+                        <br>
+                        
+                        <label class="required control-label">暱稱（必填）</label>
+                        <input type="text" name="email" value="" style="width: 300px;" retquired="true">
+                        <br>
+                        
+                        <label class="required control-label">暱稱（必填）</label>
+                        <input type="text" name="email" value="" style="width: 300px;" retquired="true">
+                        <br>
+                        
+                        <% if false %>
+                        <%= f.label "信箱 (必填)" %>
+                        <%= f.input_field :email, style: "width: 300px", required: true, autofocus: true %> <br>
+
+                        <%= f.label "密碼 (必填)" %>
+                        <%= f.input_field :password, style: "width: 300px", required: true, hint: ("最少需要 #{@minimum_password_length} 個字" if @minimum_password_length) %>
+
+                        <%= f.label "確認密碼 (必填)" %>
+                        <%= f.input_field :password_confirmation, style: "width: 300px", required: true %>
+
+                        <%= f.label "暱稱 (必填)" %>
+                        <%= f.input_field :nickname, style: "width: 300px", required: true %>
+                        <% end %>
+                    </div>
+                    <div style="text-align:center; margin-top: 10px;">
+                        <input type="submit" class="btn btn-primary" style="width: 150px;">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
