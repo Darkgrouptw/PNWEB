@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="jumbotron">
+        <h2 style="text-align: center;">登入頁面</h2>
+        
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <form action="<%= login_verify_path %>" method="post">
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+                    <label>信箱</label>
+                    <input type="text" class="form-control" name="email" required="true">
+                    <br>
+
+                    <label>密碼</label>
+                    <input type="password" class="form-control" name="password" required="true">
+                    <br>
+                    
+                    <div style="text-align:center; margin-top: 10px;">
+                        <input type="submit" class="btn btn-primary" style="width: 150px;">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

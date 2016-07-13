@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     # 登入頁面 ＆ 登出
     get     "User/Login"        =>  "user/login#login",         :as =>  "login"
     delete  "User/Logout"       =>  "user/login#logout",        :as =>  "logout"
+    post    "User/VerifyAccout" =>  "user/login#verify",        :as =>  "login_verify"
     
     # 註冊頁面
     get     "RegisterEmail"     =>  "user/register#index",      :as =>  "register_email"

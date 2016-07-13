@@ -164,6 +164,12 @@ class User::RegisterController < ApplicationController
             return
         end
         
+        if params[:password][/[a-zA-Z0-9]+/] != params[:password]
+            redirect_to :back
+            flash[:warning] = "有不合法的字，請重新填寫"
+            return
+        end
+        
         if params[:sex] == nil || !(params[:sex] == "male" || params[:sex] == "female" || params[:sex] == "other")
             redirect_to :back
             flash[:warning] = "請選擇性別！！"

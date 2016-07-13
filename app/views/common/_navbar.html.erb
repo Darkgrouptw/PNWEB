@@ -24,7 +24,7 @@
                 <% if !current_user %>
                     <% #沒有登入的時候 %>
                     <li><a href="<%= register_email_path %>">註冊</a></li>
-                    <li><a href="#">登入</a></li>
+                    <li><a href="<%= login_path %>">登入</a></li>
                 <% else %>
                     <% #有登入的時候 %>
                     <% #通知的 Dropdown %>
