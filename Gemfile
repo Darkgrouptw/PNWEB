@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'json'
 gem 'bootstrap-sass'
 gem 'rest-client'
 gem 'rails_12factor', group: :production

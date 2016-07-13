@@ -1,5 +1,4 @@
 class User::RegisterController < ApplicationController
-    include Security
     
     def index
     end
@@ -13,6 +12,15 @@ class User::RegisterController < ApplicationController
             flash[:warning] = "請輸入正確的信箱！！"
             return
         end
+        
+        # 確定是否已經驗證過了
+        userList = User.where(:email => params[:email])
+        if userList.count != 0
+            redirect_to register_email_path
+            flash[:warning] = "此帳號已經註冊過囉！！"
+            return
+        end
+            
         
         emailList = VerifyList.where(:email => params[:email])
         
@@ -45,9 +53,7 @@ class User::RegisterController < ApplicationController
                 flash[:warning] = "請於 1個小時之後，再重試"
                 return
             end
-            #byebug
         end
-        #byebug
     end
     
     #
@@ -92,16 +98,13 @@ class User::RegisterController < ApplicationController
         
         session[:token] = params[:token]
         session[:email] = params[:email]
+        byebug
         redirect_to register_form_path
     end
     
     def form
         @token = session[:token]
         @email = session[:email]
-        
-        # 刪除 session
-        session.delete(:token)
-        session.delete(:email)
         
         if !is_uuid(@token) || !is_email(@email)
             redirect_to "/"
@@ -111,7 +114,6 @@ class User::RegisterController < ApplicationController
     end
     
     def success
-        
         if !is_uuid(params[:token]) || ! is_email(params[:email])
             redirect_to :back
             flash[:warning] = "請勿擅自修改資料喔！！"
@@ -134,8 +136,86 @@ class User::RegisterController < ApplicationController
         end
         
         # 接下來要判斷參數對不對，有沒有沒勾的或沒值的
+        require 'rest-client'
+        require 'rubygems'
+        require 'json'
+        response = RestClient.post "https://www.google.com/recaptcha/api/siteverify",
+                :secret => "6LeX2SQTAAAAAKbIPMl-1aYU63KgVEQRWPs6o7Bv",
+                :response => params["g-recaptcha-response"],
+                :remoteip => request.remote_ip
+        reCaptcha = JSON.parse(response.to_s)
         
-        #item[0].destry
+        if !reCaptcha["success"]
+            redirect_to :back
+            flash[:warning] = "機器人驗證碼有錯誤！！"
+            return
+        end
+        
+        # 驗證輸入的東西對不對
+        if params[:password] != params[:password_confirm]
+            redirect_to :back
+            flash[:warning] = "兩個密碼不太一樣！！"
+            return
+        end
+        
+        if params[:sex] == nil || !(params[:sex] == "male" || params[:sex] == "female" || params[:sex] == "other")
+            redirect_to :back
+            flash[:warning] = "請選擇性別！！"
+            return
+        end
+        
+        if params[:password].length < 6 
+            redirect_to :back
+            flash[:warning] = "密碼小於 6 個字！！"
+            return
+        end
+        
+        if params[:nickname] == nil
+            redirect_to :back
+            flash[:warning] = "暱稱沒有填寫！！"
+            return
+        end
+        
+        if params[:date] == nil
+            redirect_to :back
+            flash[:warning] = "時間沒有填寫！！"
+            return
+        end
+        
+        countryArray = ["台灣", "大陸", "新加坡", "馬來西亞", "泰國", "越南","巴西", "阿根廷", "美國", "英國"]
+        if params[:liveplace].to_i <= 0 || params[:liveplace].to_i > countryArray.count
+            redirect_to :back
+            flash[:warning] = "沒有這個國家代碼喔！！"
+            return
+        end
+        
+        newUser = User.new
+        newUser.email = params[:email]
+        newUser.password = encrypt_password(params[:password])
+        
+        # 性別的判斷
+        case params[:sex]
+            when "male"
+                newUser.sex = 0
+            when "female"
+                newUser.sex = 1
+            else
+                newUser.sex = 2
+        end
+        newUser.birth = params[:date].sub("-", "/")
+        newUser.nickname = params[:nickname]
+        newUser.level = 0
+        newUser.ip = request.remote_ip
+        newUser.save
+        item[0].destroy
+        
+        # 刪除 session
+        session.delete(:token)
+        session.delete(:email)
+        
+        
+        redirect_to "/"
+        flash[:notice] = "註冊成功！！"
     end
     
     private
