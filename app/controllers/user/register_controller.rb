@@ -98,7 +98,6 @@ class User::RegisterController < ApplicationController
         
         session[:token] = params[:token]
         session[:email] = params[:email]
-        byebug
         redirect_to register_form_path
     end
     
@@ -148,6 +147,13 @@ class User::RegisterController < ApplicationController
         if !reCaptcha["success"]
             redirect_to :back
             flash[:warning] = "機器人驗證碼有錯誤！！"
+            return
+        end
+        
+        userList = User.where(:email => params[:email])
+        if userList.count != 0
+            redirect_to "/"
+            flash[:warning] = "此帳號已經註冊過囉！！"
             return
         end
         
@@ -206,7 +212,16 @@ class User::RegisterController < ApplicationController
         newUser.nickname = params[:nickname]
         newUser.level = 0
         newUser.ip = request.remote_ip
+        newUser.last_login_in = DateTime.now
+        newUser.liveplace = countryArray[params[:liveplace].to_i - 1]
+        newUser.token = make_uuid
+        
         newUser.save
+        
+        #Save 完之後才有 ID
+        session[:UserID] = newUser.id
+        session[:UserToken] = newUser.token
+        
         item[0].destroy
         
         # 刪除 session

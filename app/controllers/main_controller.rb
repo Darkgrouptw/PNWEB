@@ -1,5 +1,6 @@
 class MainController < ApplicationController
     def index
-        current_user()
+        # 刪除 email 得 Session
+        clearEmailSession
     end
 end
