@@ -1,5 +1,4 @@
 module Userinfo
-    
     #
     # 如果 session 有 UserID and UserToken 兩個要正確，才能拿到 current_user
     #
@@ -7,7 +6,13 @@ module Userinfo
         if session[:UserID] == nil || session[:UserToken] == nil
             return nil
         end
-        return User.where(:id => session[:UserID], :token => session[:UserToken])[0]
+        
+        if @userinfo != nil
+            return @userinfo 
+        end
+        
+        @userinfo  = User.where(:id => session[:UserID], :token => session[:UserToken])[0]
+        return @userinfo
     end
     
     #
@@ -19,15 +24,19 @@ module Userinfo
             return
         end
         
-        oldUser = User.where(:id => session[:UserID], :token => session[:UserToken])[0]
-        if oldUser.last_login_in - DateTime.now > 2.weeks
+        @userinfo = User.where(:id => session[:UserID], :token => session[:UserToken])[0]
+        @userinfo.ip = request.remote_ip
+        if @userinfo.last_login_in - DateTime.now > 2.weeks
             session.delete(:UserID)
             session.delete(:UserToken)
-            oldUser.Token = ""
+            @userinfo.Token = ""
         end
+
+        @userinfo.save
         
-        oldUser.ip = request.remote_ip
-        oldUser.save
+        if @userinfo.last_login_in - DateTime.now > 2.weeks
+            @userinfo = nil
+        end
     end
     
     #

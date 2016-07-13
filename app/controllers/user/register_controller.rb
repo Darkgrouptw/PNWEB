@@ -208,7 +208,7 @@ class User::RegisterController < ApplicationController
             else
                 newUser.sex = 2
         end
-        newUser.birth = params[:date].sub("-", "/")
+        newUser.birth = params[:date].gsub("-", "/")
         newUser.nickname = params[:nickname]
         newUser.level = 0
         newUser.ip = request.remote_ip
