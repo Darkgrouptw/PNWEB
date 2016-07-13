@@ -26,7 +26,7 @@ class User::LoginController < ApplicationController
     end
     
     #
-    #
+    # 驗證登入是否正確！！
     #
     def verify
         if !is_email(params[:email])
@@ -59,5 +59,9 @@ class User::LoginController < ApplicationController
         userList[0].token = session[:UserToken]
         userList[0].last_login_in = DateTime.now
         userList[0].save
+        
+        redirect_to "/"
+        flash[:notice] = "登入成功！！"
+        return
     end
 end
