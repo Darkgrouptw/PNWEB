@@ -57,7 +57,7 @@ class User::LoginController < ApplicationController
         session[:UserID] = userList[0].id
         session[:UserToken] = make_uuid
         userList[0].token = session[:UserToken]
-        userList[0].last_login_in = DataTime.now
+        userList[0].last_login_in = DateTime.now
         userList[0].save
     end
 end
