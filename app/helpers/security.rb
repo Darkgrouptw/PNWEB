@@ -1,5 +1,6 @@
 module Security
     def encrypt_password(str)
+        byebug
         require 'openssl'
         require 'Base64'
         
