@@ -1,8 +1,7 @@
 module Security
     def encrypt_password(str)
-        byebug
         require 'openssl'
-        require 'Base64'
+        require 'base64'
         
         return Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new("sha512"), "NTUST-PNWEB", str)).strip()
     end
