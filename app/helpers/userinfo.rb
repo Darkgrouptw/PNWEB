@@ -7,15 +7,21 @@ module Userinfo
             return nil
         end
         
+        
+        userlist  = User.where(:id => session[:UserID], :token => session[:UserToken])
+        if userlist.count == 0
+            session.delete(:UserID)
+            session.delete(:UserToken)
+            @userinfo = nil
+            return nil
+        end
+        
         if @userinfo != nil
             return @userinfo 
         end
         
-        @userinfo  = User.where(:id => session[:UserID], :token => session[:UserToken])
-        if @userinfo.count == 0
-            reutrn nil
-        end
-        return @userinfo[0]
+        @userinfo = userlist[0]
+        return @userinfo
     end
     
     #
