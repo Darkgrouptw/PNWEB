@@ -11,8 +11,11 @@ module Userinfo
             return @userinfo 
         end
         
-        @userinfo  = User.where(:id => session[:UserID], :token => session[:UserToken])[0]
-        return @userinfo
+        @userinfo  = User.where(:id => session[:UserID], :token => session[:UserToken])
+        if @userinfo.count == 0
+            reutrn nil
+        end
+        return @userinfo[0]
     end
     
     #
