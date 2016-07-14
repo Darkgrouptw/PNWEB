@@ -24,18 +24,22 @@ module Userinfo
             return
         end
         
-        @userinfo = User.where(:id => session[:UserID], :token => session[:UserToken])[0]
-        @userinfo.ip = request.remote_ip
-        if @userinfo.last_login_in - DateTime.now > 2.weeks
+        @userinfo = User.where(:id => session[:UserID], :token => session[:UserToken])
+        if @userinfo.count == 0
+            return
+        end
+        
+        @userinfo[0].ip = request.remote_ip
+        if @userinfo[0].last_login_in - DateTime.now > 2.weeks
             session.delete(:UserID)
             session.delete(:UserToken)
-            @userinfo.Token = ""
+            @userinfo[0].Token = ""
         end
 
-        @userinfo.save
+        @userinfo[0].save
         
-        if @userinfo.last_login_in - DateTime.now > 2.weeks
-            @userinfo = nil
+        if @userinfo[0].last_login_in - DateTime.now > 2.weeks
+            @userinfo[0] = nil
         end
     end
     
