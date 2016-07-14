@@ -1,0 +1,2 @@
+class PeoplelistController < ApplicationController
+end
