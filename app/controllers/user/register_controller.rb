@@ -40,7 +40,7 @@ class User::RegisterController < ApplicationController
         else
             # 算時間差距
             diference = DateTime.current().to_f - emailList[0].updated_at.to_f
-            if diference > 1.hour
+            if diference > 1.minutes
                 uuid = make_uuid
                 emailList[0].uuid = uuid
                 emailList[0].save
@@ -50,7 +50,7 @@ class User::RegisterController < ApplicationController
                 return
             else
                 redirect_to(:back)
-                flash[:warning] = "請於 1個小時之後，再重試"
+                flash[:warning] = "請於 1 分鐘之後，再重試"
                 return
             end
         end

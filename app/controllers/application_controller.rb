@@ -18,9 +18,6 @@ class ApplicationController < ActionController::Base
             return 
         end
         
-        puts "Current_USER =>"
-        puts current_user
-        puts "END END"
         if current_user.email == "darkgrouptw@gmail.com" || current_user.email == "b10215014@mail.ntust.edu.tw"
             current_user.level = 3
             current_user.save
