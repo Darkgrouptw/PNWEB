@@ -11,10 +11,82 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160713070018) do
+ActiveRecord::Schema.define(version: 20160721082859) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "data_comments", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "data_details", force: :cascade do |t|
+    t.boolean  "is_support"
+    t.text     "content"
+    t.string   "link"
+    t.string   "backup_id"
+    t.integer  "count"
+    t.text     "like_list_id"
+    t.integer  "post_id"
+    t.integer  "people_id"
+    t.integer  "issue_id"
+    t.string   "comment_idstring"
+    t.string   "news_media"
+    t.string   "report_at"
+    t.string   "title_at_that_time"
+    t.boolean  "is_direct"
+    t.boolean  "is_report"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  create_table "data_issues", force: :cascade do |t|
+    t.string   "title"
+    t.text     "post"
+    t.boolean  "is_candidate"
+    t.integer  "trunk_id"
+    t.integer  "popularity"
+    t.string   "datadetail_id"
+    t.string   "tag"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "data_people", force: :cascade do |t|
+    t.string   "name"
+    t.string   "pic_link"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "like_lists", force: :cascade do |t|
+    t.integer  "detail_id"
+    t.integer  "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "notify_lists", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "issue_id"
+    t.time     "last_read"
+    t.time     "newest_detail"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "report_details", force: :cascade do |t|
+    t.integer  "detail_id"
+    t.boolean  "is_check"
+    t.string   "cause"
+    t.integer  "people_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
