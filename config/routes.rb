@@ -16,4 +16,8 @@ Rails.application.routes.draw do
     get     "Register/form"     =>  "user/register#form",       :as =>  "register_form"
     post    "Register/success"  =>  "user/register#success",    :as =>  "register_success"
     
+    # issue page
+    get     "Issuelist/all"     =>  "issuelist#all",     :as =>  "issuelist_all"
+    get     "Issuelist/:id"     =>  "issuelist#index",   :as =>  "issuelist_index"
+    
 end
