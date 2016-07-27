@@ -19,5 +19,8 @@ Rails.application.routes.draw do
     # issue page
     get     "Issuelist/all"     =>  "issuelist#all",     :as =>  "issuelist_all"
     get     "Issuelist/:id"     =>  "issuelist#index",   :as =>  "issuelist_index"
+    # people page
+    get     "Peoplelist/all"    =>  "peoplelist#all",   :as =>  "peoplelist_all"
+    get     "Peoplelist/:id"    =>  "peoplelist#index", :as =>  "peoplelist_index"
     
 end

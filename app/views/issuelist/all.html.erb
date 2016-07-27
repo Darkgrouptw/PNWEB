@@ -1,1 +1,29 @@
-all
+<div align = "center" class = "whiteText">
+	this is the page to show all the issue,and order by time
+</div>
+<div align = "center" class = "whiteText">
+	<div class = "col-md-offset-2 col-md-8 ">
+		<table class = "table table-bordered">
+			<thead>
+				<tr align = "center">
+					<td colspan = "3">All the Issue</td>
+				</tr>
+				<tr><td>Title</td><td>count</td><td>created time</td></tr>
+			</thead>
+			<tbody>
+				<% @issues.where(trunk_id: -1).each do |issue| %>
+					<tr>
+						<td>
+							<% link = issuelist_index_path ( issue.id.to_s) %>
+							<a href = <%= link %>>
+								<%= issue.title %>
+							</a>
+						</td>
+						<td></td>
+						<td></td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+</div>
