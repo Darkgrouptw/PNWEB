@@ -22,5 +22,9 @@ Rails.application.routes.draw do
     # people page
     get     "Peoplelist/all"    =>  "peoplelist#all",   :as =>  "peoplelist_all"
     get     "Peoplelist/:id"    =>  "peoplelist#index", :as =>  "peoplelist_index"
+    # detail page
+    get     "Detaillist/:id"    =>  "detaillist#index", :as =>  "detaillist_index"
+    # poster page
+    get     "User/:id"          =>  "user/userlist#index",  :as =>  "userlist_index"
     
 end

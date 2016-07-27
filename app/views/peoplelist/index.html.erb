@@ -1,0 +1,70 @@
+<% if @me == nil %>
+	<div class = "whiteText">
+		error,invalid parameter
+	</div>
+<% else %>
+	<!-- the description with @me -->
+	<div class = "whiteText row">
+		
+		<div class = "col-md-offset-2 col-md-8 row">
+			<table class = "table table-bordered">
+				<thead>
+					<tr align = "center" ><td colspan = "2"><%= @me.name %></td></tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class = "col-md-3">
+							<% if @me.pic_link.nil? || @me.pic_link.empty? %>
+								<%= image_tag 'http://i.imgur.com/TbBAqpV.png', width: "200" %>
+							<% else %>
+								<%= image_tag @me.pic_link, width: "200" %>
+							<% end %>
+						</td>  
+						<td class = "col-md-5"><%= @me.description %></td> 
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<!-- tables with all the detail -->
+	<div class = "whiteText row">
+		<div align = "center">The detail connect to <%= @me.name %></div>
+		<div class = "col-md-offset-2 col-md-8 row">
+			<table class = "table table-bordered">
+				<thead>
+					<tr align = "center" >
+						<td>Issue</td>
+						<td>Detail</td>
+						<td>Attitude</td>
+					</tr>
+				</thead>
+				<tbody>
+					<% @details.each do |detail| %>
+						<% issue = @issues.where(id: detail.issue_id)[0] %>
+						<tr>
+							<td>
+								<% link = issuelist_index_path(id: issue.id) %>
+								<a href = <%= link %>>
+									<%= issue.title %>
+								</a>
+							</td>
+							<td>
+								<% link = detaillist_index_path(id: issue.id) %>
+								<a href = <%= link %>>
+									<%= detail.content %>
+								</a>
+							</td>
+							<td>
+								<% if detail.is_support %>
+									Support
+								<% else %>
+									Dissupport
+								<% end %>
+							</td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+<% end %>

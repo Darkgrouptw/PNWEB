@@ -1,0 +1,35 @@
+<div align = "center" class = "whiteText">
+	this is the page to show all the famous people or group
+</div>
+<div align = "center" class = "whiteText">
+	<div class = "col-md-offset-2 col-md-8 ">
+		<table class = "table table-bordered">
+			<thead>
+				<tr align = "center">
+					<td colspan = "3">All the people or group</td>
+				</tr>
+				<tr><td>Name</td><td>Image</td><td>Description</td></tr>
+			</thead>
+			<tbody>
+				<% @persons.each do |person| %>
+					<tr>
+						<td>
+							<% link = peoplelist_index_path ( person.name) %>
+							<a href = <%= link %>>
+								<%= person.name %>
+							</a>
+						</td>
+						<td>
+							<% if person.pic_link.nil? || person.pic_link.empty? %>
+								<%= image_tag 'http://i.imgur.com/TbBAqpV.png', width: "200" %>
+							<% else %>
+								<%= image_tag person.pic_link, width: "200" %>
+							<% end %>
+						</td>
+						<td><%= person.description %></td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+</div>

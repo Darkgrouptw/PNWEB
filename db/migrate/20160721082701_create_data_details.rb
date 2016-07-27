@@ -10,7 +10,7 @@ class CreateDataDetails < ActiveRecord::Migration
       t.integer :post_id
       t.integer :people_id
       t.integer :issue_id
-      t.string :comment_idstring
+      t.string :comment_id
       t.string :news_media
       t.string :report_at
       t.string :title_at_that_time
