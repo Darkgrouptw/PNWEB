@@ -58,6 +58,8 @@
 								<%= @user.nickname %>
 							</a>
 						</td>
+						<td><%= @me.created_at %></td>
+						<td><%= @me.like_list_id.split(',').length %></td>
 					</tr>
 				</tbody>
 			</table>

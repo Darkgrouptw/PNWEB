@@ -18,7 +18,10 @@ Rails.application.routes.draw do
     
     # issue page
     get     "Issuelist/all"     =>  "issuelist#all",     :as =>  "issuelist_all"
+    get     "Issuelist/add"     =>  "issuelist#add",     :as =>  "issuelist_add"
+    post    "Issuelist/new"     =>  "issuelist#new",     :as =>  "issuelist_new"
     get     "Issuelist/:id"     =>  "issuelist#index",   :as =>  "issuelist_index"
+
     # people page
     get     "Peoplelist/all"    =>  "peoplelist#all",   :as =>  "peoplelist_all"
     get     "Peoplelist/:id"    =>  "peoplelist#index", :as =>  "peoplelist_index"
@@ -26,5 +29,7 @@ Rails.application.routes.draw do
     get     "Detaillist/:id"    =>  "detaillist#index", :as =>  "detaillist_index"
     # poster page
     get     "User/:id"          =>  "user/userlist#index",  :as =>  "userlist_index"
-    
+    # view reportPage
+    get     "/ReportList"                   => "reportlist#index",      :as => "reportlist"
+
 end

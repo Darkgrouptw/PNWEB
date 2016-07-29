@@ -57,6 +57,9 @@ class IssuelistController < ApplicationController
 		end
 	end
 
+	def add
+	end
+
 	def all
 		@issues = DataIssue.where(trunk_id: -1).order(:created_at)
 	end
