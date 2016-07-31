@@ -20,13 +20,20 @@ Rails.application.routes.draw do
     get     "Issuelist/all"     =>  "issuelist#all",     :as =>  "issuelist_all"
     get     "Issuelist/add"     =>  "issuelist#add",     :as =>  "issuelist_add"
     post    "Issuelist/new"     =>  "issuelist#new",     :as =>  "issuelist_new"
+    get     "Issuelist/edit/:id"    =>  "issuelist#edit",       :as =>  "issuelist_edit"
+    post    "Issuelist/update"  =>  "issuelist#update",     :as =>  "issuelist_update"
     get     "Issuelist/:id"     =>  "issuelist#index",   :as =>  "issuelist_index"
 
     # people page
     get     "Peoplelist/all"    =>  "peoplelist#all",   :as =>  "peoplelist_all"
     get     "Peoplelist/:id"    =>  "peoplelist#index", :as =>  "peoplelist_index"
     # detail page
+    get     "Detaillist/add/:id"    =>  "detaillist#add",   :as =>  "detaillist_add"
+    post    "Detaillist/new"    =>  "detaillist#new",   :as =>  "detaillist_new"
+    get     "Detaillist/edit"   =>  "detaillist#edit",  :as =>  "detaillist_edit"
+    post    "Detaillist/update" =>  "detaillist#update",:as =>  "detaillist_update"
     get     "Detaillist/:id"    =>  "detaillist#index", :as =>  "detaillist_index"
+
     # poster page
     get     "User/:id"          =>  "user/userlist#index",  :as =>  "userlist_index"
     # view reportPage

@@ -12,13 +12,14 @@
 						<td>Issue</td>
 						<td>Person</td>
 						<td>IsSupport</td>
-						<td>IdDirect</td>
+						<td>IsDirect</td>
 						<td>Content</td>
 						<td>Media</td>
 						<td>Reported Time</td>
 						<td>Poster</td>
 						<td>PostedTime</td>
 						<td>LikeNumber</td>
+						<td>link</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -30,13 +31,17 @@
 							</a>
 						</td>
 						<td>
-							<% link = peoplelist_index_path(id: @person.name) %>
-							<a href = <%= link %>>
-								<%= @person.name %>
-							</a>
+							<% if @person.nil? %>
+								無名
+							<% else %>
+								<% link = peoplelist_index_path(id: @person.name) %>
+								<a href = <%= link %>>
+									<%= @person.name %>
+								</a>
+							<% end %>
 						</td>
 						<td>
-							<% if @me.is_report %>
+							<% if @me.is_support %>
 								Support
 							<% else %>
 								DisSupport
@@ -60,6 +65,7 @@
 						</td>
 						<td><%= @me.created_at %></td>
 						<td><%= @me.like_list_id.split(',').length %></td>
+						<td><% link = "//"+ @me.link %><a href = <%= link %>><%= @me.link %></a></td>
 					</tr>
 				</tbody>
 			</table>
