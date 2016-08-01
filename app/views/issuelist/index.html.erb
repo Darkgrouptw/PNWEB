@@ -64,114 +64,139 @@
 			<!-- support detail -->
 			<% for i in 0..1 %>
 				<table class = "table table-bordered">
+					<thead>
+						<% if i == 0 %>
+							<tr align = "center"><td class = "col-md-8" colspan = "2">正方論述</td></tr>
+						<% else %>
+							<tr align = "center"><td class = "col-md-8" colspan = "2">反方論述</td></tr>
+						<% end %>
+						<% detail = nil %>
+						<% if i == 0 %>
+							<% details = @support %>
+						<% else %>
+							<% details = @disSupport %>
+						<% end %>
+						
+					</thead>
+					<tbody>
 
-				<thead>
-					<% if i == 0 %>
-						<tr align = "center"><td class = "col-md-8" colspan = "2">正方論述</td></tr>
-					<% else %>
-						<tr align = "center"><td class = "col-md-8" colspan = "2">反方論述</td></tr>
-					<% end %>
-					<% detail  = nil %>
-					<% if i == 0 %>
-						<% details = @support %>
-					<% else %>
-						<% details = @disSupport %>
-					<% end %>
-					
-				</thead>
-				<tbody>
-					<% details.each do |detail| %>
-					<% end %>
-					<!-- 換頁 -- >
-					<% if i == 0%>
-						<tr style="text-align:center;">
-							<td colspan="12">
-								<table border="0" style="width:100%;">
-									<tr>
-										<td colspan="12" style="text-align:right;">
-											<% if(@PositiveHasLastPage) %>
-												<%= link_to "上一頁", "/issuelist/" + @tags + "/" + ( @postive_page.to_i - 1 ).to_s + "/" + @negative_page %>
-											<% end %>
-											<%= " " %>
-											<% if(@postive_page.to_i - @PageExtend > 0) %>
-												<%= link_to "1", "/issuelist/" + @tags + "/" + "0" + "/" + @negative_page %>
-												<% if(@postive_page.to_i - @PageExtend > 1) %>
-													<%= "。。。" %>
+						<% details.each do |detail| %>
+						<tr>test</tr>
+						<% end %>
+						<!-- 換頁 -->
+						<% if i == 0 %>
+							<tr style="text-align:center;">
+								<td colspan="12">
+									<table border="0" style="width:100%;">
+										<tr>
+											<td colspan="12" style="text-align:right;">
+												<% if(@PositiveHasLastPage) %>
+													<% p = ( @postive_page.to_i - 1 ).to_s %>
+													<% n = @negative_page %>
+													<%= link_to "上一頁", issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
 												<% end %>
-											<% end %>
-											<% lastPage = ( @support.length / @numberPerPage )%>
-											<% for j in 1..@PageExtend %>
-												<% i = @PageExtend - j + 1 %>
-												<% if(@postive_page.to_i - i > -1) %>
-													<%= link_to ( @postive_page.to_i - i + 1).to_s, "/issuelist/" + @tags + "/" + ( @postive_page.to_i - i ).to_s + "/" + @negative_page %>
+												<%= " " %>
+												<% if(@postive_page.to_i - @PageExtend > 0) %>
+													<% p = "0" %>
+													<% n = @negative_page %>
+													<%= link_to "1", issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+													<% if(@postive_page.to_i - @PageExtend > 1) %>
+														<%= "。。。" %>
+													<% end %>
 												<% end %>
-											<% end %>
-											<%= ( @postive_page.to_i + 1 ).to_s %>
-											<% for i in 1..@PageExtend %>
-												<% if(@postive_page.to_i + i < lastPage + 1) %>
-													<%= link_to ( @postive_page.to_i + i + 1).to_s, "/issuelist/" + @tags + "/" + ( @postive_page.to_i + i ).to_s + "/" + @negative_page %>
+												<% lastPage = ( @support.length / @numberPerPage )%>
+												<% for j in 1..@PageExtend %>
+													<% k = @PageExtend - j + 1 %>
+													<% if(@postive_page.to_i - k > -1) %>
+														<% p = ( @postive_page.to_i - k ).to_s %>
+														<% n = @negative_page %>
+														<%= link_to ( @postive_page.to_i - k + 1).to_s, issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+													<% end %>
 												<% end %>
-											<% end %>
-											<% if(@postive_page.to_i + @PageExtend < lastPage ) %>
-												<% if(@postive_page.to_i + @PageExtend < lastPage - 1) %>
-													<%= "。。。" %>
+												<%= ( @postive_page.to_i + 1 ).to_s %>
+												<% for k in 1..@PageExtend %>
+													<% if(@postive_page.to_i + k < lastPage + 1) %>
+														<% p = ( @postive_page.to_i + k ).to_s %>
+														<% n = @negative_page %>
+														<%= link_to ( @postive_page.to_i + k + 1).to_s, issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+													<% end %>
 												<% end %>
-												<%= link_to (lastPage + 1).to_s, "/issuelist/" + @tags + "/" + lastPage.to_s + "/" + @negative_page %>
-											<% end %>
-											<% if(@PositiveHasNextPage) %>
-												<%= link_to "下一頁", "/issuelist/" + @tags + "/" + ( @postive_page.to_i + 1 ).to_s + "/" + @negative_page %>
-											<% end %>
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					<% else %>
-						<tr style="text-align:center;">
-							<td colspan="12">
-								<table border="0" style="width:100%;">
-									<tr>
-										<td colspan="12" style="text-align:right;">
-											<% if(@NegativeHasLastPage) %>
-												<%= link_to "上一頁", "/issuelist/" + @tags + "/" + @postive_page + "/" + ( @negative_page.to_i - 1 ).to_s %>
-											<% end %>
-											<%= " " %>
-											<% if(@negative_page.to_i - @PageExtend > 0) %>
-												<%= link_to "1", "/issuelist/" + @tags + "/" + @postive_page + "/" + "0" %>
-												<% if(@negative_page.to_i - @PageExtend > 1) %>
-													<%= "。。。" %>
+												<% if(@postive_page.to_i + @PageExtend < lastPage ) %>
+													<% if(@postive_page.to_i + @PageExtend < lastPage - 1) %>
+														<%= "。。。" %>
+													<% end %>
+													<% p = lastPage.to_s %>
+													<% n = @negative_page %>
+													<%= link_to (lastPage + 1).to_s, issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
 												<% end %>
-											<% end %>
-											<% lastPage = ( @disSupport.length / @numberPerPage )%>
-											<% for j in 1..@PageExtend %>
-												<% i = @PageExtend - j + 1 %>
-												<% if(@negative_page.to_i - i > -1) %>
-													<%= link_to ( @negative_page.to_i - i + 1).to_s, "/issuelist/" + @tags + "/" + @postive_page + "/" + ( @negative_page.to_i - i ).to_s %>
+												<% if(@PositiveHasNextPage) %>
+													<% p = ( @postive_page.to_i + 1 ).to_s %>
+													<% n = @negative_page %>
+													<%= link_to "下一頁", issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
 												<% end %>
-											<% end %>
-											<%= ( @negative_page.to_i + 1 ).to_s %>
-											<% for i in 1..@PageExtend %>
-												<% if(@negative_page.to_i + i < lastPage + 1) %>
-													<%= link_to ( @negative_page.to_i + i + 1).to_s, "/issuelist/" + @tags + "/" + @postive_page + "/" + ( @negative_page.to_i + i ).to_s %>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						<% else %>
+							<tr style="text-align:center;">
+								<td colspan="12">
+									<table border="0" style="width:100%;">
+										<tr>
+											<td colspan="12" style="text-align:right;">
+												<% if(@NegativeHasLastPage) %>
+													<% p = @postive_page %>
+													<% n = ( @negative_page.to_i - 1 ).to_s %>
+													<%= link_to "上一頁", issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
 												<% end %>
-											<% end %>
-											<% if(@negative_page.to_i + @PageExtend < lastPage ) %>
-												<% if(@negative_page.to_i + @PageExtend < lastPage - 1) %>
-													<%= "。。。" %>
+												<%= " " %>
+												<% if(@negative_page.to_i - @PageExtend > 0) %>
+													<% p = @postive_page %>
+													<% n = "0" %>
+													<%= link_to "1", issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+													<% if(@negative_page.to_i - @PageExtend > 1) %>
+														<%= "。。。" %>
+													<% end %>
 												<% end %>
-												<%= link_to (lastPage + 1).to_s, "/issuelist/" + @tags + "/" + @postive_page + "/" + lastPage.to_s %>
-											<% end %>
-											<% if(@NegativeHasNextPage) %>
-												<%= link_to "下一頁", "/issuelist/" + @tags + "/" + @postive_page + "/" + ( @negative_page.to_i + 1 ).to_s %>
-											<% end %>
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-					<% end %>
-				</tbody>
-			</table>
+												<% lastPage = ( @disSupport.length / @numberPerPage )%>
+												<% for j in 1..@PageExtend %>
+													<% k = @PageExtend - j + 1 %>
+													<% if(@negative_page.to_i - k > -1) %>
+														<% p = @postive_page %>
+														<% n = ( @negative_page.to_i - k ).to_s %>
+														<%= link_to ( @negative_page.to_i - k + 1).to_s, issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+													<% end %>
+												<% end %>
+												<%= ( @negative_page.to_i + 1 ).to_s %>
+												<% for k in 1..@PageExtend %>
+													<% if(@negative_page.to_i + k < lastPage + 1) %>
+														<% p = @postive_page %>
+														<% n = ( @negative_page.to_i + k ).to_s %>
+														<%= link_to ( @negative_page.to_i + k + 1).to_s, issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+													<% end %>
+												<% end %>
+												<% if(@negative_page.to_i + @PageExtend < lastPage ) %>
+													<% if(@negative_page.to_i + @PageExtend < lastPage - 1) %>
+														<%= "。。。" %>
+													<% end %>
+													<% p = @postive_page %>
+													<% n = lastPage.to_s %>
+													<%= link_to (lastPage + 1).to_s, issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+												<% end %>
+												<% if(@NegativeHasNextPage) %>
+													<% p = @postive_page %>
+													<% n = ( @negative_page.to_i + 1 ).to_s %>
+													<%= link_to "下一頁", issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+												<% end %>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
 			<% end %>
 			
 			<!-- dissupport detail -->
