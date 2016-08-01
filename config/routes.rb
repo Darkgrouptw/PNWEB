@@ -26,11 +26,15 @@ Rails.application.routes.draw do
 
     # people page
     get     "Peoplelist/all"    =>  "peoplelist#all",   :as =>  "peoplelist_all"
+    get     "Peoplelist/add"    =>  "peoplelist#add",   :as =>  "peoplelist_add"
+    post    "Peoplelist/new"    =>  "peoplelist#new",   :as =>  "peoplelist_new"
+    get     "Peoplelist/edit/:id"   =>  "peoplelist#edit",  :as =>  "peoplelist_edit"
+    post    "Peoplelist/update" =>  "peoplelist#update",:as =>  "peoplelist_update"
     get     "Peoplelist/:id"    =>  "peoplelist#index", :as =>  "peoplelist_index"
     # detail page
     get     "Detaillist/add/:id"    =>  "detaillist#add",   :as =>  "detaillist_add"
     post    "Detaillist/new"    =>  "detaillist#new",   :as =>  "detaillist_new"
-    get     "Detaillist/edit"   =>  "detaillist#edit",  :as =>  "detaillist_edit"
+    get     "Detaillist/edit/:id"   =>  "detaillist#edit",  :as =>  "detaillist_edit"
     post    "Detaillist/update" =>  "detaillist#update",:as =>  "detaillist_update"
     get     "Detaillist/:id"    =>  "detaillist#index", :as =>  "detaillist_index"
 

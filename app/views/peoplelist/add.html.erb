@@ -1,0 +1,30 @@
+<% if current_user.nil? %>
+	error please verify you self
+<% else %>
+	<div class >
+		<div class = "container">
+			<div class = "jumbotron">
+				<h2 style="text-align:center;">新增名嘴</h2>
+				<div class = "row">
+					<form action= "<%= peoplelist_new_path %> " method= "post">
+						<div class = "form-group">
+							<label>Name*</label>
+							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                        	<input type="text" class="form-control" name="name" required="true" >
+                        	<br>
+                        	<label>description</label>
+                        	<textarea class="form-control" name="description" cols = "50" rows="5"></textarea>
+                        	<br>
+                        	<label>picture link</label>
+                        	<input type="text" class="form-control" name="pic_link" >
+                        	<br>
+                        	<div>
+                        		<input type = "submit" class = "btn btn-primary" style = "width: 150px;">
+                        	</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>

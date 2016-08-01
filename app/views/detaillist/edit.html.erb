@@ -1,0 +1,59 @@
+<% if current_user.nil? %>
+	error please verify you self
+<% else %>
+	<div class >
+		<div class = "container">
+			<div class = "jumbotron">
+				<h2 style="text-align:center;">編輯議論</h2>
+				<div class = "row">
+					<form action= "<%= detaillist_new_path %> " method= "post">
+						<div class = "form-group">
+							
+							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+							<label>論述*</label>
+							<input type="text" class="form-control" name="content" required="true" value = "<%= @detail.content %>">
+							<br>
+							<label>名人</label>
+							<% if @person.nil? %>
+								<% person_name = "" %>
+							<% else %>
+								<% person_name = @person.name %>
+							<% end %>
+							<input type="text" class="form-control" name="people_id" value = "<%= person_name %>">
+							<br>
+							<label>當時頭銜</label>
+							<input type="text" class="form-control" name="title_at_that_time" value = "<%= @detail.title_at_that_time %>">
+							<br>
+							<% check = "" %>
+							<% if @detail.is_support %>
+								<% check = "checked"%>
+							<% end %>
+							<label>Is supported</label>
+							<input type="checkbox" class="form-control" name="is_support" <%= check %> >
+							<br>
+							<% check = "" %>
+							<% if @detail.is_direct %>
+								<% check = "checked"%>
+							<% end %>
+							<label>是否為直接意見</label>
+							<input type="checkbox" class="form-control" name="is_direct" <%= check %>>
+							<br>
+							<label>News Media</label>
+							<input type="text" class="form-control" name="news_media" value = "<%= @detail.news_media %>">
+							<br>
+							<label>Reported Time</label>
+							<input type="text" class="form-control" name="report_at" value = "<%= @detail.report_at %>">
+							<br>
+							<label>News Link</label>
+							<input type="text" class="form-control" name="link" value = "<%= @detail.link %>">
+							<br>
+							<div>
+								<input type = "submit" class = "btn btn-primary" style = "width: 150px;">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>

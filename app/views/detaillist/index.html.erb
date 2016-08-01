@@ -6,6 +6,8 @@
 	<!-- show detail data-->
 	<div class = "whiteText row">
 		<div class = "col-md-offset-1 col-md-10 row">
+			<% link = detaillist_edit_path(id: @tags) %>
+			<div align = "right"><a href = "<%= link %>">編輯</a></div>
 			<table class = "table table-bordered">
 				<thead>
 					<tr align = "center" >

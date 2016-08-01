@@ -1,0 +1,31 @@
+<% if current_user.nil? %>
+	error please verify you self
+<% else %>
+	<div class >
+		<div class = "container">
+			<div class = "jumbotron">
+				<h2 style="text-align:center;">編輯名嘴</h2>
+				<div class = "row">
+					<form action= "<%= peoplelist_update_path %> " method= "post">
+						<div class = "form-group">
+							<label>Name*</label>
+							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+							<input type = "hidden" name = "id" value = "<%= @person.id %>">
+                        	<input type="text" class="form-control" name="name" required="true" value = "<%= @person.name %>" >
+                        	<br>
+                        	<label>description</label>
+                        	<textarea class="form-control" name="description" cols = "50" rows="5"><%= @person.description %></textarea>
+                        	<br>
+                        	<label>picture link</label>
+                        	<input type="text" class="form-control" name="pic_link" value = "<%= @person.pic_link %>">
+                        	<br>
+                        	<div>
+                        		<input type = "submit" class = "btn btn-primary" style = "width: 150px;">
+                        	</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>

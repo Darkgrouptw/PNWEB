@@ -79,9 +79,11 @@
 						
 					</thead>
 					<tbody>
-
 						<% details.each do |detail| %>
-						<tr>test</tr>
+							<tr><td>
+								<% link = detaillist_index_path(id: detail.id) %>
+								<a href = <%= link %>><%= detail.content %></a>
+							</td></tr>
 						<% end %>
 						<!-- 換頁 -->
 						<% if i == 0 %>

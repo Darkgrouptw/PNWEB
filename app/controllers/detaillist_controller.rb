@@ -1,8 +1,8 @@
 class DetaillistController < ApplicationController
 	def index
-		tags = params[:id]
+		@tags = params[:id]
 		#find the data will be used in page
-		@me = DataDetail.where(id: tags)[0]
+		@me = DataDetail.where(id: @tags)[0]
 		if @me.nil?
 			return
 		end
@@ -75,6 +75,8 @@ class DetaillistController < ApplicationController
 	end
 
 	def edit
+		@detail = DataDetail.where(id: params[:id])[0]
+		@person = DataPerson.where(id: @detail.post_id)[0]
 	end
 
 	def update

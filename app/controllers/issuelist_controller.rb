@@ -7,8 +7,8 @@ class IssuelistController < ApplicationController
 		if @me ==nil
 			return
 		end
-		detail_strings = @me.datadetail_id.split(/,/)
-		@details = DataDetail.where(id: @strings)
+		detail_strings = @me.datadetail_id.split(',')
+		@details = DataDetail.where(id: detail_strings)
 		@likeList = LikeList.where(post_id: current_user)
 		
 		# 要判斷是用什麼來排序
