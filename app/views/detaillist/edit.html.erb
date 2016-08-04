@@ -6,10 +6,11 @@
 			<div class = "jumbotron">
 				<h2 style="text-align:center;">編輯議論</h2>
 				<div class = "row">
-					<form action= "<%= detaillist_new_path %> " method= "post">
+					<form action= "<%= detaillist_update_path %> " method= "post">
 						<div class = "form-group">
 							
 							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+							<input type="hidden" name="id" value = "<%= @detail.id %>">
 							<label>論述*</label>
 							<input type="text" class="form-control" name="content" required="true" value = "<%= @detail.content %>">
 							<br>
