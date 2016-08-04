@@ -58,7 +58,7 @@ class IssuelistController < ApplicationController
 		@negative_page = 0
 		@positive_page = 0
 		if(params[:positive_page] != nil)
-		    @postive_page = params[:positive_page] 
+		    @positive_page = params[:positive_page] 
 		end
 		if(params[:negative_page] != nil)
 		    @negative_page = params[:negative_page]
@@ -67,7 +67,7 @@ class IssuelistController < ApplicationController
         @PositiveHasLastPage = false
         @NegativeHasNextPage = true
         @NegativeHasLastPage = false
-        if(@postive_page.to_i > 0)
+        if(@positive_page.to_i > 0)
             @PositiveHasLastPage = true
         end
         if(@negative_page.to_i > 0)
@@ -76,7 +76,7 @@ class IssuelistController < ApplicationController
         if( (@negative_page.to_i + 1 ) * @numberPerPage > @disSupport.length)
             @NegativeHasNextPage = false
         end
-        if( (@postive_page.to_i + 1 ) * @numberPerPage > @support.length)
+        if( (@positive_page.to_i + 1 ) * @numberPerPage > @support.length)
             @PositiveHasNextPage = false
         end
 
@@ -84,7 +84,7 @@ class IssuelistController < ApplicationController
         user = []
 		person = []
         for i in 0..@numberPerPage-1
-            index = @numberPerPage * @postive_page.to_i + i
+            index = @numberPerPage * @positive_page.to_i + i
             if(@support.length > index)
                 user.push(@support[index].post_id)
                 person.push(@support[index].people_id)

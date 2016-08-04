@@ -1,3 +1,22 @@
+<% 
+	def HasUser()
+		if current_user.nil? || current_user.id.nil?
+			return false
+		else
+			return true
+		end
+	end
+
+	def HasLike(detail_id)
+		likelist =  @likeList.where(detail_id: detail_id)[0]
+		if likelist.nil? || likelist.id.nil?
+			return false
+		else
+			return true
+		end
+	end
+%>
+
 <% if @me == nil %>
 	<div class = "whiteText">
 		error,invalid parameter
@@ -80,10 +99,25 @@
 					</thead>
 					<tbody>
 						<% details.each do |detail| %>
-							<tr><td>
-								<% link = detaillist_index_path(id: detail.id) %>
-								<a href = <%= link %>><%= detail.content %></a>
-							</td></tr>
+							<tr>
+								<td>
+									<% link = detaillist_index_path(id: detail.id) %>
+									<a href = <%= link %>><%= detail.content %></a>
+								</td>
+								<td>
+									<% if HasUser() %>
+										<% if HasLike(detail.id) %>
+											don't like me
+										<% else %>
+											<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
+											<% link = detaillist_like_path + "?id=" + detail.id.to_s + "&post_id=" + current_user.id.to_s + "&path=" + path%>
+											<%= link_to "love me pls",link,method: :post%>
+										<% end %>
+									<% else %>
+										NOT Login
+									<% end %>
+								</td>
+							</tr>
 						<% end %>
 						<!-- 換頁 -->
 						<% if i == 0 %>

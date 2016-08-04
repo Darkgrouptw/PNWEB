@@ -131,13 +131,15 @@ class DetaillistController < ApplicationController
 	def like
 		@detail = DataDetail.where(id: params[:id])[0]
 		post_id = params[:post_id]
+		path = params[:path]
+		path = path.sub('!','?').sub('|','&')
 		@likelist = LikeList.create(created_at: Time.now,updated_at: Time.now)
-		@likelist.detail = @detail.id
+		@likelist.detail_id = @detail.id
 		@likelist.post_id = post_id
-		@detail.like_list_id = @detail.like_list_id + "," +@likelist.id
+		@detail.like_list_id = @detail.like_list_id.to_s + "," +@likelist.id.to_s
 		@detail.save
 		@likelist.save
-		redirect_to params[:path]
+		redirect_to path
 	end
 
 	def dislike

@@ -35,11 +35,11 @@ Rails.application.routes.draw do
     get     "Detaillist/add/:id"    =>  "detaillist#add",   :as =>  "detaillist_add"
     post    "Detaillist/new"    =>  "detaillist#new",   :as =>  "detaillist_new"
     get     "Detaillist/edit/:id"   =>  "detaillist#edit",  :as =>  "detaillist_edit"
-    post    "Detaillist/update" =>  "detaillist#update",:as =>  "detaillist_update"
-    get     "Detaillist/:id"    =>  "detaillist#index", :as =>  "detaillist_index"
+    post    "Detaillist/update" =>  "detaillist#update",:as =>  "detaillist_update" 
     post    "Detaillist/like"   =>  "detaillist#like",  :as =>  "detaillist_like"
     post    "Detaillist/dislike"=>  "detaillist#dislike",   :as =>  "detaillist_dislike"
     get     "Detaillist/report/:id" =>  "detaillist#report",:as =>  "detaillist_report"
+    get     "Detaillist/index/:id"    =>  "detaillist#index", :as =>  "detaillist_index"
     # poster page
     get     "User/:id"          =>  "user/userlist#index",  :as =>  "userlist_index"
     # view reportPage
