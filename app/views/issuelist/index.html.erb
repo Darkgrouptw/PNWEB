@@ -107,7 +107,9 @@
 								<td>
 									<% if HasUser() %>
 										<% if HasLike(detail.id) %>
-											don't like me
+											<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
+											<% link = detaillist_dislike_path + "?id=" + detail.id.to_s + "&post_id=" + current_user.id.to_s + "&path=" + path%>
+											<%= link_to "hate me pls",link,method: :post%>
 										<% else %>
 											<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
 											<% link = detaillist_like_path + "?id=" + detail.id.to_s + "&post_id=" + current_user.id.to_s + "&path=" + path%>
