@@ -1,0 +1,28 @@
+<% if current_user.nil? %>
+	error please verify you self
+<% else %>
+	<div class >
+		<div class = "container">
+			<div class = "jumbotron">
+				<h2 style="text-align:center;">我要檢舉</h2>
+				<div class = "row">
+					<form action= "<%= reportlist_new_path %> " method= "post">
+						<div class = "form-group">
+							<label>論述</label>
+							<div><%= @detail.content %></div>
+							<br>
+							<label>Reason*</label>
+							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                        	<input type="text" class="form-control" name="cause" required="true" >
+                        	<br>
+                        	<input type="hidden" name="detail_id" value="<%= @detail.id %>">
+                        	<div>
+                        		<input type = "submit" class = "btn btn-primary" style = "width: 150px;">
+                        	</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>

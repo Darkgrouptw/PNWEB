@@ -47,6 +47,6 @@ Rails.application.routes.draw do
     # report
     get     "Reportlist/all"    =>  "reportlist#all",   :as =>  "reportlist_all"
     post    "Reportlist/new"    =>  "reportlist#new",   :as =>  "reportlist_new"
-    get     "Reportlist/add"    =>  "reportlist#add",   :as =>  "reportlist_add"
+    get     "Reportlist/add/:id"    =>  "reportlist#add",   :as =>  "reportlist_add"
     get     "Reportlist/:id"    =>  "reportlist#index", :as =>  "reportlist_index"
 end
