@@ -1,4 +1,6 @@
 Rails.application.routes.draw do 
+  
+
     root    "main#index"
     
     
@@ -39,9 +41,12 @@ Rails.application.routes.draw do
     post    "Detaillist/like"   =>  "detaillist#like",  :as =>  "detaillist_like"
     post    "Detaillist/dislike"=>  "detaillist#dislike",   :as =>  "detaillist_dislike"
     get     "Detaillist/report/:id" =>  "detaillist#report",:as =>  "detaillist_report"
-    get     "Detaillist/index/:id"    =>  "detaillist#index", :as =>  "detaillist_index"
+    get     "Detaillist/:id"    =>  "detaillist#index", :as =>  "detaillist_index"
     # poster page
     get     "User/:id"          =>  "user/userlist#index",  :as =>  "userlist_index"
-    # view reportPage
-    get     "ReportList"                   => "reportlist#index",      :as => "reportlist"
+    # report
+    get     "Reportlist/all"    =>  "reportlist#all",   :as =>  "reportlist_all"
+    post    "Reportlist/new"    =>  "reportlist#new",   :as =>  "reportlist_new"
+    get     "Reportlist/add"    =>  "reportlist#add",   :as =>  "reportlist_add"
+    get     "Reportlist/:id"    =>  "reportlist#index", :as =>  "reportlist_index"
 end

@@ -33,7 +33,7 @@ class DetaillistController < ApplicationController
 		news_media = params[:news_media]
 		report_at = params[:report_at]
 		link = params[:link]
-		post_id = params[:post_id]
+		post_id = current_user.id
 		@detail = DataDetail.create(
 			created_at: Time.now,
 			updated_at: Time.now,
@@ -130,7 +130,7 @@ class DetaillistController < ApplicationController
 
 	def like
 		@detail = DataDetail.where(id: params[:id])[0]
-		post_id = params[:post_id]
+		post_id = current_user.id
 		path = params[:path]
 		path = path.sub('!','?').sub('|','&')
 		@likelist = LikeList.create(created_at: Time.now,updated_at: Time.now)
@@ -139,7 +139,6 @@ class DetaillistController < ApplicationController
 		@detail.like_list_id = @detail.like_list_id.to_s + "," +@likelist.id.to_s
 		@detail.save
 		@likelist.save
-
 		#notify
 		@notifyList = NotifyList.where(user_id: post_id,issue_id: @detail.issue_id)
 		if @notifyList.length > 0
@@ -157,7 +156,7 @@ class DetaillistController < ApplicationController
 
 	def dislike
 		@detail = DataDetail.where(id: params[:id])[0]
-		post_id = params[:post_id]
+		post_id = current_user.id
 		path = params[:path]
 		path = path.sub('!','?').sub('|','&')
 		@likelist = LikeList.where(detail_id: @detail.id,post_id: post_id)[0]

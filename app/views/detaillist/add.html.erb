@@ -10,7 +10,6 @@
 						<div class = "form-group">
 							
 							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-							<input type="hidden" name="post_id" value="<%= current_user.id %>">
 							<input type="hidden" name="issue_id" value="<%= @issue.id %>">
 							<label>論述*</label>
 							<input type="text" class="form-control" name="content" required="true" >
