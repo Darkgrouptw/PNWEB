@@ -139,6 +139,19 @@ class DetaillistController < ApplicationController
 		@detail.like_list_id = @detail.like_list_id.to_s + "," +@likelist.id.to_s
 		@detail.save
 		@likelist.save
+
+		#notify
+		@notifyList = NotifyList.where(user_id: post_id,issue_id: @detail.issue_id)
+		if @notifyList.length > 0
+			#already notify
+		else
+			@notify = NotifyList.create(created_at: Time.now,updated_at: Time.now)
+			@notify.user_id = post_id
+			@notify.issue_id = @detail.issue_id
+			@notify.last_read = Time.now
+			@notify.newest_detail = Time.now
+			@notify.save
+		end
 		redirect_to path
 	end
 
@@ -151,6 +164,30 @@ class DetaillistController < ApplicationController
 		@detail.like_list_id = @detail.like_list_id.sub(@likelist.id.to_s,"")
 		@likelist.destroy
 		@detail.save
+
+		#notify
+		@notifyList = NotifyList.where(user_id: post_id,issue_id: @detail.issue_id)
+		if @notifyList.length > 0
+			@issue =  DataIssue.where(id: @detail.issue_id)[0]
+			@likelist = LikeList.where(post_id: post_id)
+			stillNotify = false
+			datadetail_id = @issue.datadetail_id.split(',')
+			@likelist.each do |item|
+				if datadetail_id.include?(item.detail_id.to_s)
+					stillNotify = true
+				end
+			end
+			if stillNotify
+				# donothing
+			else
+				# cancle notify
+				@notifyList.each do |item|
+					item.destroy
+				end
+			end
+		else
+			#nothing to do ,Instead there is something wrong if code in here is been excute
+		end
 		redirect_to path
 
 	end
