@@ -36,6 +36,7 @@
                     <!--<li class="dropdown">
                     </li>-->
                     <% if current_user.level >= 0 %>
+                        <li><%= link_to "檢舉頁面", reportlist_all_path %></li>
                         <li><%= link_to "加議題頁面", issuelist_add_path %></li>
                         <li><%= link_to "加名人頁面", peoplelist_add_path %></li>
                     <% end %> 

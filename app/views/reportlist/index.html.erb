@@ -1,2 +1,42 @@
-<h1>Reportlist#index</h1>
-<p>Find me in app/views/reportlist/index.html.erb</p>
+<% if @me.nil? || current_user.nil? %>
+	<div class = "whiteText">
+		error,invalid parameter index
+	</div>
+<% elsif current_user.nil? %>
+	<div class = "whiteText">
+		error,invalid User
+	</div>
+<% else %>
+	<!-- show detail data-->
+	<div class = "whiteText row">
+		<div class = "col-md-offset-1 col-md-10 row">
+			<div align = "right">
+				<% link = reportlist_accept_path + "?id=" + @me.id.to_s + "&detail_id=" + @detail.id.to_s + "&issue_id=" + @issue.id.to_s %>
+				<%= link_to "接受",link,method: :post%>
+				<% link = reportlist_reject_path + "?id=" + @me.id.to_s + "&detail_id=" + @detail.id.to_s + "&issue_id=" + @issue.id.to_s %>
+				<%= link_to "駁回",link,method: :post%>
+			</div>
+			<table class = "table table-bordered">
+				<thead>
+					<tr align = "center" >
+						<td>detail</td>
+						<td>reson</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<% link = detaillist_index_path(id: @detail.id) %>
+							<a href = <%= link %>>
+								<%= @detail.content %>
+							</a>
+						</td>
+						<td>
+							<%= @me.cause %>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+<% end %>

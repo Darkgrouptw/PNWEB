@@ -1,7 +1,18 @@
 class ReportlistController < ApplicationController
   def index
+  	@me = ReportDetail.where(id: params[:id])[0]
+  	@detail = DataDetail.where(id: @me.detail_id)[0]
+  	@issue = DataIssue.where(id: @detail.issue_id)[0]
+
   end
   def all
+  	@reportlist = ReportDetail.all
+  	detail_ids = []
+  	@reportlist.each do |item|
+  		detail_ids.push(item.detail_id)
+  	end
+  	@detaillist = DataDetail.where(id: detail_ids)
+
   end
   def add
   	@detail = DataDetail.where(id: params[:id])[0]
@@ -23,4 +34,14 @@ class ReportlistController < ApplicationController
 
   end
 
+  def reject
+  	@report = ReportDetail.where(id: params[:id])[0]
+  	@issue = DataIssue.where(id: params[:issue_id])[0]
+  	@detail = DataDetail.where(id: params[:detail_id])[0]
+  	redirect_to detaillist_index_path(id: @detail.id)
+  end
+
+  def accept
+  	redirect_to reportlist_all_path
+  end
 end

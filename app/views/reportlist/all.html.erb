@@ -1,0 +1,40 @@
+<% if current_user.nil? %>
+	<div class = "whiteText">
+		error,invalid parameter index
+	</div>
+<% else %>
+	<!-- show detail data-->
+	<div class = "whiteText row">
+		<div class = "col-md-offset-1 col-md-10 row">
+			<div align = "right">
+			</div>
+			<table class = "table table-bordered">
+				<thead>
+					<tr align = "center" >
+						<td>detail</td>
+						<td>reson</td>
+					</tr>
+				</thead>
+				<tbody>
+					<% @reportlist.each do |item| %>
+						<% detail = @detaillist.where(id: item.detail_id)[0] %>
+						<tr>
+							<td>
+								<% link = detaillist_index_path(id: detail.id) %>
+								<a href = <%= link %>>
+									<%= detail.content %>
+								</a>
+							</td>
+							<td>
+								<% link = reportlist_index_path(id: item.id) %>
+								<a href = <%= link %>>
+									<%= item.cause %>
+								</a>
+							</td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+<% end %>
