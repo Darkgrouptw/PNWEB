@@ -1,0 +1,25 @@
+.headTop
+{
+    background-color: rgb(243, 243, 243);
+    border-color: rgb(243, 243, 243);
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.headLogo
+{
+    color: rgb(160, 216, 255) !important;
+    font-family: font;
+    font-size: 48px;
+}
+.headLink
+{
+    font-family: font;
+    font-size: 24px;
+    color: rgb(160, 216, 255) !important;
+}
+
+@font-face
+{
+    font-family: font;
+    src: url('/podf.otf');
+}

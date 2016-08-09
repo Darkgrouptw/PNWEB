@@ -3,7 +3,7 @@
   color: white;
 }
 </style>
-<nav class = "navbar navbar-inverse navbar-fixed-top"> 
+<nav class = "navbar navbar-inverse navbar-fixed-top headTop"> 
 	<div class = "container-fluid">
         <div class = "navbar-header">
 			<!-- 當螢幕太小的時候，可以變成一個按鈕紐縮放 -->
@@ -15,21 +15,16 @@
 			</button>
 
 			<!-- 網頁的 Title -->
-			<a class = "navbar-brand" href="/">正反網頁 Version 5</a>
+			<a class = "navbar-brand headLogo" href="/">正反網頁 Version 5</a>
 		</div>
         <!-- 要縮起來的其他東西 -->
 		<div id = "navbar-login" class = "collapse navbar-collapse">
-			<!-- 靠左側的按鈕 -->
-			<ul class = "nav navbar-nav">
-				<li class = "acitve"><a href = "#">關於</a></li>
-			</ul>
-
-			<!-- 靠右側的按鈕 -->
 			<ul class = "nav navbar-nav navbar-right">
                 <% if !current_user %>
                     <% #沒有登入的時候 %>
-                    <li><a href="<%= register_email_path %>">註冊</a></li>
-                    <li><a href="<%= login_path %>">登入</a></li>
+                    <li><a href="<%= register_email_path %>" class="headLink">註冊會員</a></li>
+                    <li><a href="<%= login_path %>" class="headLink">會員登入</a></li>
+                    <li><a href="#" class="headLink">關於我們</a></li>
                 <% else %>
                     <% #有登入的時候 %>
                     <% #通知的 Dropdown %>

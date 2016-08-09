@@ -1,0 +1,21 @@
+.FormTop
+{
+    background-color: rgb(160, 216 ,255);
+    border-radius: 500px 500px 0px 0px;
+    padding:  30px;
+}
+.FormInside
+{
+    background-color: rgb(160, 216, 255);
+}
+.FormBottom
+{
+    background-color: rgb(160, 216 ,255);
+    border-radius: 0px 0px 500px 500px;
+    padding:  30px;
+}
+
+h2
+{
+    margin: 0px;
+}
