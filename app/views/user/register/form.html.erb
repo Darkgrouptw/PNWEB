@@ -11,8 +11,8 @@
             </div>
             
             <!-- 中間的內容 -->
-            <div class="FormInside">
-                <form action="<%= register_success_path %>" method="post">
+            <form action="<%= register_success_path %>" method="post">
+                <div class="FormInside">
                     <div class="form-group" style="margin: 0px;">
                         <!-- 左半部的內容 -->
                         <div class="row">
@@ -80,15 +80,15 @@
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
-            
-            <!-- 底下的內容 -->
-            <div class="FormBottom">
-                <div style="text-align:center;">
-                    <input type="submit" class="btn btn-primary" style="width: 150px;">
                 </div>
-            </div>
+            
+                <!-- 底下的內容 -->
+                <div class="FormBottom">
+                    <div style="text-align:center;">
+                        <input type="submit" class="btn btn-primary" style="width: 150px;">
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="col-md-4" style="padding-left: 0px;">
             <img src="/images/user/People.png" height="500px">
