@@ -1,6 +1,6 @@
 <div class="BigTitle">
-    <h2>議論頁面</h2>
-    <hr>
+	<h2>論述頁面</h2>
+	<hr>
 </div>
 <% if @me.nil? %>
 	<div class = "whiteText">
@@ -79,6 +79,44 @@
 					</tr>
 				</tbody>
 			</table>
+			<table class = "table table-bordered">
+				<thead>
+					<tr align = "center" >
+						<td>User</td>
+						<td>Comment</td>
+					</tr>
+				</thead>
+				<tbody>
+					<% @comments.each do |item| %>
+						<% user = @users.where(id: item.post_id)[0] %>
+						<tr>
+							<td>
+								<% link = userlist_index_path(id: user.id) %>
+								<a href = <%= link %>>
+									<%= user.nickname %>
+								</a>
+							</td>
+							<td>
+								<%= item.content %>
+							</td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+			<div >
+				<div align = "center" >我有話說</div>
+				<form action= "<%= detaillist_comment_new_path %> " method= "post">
+					<div class = "form-group">
+						<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+						<input type="hidden" name="detail_id" value="<%= @me.id %>">
+						<label>Comment</label>
+						<textarea class="form-control" name="content" cols = "50" rows="5"></textarea>
+						<div>
+							<input type = "submit" class = "btn btn-primary" style = "width: 150px;">
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 <% end %>
