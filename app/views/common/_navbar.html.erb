@@ -15,7 +15,7 @@
 			</button>
 
 			<!-- 網頁的 Title -->
-			<a class = "navbar-brand headLogo" href="/">正反網頁 Version 5</a>
+			<a class = "navbar-brand headLogo" href="/">Version 5</a>
 		</div>
         <!-- 要縮起來的其他東西 -->
 		<div id = "navbar-login" class = "collapse navbar-collapse">
@@ -31,21 +31,21 @@
                     <!--<li class="dropdown">
                     </li>-->
                     <% if current_user.level >= 0 %>
-                        <li><%= link_to "檢舉頁面", reportlist_all_path %></li>
-                        <li><%= link_to "加議題頁面", issuelist_add_path %></li>
-                        <li><%= link_to "加名人頁面", peoplelist_add_path %></li>
+                        <li><%= link_to "檢舉頁面", reportlist_all_path, class: "headLink" %></li>
+                        <li><%= link_to "加議題頁面", issuelist_add_path, class: "headLink" %></li>
+                        <li><%= link_to "加名人頁面", peoplelist_add_path, class: "headLink" %></li>
                     <% end %> 
                 
                 
                     <% #帳號的 Dropdown %>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <a href="#" class="dropdown-toggle headLink" data-toggle="dropdown">
                             Hi!, <%= current_user.nickname %>#<%= current_user.id %>
                           <span class="caret"></span>
                       </a>
                       <ul class="dropdown-menu">
-                          <li><a href="#">帳號設定</a></li>
-                          <li><a href="<%= logout_path %>" data-method="delete">登出</a></li>
+                          <li><a href="#" class="headLink">帳號設定</a></li>
+                          <li><a href="<%= logout_path %>" class="headLink" data-method="delete">登出</a></li>
                           
                           <% #分隔線 %>
                           <li class="divider"></li>
@@ -53,13 +53,13 @@
                           <% #確定是什麼權限 %>
                           <% case current_user.level %>
                           <% when 3%>
-                              <li class="dropdown-header">最高管理者</li>
+                              <li class="dropdown-header headLink">最高管理者</li>
                           <% when 2%>
-                              <li class="dropdown-header">網管</li>
+                              <li class="dropdown-header headLink">網管</li>
                           <% when 1%>
-                              <li class="dropdown-header">高階使用者</li>
+                              <li class="dropdown-header headLink">高階使用者</li>
                           <% else %>
-                              <li class="dropdown-header">普通使用者</li>
+                              <li class="dropdown-header headLink">普通使用者</li>
                           <% end %>
                       </ul>
                     </li>

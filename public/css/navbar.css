@@ -17,6 +17,24 @@
     font-size: 24px;
     color: rgb(160, 216, 255) !important;
 }
+.BigTitle
+{
+    position: relative;
+    text-align: center;
+    margin-top: 120px;
+}
+.BigTitle h2
+{
+    color: rgb(160, 216, 255);
+    font-family: font;
+    font-size: 48px;
+}
+.BigTitle hr
+{
+    border-width: 8px;
+    //margin-left: 10%;
+    //margin-right: 10%;
+}
 
 @font-face
 {
