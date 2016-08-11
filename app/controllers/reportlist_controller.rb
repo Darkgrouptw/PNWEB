@@ -23,7 +23,7 @@ class ReportlistController < ApplicationController
   def new
   	cause = params[:cause]
   	detail_id = params[:detail_id]
-  	@detail = DataDetail.where(id: detail_id)
+  	@detail = DataDetail.where(id: detail_id)[0]
   	people_id = current_user.id
   	@report = ReportDetail.create(
   		created_at: Time.now,
@@ -60,18 +60,44 @@ class ReportlistController < ApplicationController
   	@report = @reportList.where(id: params[:id])[0]
   	@issue = DataIssue.where(id: params[:issue_id])[0]
   	@LikeListList = LikeList.where(detail_id: @detail.id)
-  	
 
+  	#issue
+  	@issue.datadetail_id = @issue.datadetail_id.sub(@detail.id.to_s,"")
+    @issue.save
+  	#likelist 	#notify's user
+  	users = []
   	@LikeListList.each do |item|
+  		users.push(item.post_id)
   		item.destroy
   	end
+  	#commend
+  	#detail
+  	@detail.destroy
+  	#report
   	@report.destroy
 
   	#notify
   	@notifyList = NotifyList.where(issue_id: @issue.id)
+  	@userList = User.where(id: users)
+  	@LikeListList = LikeList.where(post_id: users)
+  	@notifyList.each do |item|
+  		user = item.user_id
+  		like = @LikeListList.where(post_id: user)
+  		datadetail_id = @issue.datadetail_id.split(',')
 
-  	notifyList.each do |item|
-  		
+  		#if user did't like these issue any more => kill it
+  		stillNotify = false
+  		like.each do |item|
+  			if datadetail_id.include?(item.detail_id.to_s)
+  				stillNotify = true
+  			end
+  		end
+
+  		if stillNotify
+  			# donothing
+  		else
+  			item.destroy
+  		end
   	end
 
   	redirect_to reportlist_all_path
