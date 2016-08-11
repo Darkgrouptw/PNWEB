@@ -9,12 +9,10 @@ class DetaillistController < ApplicationController
 		@issue = DataIssue.where(id: @me.issue_id)[0]
 		@user = User.where(id: @me.post_id)[0]
 		@person = DataPerson.where(id: @me.people_id)[0]
-		comment_id = []
+
 		comment_ids = @me.comment_id.split(',')
-		comment_ids.each do |item|
-			comment_id.push()
-		end
-		@comments = DataComment.where(id: comment_id).order(:created_at).reverse
+
+		@comments = DataComment.where(id: comment_ids).order(:created_at).reverse
 		likelist_id = []
 		likelist_ids = @me.like_list_id.split(',')
 	end
@@ -189,5 +187,20 @@ class DetaillistController < ApplicationController
 		end
 		redirect_to path
 
+	end
+
+	def comment_new
+		@detail = DataDetail.where(id: params[:detail_id])
+		post_id = current_user.id
+		content =   params[:content]
+		@comment = DataComment.create(
+			created_at: Time.now,
+			updated_at: Time.now,
+			)
+		@comment.post_id = post_id
+		@comment.content = content
+		@comment.save
+		@detail.comment_id = @detail.comment_id + "," + @content.id
+		@detail.save
 	end
 end

@@ -1,10 +1,13 @@
+<div class="BigTitle">
+    <h2>我要檢舉</h2>
+    <hr>
+</div>
 <% if current_user.nil? %>
 	error please verify you self
 <% else %>
 	<div class >
 		<div class = "container">
 			<div class = "jumbotron">
-				<h2 style="text-align:center;">我要檢舉</h2>
 				<div class = "row">
 					<form action= "<%= reportlist_new_path %> " method= "post">
 						<div class = "form-group">

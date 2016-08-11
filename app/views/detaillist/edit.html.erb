@@ -1,10 +1,13 @@
+<div class="BigTitle">
+    <h2>編輯議論</h2>
+    <hr>
+</div>
 <% if current_user.nil? %>
 	error please verify you self
 <% else %>
 	<div class >
 		<div class = "container">
 			<div class = "jumbotron">
-				<h2 style="text-align:center;">編輯議論</h2>
 				<div class = "row">
 					<form action= "<%= detaillist_update_path %> " method= "post">
 						<div class = "form-group">
