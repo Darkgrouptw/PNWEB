@@ -26,7 +26,6 @@
 	</div>
 <% else %>
 	<div class = "whiteText">
-		<%= link_to "編輯", issuelist_edit_path(id: @me.id) %>
 		<!-- find the root issue-->
 		<% temp_issue = @me %>
 		<% while temp_issue.trunk_id != -1 %>
@@ -72,14 +71,26 @@
 
 		<div class = "col-md-10">
 			<!-- title -->
-			<table class = "table">
+			<div>
+				<%= link_to "編輯", issuelist_edit_path(id: @me.id) %>
+				<%= link_to "新增論述", detaillist_add_path %>
+			</div>
+			<table class = "table col-md-8" >
 				<thead>
-					<tr align = "center"><td class = "col-md-8" colspan = "2"><%= @me.title %></td></tr>
+					<tr>
+						<td align = "left"><%= @me.title %></td>
+
+						<td align = "right">
+							上線時間：<%= @me.created_at %> 
+							標籤：<%= @me.tag %> 
+							意見總數：<%= @me.datadetail_id.split(',').length %> 
+							投票總數：<%= @me.thumb_up.split(',').length %>
+						</td>
+					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td class = "col-md-7"><%= @me.post %></td>
-						<td class = "col-md-1"><%= link_to "新增論述", detaillist_add_path %></td>
+						<td align = "left" colspan = "2"><%= @me.post %></td>
 					</tr>
 				</tbody>
 			</table>
