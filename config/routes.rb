@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 	post    "Issuelist/new"     =>  "issuelist#new",     :as =>  "issuelist_new"
 	get     "Issuelist/edit/:id"    =>  "issuelist#edit",       :as =>  "issuelist_edit"
 	post    "Issuelist/update"  =>  "issuelist#update",     :as =>  "issuelist_update"
+	get		"Issuelist/candidate"	=>	"issuelist#candidate",	:as =>	"issuelist_candidate"
 	get     "Issuelist/:id"     =>  "issuelist#index",   :as =>  "issuelist_index"
 
 	# people page

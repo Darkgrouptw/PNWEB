@@ -114,10 +114,15 @@ class IssuelistController < ApplicationController
 		@issue = DataIssue.create(created_at: Time.now,updated_at: Time.now)
 		@issue.title = title
 		@issue.post = post
-		@issue.trunk_id = trunk_id
+		if trunk_id.nil? || trunk_id.empty?
+			@issue.trunk_id = -1;
+		else
+			@issue.trunk_id = trunk_id
+		end
 		@issue.tag = tag
 		@issue.is_candidate = true
 		@issue.popularity = 0
+		@issue.thumb_up = 0
 		@issue.datadetail_id = ""
 		@issue.save
 		redirect_to issuelist_index_path(id: @issue.id)
@@ -150,6 +155,10 @@ class IssuelistController < ApplicationController
 	end
 
 	def all
-		@issues = DataIssue.where(trunk_id: -1).order(:created_at)
+		@issues = DataIssue.where(trunk_id: -1,is_candidate: false).order(:created_at)
+	end
+
+	def candidate
+		@issues = DataIssue.where(is_candidate: true).order(thumb_up: :desc)
 	end
 end

@@ -92,37 +92,46 @@
 						<% else %>
 							<tr align = "center"><td class = "col-md-8" colspan = "2">反方論述</td></tr>
 						<% end %>
-						<% detail = nil %>
+						<% details = nil %>
+						<% pageNumber = 0 %>
 						<% if i == 0 %>
 							<% details = @support %>
+							<% pageNumber = @positive_page %>
 						<% else %>
 							<% details = @disSupport %>
+							<% pageNumber = @negative_page %>
 						<% end %>
 						
 					</thead>
 					<tbody>
-						<% details.each do |detail| %>
-							<tr>
-								<td>
-									<% link = detaillist_index_path(id: detail.id) %>
-									<a href = <%= link %>><%= detail.content %></a>
-								</td>
-								<td>
-									<% if HasUser() %>
-										<% if HasLike(detail.id) %>
-											<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
-											<% link = detaillist_dislike_path + "?id=" + detail.id.to_s + "&path=" + path%>
-											<%= link_to "hate me pls",link,method: :post%>
+						<% for j in 0..@numberPerPage - 1 %>
+							<% index = @numberPerPage * pageNumber.to_i + j %>
+							<% if details.length > index %>
+								<% detail = details[index] %> 
+								<!-- content -->
+								<tr>
+									<td>
+										<% link = detaillist_index_path(id: detail.id) %>
+										<a href = <%= link %>><%= detail.content %></a>
+									</td>
+									<td>
+										<% if HasUser() %>
+											<% if HasLike(detail.id) %>
+												<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
+												<% link = detaillist_dislike_path + "?id=" + detail.id.to_s + "&path=" + path%>
+												<%= link_to "hate me pls",link,method: :post%>
+											<% else %>
+												<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
+												<% link = detaillist_like_path + "?id=" + detail.id.to_s + "&path=" + path%>
+												<%= link_to "love me pls",link,method: :post%>
+											<% end %>
 										<% else %>
-											<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
-											<% link = detaillist_like_path + "?id=" + detail.id.to_s + "&path=" + path%>
-											<%= link_to "love me pls",link,method: :post%>
+											NOT Login
 										<% end %>
-									<% else %>
-										NOT Login
-									<% end %>
-								</td>
-							</tr>
+									</td>
+								</tr>
+							<% else %>
+							<% end %>
 						<% end %>
 						<!-- 換頁 -->
 						<% if i == 0 %>
@@ -132,48 +141,48 @@
 										<tr>
 											<td colspan="12" style="text-align:right;">
 												<% if(@PositiveHasLastPage) %>
-													<% p = ( @postive_page.to_i - 1 ).to_s %>
+													<% p = ( @positive_page.to_i - 1 ).to_s %>
 													<% n = @negative_page %>
-													<%= link_to "上一頁", issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+													<%= link_to "上一頁", issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
 												<% end %>
 												<%= " " %>
-												<% if(@postive_page.to_i - @PageExtend > 0) %>
+												<% if(@positive_page.to_i - @PageExtend > 0) %>
 													<% p = "0" %>
 													<% n = @negative_page %>
-													<%= link_to "1", issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
-													<% if(@postive_page.to_i - @PageExtend > 1) %>
+													<%= link_to "1", issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
+													<% if(@positive_page.to_i - @PageExtend > 1) %>
 														<%= "。。。" %>
 													<% end %>
 												<% end %>
 												<% lastPage = ( @support.length / @numberPerPage )%>
 												<% for j in 1..@PageExtend %>
 													<% k = @PageExtend - j + 1 %>
-													<% if(@postive_page.to_i - k > -1) %>
-														<% p = ( @postive_page.to_i - k ).to_s %>
+													<% if(@positive_page.to_i - k > -1) %>
+														<% p = ( @positive_page.to_i - k ).to_s %>
 														<% n = @negative_page %>
-														<%= link_to ( @postive_page.to_i - k + 1).to_s, issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+														<%= link_to ( @positive_page.to_i - k + 1).to_s, issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
 													<% end %>
 												<% end %>
-												<%= ( @postive_page.to_i + 1 ).to_s %>
+												<%= ( @positive_page.to_i + 1 ).to_s %>
 												<% for k in 1..@PageExtend %>
-													<% if(@postive_page.to_i + k < lastPage + 1) %>
-														<% p = ( @postive_page.to_i + k ).to_s %>
-														<% n = @negative_page %>
-														<%= link_to ( @postive_page.to_i + k + 1).to_s, issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+													<% if(@positive_page.to_i + k < lastPage + 1) %>
+														<% p = ( @positive_page.to_i + k ).to_s %>
+														<% n = @negative_page.to_s %>
+														<%= link_to ( @positive_page.to_i + k + 1).to_s, issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
 													<% end %>
 												<% end %>
-												<% if(@postive_page.to_i + @PageExtend < lastPage ) %>
-													<% if(@postive_page.to_i + @PageExtend < lastPage - 1) %>
+												<% if(@positive_page.to_i + @PageExtend < lastPage ) %>
+													<% if(@positive_page.to_i + @PageExtend < lastPage - 1) %>
 														<%= "。。。" %>
 													<% end %>
 													<% p = lastPage.to_s %>
 													<% n = @negative_page %>
-													<%= link_to (lastPage + 1).to_s, issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+													<%= link_to (lastPage + 1).to_s, issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
 												<% end %>
 												<% if(@PositiveHasNextPage) %>
-													<% p = ( @postive_page.to_i + 1 ).to_s %>
-													<% n = @negative_page %>
-													<%= link_to "下一頁", issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+													<% p = ( @positive_page.to_i + 1 ).to_s %>
+													<% n = @negative_page.to_s %>
+													<%= link_to "下一頁", issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
 												<% end %>
 											</td>
 										</tr>
@@ -187,15 +196,15 @@
 										<tr>
 											<td colspan="12" style="text-align:right;">
 												<% if(@NegativeHasLastPage) %>
-													<% p = @postive_page %>
+													<% p = @positive_page %>
 													<% n = ( @negative_page.to_i - 1 ).to_s %>
-													<%= link_to "上一頁", issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+													<%= link_to "上一頁", issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
 												<% end %>
 												<%= " " %>
 												<% if(@negative_page.to_i - @PageExtend > 0) %>
-													<% p = @postive_page %>
+													<% p = @positive_page %>
 													<% n = "0" %>
-													<%= link_to "1", issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+													<%= link_to "1", issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
 													<% if(@negative_page.to_i - @PageExtend > 1) %>
 														<%= "。。。" %>
 													<% end %>
@@ -204,31 +213,31 @@
 												<% for j in 1..@PageExtend %>
 													<% k = @PageExtend - j + 1 %>
 													<% if(@negative_page.to_i - k > -1) %>
-														<% p = @postive_page %>
+														<% p = @positive_page %>
 														<% n = ( @negative_page.to_i - k ).to_s %>
-														<%= link_to ( @negative_page.to_i - k + 1).to_s, issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+														<%= link_to ( @negative_page.to_i - k + 1).to_s, issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
 													<% end %>
 												<% end %>
 												<%= ( @negative_page.to_i + 1 ).to_s %>
 												<% for k in 1..@PageExtend %>
 													<% if(@negative_page.to_i + k < lastPage + 1) %>
-														<% p = @postive_page %>
+														<% p = @positive_page %>
 														<% n = ( @negative_page.to_i + k ).to_s %>
-														<%= link_to ( @negative_page.to_i + k + 1).to_s, issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+														<%= link_to ( @negative_page.to_i + k + 1).to_s, issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
 													<% end %>
 												<% end %>
 												<% if(@negative_page.to_i + @PageExtend < lastPage ) %>
 													<% if(@negative_page.to_i + @PageExtend < lastPage - 1) %>
 														<%= "。。。" %>
 													<% end %>
-													<% p = @postive_page %>
+													<% p = @positive_page %>
 													<% n = lastPage.to_s %>
-													<%= link_to (lastPage + 1).to_s, issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+													<%= link_to (lastPage + 1).to_s, issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
 												<% end %>
 												<% if(@NegativeHasNextPage) %>
-													<% p = @postive_page %>
+													<% p = @positive_page %>
 													<% n = ( @negative_page.to_i + 1 ).to_s %>
-													<%= link_to "下一頁", issuelist_index_path(id: @tags) + "?postive_page=" + p + "&negative_page=" + n %>
+													<%= link_to "下一頁", issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
 												<% end %>
 											</td>
 										</tr>
