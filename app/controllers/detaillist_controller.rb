@@ -75,6 +75,48 @@ class DetaillistController < ApplicationController
 		@issue.datadetail_id = @issue.datadetail_id + "," + @detail.id.to_s
 		@detail.save
 		@issue.save
+
+		#backup picture
+		#check if it is need or can be backup
+		if true
+			rest_api = "http://api.page2images.com/restfullink"
+			url = @detail.link
+			p2i_device = "6"
+        	p2i_screen="1024x768"
+        	p2i_size="1024x0"
+        	p2i_fullpage="1"
+        	p2i_key="8e549b1ac48187d3"
+        	rest_key="42b2fe10a13f636c"
+        	p2i_wait="0"
+        	parameters = {
+            "p2i_url" => url,
+            "p2i_key" => rest_key,
+            "p2i_device" => p2i_device,
+            "p2i_size" => p2i_size,
+            "p2i_screen" => p2i_screen,
+            "p2i_fullpage" => p2i_fullpage,
+            "p2i_wait" => p2i_wait
+            }
+			#open a thread
+			process = true
+			thread.new do
+				maxWatingTime = 60
+				start_time = Time.new
+
+				while(process && (Time.new - start_time) < maxWatingTime)
+					resp = Net::HTTP.post_form(URI(rest_api),parameters)
+					resp_text = resp.body
+					result = JSON.parse(resp.body)
+					if result["status"] == "finished"
+						open('public/pageBackUp/' + @detail.issue_id.to_s + "_" + @detail.id.to_s + '.png','wb') do |file|
+							file << open(result["image_url"]).read
+						end
+					elsif result["status"] = "processong"
+						sleep(5)
+					end
+				end
+			end
+		end
 		redirect_to detaillist_index_path(id: @detail.id)
 	end
 
