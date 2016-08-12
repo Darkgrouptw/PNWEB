@@ -8,7 +8,7 @@ class User::RegisterController < ApplicationController
     def sendEmail
         if !is_email(params[:email])
             redirect_to register_email_path
-            flash[:warning] = "請輸入正確的信箱！！"
+            flash[:alert] = "請輸入正確的信箱！！"
             return
         end
         
@@ -16,7 +16,7 @@ class User::RegisterController < ApplicationController
         userList = User.where(:email => params[:email])
         if userList.count != 0
             redirect_to register_email_path
-            flash[:warning] = "此帳號已經註冊過囉！！"
+            flash[:alert] = "此帳號已經註冊過囉！！"
             return
         end
             
@@ -49,7 +49,7 @@ class User::RegisterController < ApplicationController
                 return
             else
                 redirect_to(:back)
-                flash[:warning] = "請於 1 分鐘之後，再重試"
+                flash[:alert] = "請於 1 分鐘之後，再重試"
                 return
             end
         end
@@ -69,14 +69,14 @@ class User::RegisterController < ApplicationController
         # 判斷長度
         if !is_uuid(params[:token])
             redirect_to "/"
-            flash[:warning] = "請確定 Token 長度是不是正確的！！"
+            flash[:alert] = "請確定 Token 長度是不是正確的！！"
             return
         end
         
         # 判斷是不是正確的 email
         if !is_email(params[:email])
             redirect_to "/"
-            flash[:warning] = "請確定是不是正確的 Email !!"
+            flash[:alert] = "請確定是不是正確的 Email !!"
             return
         end
         
@@ -84,14 +84,14 @@ class User::RegisterController < ApplicationController
         item = VerifyList.where(email: params[:email])
         if item.count == 0
             redirect_to "/"
-            flash[:warning] = "此郵件沒有聲請過認證信喔！！"
+            flash[:alert] = "此郵件沒有聲請過認證信喔！！"
             return
         end
         
         # 判斷 token 正不正確
         if item[0].uuid != params[:token]
             redirect_to "/"
-            flash[:warning] = "Token 有問題，請聯繫最高管理者幫忙處理！！"
+            flash[:alert] = "Token 有問題，請聯繫最高管理者幫忙處理！！"
             return
         end
         
@@ -106,13 +106,13 @@ class User::RegisterController < ApplicationController
         
         if @token == nil || @email == nil
             redirect_to "/"
-            flash[:warning] = "流程錯誤！！"
+            flash[:alert] = "流程錯誤！！"
             return
         end
         
         if !is_uuid(@token) || !is_email(@email)
             redirect_to "/"
-            flash[:warning] = "傳送 Form 的參數有問題，請聯絡最高管理者幫忙處理！！"
+            flash[:alert] = "傳送 Form 的參數有問題，請聯絡最高管理者幫忙處理！！"
             return
         end
     end
@@ -120,7 +120,7 @@ class User::RegisterController < ApplicationController
     def success
         if !is_uuid(params[:token]) || ! is_email(params[:email])
             redirect_to :back
-            flash[:warning] = "請勿擅自修改資料喔！！"
+            flash[:alert] = "請勿擅自修改資料喔！！"
             return
         end
         
@@ -128,14 +128,14 @@ class User::RegisterController < ApplicationController
         item = VerifyList.where(email: params[:email])
         if item.count == 0
             redirect_to :back
-            flash[:warning] = "請勿擅自修改資料喔！！"
+            flash[:alert] = "請勿擅自修改資料喔！！"
             return
         end
         
         # 判斷 token 正不正確
         if item[0].uuid != params[:token]
             redirect_to :back
-            flash[:warning] = "請勿擅自修改資料喔！！"
+            flash[:alert] = "請勿擅自修改資料喔！！"
             return
         end
         
@@ -151,58 +151,58 @@ class User::RegisterController < ApplicationController
         
         if !reCaptcha["success"]
             redirect_to :back
-            flash[:warning] = "機器人驗證碼有錯誤！！"
+            flash[:alert] = "機器人驗證碼有錯誤！！"
             return
         end
         
         userList = User.where(:email => params[:email])
         if userList.count != 0
             redirect_to "/"
-            flash[:warning] = "此帳號已經註冊過囉！！"
+            flash[:alert] = "此帳號已經註冊過囉！！"
             return
         end
         
         # 驗證輸入的東西對不對
         if params[:password] != params[:password_confirm]
             redirect_to :back
-            flash[:warning] = "兩個密碼不太一樣！！"
+            flash[:alert] = "兩個密碼不太一樣！！"
             return
         end
         
         if params[:password][/[a-zA-Z0-9]+/] != params[:password]
             redirect_to :back
-            flash[:warning] = "有不合法的字，請重新填寫"
+            flash[:alert] = "有不合法的字，請重新填寫"
             return
         end
         
         if params[:sex] == nil || !(params[:sex] == "male" || params[:sex] == "female" || params[:sex] == "other")
             redirect_to :back
-            flash[:warning] = "請選擇性別！！"
+            flash[:alert] = "請選擇性別！！"
             return
         end
         
         if params[:password].length < 6 
             redirect_to :back
-            flash[:warning] = "密碼小於 6 個字！！"
+            flash[:alert] = "密碼小於 6 個字！！"
             return
         end
         
         if params[:nickname] == nil
             redirect_to :back
-            flash[:warning] = "暱稱沒有填寫！！"
+            flash[:alert] = "暱稱沒有填寫！！"
             return
         end
         
         if params[:date] == nil
             redirect_to :back
-            flash[:warning] = "時間沒有填寫！！"
+            flash[:alert] = "時間沒有填寫！！"
             return
         end
         
         countryArray = ["台灣", "大陸", "新加坡", "馬來西亞", "泰國", "越南","巴西", "阿根廷", "美國", "英國"]
         if params[:liveplace].to_i <= 0 || params[:liveplace].to_i > countryArray.count
             redirect_to :back
-            flash[:warning] = "沒有這個國家代碼喔！！"
+            flash[:alert] = "沒有這個國家代碼喔！！"
             return
         end
         
@@ -248,12 +248,19 @@ class User::RegisterController < ApplicationController
     
     # 寄信
     def send_email(uuid, email)
-        RestClient.post "https://api:key-ddabee7356c4bbecc5c1846d6994a2ec"\
-                "@api.mailgun.net/v3/sandbox2bbf267493614a8b843884423bc7a480.mailgun.org/messages",
-                :from => "正反網頁 <postmaster@sandbox2bbf267493614a8b843884423bc7a480.mailgun.org>",
-                :to => "<" + email + ">",
-                :subject => "正反網頁 - 信箱驗證信",
-                :text => "親愛的 " + params[:email] + "你好：\n\t這是你的認證網址，請點擊下面網址，及繼續接下來的流程\nhttps://npweb.herokuapp.com/VerifyEmail?token="+uuid+"&email="+email
+        
+  RestClient.post "https://api:YOUR_API_KEY"\
+  "@api.mailgun.net/v3/YOUR_DOMAIN_NAME/messages",
+  :from => "Excited User <mailgun@YOUR_DOMAIN_NAME>",
+  :to => "bar@example.com, YOU@YOUR_DOMAIN_NAME",
+  :subject => "Hello",
+  :text => "Testing some Mailgun awesomness!"
+        #RestClient.post "https://api:key-ddabee7356c4bbecc5c1846d6994a2ec"\
+        #        "@api.mailgun.net/v3/sandbox2bbf267493614a8b843884423bc7a480.mailgun.org/messages",
+        #        :from => "正反網頁 <postmaster@sandbox2bbf267493614a8b843884423bc7a480.mailgun.org>",
+        #        :to => "<" + email + ">",
+        #        :subject => "正反網頁 - 信箱驗證信",
+        #        :text => "親愛的 " + params[:email] + "你好：\n\t這是你的認證網址，請點擊下面網址，及繼續接下來的流程\nhttps://npweb.herokuapp.com/VerifyEmail?token="+uuid+"&email="+email
     end
     
     def verifylist_params

@@ -31,26 +31,26 @@ class User::LoginController < ApplicationController
     def verify
         if !is_email(params[:email])
             redirect_to :back
-            flash[:warning] = "信箱或密碼有錯誤，請重新填寫！！"
+            flash[:alert] = "信箱或密碼有錯誤，請重新填寫！！"
             return
         end
         
         if params[:password] == ""
             redirect_to :back
-            flash[:warning] = "信箱或密碼有錯誤，請重新填寫！！"
+            flash[:alert] = "信箱或密碼有錯誤，請重新填寫！！"
             return
         end
         
         if params[:password][/[a-zA-Z0-9]+/] != params[:password]
             redirect_to :back
-            flash[:warning] = "有不合法的字，請重新填寫"
+            flash[:alert] = "有不合法的字，請重新填寫"
             return
         end
         
         userList = User.where(:email => params[:email], :password => encrypt_password(params[:password]))
         if userList.count == 0
             redirect_to :back
-            flash[:warning] = "沒有這個使用者！！"
+            flash[:alert] = "沒有這個使用者！！"
             return
         end
         
