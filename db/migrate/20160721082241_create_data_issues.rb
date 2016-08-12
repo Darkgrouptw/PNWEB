@@ -7,7 +7,7 @@ class CreateDataIssues < ActiveRecord::Migration
       t.integer :trunk_id
       t.integer :popularity
       t.string :datadetail_id
-      t.integer :thumb_up
+      t.string :thumb_up
       t.string :tag
 
       t.timestamps null: false
