@@ -25,14 +25,13 @@ class User::RegisterController < ApplicationController
         
         # 如果沒有找到的話，代表要新增一筆資料，然後產生 uuid
         # 如果有的話，判斷時間是不是在固定時間內，如果是，就重新產生 uuid 傳過去，沒有就請他等待
-        require "rest-client"
         if emailList.count == 0
             uuid = make_uuid
             verifyUser = VerifyList.create(verifylist_params)
             verifyUser.uuid = uuid
             verifyUser.save
             
-            PostMailer.send_verify_email(uuid, params[:email])
+            send_verfiy_email(uuid, params[:email])
             
             redirect_to wait_for_verify_path + "?Email=" + params[:email]
             return
@@ -44,7 +43,7 @@ class User::RegisterController < ApplicationController
                 emailList[0].uuid = uuid
                 emailList[0].save
                 
-                PostMailer.send_verify_email(uuid, params[:email])
+                send_verfiy_email(uuid, params[:email])
                 redirect_to wait_for_verify_path + "?Email=" + params[:email]
                 return
             else
@@ -244,7 +243,19 @@ class User::RegisterController < ApplicationController
         flash[:notice] = "註冊成功！！"
     end
     
+    
     private
+    #寄信
+    def send_verfiy_email(uuid, email)
+        require 'net/smtp'
+
+        msg = "親愛的 " + email + "你好：\n\t這是你的認證網址，請點擊下面網址，及繼續接下來的流程\nhttps://npweb.herokuapp.com/VerifyEmail?token=" + uuid + "&email=" + email
+        smtp = Net::SMTP.new 'smtp.gmail.com', 587
+        smtp.enable_starttls
+        smtp.start("gmail.com", "npwebntust@gmail.com", "NTUSTCSIE2016", :login) do
+        smtp.send_message(msg, "npwebntust@gmail.com", email)
+    end
+    end
     
     def verifylist_params
         params.permit(:email)
