@@ -164,7 +164,11 @@ class DetaillistController < ApplicationController
 		path = params[:path]
 		path = path.sub('!','?').sub('|','&')
 		@likelist = LikeList.where(detail_id: @detail.id,post_id: post_id)[0]
-		@detail.like_list_id = @detail.like_list_id.sub(@likelist.id.to_s,"")
+		if @detail.like_list_id.include?("," + @likelist.id.to_s)
+			@detail.like_list_id = @detail.like_list_id.sub("," + @likelist.id.to_s,"")
+		else
+			@detail.like_list_id = @detail.like_list_id.sub(@likelist.id.to_s,"")
+		end
 		@likelist.destroy
 		@detail.save
 
