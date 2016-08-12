@@ -32,7 +32,7 @@ class User::RegisterController < ApplicationController
             verifyUser.uuid = uuid
             verifyUser.save
             
-            send_email(uuid, params[:email])
+            PostMailer.send_verify_email(uuid, params[:email])
             
             redirect_to wait_for_verify_path + "?Email=" + params[:email]
             return
@@ -44,7 +44,7 @@ class User::RegisterController < ApplicationController
                 emailList[0].uuid = uuid
                 emailList[0].save
                 
-                send_email(uuid, params[:email])
+                PostMailer.send_verify_email(uuid, params[:email])
                 redirect_to wait_for_verify_path + "?Email=" + params[:email]
                 return
             else
@@ -249,12 +249,12 @@ class User::RegisterController < ApplicationController
     # 寄信
     def send_email(uuid, email)
         
-  RestClient.post "https://api:YOUR_API_KEY"\
-  "@api.mailgun.net/v3/YOUR_DOMAIN_NAME/messages",
-  :from => "Excited User <mailgun@YOUR_DOMAIN_NAME>",
-  :to => "bar@example.com, YOU@YOUR_DOMAIN_NAME",
-  :subject => "Hello",
-  :text => "Testing some Mailgun awesomness!"
+  #RestClient.post "https://api:YOUR_API_KEY"\
+  #"@api.mailgun.net/v3/YOUR_DOMAIN_NAME/messages",
+  #:from => "Excited User <mailgun@YOUR_DOMAIN_NAME>",
+  #:to => "bar@example.com, YOU@YOUR_DOMAIN_NAME",
+  #:subject => "Hello",
+  #:text => "Testing some Mailgun awesomness!"
         #RestClient.post "https://api:key-ddabee7356c4bbecc5c1846d6994a2ec"\
         #        "@api.mailgun.net/v3/sandbox2bbf267493614a8b843884423bc7a480.mailgun.org/messages",
         #        :from => "正反網頁 <postmaster@sandbox2bbf267493614a8b843884423bc7a480.mailgun.org>",

@@ -1,9 +1,5 @@
 Rails.application.routes.draw do 
-  
-
 	root    "main#index"
-	
-	
 	
 	# 登入頁面 ＆ 登出
 	get     "User/Login"        =>  "user/login#login",         :as =>  "login"
