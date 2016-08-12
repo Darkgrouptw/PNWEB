@@ -249,12 +249,28 @@ class User::RegisterController < ApplicationController
     def send_verfiy_email(uuid, email)
         require 'net/smtp'
 
-        msg = "親愛的 " + email + "你好：\n\t這是你的認證網址，請點擊下面網址，及繼續接下來的流程\nhttps://npweb.herokuapp.com/VerifyEmail?token=" + uuid + "&email=" + email
-        smtp = Net::SMTP.new 'smtp.gmail.com', 587
-        smtp.enable_starttls
-        smtp.start("gmail.com", "npwebntust@gmail.com", "NTUSTCSIE2016", :login) do
-        smtp.send_message(msg, "npwebntust@gmail.com", email)
-    end
+        tempSMTP = Net::SMTP.new 'smtp.gmail.com', 587
+        tempSMTP.enable_starttls
+        tempSMTP.start("gmail.com", "npwebntust@gmail.com", "NTUSTCSIE2016", :login) do |smtp|
+            smtp.open_message_stream('npwebntust@gmail.com', [email]) do |f|
+                f.puts "Content-type: text/plain; charset=UTF-8"
+                f.puts "From: 正反網頁<npwebntust@gmail.com>"
+                f.puts "To: " + email
+                f.puts 'Subject: 正反網頁的認證信'
+                f.puts
+                f.puts "親愛的 " + email + "你好："
+                f.puts
+                f.puts "\t這是你的認證網址，請點擊下面網址，及繼續接下來的流程\nhttps://npweb.herokuapp.com/VerifyEmail?token=" + uuid + "&email=" + email
+            end
+        end
+
+        #subject = "Subject: 正反網頁的認證信\n\n"
+        #msg = subject + "親愛的 " + email + "你好：\n\t這是你的認證網址，請點擊下面網址，及繼續接下來的流程\nhttps://npweb.herokuapp.com/VerifyEmail?token=" + uuid + "&email=" + email
+        #smtp = Net::SMTP.new 'smtp.gmail.com', 587
+        #smtp.enable_starttls
+        #smtp.start() do
+        #    smtp.send_message(msg, "npwebntust@gmail.com", email)
+        #end
     end
     
     def verifylist_params
