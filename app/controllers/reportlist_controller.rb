@@ -49,8 +49,8 @@ class ReportlistController < ApplicationController
 	if @reportList.length < 2
 		@detail.is_report = false
 	end
-	@detail.save
 	@report.destroy
+	@detail.save
 	redirect_to detaillist_index_path(id: @detail.id)
   end
 
@@ -67,7 +67,7 @@ class ReportlistController < ApplicationController
 	else
 		@issue.datadetail_id = @issue.datadetail_id.sub(@detail.id.to_s,"")
 	end
-	@issue.save
+	
 	#likelist 	#notify's user
 	users = []
 	@LikeListList.each do |item|
@@ -103,7 +103,7 @@ class ReportlistController < ApplicationController
 			item.destroy
 		end
 	end
-
+	@issue.save
 	redirect_to reportlist_all_path
   end
 end

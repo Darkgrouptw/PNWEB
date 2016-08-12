@@ -191,8 +191,7 @@ class DetaillistController < ApplicationController
 		@likelist.detail_id = @detail.id
 		@likelist.post_id = post_id
 		@detail.like_list_id = @detail.like_list_id.to_s + "," +@likelist.id.to_s
-		@detail.save
-		@likelist.save
+		
 		#notify
 		@notifyList = NotifyList.where(user_id: post_id,issue_id: @detail.issue_id)
 		if @notifyList.length > 0
@@ -205,6 +204,8 @@ class DetaillistController < ApplicationController
 			@notify.newest_detail = Time.now
 			@notify.save
 		end
+		@detail.save
+		@likelist.save
 		redirect_to path
 	end
 
@@ -220,7 +221,7 @@ class DetaillistController < ApplicationController
 			@detail.like_list_id = @detail.like_list_id.sub(@likelist.id.to_s,"")
 		end
 		@likelist.destroy
-		@detail.save
+		
 
 		#notify
 		@notifyList = NotifyList.where(user_id: post_id,issue_id: @detail.issue_id)
@@ -245,6 +246,7 @@ class DetaillistController < ApplicationController
 		else
 			#nothing to do ,Instead there is something wrong if code in here is been excute
 		end
+		@detail.save
 		redirect_to path
 
 	end
