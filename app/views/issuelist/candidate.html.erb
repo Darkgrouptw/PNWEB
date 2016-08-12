@@ -7,21 +7,34 @@
 		<table class = "table table-bordered">
 			<thead>
 				<tr align = "center">
-					<td colspan = "3">All the Issue</td>
+					<td colspan = "4">All the Candidate Issue</td>
 				</tr>
-				<tr><td>Title</td><td>count</td><td>created time</td></tr>
+				<tr><td>Title</td><td>count</td><td>love one</td><td>Upgread</td></tr>
 			</thead>
 			<tbody>
-				<% @issues.where(trunk_id: -1).each do |issue| %>
+				<% @issues.each do |issue| %>
 					<tr>
 						<td>
-							<% link = issuelist_index_path ( issue.id.to_s) %>
-							<a href = <%= link %>>
 								<%= issue.title %>
-							</a>
 						</td>
-						<td></td>
-						<td></td>
+						<td><%= issue.thumb_up.split(',').length %></td>
+						<td>
+							<% if issue.thumb_up.include?(current_user.id.to_s)%>
+								You have already love me...
+							<% else %>
+								<% link = issuelist_thumb_up_path + "?id=" + issue.id.to_s %>
+								<%= link_to "love me pls",link,method: :post%>
+							<% end %>
+							
+						</td>
+						<td>
+							<% if true%>
+								<% link = issuelist_upgrade_path + "?id=" + issue.id.to_s %>
+								<%= link_to "upgrade",link,method: :post%>
+							<% else %>
+								限管理員使用
+							<% end %>
+						</td>
 					</tr>
 				<% end %>
 			</tbody>

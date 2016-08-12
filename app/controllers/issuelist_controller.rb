@@ -122,7 +122,7 @@ class IssuelistController < ApplicationController
 		@issue.tag = tag
 		@issue.is_candidate = true
 		@issue.popularity = 0
-		@issue.thumb_up = 0
+		@issue.thumb_up = ""
 		@issue.datadetail_id = ""
 		@issue.save
 		redirect_to issuelist_index_path(id: @issue.id)
@@ -159,6 +159,28 @@ class IssuelistController < ApplicationController
 	end
 
 	def candidate
-		@issues = DataIssue.where(is_candidate: true).order(thumb_up: :desc)
+		@issues = DataIssue.where(is_candidate: true)
+	end
+
+	def thumb_up
+		post_id = current_user.id
+		@issue = DataIssue.where(id: params[:id])[0]
+		if @issue.thumb_up.nil?
+			@issue.thumb_up = ""
+		end
+		if @issue.thumb_up.empty?
+			@issue.thumb_up = @issue.thumb_up + post_id.to_s
+		else
+			@issue.thumb_up = @issue.thumb_up + "," + post_id.to_s
+		end
+		@issue.save
+		redirect_to issuelist_candidate_path
+	end
+
+	def upgrade
+		@issue = DataIssue.where(id: params[:id])[0]
+		@issue.is_candidate = false
+		@issue.save
+		redirect_to issuelist_index_path(id: @issue.id)
 	end
 end
