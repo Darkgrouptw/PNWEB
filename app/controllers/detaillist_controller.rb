@@ -79,6 +79,10 @@ class DetaillistController < ApplicationController
 		#backup picture
 		#check if it is need or can be backup
 		if true
+			require "uri"
+        	require "net/http"
+        	require "open-uri"
+        	require 'json'
 			rest_api = "http://api.page2images.com/restfullink"
 			url = @detail.link
 			p2i_device = "6"
@@ -99,7 +103,7 @@ class DetaillistController < ApplicationController
             }
 			#open a thread
 			process = true
-			thread.new do
+			Thread.new do
 				maxWatingTime = 60
 				start_time = Time.new
 
@@ -107,10 +111,14 @@ class DetaillistController < ApplicationController
 					resp = Net::HTTP.post_form(URI(rest_api),parameters)
 					resp_text = resp.body
 					result = JSON.parse(resp.body)
+					puts "-------------------------------"
+                    puts resp.body
+                    puts "-------------------------------"
 					if result["status"] == "finished"
 						open('public/pageBackUp/' + @detail.issue_id.to_s + "_" + @detail.id.to_s + '.png','wb') do |file|
 							file << open(result["image_url"]).read
 						end
+						process = false
 					elsif result["status"] = "processong"
 						sleep(5)
 					end
