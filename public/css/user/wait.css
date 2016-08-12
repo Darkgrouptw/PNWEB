@@ -4,3 +4,23 @@
     bottom: 0px;
     left: 0px;
 }
+.FlyBox
+{
+    width: 10%;
+    animation: fly;
+    animation-duration: 4s;
+    animation-fill-mode: forwards;
+}
+@keyframes fly
+{
+    from
+    {
+        margin-top: 300px;
+        margin-left: 10%;
+    }
+    to
+    {
+        margin-bottom: 300px;
+        margin-left: 80%;
+    }
+}

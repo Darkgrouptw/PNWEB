@@ -1,5 +1,4 @@
 class User::RegisterController < ApplicationController
-    
     def index
     end
     
@@ -104,6 +103,12 @@ class User::RegisterController < ApplicationController
     def form
         @token = session[:token]
         @email = session[:email]
+        
+        if @token == nil || @email == nil
+            redirect_to "/"
+            flash[:warning] = "流程錯誤！！"
+            return
+        end
         
         if !is_uuid(@token) || !is_email(@email)
             redirect_to "/"

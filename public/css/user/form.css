@@ -14,8 +14,16 @@
     border-radius: 0px 0px 500px 500px;
     padding:  30px;
 }
-
-h2
+.RightPeople
 {
-    margin: 0px;
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+}
+.RightPeople img
+{
+    position: fixed;
+    width: 31%;
+    right: 0px;
+    bottom: 0px;
 }

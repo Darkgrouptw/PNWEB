@@ -5,14 +5,19 @@
 <link rel="stylesheet" type="text/css" href="/css/user/wait.css">
 <div class="container">
     <div class="jumbotron">
+        <div class="LeftPeople">
+            <img src="/images/user/WaitLeft.png" width="30%">
+        </div>
+            
+            <!-- 圖片要用 animation -->
         <div class="row">
-            <div class="LeftPeople">
-                <img src="/images/user/WaitLeft.png" width="30%">
-            </div>
+            <img src="/images/user/PaperPlane.png" class="FlyBox">
+        </div>
+        <div class="row">
             <div class="col-md-offset-4 col-md-4" style="text-align: center;">
-                <img src="/images/user/PaperPlane.png" width="40%">
                 <h4>已經寄信去 <%= @email %> <br>請去信件收信</h4>
             </div>
+        </div>
         </div>
     </div>
 </div>
