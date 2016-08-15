@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 	post 	"Issuelist/thumb_up"	=>	"issuelist#thumb_up",	:as => 	"issuelist_thumb_up"
 	post 	"Issuelist/upgrade"	=>	"issuelist#upgrade",	:as =>	"issuelist_upgrade"
 	get     "Issuelist/:id"     =>  "issuelist#index",   :as =>  "issuelist_index"
+
 	# people page
 	get     "Peoplelist/all"    =>  "peoplelist#all",   :as =>  "peoplelist_all"
 	get     "Peoplelist/add"    =>  "peoplelist#add",   :as =>  "peoplelist_add"
@@ -31,6 +32,7 @@ Rails.application.routes.draw do
 	get     "Peoplelist/edit/:id"   =>  "peoplelist#edit",  :as =>  "peoplelist_edit"
 	post    "Peoplelist/update" =>  "peoplelist#update",:as =>  "peoplelist_update"
 	get     "Peoplelist/:id"    =>  "peoplelist#index", :as =>  "peoplelist_index"
+
 	# detail page
 	get     "Detaillist/add/:id"    =>  "detaillist#add",   :as =>  "detaillist_add"
 	post    "Detaillist/new"    =>  "detaillist#new",   :as =>  "detaillist_new"
@@ -39,10 +41,13 @@ Rails.application.routes.draw do
 	post    "Detaillist/like"   =>  "detaillist#like",  :as =>  "detaillist_like"
 	post    "Detaillist/dislike"=>  "detaillist#dislike",   :as =>  "detaillist_dislike"
 	get     "Detaillist/:id"    =>  "detaillist#index", :as =>  "detaillist_index"
+
 	# detail comment page
 	post 	"Comment/new"		=>	"detaillist#comment_new",	:as =>	"detaillist_comment_new"
+
 	# poster page
 	get     "User/:id"          =>  "user/userlist#index",  :as =>  "userlist_index"
+	
 	# report
 	get     "Reportlist/all"    =>  "reportlist#all",   :as =>  "reportlist_all"
 	post    "Reportlist/new"    =>  "reportlist#new",   :as =>  "reportlist_new"
@@ -51,4 +56,9 @@ Rails.application.routes.draw do
 	post    "Reportlist/accept" =>  "reportlist#accept",:as =>  "reportlist_accept"
 	get     "Reportlist/:id"    =>  "reportlist#index", :as =>  "reportlist_index"
 
+
+	# notify
+	post 	"Notify"		=>	"main#notify",	:as =>	"notify"
+	# peopleName
+	get 	"PeopleName"	=>	"main#peopleName",	:as =>	"peopleName"
 end

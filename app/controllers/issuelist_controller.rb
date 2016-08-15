@@ -96,6 +96,8 @@ class IssuelistController < ApplicationController
             end
         end
 
+        #update Notify
+
         @users=User.where(id: user)
         @persons=DataPerson.where(id: person)
 	end
