@@ -97,7 +97,13 @@ class IssuelistController < ApplicationController
         end
 
         #update Notify
-
+        if !current_user.nil?
+        	@notifyList =  NotifyList.where(user_id: current_user.id , issue_id: @me.id)[0]
+        	if !@notifyList.nil?
+        		@notifyList.last_read = Time.now
+        		@notifyList.save
+        	end
+        end
         @users=User.where(id: user)
         @persons=DataPerson.where(id: person)
 	end

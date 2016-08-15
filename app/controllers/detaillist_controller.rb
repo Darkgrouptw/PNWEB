@@ -73,6 +73,15 @@ class DetaillistController < ApplicationController
 		
 		@issue = DataIssue.where(id: @detail.issue_id)[0]
 		@issue.datadetail_id = @issue.datadetail_id + "," + @detail.id.to_s
+
+		#notify
+		@notifyList =  NotifyList.where(issue_id: @issue.id)
+		if !@notifyList.nil?
+			@notifyList.each do |item|
+				item.newest_detail = Time.now
+				item.save
+			end
+		end
 		@detail.save
 		@issue.save
 
@@ -200,8 +209,8 @@ class DetaillistController < ApplicationController
 			@notify = NotifyList.create(created_at: Time.now,updated_at: Time.now)
 			@notify.user_id = post_id
 			@notify.issue_id = @detail.issue_id
-			@notify.last_read = Time.now
 			@notify.newest_detail = Time.now
+			@notify.last_read = Time.now
 			@notify.save
 		end
 		@detail.save

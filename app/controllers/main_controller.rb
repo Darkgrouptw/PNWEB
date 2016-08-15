@@ -14,7 +14,6 @@ class MainController < ApplicationController
     end
 
     def notify
-        @notifyList = NotifyList.where(user_id: post_id,issue_id: @detail.issue_id)
         @notifyList = NotifyList.all
         user_ids = []
         issue_ids = []
