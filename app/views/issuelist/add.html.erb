@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="/css/user/form.css">
+
 <div class="BigTitle">
     <h2>新增議題</h2>
     <hr>
@@ -5,32 +7,50 @@
 <% if current_user.nil? %>
 	error please verify you self
 <% else %>
-	<div class >
-		<div class = "container">
-			<div class = "jumbotron">
-				<div class = "row">
-					<form action= "<%= issuelist_new_path %> " method= "post">
-						<div class = "form-group">
-							<label>Title*</label>
-							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                        	<input type="text" class="form-control" name="title" required="true" >
-                        	<br>
-                        	<label>description</label>
-                        	<textarea class="form-control" name="post" cols = "50" rows="5"></textarea>
-                        	<br>
-                        	<label>trunkID (if no trunk don't fill data)</label>
-                        	<input type="text" class="form-control" name="trunk_id" >
-                        	<br>
-                        	<label>tag (separate with ',')</label>
-                        	<input type="text" class="form-control" name="tag" >
-                        	<br>
-                        	<div>
-                        		<input type = "submit" class = "btn btn-primary" style = "width: 150px;">
-                        	</div>
-						</div>
-					</form>
-				</div>
-			</div>
+
+    <div class="LeftPeople">
+        <img src="/images/user/Say.png">
+    </div>
+
+	<div class = "container-fluid">
+		<div class = "row">
+            <div class="col-md-8" style="margin-left: 620px; padding-right: 0px;">
+                
+                <div class="FormTop">
+                </div>
+
+                <form action= "<%= issuelist_new_path %> " method= "post">
+                    <div class="FormInside">
+                        <div class = "form-group" style="margin: 0px;">
+                            <div class="row">
+                                <div class="col-md-offset-2 col-md-8">
+                                    <label>Title*</label>
+                                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                                    <input type="text" class="form-control" name="title" required="true" >
+                                    <br>
+
+                                    <label>description</label>
+                                    <textarea class="form-control" name="post" cols = "50" rows="5"></textarea>
+                                    <br>
+
+                                    <label>trunkID (if no trunk don't fill data)</label>
+                                    <input type="text" class="form-control" name="trunk_id" >
+                                    <br>
+
+                                    <label>tag (separate with ',')</label>
+                                    <input type="text" class="form-control" name="tag" >
+                                    <br>
+
+                                    <input type = "submit" class = "btn btn-primary" style = "width: 150px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="FormBottom">
+                </div>
+            </div>
 		</div>
 	</div>
 <% end %>

@@ -27,3 +27,13 @@
     right: 0px;
     bottom: 0px;
 }
+/* 
+給 issuelist/add 使用
+*/
+.LeftPeople img
+{
+    position: fixed;
+    width: 650px;
+    left: 0px;
+    bottom: 0px;
+}
