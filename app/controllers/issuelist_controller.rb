@@ -10,7 +10,19 @@ class IssuelistController < ApplicationController
 		detail_strings = @me.datadetail_id.split(',')
 		@details = DataDetail.where(id: detail_strings)
 		@likeList = LikeList.where(post_id: current_user)
-		
+		# 判斷是否讚太多
+		likeLimit = 3
+		likeNumber = 0
+		@NoMoreLike = false
+		@details.each do |detail|
+			like = @likeList.where(detail_id: detail.id)[0]
+			if !like.nil?
+				likeNumber = likeNumber + 1
+			end
+		end
+		if likeNumber >= likeLimit
+			@NoMoreLike = true
+		end
 		# 要判斷是用什麼來排序
 		if params[:orderby] == "Time"
 			@support = @details.where(is_support: true).order(:created_at).reverse
