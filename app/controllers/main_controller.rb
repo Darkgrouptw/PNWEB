@@ -48,8 +48,11 @@ class MainController < ApplicationController
 
     def peopleName
         name = params[:name]
+        if name == ""
+            return
+        end
         @content = ""
-        @persons = DataPerson.where("name like ?", "#{name}%")
+        @persons = DataPerson.where("name like ?", name + "%")
         @persons.each do |person|
             if @content.length <= 0
                 @content = @content + person.name

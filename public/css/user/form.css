@@ -37,3 +37,21 @@
     left: 0px;
     bottom: 0px;
 }
+/*
+給 query 的用
+*/
+.queryDiv
+{
+    position: absolute;
+    display: block;
+    font-size: 14px;
+    width: 95%;
+    border-radius: 4px;
+    line-height: 1.42857143;
+    border: 1px solid #ccc;
+    background: white;
+}
+.queryDiv div
+{
+    padding: 10px;
+}

@@ -1,26 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>PNWEB</title>
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-    <%= csrf_meta_tags %>
+<% if !request.original_url.include?("PeopleName") %>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>PNWEB</title>
+        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+        <%= csrf_meta_tags %>
 
-    <!-- For moblie --> 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    
-    <link rel="stylesheet" type="text/css" href="/css/navbar.css">
-</head>
-<body>
+        <!-- For moblie --> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <%= render "common/navbar" %>
-    <!-- 給 notice_message 使用 -->
-    <div class = "container-fluid" style="position: relative; padding-top: 100px;">
-        <%= notice_message %>
-    </div>
+        <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+    </head>
+    <body>
+
+        <%= render "common/navbar" %>
+        <!-- 給 notice_message 使用 -->
+        <div class = "container-fluid" style="position: relative; padding-top: 100px;">
+            <%= notice_message %>
+        </div>
+        <%= yield %>
+
+        <%= render "common/footer" %>
+    </body>
+    </html>
+<% else %>
     <%= yield %>
-
-    <%= render "common/footer" %>
-</body>
-</html>
+<% end %>
