@@ -49,13 +49,14 @@ class MainController < ApplicationController
     def peopleName
         name = params[:name]
         @content = ""
-        @users = User.where(name: include?(name))
-        @users.each do |user|
-            if content.length <= 0
-                content = content + user.name
+        @persons = DataPerson.where("name like ?", "#{name}%")
+        @persons.each do |person|
+            if @content.length <= 0
+                @content = @content + person.name
             else
-                content = content  + "," + user.name
+                @content = @content  + "," + person.name
             end
         end
+        puts @content
     end
 end
