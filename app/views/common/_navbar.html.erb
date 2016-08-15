@@ -39,11 +39,11 @@
                 
                     <% #帳號的 Dropdown %>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle headLink" data-toggle="dropdown">
+                        <a href="#" class="dropdown-toggle headLink" data-toggle="dropdown" style="padding-bottom: 10px;">
                             Hi!, <%= current_user.nickname %>#<%= current_user.id %>
                           <span class="caret"></span>
                       </a>
-                      <ul class="dropdown-menu">
+                      <ul class="dropdown-menu" style="top: 90ox;">
                           <li><a href="#" class="headLink">帳號設定</a></li>
                           <li><a href="<%= logout_path %>" class="headLink" data-method="delete">登出</a></li>
                           
