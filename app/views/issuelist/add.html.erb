@@ -23,7 +23,7 @@
 
                 <form action= "<%= issuelist_new_path %> " method= "post">
                     <div class="FormInside">
-                        <div class = "form-group" style="margin: 0px;">
+                        <div class = "form-group"  style="position: relative; margin-bottom: 0px;">
                             <div class="row">
                                 <div class="col-md-offset-2 col-md-8">
                                     <label>Title*</label>
@@ -35,9 +35,11 @@
                                     <textarea class="form-control" name="post" cols = "50" rows="5"></textarea>
                                     <br>
 
-                                    <label>trunkID (if no trunk don't fill data)</label>
-                                    <input type="text" class="form-control" name="trunk_id" id="trunkID">
-                                    <div id="trunkIDDiv" class="queryDiv">
+                                    <div style="position: relative;">
+                                        <label>trunkID (if no trunk don't fill data)</label>
+                                        <input type="text" class="form-control" name="trunk_id" id="queryIssue">
+                                        <div id="queryIssueDiv" class="queryDiv" style="display: none;">
+                                        </div>
                                     </div>
                                     <br>
 

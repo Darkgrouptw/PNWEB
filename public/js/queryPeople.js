@@ -1,34 +1,36 @@
 $(function(){
     // 給 Issuelist 的 change 事件
-    $("#trunkID").on("focus input" ,function(){
+    $("#queryPeople").on("focus input" ,function(){
         $Name = $(this).prop("value");
-        if($Name != "")
-            $.get( "/PeopleName", { name: $Name }).done( 
-                function( data ) {
-                    // 刪除前面的空白
-                    data = data.substr(4, data.length);
-                    // 刪除後面的換行
-                    data = data.substr(0, data.length - 1);
-                    data = data.split(",")
-                    $("#trunkIDDiv").empty();
-                    
-                    if(data.length == 1 && data[0] == "\n")
-                        return;
-                    
-                    for($i = 0; $i < data.length; $i++)
-                        $("#trunkIDDiv").append("<div onclick=clickQuery(this)>" + data[$i] + "</div>");
-                }
-            );
+        $.get( "/PeopleName", { name: $Name }).done( 
+            function( data ) {
+                // 刪除前面的空白
+                data = data.substr(4, data.length);
+                // 刪除後面的換行
+                data = data.substr(0, data.length - 1);
+                data = data.split(",")
+                $("#queryPeopleDiv").empty();
+                
+                if(data.length == 1 && data[0] == "\n")
+                    return;
+                document.getElementById("queryPeopleDiv").style.display = "";
+                
+                for($i = 0; $i < data.length; $i++)
+                    $("#queryPeopleDiv").append("<div onclick=clickQuery(this)>" + data[$i] + "</div>");
+            }
+        );
     });
-    $("#trunkID").on("blur", function(){
+    $("#queryPeople").on("blur", function(){
         setTimeout(function(){
-            $("#trunkIDDiv").empty();
+            document.getElementById("queryPeopleDiv").style.display = "none";
+            $("#queryPeopleDiv").empty();
         },100);
     });
 });
 
 function clickQuery(result)
 {
-    document.getElementById("trunkID").value = result.innerText;
+    document.getElementById("queryPeople").value = result.innerText;
+    document.getElementById("queryPeopleDiv").style.display = "none";
     result.parentNode.innerHTML = "";
 }
