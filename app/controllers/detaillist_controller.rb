@@ -69,6 +69,17 @@ class DetaillistController < ApplicationController
 				is_support: is_support,
 				is_direct: is_direct
 				)
+			if is_support
+				@detail.is_support = true
+			else
+				@detail.is_support = false
+			end
+			if is_direct
+				@detail.is_direct = true
+			else
+				@detail.is_direct = false
+			end
+			@detail.backup_id = @issue.id.to_s + "_" + @detail.id.to_s
 			@issue.datadetail_id = @issue.datadetail_id + "," + @detail.id.to_s
 
 			#notify

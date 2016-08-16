@@ -102,7 +102,7 @@
 						<% if i == 0 %>
 							<tr align = "center"><td class = "col-md-8" colspan = "9">正方論述</td></tr>
 						<% else %>
-							<tr align = "center"><td class = "col-md-8" colspan = "9">反方論述</td></tr>
+							<tr align = "center"><td class = "col-md-8" colspan = "9">反方論述<%= @disSupport.length%></td></tr>
 						<% end %>
 						<tr>
 							<td>誰的意見（當時頭銜）</td>
@@ -132,6 +132,7 @@
 							<% if details.length > index %>
 								<% detail = details[index] %> 
 								<% person = @persons.where(id: detail.people_id)[0] %>
+								<% user = @users.where(id: detail.post_id)[0] %>
 								<!-- content -->
 								<tr>
 									<td><% if person.nil? %>無名氏<% else %><% link = peoplelist_index_path(id: person.name) %><a href = <%= link %>> <%= person.name %> </a><% end %> ( <%= detail.title_at_that_time %> )</td>
@@ -162,7 +163,21 @@
 									</td>
 									<td><%= detail.news_media %></td>
 									<td><%= detail.report_at %></td>
-									<td><div><% link = detail.link %><a href = <%= "//" + link %>>連結</a></div><div>備份</div></td>
+									<td>
+										<div><% link = detail.link %><a href = <%= "//" + link %>>連結</a></div>
+										<div>
+											<% link = "pageBackUp/"+detail.backup_id.to_s+".png" %>
+                                			<% if File.exist?(Rails.root + "public/" + link) %>
+                                			    <a href = <%= "/"+link %> >
+                                			      備份圖片
+                                			    </a>
+                                			<% else %>
+                                			    <br>圖片尚未備份
+                                			<% end %>
+										</div>
+									</td>
+									<td><%= @me.created_at %></td>
+									<td><% link = userlist_index_path(id: user.id)%><a href = <%= link %> > <%= user.nickname %> </a></td>
 								</tr>
 							<% else %>
 							<% end %>
