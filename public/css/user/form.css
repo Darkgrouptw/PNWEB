@@ -55,3 +55,11 @@
 {
     padding: 10px;
 }
+.queryDiv div:hover
+{
+    background-color: rgb(240, 240, 240);
+}
+.queryDiv div:link
+{
+    background-color: white;
+}

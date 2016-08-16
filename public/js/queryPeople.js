@@ -16,18 +16,19 @@ $(function(){
                         return;
                     
                     for($i = 0; $i < data.length; $i++)
-                            $("#trunkIDDiv").append("<div onclick=clickQuery(this)>" + data[$i] + "</div>");
+                        $("#trunkIDDiv").append("<div onclick=clickQuery(this)>" + data[$i] + "</div>");
                 }
             );
     });
-    /*$("#trunkID").on("blur", function(){
-        $("#trunkIDDiv").empty();
-    });*/
+    $("#trunkID").on("blur", function(){
+        setTimeout(function(){
+            $("#trunkIDDiv").empty();
+        },100);
+    });
 });
 
 function clickQuery(result)
 {
     document.getElementById("trunkID").value = result.innerText;
     result.parentNode.innerHTML = "";
-    //console.log(result.parentNode);
 }
