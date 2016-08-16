@@ -1,0 +1,23 @@
+.queryDiv
+{
+    position: absolute;
+    display: block;
+    font-size: 14px;
+    width: 95%;
+    border-radius: 4px;
+    line-height: 1.42857143;
+    border: 1px solid #ccc;
+    background: white;
+}
+.queryDiv div
+{
+    padding: 10px;
+}
+.queryDiv div:hover
+{
+    background-color: rgb(240, 240, 240);
+}
+.queryDiv div:link
+{
+    background-color: white;
+}
