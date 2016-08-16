@@ -3,3 +3,7 @@ table tr td:nth-child(even)
     background-color: rgb(14 , 97, 174);
     color: white;
 }
+table tr td a
+{
+	color: rgb(20, 20, 20);
+}
