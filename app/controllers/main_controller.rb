@@ -48,9 +48,6 @@ class MainController < ApplicationController
 
 	def peopleName
 		name = params[:name]
-		if name == ""
-			return
-		end
 		@content = ""
 		@persons = DataPerson.where("name like ?", name + "%").first(5)
 		@persons.each do |person|
@@ -65,9 +62,6 @@ class MainController < ApplicationController
 
 	def issueName
 		name = params[:name]
-		if name == ""
-			return
-		end
 		@content = ""
 		@issues = DataIssue.where("title like ?", name + "%").first(5)
 		@issues.each do |issue|

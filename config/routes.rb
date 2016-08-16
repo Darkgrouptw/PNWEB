@@ -59,8 +59,8 @@ Rails.application.routes.draw do
 
 	# notify
 	post 	"Notify"            =>	"main#notify",	    :as =>	"notify"
-	# peopleName
+    
+	# peopleName & issueName 要拿 params 用的
 	get 	"PeopleName"        =>	"main#peopleName",	:as =>	"peopleName"
-	# issueName
 	get		"IssueName"			=>	"main#issueName",	:as =>	"issueName"
 end
