@@ -37,104 +37,102 @@ class DetaillistController < ApplicationController
 		news_media = params[:news_media]
 		report_at = params[:report_at]
 		link = params[:link]
-		post_id = current_user.id
-		@detail = DataDetail.create(
-			created_at: Time.now,
-			updated_at: Time.now,
-			backup_id: "",
-			count: 0,
-			like_list_id: "",
-			comment_id: "",
-			is_report: false
-			)
-		@detail.content = content
+
+		@issue = DataIssue.where(id: issue_id)[0]
 		@person = DataPerson.where(name: people_id)[0]
+
 		if @person.nil?
-			@detail.people_id = -1
+			#fail back to where we are
+			flash[:alert] = "沒有此名嘴！！"
+			redirect_to detaillist_add_path(id: @issue.id)
+		elsif @issue.nil?
+			flash[:alert] = "沒有此議題！！"
+			redirect_to issuelist_all_path
 		else
-			@detail.people_id = @person.id
-		end
-		@detail.issue_id = issue_id
-		@detail.title_at_that_time = title_at_that_time
-		if is_support
-			@detail.is_support = true
-		else
-			@detail.is_support =false
-		end
-		if is_direct
-			@detail.is_direct = true
-		else
-			@detail.is_direct =false
-		end
-		@detail.news_media = news_media
-		@detail.report_at = report_at
-		@detail.link = link
-		@detail.post_id = post_id
-		
-		@issue = DataIssue.where(id: @detail.issue_id)[0]
-		@issue.datadetail_id = @issue.datadetail_id + "," + @detail.id.to_s
+			post_id = current_user.id
+			@detail = DataDetail.create(
+				created_at: Time.now,
+				updated_at: Time.now,
+				backup_id: "",
+				count: 0,
+				like_list_id: "",
+				comment_id: "",
+				is_report: false,
+				content: content,
+				people_id: @person.id,
+				issue_id: issue_id,
+				title_at_that_time: title_at_that_time,
+				news_media: news_media,
+				report_at: report_at,
+				link: link,
+				post_id: post_id,
+				is_support: is_support,
+				is_direct: is_direct
+				)
+			@issue.datadetail_id = @issue.datadetail_id + "," + @detail.id.to_s
 
-		#notify
-		@notifyList =  NotifyList.where(issue_id: @issue.id)
-		if !@notifyList.nil?
-			@notifyList.each do |item|
-				item.newest_detail = Time.now
-				item.save
+			#notify
+			@notifyList =  NotifyList.where(issue_id: @issue.id)
+			if !@notifyList.nil?
+				@notifyList.each do |item|
+					item.newest_detail = Time.now
+					item.save
+				end
 			end
-		end
-		@detail.save
-		@issue.save
 
-		#backup picture
-		#check if it is need or can be backup
-		if true
-			require "uri"
-        	require "net/http"
-        	require "open-uri"
-        	require 'json'
-			rest_api = "http://api.page2images.com/restfullink"
-			url = @detail.link
-			p2i_device = "6"
-        	p2i_screen="1024x768"
-        	p2i_size="1024x0"
-        	p2i_fullpage="1"
-        	p2i_key="8e549b1ac48187d3"
-        	rest_key="42b2fe10a13f636c"
-        	p2i_wait="0"
-        	parameters = {
-            "p2i_url" => url,
-            "p2i_key" => rest_key,
-            "p2i_device" => p2i_device,
-            "p2i_size" => p2i_size,
-            "p2i_screen" => p2i_screen,
-            "p2i_fullpage" => p2i_fullpage,
-            "p2i_wait" => p2i_wait
-            }
-			#open a thread
-			process = true
-			Thread.new do
-				maxWatingTime = 60
-				start_time = Time.new
-
-				while(process && (Time.new - start_time) < maxWatingTime)
-					resp = Net::HTTP.post_form(URI(rest_api),parameters)
-					resp_text = resp.body
-					result = JSON.parse(resp.body)
-					puts "-------------------------------"
-                    puts resp.body
-                    puts "-------------------------------"
-					if result["status"] == "finished"
-						open('public/pageBackUp/' + @detail.issue_id.to_s + "_" + @detail.id.to_s + '.png','wb') do |file|
-							file << open(result["image_url"]).read
+			@detail.save
+			@issue.save
+			#backup picture
+			#check if it is need or can be backup
+			if true
+				require "uri"
+				require "net/http"
+				require "open-uri"
+				require 'json'
+				rest_api = "http://api.page2images.com/restfullink"
+				url = @detail.link
+				p2i_device = "6"
+				p2i_screen="1024x768"
+				p2i_size="1024x0"
+				p2i_fullpage="1"
+				p2i_key="8e549b1ac48187d3"
+				rest_key="42b2fe10a13f636c"
+				p2i_wait="0"
+				parameters = {
+				"p2i_url" => url,
+				"p2i_key" => rest_key,
+				"p2i_device" => p2i_device,
+				"p2i_size" => p2i_size,
+				"p2i_screen" => p2i_screen,
+				"p2i_fullpage" => p2i_fullpage,
+				"p2i_wait" => p2i_wait
+				}
+				#open a thread
+				process = true
+				Thread.new do
+					maxWatingTime = 60
+					start_time = Time.new
+	
+					while(process && (Time.new - start_time) < maxWatingTime)
+						resp = Net::HTTP.post_form(URI(rest_api),parameters)
+						resp_text = resp.body
+						result = JSON.parse(resp.body)
+						puts "-------------------------------"
+						puts resp.body
+						puts "-------------------------------"
+						if result["status"] == "finished"
+							open('public/pageBackUp/' + @detail.issue_id.to_s + "_" + @detail.id.to_s + '.png','wb') do |file|
+								file << open(result["image_url"]).read
+							end
+							process = false
+						elsif result["status"] = "processong"
+							sleep(5)
 						end
-						process = false
-					elsif result["status"] = "processong"
-						sleep(5)
 					end
 				end
 			end
+			redirect_to detaillist_index_path(id: @detail.id)
 		end
-		redirect_to detaillist_index_path(id: @detail.id)
 	end
 
 	def edit

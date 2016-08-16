@@ -61,4 +61,6 @@ Rails.application.routes.draw do
 	post 	"Notify"            =>	"main#notify",	    :as =>	"notify"
 	# peopleName
 	get 	"PeopleName"        =>	"main#peopleName",	:as =>	"peopleName"
+	# issueName
+	get		"IssueName"			=>	"main#issueName",	:as =>	"issueName"
 end
