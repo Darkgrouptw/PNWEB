@@ -69,24 +69,23 @@
 								反
 							<% end %>
 						</td>
+						<td><% if detail.is_direct %>直<% else %>間<% end %></td>
 						<td>
 							<% link = detaillist_index_path(id: detail.id) %>
 							<a href = <%= link %>><%= detail.content %></a>
 						</td>
-						<td><% if detail.is_direct %>直<% else %>間<% end %></td>
-						<td><%= @me.content %></td>
 						<td>
 							<%= @likeList.length %>
 							<% if HasUser() %>
 								<% if HasLike(detail.id) %>
-									<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
+									<% path = detaillist_index_path(id: @me.id) %>
 									<% link = detaillist_dislike_path + "?id=" + detail.id.to_s + "&path=" + path%>
 									<%= link_to "收回讚",link,method: :post%>
 								<% else %>
 									<% if @NoMoreLike%>
 										你已達到此議題的按讚上限
 									<% else %>
-										<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
+										<% path = detaillist_index_path(id: @me.id) %>
 										<% link = detaillist_like_path + "?id=" + detail.id.to_s + "&path=" + path%>
 										<%= link_to "按讚",link,method: :post%>
 									<% end %>
@@ -98,22 +97,34 @@
 						<td><%= @me.news_media %></td>
 						<td><%= @me.report_at %></td>
 						<td>
+								<div><% link = detail.link %><a href = <%= "//" + link %>>連結</a></div>
+								<div>
+									<% link = "pageBackUp/"+detail.backup_id.to_s+".png" %>
+									<% if File.exist?(Rails.root + "public/" + link) %>
+										<a href = <%= "/"+link %> >
+											備份圖片
+										</a>
+									<% else %>
+										<br>圖片尚未備份
+									<% end %>
+								</div>
+							</td>
+						<td><%= @me.created_at %></td>
+						<td>
 							<% link = userlist_index_path(id: @user.id) %>
 							<a href = <%= link %>>
 								<%= @user.nickname %>
 							</a>
 						</td>
-						<td><%= @me.created_at %></td>
-						<td><%= @me.like_list_id.split(',').length %></td>
-						<td><% link = "//"+ @me.link %><a href = <%= link %>><%= @me.link %></a></td>
 					</tr>
 				</tbody>
 			</table>
 			<table class = "table table-bordered">
 				<thead>
+					<tr><td colspan = "2" align = "center"> 留言 </td></tr>
 					<tr align = "center" >
-						<td>User</td>
-						<td>Comment</td>
+						<td>編者</td>
+						<td>留言</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -134,18 +145,22 @@
 				</tbody>
 			</table>
 			<div >
+				<% if HasUser() %>
 				<div align = "center" >我有話說</div>
-				<form action= "<%= detaillist_comment_new_path %> " method= "post">
-					<div class = "form-group">
-						<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-						<input type="hidden" name="detail_id" value="<%= @me.id %>">
-						<label>Comment</label>
-						<textarea class="form-control" name="content" cols = "50" rows="5"></textarea>
-						<div>
-							<input type = "submit" class = "btn btn-primary" style = "width: 150px;">
+					<form action= "<%= detaillist_comment_new_path %> " method= "post">
+						<div class = "form-group">
+							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+							<input type="hidden" name="detail_id" value="<%= @me.id %>">
+							<label>Comment</label>
+							<textarea class="form-control" name="content" cols = "50" rows="5"></textarea>
+							<div>
+								<input type = "submit" class = "btn btn-primary" style = "width: 150px;">
+							</div>
 						</div>
-					</div>
-				</form>
+					</form>
+				<% else %>
+					登入後方可留言
+				<% end %>
 			</div>
 		</div>
 	</div>
