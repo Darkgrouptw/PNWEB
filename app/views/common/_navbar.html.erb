@@ -1,11 +1,33 @@
 <style>
 .whiteText {
-  color: black;
+	color: black;
 }
 </style>
+<%
+	#通知數量
+	if current_user.nil?
+	else
+		@number = 0
+		@no_issues = []
+		@notifyList = NotifyList.where(user_id: current_user.id)
+		issueList = []
+		@notifyList.each do |notify|
+			issueList.push(notify.issue_id)
+		end
+		@issues = DataIssue.where(id: issueList)
+		detailList = []
+		@details  = DataDetail.where(issue_id: issueList)
+		@issues.each do |issue|
+			notify = @notifyList.where(issue_id: issue.id)[0]
+			no_detail = @details.where(issue_id: issue.id).where('created_at >= ?',notify.last_read)
+			@number = @number + no_detail.length
+			@no_issues.push(no_detail.length)
+		end
+	end
+%>
 <nav class = "navbar navbar-inverse navbar-fixed-top headTop"> 
 	<div class = "container-fluid">
-        <div class = "navbar-header">
+				<div class = "navbar-header">
 			<!-- 當螢幕太小的時候，可以變成一個按鈕紐縮放 -->
 			<button type = "button" class = "navbar-toggle collapsed" data-toggle = "collapse" data-target = "#navbar-login" aria-expanded = "false" aria-controls = "navbar">
 				<span class = "sr-only">按鈕的斜線</span>
@@ -17,53 +39,68 @@
 			<!-- 網頁的 Title -->
 			<a class = "navbar-brand headLogo" href="/">Version 5</a>
 		</div>
-        <!-- 要縮起來的其他東西 -->
+				<!-- 要縮起來的其他東西 -->
 		<div id = "navbar-login" class = "collapse navbar-collapse">
 			<ul class = "nav navbar-nav navbar-right">
-                <% if !current_user %>
-                    <% #沒有登入的時候 %>
-                    <li><a href="<%= register_email_path %>" class="headLink">註冊會員</a></li>
-                    <li><a href="<%= login_path %>" class="headLink">會員登入</a></li>
-                    <li><a href="#" class="headLink">關於我們</a></li>
-                <% else %>
-                    <% #有登入的時候 %>
-                    <% #通知的 Dropdown %>
-                    <!--<li class="dropdown">
-                    </li>-->
-                    <% if current_user.level >= 0 %>
-                        <li><%= link_to "檢舉頁面", reportlist_all_path, class: "headLink" %></li>
-                        <li><%= link_to "加議題頁面", issuelist_add_path, class: "headLink" %></li>
-                        <li><%= link_to "加名人頁面", peoplelist_add_path, class: "headLink" %></li>
-                    <% end %> 
-                
-                
-                    <% #帳號的 Dropdown %>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle headLink" data-toggle="dropdown" style="padding-bottom: 10px;">
-                            Hi!, <%= current_user.nickname %>#<%= current_user.id %>
-                          <span class="caret"></span>
-                      </a>
-                      <ul class="dropdown-menu" style="top: 85px;padding-left: 1px;padding-right: 1px;">
-                          <li><a href="#" class="headLink">帳號設定</a></li>
-                          <li><a href="<%= logout_path %>" class="headLink" data-method="delete">登出</a></li>
-                          
-                          <% #分隔線 %>
-                          <li class="divider"></li>
-                          
-                          <% #確定是什麼權限 %>
-                          <% case current_user.level %>
-                          <% when 3%>
-                              <li class="dropdown-header headLink">最高管理者</li>
-                          <% when 2%>
-                              <li class="dropdown-header headLink">網管</li>
-                          <% when 1%>
-                              <li class="dropdown-header headLink">高階使用者</li>
-                          <% else %>
-                              <li class="dropdown-header headLink">普通使用者</li>
-                          <% end %>
-                      </ul>
-                    </li>
-                <% end %>
+								<% if !current_user %>
+										<% #沒有登入的時候 %>
+										<li><a href="<%= register_email_path %>" class="headLink">註冊會員</a></li>
+										<li><a href="<%= login_path %>" class="headLink">會員登入</a></li>
+										<li><a href="#" class="headLink">關於我們</a></li>
+								<% else %>
+										<% #有登入的時候 %>
+										<% #通知的 Dropdown %>
+										<!--<li class="dropdown">
+										</li>-->
+										<li class = "dropdown">
+											<a class="dropdown-toggle" data-toggle="dropdown">通知<span class="badge notifications_Number"><%= @number %></span></a>
+											<ul class="dropdown-menu notifications_Box">
+												<% @issues.each do |issue|%>
+													<% notify =  @notifyList.where(issue_id: issue.id)[0] %>
+													<% if notify.newest_detail > notify.last_read || true%>
+														<% link = issuelist_index_path(id: issue.id)%>
+														<li><a href = <%= link %>> <%= issue.title %> NEW <%= @no_issues.shift %> </a></li>
+													<% else %>
+														<% link = issuelist_index_path(id: issue.id)%>
+														<li><a href = <%= link %>> <%= issue.title %></a></li>
+													<% end %>
+												<% end %>
+											</ul>
+										</li>
+										<% if current_user.level >= 0 %>
+												<li><%= link_to "檢舉頁面", reportlist_all_path, class: "headLink" %></li>
+												<li><%= link_to "加議題頁面", issuelist_add_path, class: "headLink" %></li>
+												<li><%= link_to "加名人頁面", peoplelist_add_path, class: "headLink" %></li>
+										<% end %> 
+								
+								
+										<% #帳號的 Dropdown %>
+										<li class="dropdown">
+												<a href="#" class="dropdown-toggle headLink" data-toggle="dropdown" style="padding-bottom: 10px;">
+														Hi!, <%= current_user.nickname %>#<%= current_user.id %>
+													<span class="caret"></span>
+											</a>
+											<ul class="dropdown-menu" style="top: 85px;padding-left: 1px;padding-right: 1px;">
+													<li><a href="#" class="headLink">帳號設定</a></li>
+													<li><a href="<%= logout_path %>" class="headLink" data-method="delete">登出</a></li>
+													
+													<% #分隔線 %>
+													<li class="divider"></li>
+													
+													<% #確定是什麼權限 %>
+													<% case current_user.level %>
+													<% when 3%>
+															<li class="dropdown-header headLink">最高管理者</li>
+													<% when 2%>
+															<li class="dropdown-header headLink">網管</li>
+													<% when 1%>
+															<li class="dropdown-header headLink">高階使用者</li>
+													<% else %>
+															<li class="dropdown-header headLink">普通使用者</li>
+													<% end %>
+											</ul>
+										</li>
+								<% end %>
 			</ul>
 		</div>
 	</div>
