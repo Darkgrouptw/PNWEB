@@ -4,7 +4,7 @@ class MainController < ApplicationController
 		# 刪除 email 得 Session
 		clearEmailSession
 
-		@issues=DataIssue.where(trunk_id: -1).order(:created_at).reverse.first(10)
+		@issues=DataIssue.where(trunk_id: -1,is_candidate: false).order(:created_at).reverse.first(10)
 		@details=DataDetail.all.order(:count).reverse.first(10)
 		person = []
 		@details.each do |detail|

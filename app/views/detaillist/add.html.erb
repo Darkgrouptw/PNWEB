@@ -7,7 +7,7 @@
     <hr>
 </div>
 <% if current_user.nil? %>
-	error please verify you self
+	錯誤：請確認你是否有登入
 <% else %>
 	<div class >
 		<div class = "container">
@@ -40,15 +40,15 @@
 							<input type="checkbox" class="form-control" name="is_direct">
 							<br>
                             
-							<label>News Media</label>
+							<label>報導媒體</label>
 							<input type="text" class="form-control" name="news_media" >
 							<br>
-							
-                            <label>Reported Time</label>
+
+                            <label>報導時間</label>
                             <input type="date" class="form-control" name="report_at" required="true">
                             <br>
 
-							<label>News Link</label>
+							<label>報導連結</label>
 							<input type="text" class="form-control" name="link" >
 							<br>
                             

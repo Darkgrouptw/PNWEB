@@ -23,7 +23,7 @@
 </div>
 <% if @me == nil %>
 	<div class = "whiteText">
-		error,invalid parameter
+		錯誤的連結位置
 	</div>
 <% else %>
 	<div class = "whiteText">
@@ -80,7 +80,7 @@
 				<thead>
 					<tr>
 						<td align = "left"><%= @me.title %></td>
-						<td style="padding-right: 0px;padding-bottom: 0px;padding-left: 0px;padding-top: 0px;"></td>
+						<td style="padding-right: 0px;padding-bottom: 0px;padding-left: 0px;padding-top: 0px;background-color:white;"></td>
 						<td align = "right">
 							上線時間：<%= @me.created_at %> 
 							標籤：<%= @me.tag %> 

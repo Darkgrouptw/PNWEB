@@ -8,9 +8,9 @@
 		<table class = "table table-bordered">
 			<thead>
 				<tr align = "center">
-					<td colspan = "3">All the Issue</td>
+					<td colspan = "3">所有根議題</td>
 				</tr>
-				<tr><td>Title</td><td>count</td><td>created time</td></tr>
+				<tr><td>標題</td><td>熱門度</td><td>創建時間</td></tr>
 			</thead>
 			<tbody>
 				<% @issues.where(trunk_id: -1).each do |issue| %>

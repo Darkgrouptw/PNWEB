@@ -2,7 +2,7 @@ class IssuelistController < ApplicationController
 
 	def index
 		@tags = params[:id]
-		@issues = DataIssue.all.order(:created_at)
+		@issues = DataIssue.where(is_candidate: false).order(:created_at)
 		@me = @issues.where(id: @tags)[0]
 		if @me ==nil
 			return
