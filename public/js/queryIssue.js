@@ -20,12 +20,12 @@ $(function(){
             }
         );
     });
-    /*$("#queryIssue").on("blur", function(){
+    $("#queryIssue").on("blur", function(){
         setTimeout(function(){
             document.getElementById("queryIssueDiv").style.display = "none";
             $("#queryIssueDiv").empty();
         },100);
-    });*/
+    });
 });
 
 function clickQuery(result)
