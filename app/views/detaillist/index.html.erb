@@ -1,3 +1,21 @@
+<% 
+	def HasUser()
+		if current_user.nil? || current_user.id.nil?
+			return false
+		else
+			return true
+		end
+	end
+
+	def HasLike(detail_id)
+		likelist =  @likeList.where(post_id: current_user.id)[0]
+		if likelist.nil? || likelist.id.nil?
+			return false
+		else
+			return true
+		end
+	end
+%>
 <div class="BigTitle">
 	<h2>論述頁面</h2>
 	<hr>
@@ -19,20 +37,23 @@
 			<table class = "table table-bordered">
 				<thead>
 					<tr align = "center" >
-						<td>Issue</td>
-						<td>Person</td>
-						<td>IsSupport</td>
-						<td>IsDirect</td>
-						<td>Content</td>
-						<td>Media</td>
-						<td>Reported Time</td>
-						<td>Poster</td>
-						<td>PostedTime</td>
-						<td>LikeNumber</td>
-						<td>link</td>
+						<td>議題</td>
+						<td>名嘴（當時頭銜）</td>
+						<td>正反方</td>
+						<td>內容</td>
+						<td>是否為直接意見</td>
+						<td>讚</td>
+						<td>媒體</td>
+						<td>報導時間</td>
+						<td>連結</td>
+						<td>上線時間</td>
+						<td>編者</td>
 					</tr>
 				</thead>
 				<tbody>
+					<% detail = @me %>
+					<% issue  = @issue %>
+					<% person = @person %>
 					<tr>
 						<td>
 							<% link = issuelist_index_path(id: @issue.id) %>
@@ -40,31 +61,40 @@
 								<%= @issue.title %>
 							</a>
 						</td>
-						<td>
-							<% if @person.nil? %>
-								無名
-							<% else %>
-								<% link = peoplelist_index_path(id: @person.name) %>
-								<a href = <%= link %>>
-									<%= @person.name %>
-								</a>
-							<% end %>
-						</td>
+						<td><% if person.nil? %>無名氏<% else %><% link = peoplelist_index_path(id: person.name) %><a href = <%= link %>> <%= person.name %> </a><% end %> ( <%= detail.title_at_that_time %> )</td>
 						<td>
 							<% if @me.is_support %>
-								Support
+								正
 							<% else %>
-								DisSupport
+								反
 							<% end %>
 						</td>
 						<td>
-							<% if @me.is_direct %>
-								Direct
+							<% link = detaillist_index_path(id: detail.id) %>
+							<a href = <%= link %>><%= detail.content %></a>
+						</td>
+						<td><% if detail.is_direct %>直<% else %>間<% end %></td>
+						<td><%= @me.content %></td>
+						<td>
+							<%= @likeList.length %>
+							<% if HasUser() %>
+								<% if HasLike(detail.id) %>
+									<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
+									<% link = detaillist_dislike_path + "?id=" + detail.id.to_s + "&path=" + path%>
+									<%= link_to "收回讚",link,method: :post%>
+								<% else %>
+									<% if @NoMoreLike%>
+										你已達到此議題的按讚上限
+									<% else %>
+										<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
+										<% link = detaillist_like_path + "?id=" + detail.id.to_s + "&path=" + path%>
+										<%= link_to "按讚",link,method: :post%>
+									<% end %>
+								<% end %>
 							<% else %>
-								NonDirect
+								NOT Login
 							<% end %>
 						</td>
-						<td><%= @me.content %></td>
 						<td><%= @me.news_media %></td>
 						<td><%= @me.report_at %></td>
 						<td>

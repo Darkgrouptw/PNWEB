@@ -21,6 +21,7 @@ class DetaillistController < ApplicationController
 		@user = @users.where(id: @me.post_id)[0]
 		likelist_id = []
 		likelist_ids = @me.like_list_id.split(',')
+		@likeList = LikeList.where(detail_id: @me.id)
 	end
 
 	def add
