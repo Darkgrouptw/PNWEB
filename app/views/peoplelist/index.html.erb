@@ -5,7 +5,7 @@
 </div>
 <% if @me == nil %>
 	<div class = "whiteText">
-		error,invalid parameter
+		錯誤的連結位置
 	</div>
 <% else %>
 	<!-- the description with @me -->
@@ -34,14 +34,14 @@
 	</div>
 	<!-- tables with all the detail -->
 	<div class = "whiteText row">
-		<div align = "center">The detail connect to <%= @me.name %></div>
+		<div align = "center">和 <%= @me.name %> 相關的論述</div>
 		<div class = "col-md-offset-2 col-md-8 row">
 			<table class = "table table-bordered">
 				<thead>
 					<tr align = "center" >
-						<td>Issue</td>
-						<td>Detail</td>
-						<td>Attitude</td>
+						<td>議題</td>
+						<td>論述</td>
+						<td>正反方</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -62,9 +62,9 @@
 							</td>
 							<td>
 								<% if detail.is_support %>
-									Support
+									正
 								<% else %>
-									Dissupport
+									反
 								<% end %>
 							</td>
 						</tr>

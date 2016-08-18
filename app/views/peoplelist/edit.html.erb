@@ -3,7 +3,7 @@
     <hr>
 </div>
 <% if current_user.nil? %>
-	error please verify you self
+	錯誤：請確認你是否有登入
 <% else %>
 	<div class >
 		<div class = "container">
@@ -11,15 +11,15 @@
 				<div class = "row">
 					<form action= "<%= peoplelist_update_path %> " method= "post">
 						<div class = "form-group">
-							<label>Name*</label>
+							<label>名嘴*</label>
 							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 							<input type = "hidden" name = "id" value = "<%= @person.id %>">
                         	<input type="text" class="form-control" name="name" required="true" value = "<%= @person.name %>" >
                         	<br>
-                        	<label>description</label>
+                        	<label>描述</label>
                         	<textarea class="form-control" name="description" cols = "50" rows="5"><%= @person.description %></textarea>
                         	<br>
-                        	<label>picture link</label>
+                        	<label>圖片連結</label>
                         	<input type="text" class="form-control" name="pic_link" value = "<%= @person.pic_link %>">
                         	<br>
                         	<div>

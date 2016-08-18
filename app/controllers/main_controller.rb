@@ -41,9 +41,11 @@ class MainController < ApplicationController
 			end
 			if hasContent
 				#email
-				Email.send(user.email,title,content)
+				send_notify_email(user.email,title,contnet)
 			end
 		end
+
+		redirect_to(:back)
 	end
 
 	def peopleName
@@ -73,4 +75,24 @@ class MainController < ApplicationController
 		end
 		puts @content
 	end
+
+
+	private
+    #寄信
+    def send_notify_email(email,title,content)
+        require 'net/smtp'
+
+        tempSMTP = Net::SMTP.new 'smtp.gmail.com', 587
+        tempSMTP.enable_starttls
+        tempSMTP.start("gmail.com", "npwebntust@gmail.com", "NTUSTCSIE2016", :login) do |smtp|
+            smtp.open_message_stream('npwebntust@gmail.com', [email]) do |f|
+                f.puts "Content-type: text/plain; charset=UTF-8"
+                f.puts "From: 正反網頁<npwebntust@gmail.com>"
+                f.puts "To: " + email
+                f.puts 'Subject: ' + title
+                f.puts
+                f.puts content
+            end
+        end
+    end
 end

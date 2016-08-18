@@ -3,7 +3,7 @@
     <hr>
 </div>
 <% if current_user.nil? %>
-	error please verify you self
+	錯誤：請確認你是否有登入
 <% else %>
 	<div class >
 		<div class = "container">
@@ -14,7 +14,7 @@
 							<label>論述</label>
 							<div><%= @detail.content %></div>
 							<br>
-							<label>Reason*</label>
+							<label>檢舉原因*</label>
 							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
                         	<input type="text" class="form-control" name="cause" required="true" >
                         	<br>
