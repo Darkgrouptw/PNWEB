@@ -216,11 +216,9 @@ class DetaillistController < ApplicationController
 		if @notifyList.length > 0
 			#already notify
 		else
-			@notify = NotifyList.create(created_at: Time.now,updated_at: Time.now)
+			@notify = NotifyList.create(created_at: Time.now,updated_at: Time.now,newest_detail: Time.now,last_read: Time.now)
 			@notify.user_id = post_id
 			@notify.issue_id = @detail.issue_id
-			@notify.newest_detail = Time.now
-			@notify.last_read = Time.now
 			@notify.save
 		end
 		@detail.save

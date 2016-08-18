@@ -53,16 +53,16 @@
 										<!--<li class="dropdown">
 										</li>-->
 										<li class = "dropdown">
-											<a class="dropdown-toggle" data-toggle="dropdown">通知<span class="badge notifications_Number"><%= @number %></span></a>
-											<ul class="dropdown-menu notifications_Box">
+											<a class="dropdown-toggle headLink" data-toggle="dropdown" style="padding-bottom: 10px;">通知<span class="badge notifications_Number"><%= @number %></span></a>
+											<ul class="dropdown-menu notifications_Box" style="top: 85px;padding-left: 1px;padding-right: 1px;">
 												<% @issues.each do |issue|%>
 													<% notify =  @notifyList.where(issue_id: issue.id)[0] %>
 													<% if notify.newest_detail > notify.last_read || true%>
 														<% link = issuelist_index_path(id: issue.id)%>
-														<li><a href = <%= link %>> <%= issue.title %> NEW <%= @no_issues.shift %> </a></li>
+														<li><a class = "headLink" href = <%= link %>> <%= issue.title %> NEW <%= @no_issues.shift %> </a></li>
 													<% else %>
 														<% link = issuelist_index_path(id: issue.id)%>
-														<li><a href = <%= link %>> <%= issue.title %></a></li>
+														<li><a class = "headLink" href = <%= link %>> <%= issue.title %></a></li>
 													<% end %>
 												<% end %>
 											</ul>
