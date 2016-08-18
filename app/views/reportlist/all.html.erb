@@ -5,7 +5,7 @@
 </div>
 <% if current_user.nil? %>
 	<div class = "whiteText">
-		error,invalid parameter index
+		錯誤：請確認你是否有登入
 	</div>
 <% else %>
 	<!-- show detail data-->
@@ -16,8 +16,8 @@
 			<table class = "table table-bordered">
 				<thead>
 					<tr align = "center" >
-						<td>detail</td>
-						<td>reson</td>
+						<td>論述</td>
+						<td>原因</td>
 					</tr>
 				</thead>
 				<tbody>

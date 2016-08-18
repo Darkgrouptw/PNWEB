@@ -22,7 +22,7 @@ class MainController < ApplicationController
 			issue_ids.push(item.issue_id)
 		end
 		@users = User.where(id: user_ids)
-		@issues = DataIssue.where(id: issue_ids)
+		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
 		#send email to each user
 		@users.each do |user|
 			title = user.nickname + " 你好，正反網頁有新的通知"
@@ -31,12 +31,16 @@ class MainController < ApplicationController
 			issue_ids = []
 			notifys = @notifyList.where(user_id: user.id)
 			notifys.each do |notify|
-				issue = @issues.where(id: notify.issue_id)
-				#check is need to notify
-				if notify.newest_detail > notify.last_read
-					#notify!
-					hasContent = true
-					content = content + issue.title + ": " + issuelist_index_path(id: issue.id) +  "\n"
+				issue = @issues.where(id: notify.issue_id)[0]
+				#check issue is exit
+				if issue.nil?
+				else
+					#check is need to notify
+					if notify.newest_detail > notify.last_read
+						#notify!
+						hasContent = true
+						content = content + issue.title + ": " + issuelist_index_path(id: issue.id) +  "\n"
+					end
 				end
 			end
 			if hasContent

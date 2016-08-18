@@ -6,6 +6,6 @@ class User::UserlistController < ApplicationController
 		@details.each do |item|
 			issue_ids.push(item.issue_id)
 		end
-		@issues = DataIssue.where(id: issue_ids)
+		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
 	end
 end

@@ -11,14 +11,14 @@
 				<div class = "row">
 					<form action= "<%= peoplelist_new_path %> " method= "post">
 						<div class = "form-group">
-							<label>Name*</label>
+							<label>名字*</label>
 							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
                         	<input type="text" class="form-control" name="name" required="true" >
                         	<br>
-                        	<label>description</label>
+                        	<label>描述</label>
                         	<textarea class="form-control" name="description" cols = "50" rows="5"></textarea>
                         	<br>
-                        	<label>picture link</label>
+                        	<label>圖片連結</label>
                         	<input type="text" class="form-control" name="pic_link" >
                         	<br>
                         	<div>

@@ -12,7 +12,7 @@ class PeoplelistController < ApplicationController
 			issue_ids.push(detail.issue_id)
 		end
 		#find all the issue connect with details
-		@issues = DataIssue.where(id: issue_ids)
+		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
 
 	end
 	def add
