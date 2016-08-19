@@ -1,3 +1,4 @@
+<script src="/js/queryToggle.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/table.css">
 <% 
 	def HasUser()
@@ -16,7 +17,136 @@
 			return true
 		end
 	end
+
+	def getSelfLink(p,n,pos_order,neg_order,pos_show,neg_show)
+		return issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n + "&pos_order=" + pos_order + "&neg_order=" + neg_order + "&pos_show=" + pos_show + "&neg_show=" + neg_show
+	end
 %>
+<% def Page_produce(i) %>
+	<% if i == 0 %>
+		<tr style="text-align:center;">
+			<td colspan="12">
+				<table border="0" style="width:100%;">
+					<tr>
+						<td colspan="12" style="text-align:right;">
+							<% if(@PositiveHasLastPage) %>
+								<% p = ( @positive_page.to_i - 1 ).to_s %>
+								<% n = @negative_page %>
+								<% link  = getSelfLink(p,n,@pos_order,@neg_order,@pos_show,@neg_show)%>
+								<%= link_to "上一頁", link %>
+							<% end %>
+							<%= " " %>
+							<% if(@positive_page.to_i - @PageExtend > 0) %>
+								<% p = "0" %>
+								<% n = @negative_page %>
+								<% link  = getSelfLink(p,n,@pos_order,@neg_order,@pos_show,@neg_show)%>
+								<%= link_to "1", link %>
+								<% if(@positive_page.to_i - @PageExtend > 1) %>
+									<%= "。。。" %>
+								<% end %>
+							<% end %>
+							<% lastPage = ( @support.length / @numberPerPage )%>
+							<% for j in 1..@PageExtend %>
+								<% k = @PageExtend - j + 1 %>
+								<% if(@positive_page.to_i - k > -1) %>
+									<% p = ( @positive_page.to_i - k ).to_s %>
+									<% n = @negative_page %>
+									<% link  = getSelfLink(p,n,@pos_order,@neg_order,@pos_show,@neg_show)%>
+									<%= link_to ( @positive_page.to_i - k + 1).to_s, link %>
+								<% end %>
+							<% end %>
+							<%= ( @positive_page.to_i + 1 ).to_s %>
+							<% for k in 1..@PageExtend %>
+								<% if(@positive_page.to_i + k < lastPage + 1) %>
+									<% p = ( @positive_page.to_i + k ).to_s %>
+									<% n = @negative_page.to_s %>
+									<% link  = getSelfLink(p,n,@pos_order,@neg_order,@pos_show,@neg_show)%>
+									<%= link_to ( @positive_page.to_i + k + 1).to_s, link %>
+								<% end %>
+							<% end %>
+							<% if(@positive_page.to_i + @PageExtend < lastPage ) %>
+								<% if(@positive_page.to_i + @PageExtend < lastPage - 1) %>
+									<%= "。。。" %>
+								<% end %>
+								<% p = lastPage.to_s %>
+								<% n = @negative_page %>
+								<% link  = getSelfLink(p,n,@pos_order,@neg_order,@pos_show,@neg_show)%>
+								<%= link_to (lastPage + 1).to_s, link %>
+							<% end %>
+							<% if(@PositiveHasNextPage) %>
+								<% p = ( @positive_page.to_i + 1 ).to_s %>
+								<% n = @negative_page.to_s %>
+								<% link  = getSelfLink(p,n,@pos_order,@neg_order,@pos_show,@neg_show)%>
+								<%= link_to "下一頁", link %>
+							<% end %>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	<% else %>
+		<tr style="text-align:center;">
+			<td colspan="12">
+				<table border="0" style="width:100%;">
+					<tr>
+						<td colspan="12" style="text-align:right;">
+							<% if(@NegativeHasLastPage) %>
+								<% p = @positive_page %>
+								<% n = ( @negative_page.to_i - 1 ).to_s %>
+								<% link  = getSelfLink(p,n,@pos_order,@neg_order,@pos_show,@neg_show)%>
+								<%= link_to "上一頁", link %>
+							<% end %>
+							<%= " " %>
+							<% if(@negative_page.to_i - @PageExtend > 0) %>
+								<% p = @positive_page %>
+								<% n = "0" %>
+								<% link  = getSelfLink(p,n,@pos_order,@neg_order,@pos_show,@neg_show)%>
+								<%= link_to "1", link %>
+								<% if(@negative_page.to_i - @PageExtend > 1) %>
+									<%= "。。。" %>
+								<% end %>
+							<% end %>
+							<% lastPage = ( @disSupport.length / @numberPerPage )%>
+							<% for j in 1..@PageExtend %>
+								<% k = @PageExtend - j + 1 %>
+								<% if(@negative_page.to_i - k > -1) %>
+									<% p = @positive_page %>
+									<% n = ( @negative_page.to_i - k ).to_s %>
+									<% link  = getSelfLink(p,n,@pos_order,@neg_order,@pos_show,@neg_show)%>
+									<%= link_to ( @negative_page.to_i - k + 1).to_s, link %>
+								<% end %>
+							<% end %>
+							<%= ( @negative_page.to_i + 1 ).to_s %>
+							<% for k in 1..@PageExtend %>
+								<% if(@negative_page.to_i + k < lastPage + 1) %>
+									<% p = @positive_page %>
+									<% n = ( @negative_page.to_i + k ).to_s %>
+									<% link  = getSelfLink(p,n,@pos_order,@neg_order,@pos_show,@neg_show)%>
+									<%= link_to ( @negative_page.to_i + k + 1).to_s, link %>
+								<% end %>
+							<% end %>
+							<% if(@negative_page.to_i + @PageExtend < lastPage ) %>
+								<% if(@negative_page.to_i + @PageExtend < lastPage - 1) %>
+									<%= "。。。" %>
+								<% end %>
+								<% p = @positive_page %>
+								<% n = lastPage.to_s %>
+								<% link  = getSelfLink(p,n,@pos_order,@neg_order,@pos_show,@neg_show)%>
+								<%= link_to (lastPage + 1).to_s, link %>
+							<% end %>
+							<% if(@NegativeHasNextPage) %>
+								<% p = @positive_page %>
+								<% n = ( @negative_page.to_i + 1 ).to_s %>
+								<% link  = getSelfLink(p,n,@pos_order,@neg_order,@pos_show,@neg_show)%>
+								<%= link_to "下一頁", link %>
+							<% end %>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	<% end %>
+<% end %>
 <div class="BigTitle">
     <h2>議題頁面</h2>
     <hr>
@@ -72,6 +202,8 @@
 
 		<div class = "col-md-10">
 			<!-- title -->
+			<button onclick="myFunction()">Click me</button>
+			<div id = "demo">wowowowo</div>
 			<div>
 				<%= link_to "編輯", issuelist_edit_path(id: @me.id) %>
 				<%= link_to "新增論述", detaillist_add_path %>
@@ -97,212 +229,164 @@
 			</table>
 			<!-- support detail -->
 			<% for i in 0..1 %>
-				<table class = "table table-bordered">
-					<thead>
-						<% if i == 0 %>
-							<tr align = "center"><td class = "col-md-8" colspan = "9">贊成論述</td></tr>
-						<% else %>
-							<tr align = "center"><td class = "col-md-8" colspan = "9">反對論述<%= @disSupport.length%></td></tr>
-						<% end %>
-						<tr>
-							<td><div>名嘴</div><div>（當時頭銜）</div></td>
-							<td>內容</td>
-							<td>是否為直接意見</td>
-							<td>讚</td>
-							<td><div>刊載媒體</div><div>報導時間</div></td>
-							<td>連結</td>
-							<td><div>上線時間</div><div>編者</div></td>
-						</tr>
-						<% details = nil %>
-						<% pageNumber = 0 %>
-						<% if i == 0 %>
-							<% details = @support %>
-							<% pageNumber = @positive_page %>
-						<% else %>
-							<% details = @disSupport %>
-							<% pageNumber = @negative_page %>
-						<% end %>
-						
-					</thead>
-					<tbody>
-						<% for j in 0..@numberPerPage - 1 %>
-							<% index = @numberPerPage * pageNumber.to_i + j %>
-							<% if details.length > index %>
-								<% detail = details[index] %> 
-								<% person = @persons.where(id: detail.people_id)[0] %>
-								<% user = @users.where(id: detail.post_id)[0] %>
-								<!-- content -->
-								<tr>
-									<td><div><% if person.nil? %>無名氏<% else %><% link = peoplelist_index_path(id: person.name) %><a href = <%= link %>> <%= person.name %> </a><% end %></div><div> ( <%= detail.title_at_that_time %> )</div></td>
-									<td>
-										<% link = detaillist_index_path(id: detail.id) %>
-										<a href = <%= link %>><%= detail.content %></a>
-									</td>
-									<td><% if detail.is_direct %>直<% else %>間<% end %></td>
-									<td>
-										<%= @AllLike.where(detail_id: detail.id).length %>
-										<% if HasUser() %>
-											<% if HasLike(detail.id) %>
-												<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
-												<% link = detaillist_dislike_path + "?id=" + detail.id.to_s + "&path=" + path%>
-												<%= link_to "收回讚",link,method: :post%>
-											<% else %>
-												<% if @NoMoreLike%>
-													你已達到此議題的按讚上限
-												<% else %>
-													<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
-													<% link = detaillist_like_path + "?id=" + detail.id.to_s + "&path=" + path%>
-													<%= link_to "按讚",link,method: :post%>
-												<% end %>
-											<% end %>
-										<% else %>
-											NOT Login
-										<% end %>
-									</td>
-									<td>
-										<div><%= detail.news_media %></div>
-										<div><%= detail.report_at %></div>
-									</td>
-									<td>
-										<div><% link = detail.link %><a href = <%= "//" + link %>>連結</a></div>
-										<div>
-											<% link = "pageBackUp/"+detail.backup_id.to_s+".png" %>
-                                			<% if File.exist?(Rails.root + "public/" + link) %>
-                                			    <a href = <%= "/"+link %> >
-                                			      備份圖片
-                                			    </a>
-                                			<% else %>
-                                			    <br>圖片尚未備份
-                                			<% end %>
-										</div>
-									</td>
-									<td>
-										<div><%= detail.created_at %></div>
-										<div>
-											<% link = userlist_index_path(id: user.id) %>
-											<a href = <%= link %>>
-												<%= user.nickname %>
-											</a>
-										</div>
-									</td>
-								</tr>
+				<% if i == 0 %>
+					<% temp = "table" %>
+					<% if @pos_show == "table" %><% temp = "content" %><% else %><% temp = "table" %><% end %>
+					<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,temp,@neg_show)%><a href = <%= link %> class = "btn">切換顯示內容</a>
+					<a href = <%= getSelfLink(@positive_page.to_s,@negative_page.to_s,"thumb",@neg_order,@pos_show,@neg_show) %> class = "btn">依投票排序</a>
+					<a href = <%= getSelfLink(@positive_page.to_s,@negative_page.to_s,"time",@neg_order,@pos_show,@neg_show) %> class = "btn">依時間排序</a>
+				<% else %>
+					<% temp = "table" %>
+					<% if @neg_show == "table" %><% temp = "content"%><% else %><% temp = "table" %><% end %>
+					<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,@pos_show,temp)%><a href = <%= link %> class = "btn">切換顯示內容</a>
+					<a href = <%= getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,"thumb",@pos_show,@neg_show) %> class = "btn">依投票排序</a>
+					<a href = <%= getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,"time",@pos_show,@neg_show) %> class = "btn">依時間排序</a>
+				<% end %>
+				
+				<div <% if i == 0 %> id = "posTable" <% if @pos_show == "content" %>style="display:none;" <% end %> <% else %> id = "negTable" <% if @neg_show == "content" %>style="display:none;" <% end %><% end %>>
+					<table class = "table table-bordered">
+						<thead>
+							<% if i == 0 %>
+								<tr align = "center"><td class = "col-md-8" colspan = "9">贊成論述</td></tr>
 							<% else %>
+								<tr align = "center"><td class = "col-md-8" colspan = "9">反對論述 </td></tr>
 							<% end %>
-						<% end %>
-						<!-- 換頁 -->
-						<% if i == 0 %>
-							<tr style="text-align:center;">
-								<td colspan="12">
-									<table border="0" style="width:100%;">
-										<tr>
-											<td colspan="12" style="text-align:right;">
-												<% if(@PositiveHasLastPage) %>
-													<% p = ( @positive_page.to_i - 1 ).to_s %>
-													<% n = @negative_page %>
-													<%= link_to "上一頁", issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
-												<% end %>
-												<%= " " %>
-												<% if(@positive_page.to_i - @PageExtend > 0) %>
-													<% p = "0" %>
-													<% n = @negative_page %>
-													<%= link_to "1", issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
-													<% if(@positive_page.to_i - @PageExtend > 1) %>
-														<%= "。。。" %>
-													<% end %>
-												<% end %>
-												<% lastPage = ( @support.length / @numberPerPage )%>
-												<% for j in 1..@PageExtend %>
-													<% k = @PageExtend - j + 1 %>
-													<% if(@positive_page.to_i - k > -1) %>
-														<% p = ( @positive_page.to_i - k ).to_s %>
-														<% n = @negative_page %>
-														<%= link_to ( @positive_page.to_i - k + 1).to_s, issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
-													<% end %>
-												<% end %>
-												<%= ( @positive_page.to_i + 1 ).to_s %>
-												<% for k in 1..@PageExtend %>
-													<% if(@positive_page.to_i + k < lastPage + 1) %>
-														<% p = ( @positive_page.to_i + k ).to_s %>
-														<% n = @negative_page.to_s %>
-														<%= link_to ( @positive_page.to_i + k + 1).to_s, issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
-													<% end %>
-												<% end %>
-												<% if(@positive_page.to_i + @PageExtend < lastPage ) %>
-													<% if(@positive_page.to_i + @PageExtend < lastPage - 1) %>
-														<%= "。。。" %>
-													<% end %>
-													<% p = lastPage.to_s %>
-													<% n = @negative_page %>
-													<%= link_to (lastPage + 1).to_s, issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
-												<% end %>
-												<% if(@PositiveHasNextPage) %>
-													<% p = ( @positive_page.to_i + 1 ).to_s %>
-													<% n = @negative_page.to_s %>
-													<%= link_to "下一頁", issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
-												<% end %>
-											</td>
-										</tr>
-									</table>
-								</td>
+							<tr>
+								<td><div>名嘴</div><div>（當時頭銜）</div></td>
+								<td>內容</td>
+								<td>是否為直接意見</td>
+								<td>讚</td>
+								<td><div>刊載媒體</div><div>報導時間</div></td>
+								<td>連結</td>
+								<td><div>上線時間</div><div>編者</div></td>
 							</tr>
-						<% else %>
-							<tr style="text-align:center;">
-								<td colspan="12">
-									<table border="0" style="width:100%;">
-										<tr>
-											<td colspan="12" style="text-align:right;">
-												<% if(@NegativeHasLastPage) %>
-													<% p = @positive_page %>
-													<% n = ( @negative_page.to_i - 1 ).to_s %>
-													<%= link_to "上一頁", issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
-												<% end %>
-												<%= " " %>
-												<% if(@negative_page.to_i - @PageExtend > 0) %>
-													<% p = @positive_page %>
-													<% n = "0" %>
-													<%= link_to "1", issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
-													<% if(@negative_page.to_i - @PageExtend > 1) %>
-														<%= "。。。" %>
+							<% details = nil %>
+							<% pageNumber = 0 %>
+							<% if i == 0 %>
+								<% details = @support %>
+								<% pageNumber = @positive_page %>
+							<% else %>
+								<% details = @disSupport %>
+								<% pageNumber = @negative_page %>
+							<% end %>
+							
+						</thead>
+						<tbody>
+							<% for j in 0..@numberPerPage - 1 %>
+								<% index = @numberPerPage * pageNumber.to_i + j %>
+								<% if details.length > index %>
+									<% detail = details[index] %> 
+									<% person = @persons.where(id: detail.people_id)[0] %>
+									<% user = @users.where(id: detail.post_id)[0] %>
+									<!-- content -->
+									<tr>
+										<td><div><% if person.nil? %>無名氏<% else %><% link = peoplelist_index_path(id: person.name) %><a href = <%= link %>> <%= person.name %> </a><% end %></div><div> ( <%= detail.	title_at_that_time %> )</div></td>
+										<td>
+											<% link = detaillist_index_path(id: detail.id) %>
+											<a href = <%= link %>><%= detail.content %></a>
+										</td>
+										<td><% if detail.is_direct %>直<% else %>間<% end %></td>
+										<td>
+											<%= @AllLike.where(detail_id: detail.id).length %>
+											<% if HasUser() %>
+												<% if HasLike(detail.id) %>
+													<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
+													<% link = detaillist_dislike_path + "?id=" + detail.id.to_s + "&path=" + path%>
+													<%= link_to "收回讚",link,method: :post%>
+												<% else %>
+													<% if @NoMoreLike%>
+														你已達到此議題的按讚上限
+													<% else %>
+														<% path = issuelist_index_path(id: @me.id) + "!positive_page=" + @positive_page.to_s + "|negative_page=" + @positive_page.to_s %>
+														<% link = detaillist_like_path + "?id=" + detail.id.to_s + "&path=" + path%>
+														<%= link_to "按讚",link,method: :post%>
 													<% end %>
 												<% end %>
-												<% lastPage = ( @disSupport.length / @numberPerPage )%>
-												<% for j in 1..@PageExtend %>
-													<% k = @PageExtend - j + 1 %>
-													<% if(@negative_page.to_i - k > -1) %>
-														<% p = @positive_page %>
-														<% n = ( @negative_page.to_i - k ).to_s %>
-														<%= link_to ( @negative_page.to_i - k + 1).to_s, issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
-													<% end %>
-												<% end %>
-												<%= ( @negative_page.to_i + 1 ).to_s %>
-												<% for k in 1..@PageExtend %>
-													<% if(@negative_page.to_i + k < lastPage + 1) %>
-														<% p = @positive_page %>
-														<% n = ( @negative_page.to_i + k ).to_s %>
-														<%= link_to ( @negative_page.to_i + k + 1).to_s, issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
-													<% end %>
-												<% end %>
-												<% if(@negative_page.to_i + @PageExtend < lastPage ) %>
-													<% if(@negative_page.to_i + @PageExtend < lastPage - 1) %>
-														<%= "。。。" %>
-													<% end %>
-													<% p = @positive_page %>
-													<% n = lastPage.to_s %>
-													<%= link_to (lastPage + 1).to_s, issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
-												<% end %>
-												<% if(@NegativeHasNextPage) %>
-													<% p = @positive_page %>
-													<% n = ( @negative_page.to_i + 1 ).to_s %>
-													<%= link_to "下一頁", issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n %>
-												<% end %>
-											</td>
-										</tr>
-									</table>
-								</td>
+											<% else %>
+												NOT Login
+											<% end %>
+										</td>
+										<td>
+											<div><%= detail.news_media %></div>
+											<div><%= detail.report_at %></div>
+										</td>
+										<td>
+											<div><% link = detail.link %><a href = <%= "//" + link %>>連結</a></div>
+											<div>
+												<% link = "pageBackUp/"+detail.backup_id.to_s+".png" %>
+            	                    			<% if File.exist?(Rails.root + "public/" + link) %>
+            	                    			    <a href = <%= "/"+link %> >
+            	                    			      備份圖片
+            	                    			    </a>
+            	                    			<% else %>
+            	                    			    <br>圖片尚未備份
+            	                    			<% end %>
+											</div>
+										</td>
+										<td>
+											<div><%= detail.created_at %></div>
+											<div>
+												<% link = userlist_index_path(id: user.id) %>
+												<a href = <%= link %>>
+													<%= user.nickname %>
+												</a>
+											</div>
+										</td>
+									</tr>
+								<% else %>
+								<% end %>
+							<% end %>
+							<!-- 換頁 -->
+							<% Page_produce(i) %>
+						</tbody>
+					</table>
+				</div>
+				<div <% if i == 0 %> id = "posContent" <% if @pos_show == "table" %>style="display:none;" <% end %> <% else %> id = "negContent" <% if @neg_show == "table" %>style="display:none;" <% end %><% end %> >
+					<table class = "table table-bordered">
+						<thead>
+							<% if i == 0 %>
+								<tr align = "center"><td class = "col-md-8" colspan = "2">贊成論述</td></tr>
+							<% else %>
+								<tr align = "center"><td class = "col-md-8" colspan = "2">反對論述 </td></tr>
+							<% end %>
+							<tr>
+								<td><div>名嘴</div><div>（當時頭銜）</div></td>
+								<td>內容</td>
 							</tr>
-						<% end %>
-					</tbody>
-				</table>
+							<% details = nil %>
+							<% pageNumber = 0 %>
+							<% if i == 0 %>
+								<% details = @support %>
+								<% pageNumber = @positive_page %>
+							<% else %>
+								<% details = @disSupport %>
+								<% pageNumber = @negative_page %>
+							<% end %>
+							
+						</thead>
+						<tbody>
+							<% for j in 0..@numberPerPage - 1 %>
+								<% index = @numberPerPage * pageNumber.to_i + j %>
+								<% if details.length > index %>
+									<% detail = details[index] %> 
+									<% person = @persons.where(id: detail.people_id)[0] %>
+									<% user = @users.where(id: detail.post_id)[0] %>
+									<!-- content -->
+									<tr>
+										<td><div><% if person.nil? %>無名氏<% else %><% link = peoplelist_index_path(id: person.name) %><a href = <%= link %>> <%= person.name %> </a><% end %></div><div> ( <%= detail.	title_at_that_time %> )</div></td>
+										<td>
+											<% link = detaillist_index_path(id: detail.id) %>
+											<a href = <%= link %>><%= detail.content %></a>
+										</td>
+									</tr>
+								<% else %>
+								<% end %>
+							<% end %>
+							<!-- 換頁 -->
+							<% Page_produce(i) %>
+						</tbody>
+					</table>
+				</div>
 			<% end %>
 			
 			<!-- dissupport detail -->

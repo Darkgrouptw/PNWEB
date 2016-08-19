@@ -4,8 +4,24 @@ class IssuelistController < ApplicationController
 		@tags = params[:id]
 		@issues = DataIssue.where(is_candidate: false).order(:created_at)
 		@me = @issues.where(id: @tags)[0]
+		@pos_order = params[:pos_order]
+		@neg_order = params[:neg_order]
+		@pos_show = params[:pos_show]
+		@neg_show = params[:neg_show]
 		if @me ==nil
 			return
+		end
+		if @pos_order.nil? || @pos_order.empty?
+			@pos_order = "thumb"
+		end
+		if @neg_order.nil? || @neg_order.empty?
+			@neg_order = "thumb"
+		end
+		if @pos_show.nil? || @pos_show.empty?
+			@pos_show = "table"
+		end
+		if @neg_show.nil? || @neg_show.empty?
+			@neg_show = "table"
 		end
 		detail_strings = @me.datadetail_id.split(',')
 		@details = DataDetail.where(id: detail_strings)
@@ -26,13 +42,10 @@ class IssuelistController < ApplicationController
 			@NoMoreLike = true
 		end
 		# 要判斷是用什麼來排序
-		if params[:orderby] == "Time"
+		if @pos_order == "time"
 			@support = @details.where(is_support: true).order(:created_at).reverse
-			@disSupport = @details.where(is_support: false).order(:created_at).reverse
 		else
 			@support = @details.where(is_support: true)
-			@disSupport = @details.where(is_support: false)
-			# 計算讚數來以排序 boble sort
 			for i in 0..@support.length - 1
 				length_i = 0
 				text_i = @support[i].like_list_id
@@ -49,6 +62,11 @@ class IssuelistController < ApplicationController
 					end
 				end
 			end
+		end
+		if @neg_order == "time"
+			@disSupport = @details.where(is_support: false).order(:created_at).reverse
+		else
+			@disSupport = @details.where(is_support: false)
 			for i in 0..@disSupport.length - 1
 				length_i = 0
 				text_i = @disSupport[i].like_list_id
@@ -68,58 +86,60 @@ class IssuelistController < ApplicationController
 		end
 		#判斷顯示的頁數
 		@numberPerPage = 5
-        @PageExtend = 2
+		@PageExtend = 2
 		@negative_page = 0
 		@positive_page = 0
-		if(params[:positive_page] != nil)
-		    @positive_page = params[:positive_page] 
+		@positive_page = params[:positive_page] 
+		@negative_page = params[:negative_page]
+		if(@positive_page.nil? || @positive_page.empty?)
+			@positive_page = 0 
 		end
-		if(params[:negative_page] != nil)
-		    @negative_page = params[:negative_page]
+		if(@negative_page.nil? || @negative_page.empty?)
+			@negative_page = 0
 		end
 		@PositiveHasNextPage = true
-        @PositiveHasLastPage = false
-        @NegativeHasNextPage = true
-        @NegativeHasLastPage = false
-        if(@positive_page.to_i > 0)
-            @PositiveHasLastPage = true
-        end
-        if(@negative_page.to_i > 0)
-            @NegativeHasLastPage = true
-        end
-        if( (@negative_page.to_i + 1 ) * @numberPerPage > @disSupport.length)
-            @NegativeHasNextPage = false
-        end
-        if( (@positive_page.to_i + 1 ) * @numberPerPage > @support.length)
-            @PositiveHasNextPage = false
-        end
+		@PositiveHasLastPage = false
+		@NegativeHasNextPage = true
+		@NegativeHasLastPage = false
+		if(@positive_page.to_i > 0)
+			@PositiveHasLastPage = true
+		end
+		if(@negative_page.to_i > 0)
+			@NegativeHasLastPage = true
+		end
+		if( (@negative_page.to_i + 1 ) * @numberPerPage > @disSupport.length)
+			@NegativeHasNextPage = false
+		end
+		if( (@positive_page.to_i + 1 ) * @numberPerPage > @support.length)
+			@PositiveHasNextPage = false
+		end
 
-        #增加名人 編者
-        user = []
+		#增加名人 編者
+		user = []
 		person = []
-        for i in 0..@numberPerPage-1
-            index = @numberPerPage * @positive_page.to_i + i
-            if(@support.length > index)
-                user.push(@support[index].post_id)
-                person.push(@support[index].people_id)
-            end
-            index = @numberPerPage * @negative_page.to_i + i
-            if(@disSupport.length > index)
-                user.push(@disSupport[index].post_id)
-                person.push(@disSupport[index].people_id)
-            end
-        end
+		for i in 0..@numberPerPage-1
+			index = @numberPerPage * @positive_page.to_i + i
+			if(@support.length > index)
+				user.push(@support[index].post_id)
+				person.push(@support[index].people_id)
+			end
+			index = @numberPerPage * @negative_page.to_i + i
+			if(@disSupport.length > index)
+				user.push(@disSupport[index].post_id)
+				person.push(@disSupport[index].people_id)
+			end
+		end
 
-        #update Notify
-        if !current_user.nil?
-        	@notifyList =  NotifyList.where(user_id: current_user.id , issue_id: @me.id)[0]
-        	if !@notifyList.nil?
-        		@notifyList.last_read = Time.now
-        		@notifyList.save
-        	end
-        end
-        @users=User.where(id: user)
-        @persons=DataPerson.where(id: person)
+		#update Notify
+		if !current_user.nil?
+			@notifyList =  NotifyList.where(user_id: current_user.id , issue_id: @me.id)[0]
+			if !@notifyList.nil?
+				@notifyList.last_read = Time.now
+				@notifyList.save
+			end
+		end
+		@users=User.where(id: user)
+		@persons=DataPerson.where(id: person)
 	end
 
 	def add
@@ -204,5 +224,10 @@ class IssuelistController < ApplicationController
 		@issue.is_candidate = false
 		@issue.save
 		redirect_to issuelist_index_path(id: @issue.id)
+	end
+
+	def toggle(attribute)
+		self[attribute] = !send("#{attribute}?")
+		self
 	end
 end
