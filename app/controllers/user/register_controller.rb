@@ -225,7 +225,7 @@ class User::RegisterController < ApplicationController
         newUser.last_login_in = DateTime.now
         newUser.liveplace = countryArray[params[:liveplace].to_i - 1]
         newUser.token = make_uuid
-        
+        newUser.own = ""
         newUser.save
         
         #Save 完之後才有 ID

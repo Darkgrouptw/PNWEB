@@ -1,0 +1,53 @@
+<div class="BigTitle">
+    <h2>編輯使用者權限</h2>
+    <hr>
+</div>
+<% if current_user.nil? && current_user.level <= 1%>
+	錯誤：請確認你是否有登入
+<% elsif @me.nil? %>
+	錯誤：使用者不存在
+<% else %>
+	<div class >
+		<div class = "container">
+			<div class = "jumbotron">
+				<div class = "row">
+					<form action= "<%= userlist_power_update_path %> " method= "post">
+						<div class = "form-group">
+							
+							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+							<input type="hidden" name="id" value = "<%= @me.id %>">
+							<label>使用者：<%= @me.nickname %></label>
+							<table class = "table table-bordered">
+								<thead>
+									<tr>
+										<td>根議題</td>
+										<td>是否可編輯</td>
+									</tr>
+								</thead>
+								<tbody>
+									<% @AllRootIssue.each do |issue| %>
+										<tr>
+											<td>
+												<lable><%= issue.title %></label>
+											</td>
+											<td>
+												<% check = "" %>
+												<% if @issues.where(id: issue.id).length > 0 %>
+													<% check = "checked"%>
+												<% end %>
+												<input type="checkbox" class="form-control" name= <%= issue.id.to_s %> <%= check %>>
+											</td>
+										</tr>
+									<% end %>
+								</tbody>
+							</table>
+							<div>
+								<input type = "submit" class = "btn btn-primary" style = "width: 150px;">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>

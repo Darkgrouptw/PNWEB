@@ -26,7 +26,7 @@
 						<td><div><%if @me.level == 0%>一般使用者<% elsif @me.level == 1%>高階使用者<%elsif @me.level == 2%>網管<% elsif @me.level == 3 %>最高管理者<%else%>錯誤<%end%></div>
 							<div>
 								<% if !current_user.nil? %>
-									<% if current_user.level >= @me.level %>
+									<% if current_user.level >= @me.level && @me.level < 3%>
 										<% link = userlist_upgrade_path + "?id=" + @me.id.to_s%>
 										<%= link_to "升級",link,method: :post%>
 									<% else %>
@@ -35,9 +35,18 @@
 							</div>
 							<div>
 								<% if !current_user.nil? %>
-									<% if current_user.level > @me.level %>
+									<% if current_user.level > @me.level && @me.level > 0%>
 										<% link = userlist_downgrade_path + "?id=" + @me.id.to_s%>
 										<%= link_to "降級",link,method: :post%>
+									<% else %>
+									<%end%>
+								<% end %>
+							</div>
+							<div>
+								<% if !current_user.nil? %>
+									<% if current_user.level > @me.level && @me.level == 1 %>
+										<% link = userlist_power_edit_path(id: @me.id)%>
+										<%= link_to "編輯管理權限",link,method: :get%>
 									<% else %>
 									<%end%>
 								<% end %>

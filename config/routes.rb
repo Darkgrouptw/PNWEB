@@ -48,6 +48,8 @@ Rails.application.routes.draw do
 	# poster page
 	post 	"User/upgrade"		=>	"user/userlist#upgrade",:as =>	"userlist_upgrade"
 	post 	"User/downgrade"	=>	"user/userlist#downgrade",	:as =>	"userlist_downgrade"
+	get		"User/power/edit/:id"	=>	"user/userlist#power_edit",	:as =>	"userlist_power_edit"
+	post 	"user/power/update"	=>	"user/userlist#power_update",	:as =>	"userlist_power_update"
 	get     "User/:id"          =>  "user/userlist#index",  :as =>  "userlist_index"
 	
 	# report
