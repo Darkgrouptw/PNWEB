@@ -15,9 +15,9 @@
 							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 							<input type="hidden" name="id" value = "<%= @detail.id %>">
 							<label>論述*</label>
-							<input type="text" class="form-control" name="content" required="true" value = "<%= @detail.content %>">
+							<input type="text" class="form-control" name="content" required="true" maxlength="100" value = "<%= @detail.content %>">
 							<br>
-							<label>名人</label>
+							<label>誰的意見</label>
 							<% if @person.nil? %>
 								<% person_name = "" %>
 							<% else %>
@@ -42,7 +42,7 @@
 							<label>是否為直接意見</label>
 							<input type="checkbox" class="form-control" name="is_direct" <%= check %>>
 							<br>
-							<label>報導媒體</label>
+							<label>刊載媒體</label>
 							<input type="text" class="form-control" name="news_media" value = "<%= @detail.news_media %>">
 							<br>
 							<label>報導時間</label>

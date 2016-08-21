@@ -205,7 +205,7 @@ class DetaillistController < ApplicationController
 		@detail = DataDetail.where(id: params[:id])[0]
 		post_id = current_user.id
 		path = params[:path]
-		path = path.sub('!','?').sub('|','&')
+		path = path.gsub('!','?').gsub('|','&')
 		@likelist = LikeList.create(created_at: Time.now,updated_at: Time.now)
 		@likelist.detail_id = @detail.id
 		@likelist.post_id = post_id
@@ -230,12 +230,12 @@ class DetaillistController < ApplicationController
 		@detail = DataDetail.where(id: params[:id])[0]
 		post_id = current_user.id
 		path = params[:path]
-		path = path.sub('!','?').sub('|','&')
+		path = path.gsub('!','?').gsub('|','&')
 		@likelist = LikeList.where(detail_id: @detail.id,post_id: post_id)[0]
 		if @detail.like_list_id.include?("," + @likelist.id.to_s)
-			@detail.like_list_id = @detail.like_list_id.sub("," + @likelist.id.to_s,"")
+			@detail.like_list_id = @detail.like_list_id.gsub("," + @likelist.id.to_s,"")
 		else
-			@detail.like_list_id = @detail.like_list_id.sub(@likelist.id.to_s,"")
+			@detail.like_list_id = @detail.like_list_id.gsub(@likelist.id.to_s,"")
 		end
 		@likelist.destroy
 		

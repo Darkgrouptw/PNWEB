@@ -11,10 +11,18 @@ class ReportlistController < ApplicationController
   def all
 	@reportlist = ReportDetail.all
 	detail_ids = []
+	issue_ids = []
+	user_ids = []
 	@reportlist.each do |item|
 		detail_ids.push(item.detail_id)
 	end
 	@detaillist = DataDetail.where(id: detail_ids)
+	@detaillist.each do |item|
+		issue_ids.push(item.issue_id)
+		user_ids.push(item.post_id)
+	end
+	@issuelist = DataIssue.where(id: issue_ids)
+	@userlist = User.where(id: user_ids)
 
   end
   def add
@@ -23,6 +31,13 @@ class ReportlistController < ApplicationController
   def new
 	cause = params[:cause]
 	detail_id = params[:detail_id]
+	tempStr = ""
+        9.times do |i|
+            tempTitle = "rule" + (i+1).to_s
+            if params[tempTitle] == "on"
+                tempStr += (i+1).to_s + ","
+            end
+        end
 	@detail = DataDetail.where(id: detail_id)[0]
 	people_id = current_user.id
 	@report = ReportDetail.create(
@@ -30,9 +45,10 @@ class ReportlistController < ApplicationController
 		updated_at: Time.now,
 		is_check: false,
 		)
+
 	@report.people_id = people_id
 	@report.detail_id = detail_id
-	@report.cause = cause
+	@report.cause = tempStr
 
 	@detail.is_report = true
 	@detail.save
@@ -43,12 +59,13 @@ class ReportlistController < ApplicationController
 
   def reject
 	@detail = DataDetail.where(id: params[:detail_id])[0]
-	
+	@reportList = ReportDetail.where(detail_id: @detail.id)
 	@issue = DataIssue.where(id: params[:issue_id])[0]
 	#check there is any report on the detail
 	if @reportList.length < 2
 		@detail.is_report = false
 	end
+	@report = @reportList.where(people_id: current_user.id)[0]
 	@report.destroy
 	@detail.save
 	redirect_to detaillist_index_path(id: @detail.id)

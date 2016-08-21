@@ -19,10 +19,10 @@
 							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 							<input type="hidden" name="issue_id" value="<%= @issue.id %>">
 							<label>論述*</label>
-							<input type="text" class="form-control" name="content" required="true" >
+							<input type="text" class="form-control" name="content" required="true" maxlength="100">
 							<br>
                             
-							<label>名人</label>
+							<label>誰的意見</label>
 							<input type="text" class="form-control" name="people_id" id="queryPeople" >
                             <div id="queryPeopleDiv" class="queryDiv" style="display: none;">
                             </div>
@@ -40,7 +40,7 @@
 							<input type="checkbox" class="form-control" name="is_direct">
 							<br>
                             
-							<label>報導媒體</label>
+							<label>刊載媒體</label>
 							<input type="text" class="form-control" name="news_media" >
 							<br>
 
