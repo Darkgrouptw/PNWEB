@@ -46,6 +46,8 @@ Rails.application.routes.draw do
 	post 	"Comment/new"		=>	"detaillist#comment_new",	:as =>	"detaillist_comment_new"
 
 	# poster page
+	post 	"User/upgrade"		=>	"user/userlist#upgrade",:as =>	"userlist_upgrade"
+	post 	"User/downgrade"	=>	"user/userlist#downgrade",	:as =>	"userlist_downgrade"
 	get     "User/:id"          =>  "user/userlist#index",  :as =>  "userlist_index"
 	
 	# report

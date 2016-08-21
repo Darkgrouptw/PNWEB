@@ -13,7 +13,7 @@
 		<div class = "col-md-offset-2 col-md-8 row">
 			<table class = "table table-bordered">
 				<thead>
-					<tr align = "center" ><td colspan = "2"><%= @me.nickname %></td></tr>
+					<tr align = "center" ><td colspan = "3"><%= @me.nickname %></td></tr>
 				</thead>
 				<tbody>
 					<tr>
@@ -23,6 +23,26 @@
 							<% end %>
 						</td>  
 						<td class = "col-md-5"><%= @me.nickname %></td> 
+						<td><div><%if @me.level == 0%>一般使用者<% elsif @me.level == 1%>高階使用者<%elsif @me.level == 2%>網管<% elsif @me.level == 3 %>最高管理者<%else%>錯誤<%end%></div>
+							<div>
+								<% if !current_user.nil? %>
+									<% if current_user.level >= @me.level %>
+										<% link = userlist_upgrade_path + "?id=" + @me.id.to_s%>
+										<%= link_to "升級",link,method: :post%>
+									<% else %>
+									<%end%>
+								<% end %>
+							</div>
+							<div>
+								<% if !current_user.nil? %>
+									<% if current_user.level > @me.level %>
+										<% link = userlist_downgrade_path + "?id=" + @me.id.to_s%>
+										<%= link_to "降級",link,method: :post%>
+									<% else %>
+									<%end%>
+								<% end %>
+							</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -36,8 +56,8 @@
 				<thead>
 					<tr align = "center" >
 						<td>議題</td>
+						<td>名嘴</td>
 						<td>論述</td>
-						<td>正反方</td>
 					</tr>
 				</thead>
 				<tbody>

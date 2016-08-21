@@ -8,4 +8,21 @@ class User::UserlistController < ApplicationController
 		end
 		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
 	end
+
+	def upgrade
+		@me = User.where(id: params[:id])[0]
+		if current_user.level >= @me.level
+			@me.level = @me.level + 1
+		end
+		@me.save
+		redirect_to userlist_index_path(id: @me.id)
+	end
+	def downgrade
+		@me = User.where(id: params[:id])[0]
+		if current_user.level > @me.level
+			@me.level = @me.level - 1
+		end
+		@me.save
+		redirect_to userlist_index_path(id: @me.id)
+	end
 end
