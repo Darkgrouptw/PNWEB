@@ -1,6 +1,5 @@
-<% if !request.original_url.include?("PeopleName") && !request.original_url.include?("IssueName") && !request.original_url.include?("EditingTree") %>
-    <!DOCTYPE html>
-    <html>
+<!DOCTYPE html>
+<html>
     <head>
         <title>PNWEB</title>
         <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
@@ -11,20 +10,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
+        <script src="/js/EditingTree.js"></script>
         <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+        <link rel="stylesheet" type="text/css" href="/css/EditingTree.css">
     </head>
     <body>
-
-        <%= render "common/navbar" %>
-        <!-- 給 notice_message 使用 -->
-        <div class = "container-fluid" style="position: relative; padding-top: 100px;">
-            <%= notice_message %>
+        <div class="MenuBox">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            </svg>
         </div>
-        <%= yield %>
-
-        <%= render "common/footer" %>
+        <div class="AddItemDiv">
+            <input type="text" name="IssueName">
+            <span id="addNode" class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        </div>
     </body>
-    </html>
-<% else %>
-    <%= yield %>
-<% end %>
+</html>
