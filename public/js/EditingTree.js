@@ -1,9 +1,29 @@
 $(function(){
     $NodeNumber = 0;
+    
+    // 判斷點擊的 Index
+    $clickIndex = -1;
     $lastPosition = [];
     $offset = [];
     $("#addNode").click(function(){
-        $(".MenuBox svg").append(makeSVG("circle", {cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: 'red'}, $(".AddItemDiv input").prop("value")));
+        $(".MenuBox svg").prepend(makeSVG("circle", {cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: 'red'}, $(".AddItemDiv input").prop("value")));
+    });
+    
+    
+    // 滑鼠按下去的時候，假設有點到東西，就可以對整個做移動的功能
+    $(".MenuBox svg").mousemove(function(event){
+        if($clickIndex != -1)
+            NodeMove(event);
+            //console.log($clickIndex); 
+    });
+    // 滑鼠放掉的時候，要把 clickIndex 還原成 -1
+    $(".MenuBox svg").mouseup(function(){
+        $clickIndex = -1;
+    });
+    
+    // 取消右鍵選單
+    $(".MenuBox").on("contextmenu", function(){
+        return false;
     });
 });
 
@@ -28,54 +48,33 @@ function makeSVG(tag, attrs, text)
     
     // 滑鼠點擊事件
     $(g).mousedown(function(event){
-        NodeClick($(this));
+        $clickIndex = parseInt($(this).attr("id").replace("Node", ""));
+        
+        // 要跑去裡面設定 offset 多少
+        NodeClick();
     });
     
-    // 滑鼠移動事件
-    $(g).mousemove(function(event){
-        NodeMove($(this), event);
-    });
-    
-    // 滑鼠放開事件
-    $(g).mouseup(function(event){
-        //console.log("Mouse Up" + event.pageX + " " + event.pageY);
-        NodeOut($(this));
-    });
-    
-    //滑鼠超過事件
-    $(g).mouseout(function(event){
-        //console.log("Mouse Out" + event.pageX + " " + event.pageY + " " + $offset);
-        NodeMove($(this), event);
-        //$out = true;
-    });
-    
-    
-    // 新增文字的事件
+    // 新增文字
     tarea.setAttribute("style", " font-size:24px;");
     tarea.textContent = text;
     console.log(text);
     return g;
 };
 
-
-function NodeClick(target)
+// 在 click 的時候，設定 offset 的 function
+function NodeClick()
 {
-    var id = parseInt(target.attr("id").replace("Node", ""));
-    $offset[id][0] = event.pageX - $lastPosition[id][0];
-    $offset[id][1] = event.pageY - $lastPosition[id][1];
-    //console.log("ID = " + id + " Mouse Down" + event.pageX + " " + event.pageY + " " + $offset[id]);
-    target.attr("IsClick", true);
+    $offset[$clickIndex][0] = event.pageX - $lastPosition[$clickIndex][0];
+    $offset[$clickIndex][1] = event.pageY - $lastPosition[$clickIndex][1];
+    //target.attr("IsClick", true);
 };
-function NodeMove(target, event)
+function NodeMove(event)
 {
-    if(target.attr("IsClick"))
-    {
-        var id = parseInt(target.attr("id").replace("Node", ""));
-        $lastPosition[id][0] = event.pageX - $offset[id][0];
-        $lastPosition[id][1] = event.pageY - $offset[id][1];
-        
-        target.attr("style", "transform:translate3d(" + (event.pageX - $offset[id][0]) + "px, " + (event.pageY - $offset[id][1]) + "px, 0px);");
-    }
+    var target = $("#Node" + $clickIndex);
+    $lastPosition[$clickIndex][0] = event.pageX - $offset[$clickIndex][0];
+    $lastPosition[$clickIndex][1] = event.pageY - $offset[$clickIndex][1];
+    
+    target.attr("style", "transform:translate3d(" + (event.pageX - $offset[$clickIndex][0]) + "px, " + (event.pageY - $offset[$clickIndex][1]) + "px, 0px);");
 };
 function NodeOut(target)
 {
