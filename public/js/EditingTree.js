@@ -1,10 +1,13 @@
+
 $(function(){
-    $NodeNumber = 0;
+    // 變數宣告
+    //$TreeArray = [];
+    $NodeNumber = 0;                        // 判斷總共有幾個 Node
+    $clickIndex = -1;                       // 判斷點擊的 Index
     
-    // 判斷點擊的 Index
-    $clickIndex = -1;
     $lastPosition = [];
     $offset = [];
+    
     $("#addNode").click(function(){
         $(".MenuBox svg").prepend(makeSVG("circle", {cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: 'red'}, $(".AddItemDiv input").prop("value")));
     });
@@ -41,7 +44,7 @@ function makeSVG(tag, attrs, text)
     for (var k in attrs)
         el.setAttribute(k, attrs[k]);
     $(g).attr("id", "Node" + $NodeNumber++);
-    $(g).attr("style", "transform: translate3d(" + $(document).width() / 2 + "px, " + $(document).height() / 2 + "px, 0px);");
+    $(g).attr("style", "transform: translate(" + $(document).width() / 2 + "px, " + $(document).height() / 2 + "px);");
     
     $lastPosition.push([$(document).width() / 2, $(document).height() / 2]);
     $offset.push([0, 0]);
@@ -66,17 +69,13 @@ function NodeClick()
 {
     $offset[$clickIndex][0] = event.pageX - $lastPosition[$clickIndex][0];
     $offset[$clickIndex][1] = event.pageY - $lastPosition[$clickIndex][1];
-    //target.attr("IsClick", true);
 };
+// 滑鼠移動事件
 function NodeMove(event)
 {
     var target = $("#Node" + $clickIndex);
     $lastPosition[$clickIndex][0] = event.pageX - $offset[$clickIndex][0];
     $lastPosition[$clickIndex][1] = event.pageY - $offset[$clickIndex][1];
     
-    target.attr("style", "transform:translate3d(" + (event.pageX - $offset[$clickIndex][0]) + "px, " + (event.pageY - $offset[$clickIndex][1]) + "px, 0px);");
-};
-function NodeOut(target)
-{
-    target.removeAttr("IsClick");
+    target.attr("style", "transform: translate(" + (event.pageX - $offset[$clickIndex][0]) + "px, " + (event.pageY - $offset[$clickIndex][1]) + "px);");
 };
