@@ -98,6 +98,9 @@
 													<% else %>
 															<li class="dropdown-header headLink">普通使用者</li>
 													<% end %>
+													<% if current_user.level == 3 %>
+														<li class="dropdown-header headLink"><%= link_to "啟動寄信程序",open_thread_path,method: :post%></li>
+													<% end %>
 											</ul>
 										</li>
 								<% end %>

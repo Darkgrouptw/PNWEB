@@ -66,6 +66,8 @@ Rails.application.routes.draw do
 
 	# notify
 	post 	"Notify"            =>	"main#notify",	    :as =>	"notify"
+	# openThread
+	post 	"Open_thread"		=>	"main#open_thread",	:as =>	"open_thread"
     
 	# peopleName & issueName 要拿 params 用的
 	get 	"PeopleName"        =>	"main#peopleName",	:as =>	"peopleName"

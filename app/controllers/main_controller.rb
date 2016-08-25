@@ -13,18 +13,50 @@ class MainController < ApplicationController
 		@persons=DataPerson.where(id: person)
 	end
 
+	 # 
+    # 開一個 EmailThread 來執行定時寄信的功能 (設定時間為禮拜六 凌晨4點)
+    #
+    def open_thread
+        if $EmailThread == nil
+            # 把 EmailDate 轉成台灣
+            @EmailDate = Time.now.in_time_zone('Taipei')
+            puts "================================="
+            puts "時間的 Thread 已經開啟了"
+            puts "================================="
+            $EmailThread = Thread.new do
+                while true do
+                    sleep(1.minutes)
+                    #if @EmailDate.friday? and @EmailDate.hour == 18
+                    if true
+                        puts "=========================================="
+                        puts "Start To Send Email "
+                        puts "=========================================="
+                        notify
+                        sleep(1.hours)
+                    end
+                end
+            end
+            redirect_to "/", :notice => "成功開啟定時寄信的功能囉 ！！"
+        else
+            redirect_to "/", :notice => "已經開啟過囉 ！！"
+        end
+    end
+
 	def notify
 		@notifyList = NotifyList.all
 		user_ids = []
 		issue_ids = []
 		@notifyList.each do |item|
-			user_ids.push(item.post_id)
+			user_ids.push(item.user_id)
 			issue_ids.push(item.issue_id)
 		end
 		@users = User.where(id: user_ids)
 		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
 		#send email to each user
 		@users.each do |user|
+			puts "=========================================="
+            puts user.nickname
+            puts "=========================================="
 			title = user.nickname + " 你好，正反網頁有新的通知"
 			hasContent = false
 			content = ""
@@ -45,7 +77,10 @@ class MainController < ApplicationController
 			end
 			if hasContent
 				#email
-				send_notify_email(user.email,title,contnet)
+				puts "=========================================="
+            	puts "send"
+            	puts "=========================================="
+				send_notify_email(user.email,title,content)
 			end
 		end
 
@@ -83,6 +118,9 @@ class MainController < ApplicationController
 	private
     #寄信
     def send_notify_email(email,title,content)
+    	puts "=========================================="
+        puts "start send"
+        puts "=========================================="
         require 'net/smtp'
 
         tempSMTP = Net::SMTP.new 'smtp.gmail.com', 587
@@ -97,5 +135,8 @@ class MainController < ApplicationController
                 f.puts content
             end
         end
+        puts "=========================================="
+        puts "end send"
+        puts "=========================================="
     end
 end
