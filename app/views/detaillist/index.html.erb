@@ -33,7 +33,11 @@
 			<div align = "right">
 				<% link = detaillist_edit_path(id: @tags) %>
 				<a href = "<%= link %>">編輯</a>
-				<button type="button" class="btn btn-link ReportModal_Button" data-toggle="modal" data-target="#ReportModal" issue_name="<%= @issue.title %>" post_name="<%= @user.nickname %>" content="<%= @me.content %>" issue_id="<%= params[:issue_id] %>"  detail_id="<%= @me.id %>">我要檢舉</button>
+				<% if @report.nil?%>
+					<button type="button" class="btn btn-link ReportModal_Button" data-toggle="modal" data-target="#ReportModal" issue_name="<%= @issue.title %>" post_name="<%= @user.nickname %>" content="<%= @me.content %>" issue_id="<%= params[:issue_id] %>"  detail_id="<%= @me.id %>">我要檢舉</button>
+				<% else %>
+					你已檢舉過了
+				<% end %>
 			</div>
 			
 			<table class = "table table-bordered">
@@ -226,7 +230,7 @@
 						<label><input type="checkbox" name="rule6" id="CheckRule6">原始文章中沒有這段話</label>
 					</div>
 					<div class="checkbox">
-						<label><input type="checkbox" name="rule7" id="CheckRule7">原始文章陪提到作者有講這段話</label>
+						<label><input type="checkbox" name="rule7" id="CheckRule7">原始文章沒提到作者有講這段話</label>
 					</div>
 					<div class="checkbox">
 						<label><input type="checkbox" name="rule8" id="CheckRule8">原始文章中提到的被編者局部改寫了</label>

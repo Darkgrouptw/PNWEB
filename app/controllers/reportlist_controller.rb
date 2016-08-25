@@ -1,11 +1,12 @@
 class ReportlistController < ApplicationController
   def index
+  	@me = ReportDetail.where(id: params[:id])[0]
   	@detail = DataDetail.where(id: @me.detail_id)[0]
   	if !can_editor_issue(1,@detail.issue_id)
 		flash[:alert] = "權限不足"
 		redirect_to "/"
 	end
-	@me = ReportDetail.where(id: params[:id])[0]
+	
 	if @me.nil?
 		return
 	end
@@ -18,7 +19,7 @@ class ReportlistController < ApplicationController
 		flash[:alert] = "權限不足"
 		redirect_to "/"
 	end
-	@reportlist = ReportDetail.all
+	@reportlist = ReportDetail.all.order(:created_at).reverse
 	detail_ids = []
 	issue_ids = []
 	user_ids = []

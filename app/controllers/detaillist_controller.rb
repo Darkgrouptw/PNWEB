@@ -6,6 +6,10 @@ class DetaillistController < ApplicationController
 		if @me.nil?
 			return
 		end
+		@report = nil
+		if !current_user.nil?
+			@report = ReportDetail.where(detail_id: @tags,people_id: current_user.id)[0]
+		end
 		@issue = DataIssue.where(id: @me.issue_id)[0]
 		@person = DataPerson.where(id: @me.people_id)[0]
 
