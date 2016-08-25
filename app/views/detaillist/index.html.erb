@@ -16,6 +16,7 @@
 		end
 	end
 %>
+<script src="/js/queryToggle.js"></script>
 <div class="BigTitle">
 	<h2>論述頁面</h2>
 	<hr>
@@ -26,7 +27,6 @@
 	</div>
 <% else %>
 	<!-- show detail data-->
-	<div class = "whiteText row">
 		<div class = "col-md-offset-1 col-md-10 row">
 			<div align = "right">
 				<% link = detaillist_edit_path(id: @tags) %>
@@ -165,64 +165,72 @@
 				<% end %>
 			</div>
 			<button type="button" class="btn btn-link ReportModal_Button" data-toggle="modal" data-target="#ReportModal" issue_name="<%= @issue.title %>" post_name="<%= @user.nickname %>" content="<%= @me.content %>" issue_id="<%= params[:issue_id] %>"  detail_id="<%= detail.id %>"
-                                >我要檢舉</button>
+								>我要檢舉</button>
+
+			<div
+			  class="fb-like"
+			  data-share="true"
+			  data-width="450"
+			  data-show-faces="true">
+			  yes
+			</div>
 		</div>
 	</div>
 <% end %>
 
 
 <!-- div Modal -->
-<script src="/js/queryToggle.js"></script>
+
 <div class="modal fade" id="ReportModal" role="dialog">
-    <div class="modal-dialog">
-        
-        <!-- Modal 裡面的內容 -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">我要檢舉  —  </h4>
-            </div>
-            
-            <!-- 表單 -->
-            <form id="ReportForm" method="post">
-                <div class="modal-body">
-                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                    <input type="hidden" name="detail_id" id="detail_id" value="">
-                    <input type="hidden" name="pos_page" value="<%= "posg" %>">
-                    <input type="hidden" name="neg_page" value="<%= "test" %>">
-                    <div class="checkbox">
-                        <label><input type="checkbox" name="rule1" id="CheckRule1">原始文章的截圖不符合規定<%=  %></label>
-                    </div>
-                    <div class="checkbox" style="padding-left:40px;">
-                        <label><input type="checkbox" name="rule2" id="CheckRule2">根本不是這篇文章</label>
-                    </div>
-                    <div class="checkbox" style="padding-left:40px;">
-                        <label><input type="checkbox" name="rule3" id="CheckRule3">不完整</label>
-                    </div>
-                    <div class="checkbox" style="padding-left:80px;">
-                        <label><input type="checkbox" name="rule4" id="CheckRule4">沒有標題</label>
-                    </div>
-                    <div class="checkbox" style="padding-left:80px;">
-                        <label><input type="checkbox" name="rule5" id="CheckRule5">主文沒有全部擷取</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" name="rule6" id="CheckRule6">原始文章中沒有這段話</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" name="rule7" id="CheckRule7">原始文章陪提到作者有講這段話</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" name="rule8" id="CheckRule8">原始文章中提到的被編者局部改寫了</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input type="checkbox" name="rule9" id="CheckRule9">原始文章中提到的作者講的這段話，應該被歸於贊成／反對的另一邊</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">確定</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                </div>
-            </form>
-        </div>
-    </div>
+	<div class="modal-dialog">
+		
+		<!-- Modal 裡面的內容 -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">我要檢舉  —  </h4>
+			</div>
+			
+			<!-- 表單 -->
+			<form id="ReportForm" method="post">
+				<div class="modal-body">
+					<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+					<input type="hidden" name="detail_id" id="detail_id" value="">
+					<input type="hidden" name="pos_page" value="<%= "posg" %>">
+					<input type="hidden" name="neg_page" value="<%= "test" %>">
+					<div class="checkbox">
+						<label><input type="checkbox" name="rule1" id="CheckRule1">原始文章的截圖不符合規定<%=  %></label>
+					</div>
+					<div class="checkbox" style="padding-left:40px;">
+						<label><input type="checkbox" name="rule2" id="CheckRule2">根本不是這篇文章</label>
+					</div>
+					<div class="checkbox" style="padding-left:40px;">
+						<label><input type="checkbox" name="rule3" id="CheckRule3">不完整</label>
+					</div>
+					<div class="checkbox" style="padding-left:80px;">
+						<label><input type="checkbox" name="rule4" id="CheckRule4">沒有標題</label>
+					</div>
+					<div class="checkbox" style="padding-left:80px;">
+						<label><input type="checkbox" name="rule5" id="CheckRule5">主文沒有全部擷取</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" name="rule6" id="CheckRule6">原始文章中沒有這段話</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" name="rule7" id="CheckRule7">原始文章陪提到作者有講這段話</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" name="rule8" id="CheckRule8">原始文章中提到的被編者局部改寫了</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" name="rule9" id="CheckRule9">原始文章中提到的作者講的這段話，應該被歸於贊成／反對的另一邊</label>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary">確定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>
