@@ -167,40 +167,56 @@
 		<% end %>
 		<% temp_issue.popularity = temp_issue.popularity + 1 %>
 		<% temp_issue.update(popularity: temp_issue.popularity) %>
-		<div class = "col-md-2 row">
+		<div class = "col-md-2 row border-back">
 			<!-- Tree iterative-->
 			<%	def runTree(issue) %>
 				<div> 
 					<%	@issues.where(trunk_id: issue.id).each do |sub_issue| %> 
 						<blockquote>
 							<% if sub_issue.id.to_s == @tags %>
+				                <span class="glyphicon glyphicon-collapse-down"></span>	
 								<%= sub_issue.title %>
+                                <a href="<%= issuelist_edit_path(id: sub_issue.id) %>">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
 							<% else %>
+				                <span class="glyphicon glyphicon-collapse-down"></span>	
 								<% link = "/Issuelist/" + sub_issue.id.to_s %>
 								<a href = <%= link %> >
 									<%= sub_issue.title %>
 								</a>
+                                <a href="<%= issuelist_edit_path(id: sub_issue.id) %>">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
 							<% end %>
 							<% runTree(sub_issue) %>
 						</blockquote>
 					<% end %>
 				</div>
-			<%	end %>
+			<% end %>
 			<!-- 產生Tree -->
 			<div>
 				<% if temp_issue.id.to_s == @tags %>
+                    <span class="glyphicon glyphicon-collapse-down"></span>	
 					<%= temp_issue.title %>
+                    <a href="<%= issuelist_edit_path(id: temp_issue.id) %>">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
 				<% else %>
+				    <span class="glyphicon glyphicon-collapse-down"></span>	
 					<% link = "/Issuelist/" + temp_issue.id.to_s %>
-					<a href = <%= link %> >
+                    <a href = <%= link %> >
 						<%= temp_issue.title %>
 					</a>
+                    <a href="<%= issuelist_edit_path(id: temp_issue.id) %>">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
 				<% end %>
 					<% runTree(temp_issue) %>
 			</div>
 		</div>
 
-		<div class = "col-md-10">
+		<div class = "col-md-10 border-right">
 			<!-- title -->
 			<div>
 				<%= link_to "編輯", issuelist_edit_path(id: @me.id) %>
