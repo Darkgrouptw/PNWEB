@@ -63,7 +63,7 @@ class ReportlistController < ApplicationController
 	@detail.is_report = true
 	@detail.save
 	@report.save
-	redirect_to reportlist_index_path(id: @report.id)
+	redirect_to reportlist_all_path
 
   end
 

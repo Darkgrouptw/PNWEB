@@ -42,10 +42,33 @@
 								</a>
 							</td>
 							<td>
-								<% link = reportlist_index_path(id: item.id) %>
-								<a href = <%= link %>>
-									<%= item.cause %>
-								</a>
+									<% if item.cause.split(',').include?('1') %>
+										<div>原始文章的截圖不符合規定,</div>
+									<% end %>
+									<% if item.cause.split(',').include?('2') %>
+										<div>根本不是這篇文章,</div>
+									<% end %>
+									<% if item.cause.split(',').include?('3') %>
+										<div>不完整,</div>
+									<% end %>
+									<% if item.cause.split(',').include?('4') %>
+										<div>沒有標題,</div>
+									<% end %>
+									<% if item.cause.split(',').include?('5') %>
+										<div>主文沒有全部擷取,</div>
+									<% end %>
+									<% if item.cause.split(',').include?('6') %>
+										<div>原始文章中沒有這段話,</div>
+									<% end %>
+									<% if item.cause.split(',').include?('7') %>
+										<div>原始文章沒提到作者有講這段話,</div>
+									<% end %>
+									<% if item.cause.split(',').include?('8') %>
+										<div>原始文章中提到的被編者局部改寫了,</div>
+									<% end %>
+									<% if item.cause.split(',').include?('9') %>
+										<div>原始文章中提到的作者講的這段話，應該被歸於贊成／反對的另一邊,</div>
+									<% end %>
 							</td>
 							<td>
 								<% link = userlist_index_path(id: user.id) %>
