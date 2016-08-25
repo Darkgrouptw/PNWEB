@@ -51,11 +51,6 @@ class MainController < ApplicationController
 
 		redirect_to(:back)
 	end
-    
-    # 編樹的功能
-    def editing
-        
-    end
 
 	def peopleName
 		name = params[:name]
