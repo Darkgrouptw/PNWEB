@@ -1,7 +1,7 @@
 <script src="/js/queryPeople.js"></script>
+<script src="/js/detaillistChange.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/query.css">
 <link rel="stylesheet" type="text/css" href="/css/user/form.css">
-
 <div class="BigTitle">
     <h2>新增議論</h2>
     <hr>
@@ -37,7 +37,7 @@
 							<br>
                             
 							<label>是否為直接意見</label>
-							<input type="checkbox" class="form-control" name="is_direct">
+							<input type="checkbox" class="form-control" name="is_direct" id="directClick">
 							<br>
                             
 							<label>刊載媒體</label>
@@ -45,7 +45,7 @@
 							<br>
 
                             <label>報導時間</label>
-                            <input type="date" class="form-control" name="report_at" required="true">
+                            <input type="date" class="form-control" name="report_at" required="true" id="reportTime">
                             <br>
 
 							<label>報導連結</label>

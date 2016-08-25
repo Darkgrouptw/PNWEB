@@ -9,11 +9,8 @@ table tr td a
 }
 .border-back
 {
-    /*margin-left: 5px;
-    margin-right: 5px;*/
     padding-left: 30px;
     padding-right: 0px;
-    /*background-color: rgb(14, 97, 174);*/ 
 }
 .border-right
 {
