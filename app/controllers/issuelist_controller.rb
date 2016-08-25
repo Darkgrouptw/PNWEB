@@ -1,6 +1,8 @@
 class IssuelistController < ApplicationController
 
 	def index
+
+
 		@tags = params[:id]
 		@issues = DataIssue.where(is_candidate: false).order(:created_at)
 		@me = @issues.where(id: @tags)[0]
@@ -143,10 +145,17 @@ class IssuelistController < ApplicationController
 	end
 
 	def add
-
+		if !can_view(1)
+			flash[:alert] = "權限不足"
+			redirect_to "/"
+		end
 	end
 
 	def new
+		if !can_view(1)
+			flash[:alert] = "權限不足"
+			redirect_to "/"
+		end
 		title = params[:title]
 		post = params[:post]
 		trunk_id = params[:trunk_id]
@@ -171,10 +180,18 @@ class IssuelistController < ApplicationController
 	end
 
 	def edit
+		if !can_editor_issue(1,params[:id])
+			flash[:alert] = "權限不足"
+			redirect_to "/"
+		end
 		@issue = DataIssue.where(id: params[:id])[0]
 	end
 
 	def update
+		if !can_editor_issue(1,params[:id])
+			flash[:alert] = "權限不足"
+			redirect_to "/"
+		end
 		@issue = DataIssue.where(id: params[:id])[0]
 		if @issue.nil?
 			return
@@ -201,6 +218,10 @@ class IssuelistController < ApplicationController
 	end
 
 	def candidate
+		if !can_view(1)
+			flash[:alert] = "權限不足"
+			redirect_to "/"
+		end
 		@issues = DataIssue.where(is_candidate: true)
 	end
 
@@ -220,6 +241,10 @@ class IssuelistController < ApplicationController
 	end
 
 	def upgrade
+		if !can_view(1)
+			flash[:alert] = "權限不足"
+			redirect_to "/"
+		end
 		@issue = DataIssue.where(id: params[:id])[0]
 		@issue.is_candidate = false
 		@issue.save

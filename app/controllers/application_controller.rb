@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
     
     include Userinfo
     include Security
-    
+    include Authority
     # Prevent CSRF attacks by raising an exception.
     # For APIs, you may want to use :null_session instead.
     protect_from_forgery with: :exception

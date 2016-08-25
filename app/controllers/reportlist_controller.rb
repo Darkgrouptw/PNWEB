@@ -1,14 +1,23 @@
 class ReportlistController < ApplicationController
   def index
+  	@detail = DataDetail.where(id: @me.detail_id)[0]
+  	if !can_editor_issue(1,@detail.issue_id)
+		flash[:alert] = "權限不足"
+		redirect_to "/"
+	end
 	@me = ReportDetail.where(id: params[:id])[0]
 	if @me.nil?
 		return
 	end
-	@detail = DataDetail.where(id: @me.detail_id)[0]
+	
 	@issue = DataIssue.where(id: @detail.issue_id)[0]
 
   end
   def all
+  	if !can_view(1)
+		flash[:alert] = "權限不足"
+		redirect_to "/"
+	end
 	@reportlist = ReportDetail.all
 	detail_ids = []
 	issue_ids = []
@@ -58,6 +67,10 @@ class ReportlistController < ApplicationController
   end
 
   def reject
+  	if !can_editor_issue(1,params[:issue_id])
+		flash[:alert] = "權限不足"
+		redirect_to "/"
+	end
 	@detail = DataDetail.where(id: params[:detail_id])[0]
 	@reportList = ReportDetail.where(detail_id: @detail.id)
 	@issue = DataIssue.where(id: params[:issue_id])[0]
@@ -72,6 +85,10 @@ class ReportlistController < ApplicationController
   end
 
   def accept
+  	if !can_editor_issue(1,params[:issue_id])
+		flash[:alert] = "權限不足"
+		redirect_to "/"
+	end
 	@detail = DataDetail.where(id: params[:detail_id])[0]
 	@reportList = ReportDetail.where(detail_id: @detail.id)
 	@report = @reportList.where(id: params[:id])[0]

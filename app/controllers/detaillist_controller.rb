@@ -148,11 +148,19 @@ class DetaillistController < ApplicationController
 	end
 
 	def edit
+		if !can_editor_detail(params[:id])
+			flash[:alert] = "權限不足"
+			redirect_to "/"
+		end
 		@detail = DataDetail.where(id: params[:id])[0]
 		@person = DataPerson.where(id: @detail.post_id)[0]
 	end
 
 	def update
+		if !can_editor_detail(params[:id])
+			flash[:alert] = "權限不足"
+			redirect_to "/"
+		end
 		content = params[:content]
 		people_id = params[:people_id]
 		issue_id = params[:issue_id]
