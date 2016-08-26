@@ -223,7 +223,7 @@ class IssuelistController < ApplicationController
 			redirect_to "/"
 		end
 		@issueList = DataIssue.all
-		@issues = @issueList.where(is_candidate: true)
+		@issues = @issueList.where(is_candidate: true).order(:thumb_up).reverse
 	end
 
 	def thumb_up

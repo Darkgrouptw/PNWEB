@@ -13,10 +13,13 @@
 	<a href = <%= link %> class="whiteText">
 		所有名人
 	</a>
-	<% link=issuelist_candidate_path %>
-	<a href = <%= link %> class="whiteText">
-		所有候選議題
-	</a>
+	<% if canview(0) %>
+		<% link=issuelist_candidate_path %>
+		<a href = <%= link %> class="whiteText">
+			所有候選議題
+		</a>
+	<% end %>
+	
 </div>
 <!-- 左邊最新issue 右邊熱門detail -->
 <div >
