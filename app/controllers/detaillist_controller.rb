@@ -2,7 +2,7 @@ class DetaillistController < ApplicationController
 	def index
 		@tags = params[:id]
 		#find the data will be used in page
-		@me = DataDetail.where(id: @tags)[0]
+		@me = DataDetail.where(id: @tags,is_report: false)[0]
 		if @me.nil?
 			return
 		end
@@ -156,7 +156,7 @@ class DetaillistController < ApplicationController
 
 	def checkBackUP(path)
 		result = nil
-		detail = DataDetail.where(link: path)[0]
+		detail = DataDetail.where(link: path,is_report: false)[0]
 		if !detail.nil?
 			result = detail.backup_id
 		end
@@ -168,7 +168,7 @@ class DetaillistController < ApplicationController
 			flash[:alert] = "權限不足"
 			redirect_to "/"
 		end
-		@detail = DataDetail.where(id: params[:id])[0]
+		@detail = DataDetail.where(id: params[:id],is_report: false)[0]
 		@person = DataPerson.where(id: @detail.post_id)[0]
 	end
 
@@ -186,7 +186,7 @@ class DetaillistController < ApplicationController
 		news_media = params[:news_media]
 		report_at = params[:report_at]
 		link = params[:link]
-		@detail = DataDetail.where(id: params[:id])[0]
+		@detail = DataDetail.where(id: params[:id],is_report: false)[0]
 		if !(content.nil? || content.empty?)
 			@detail.content = content
 		end
@@ -226,7 +226,7 @@ class DetaillistController < ApplicationController
 	end
 
 	def like
-		@detail = DataDetail.where(id: params[:id])[0]
+		@detail = DataDetail.where(id: params[:id],is_report: false)[0]
 		post_id = current_user.id
 		path = params[:path]
 		path = path.gsub('!','?').gsub('|','&')
@@ -251,7 +251,7 @@ class DetaillistController < ApplicationController
 	end
 
 	def dislike
-		@detail = DataDetail.where(id: params[:id])[0]
+		@detail = DataDetail.where(id: params[:id],is_report: false)[0]
 		post_id = current_user.id
 		path = params[:path]
 		path = path.gsub('!','?').gsub('|','&')
@@ -293,7 +293,7 @@ class DetaillistController < ApplicationController
 	end
 
 	def comment_new
-		@detail = DataDetail.where(id: params[:detail_id])[0]
+		@detail = DataDetail.where(id: params[:detail_id],is_report: false)[0]
 		post_id = current_user.id
 		content =   params[:content]
 		@comment = DataComment.create(

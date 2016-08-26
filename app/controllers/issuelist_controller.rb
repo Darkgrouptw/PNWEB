@@ -26,7 +26,7 @@ class IssuelistController < ApplicationController
 			@neg_show = "table"
 		end
 		detail_strings = @me.datadetail_id.split(',')
-		@details = DataDetail.where(id: detail_strings)
+		@details = DataDetail.where(id: detail_strings,is_report: false)
 		@AllLike = LikeList.where(detail_id: detail_strings)
 		#@likeList = LikeList.where(post_id: current_user)
 		@likeList = @AllLike.where(post_id: current_user)

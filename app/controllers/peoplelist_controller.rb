@@ -8,7 +8,7 @@ class PeoplelistController < ApplicationController
 		end
 		issue_ids = []
 		#find all the detail is said by the @me
-		@details = DataDetail.where(people_id: @me.id)
+		@details = DataDetail.where(people_id: @me.id,is_report: false)
 		@details.each do |detail|
 			issue_ids.push(detail.issue_id)
 		end

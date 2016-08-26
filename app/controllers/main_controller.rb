@@ -5,7 +5,7 @@ class MainController < ApplicationController
 		clearEmailSession
 
 		@issues=DataIssue.where(trunk_id: -1,is_candidate: false).order(:created_at).reverse.first(10)
-		@details=DataDetail.all.order(:count).reverse.first(10)
+		@details=DataDetail.where(is_report: false).order(:count).reverse.first(10)
 		person = []
 		@details.each do |detail|
 			person.push([detail.people_id])

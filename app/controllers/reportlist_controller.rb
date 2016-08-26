@@ -1,7 +1,7 @@
 class ReportlistController < ApplicationController
   def index
   	@me = ReportDetail.where(id: params[:id])[0]
-  	@detail = DataDetail.where(id: @me.detail_id)[0]
+  	@detail = DataDetail.where(id: @me.detail_id,is_report: false)[0]
   	if !can_editor_issue(1,@detail.issue_id)
 		flash[:alert] = "權限不足"
 		redirect_to "/"
@@ -26,7 +26,7 @@ class ReportlistController < ApplicationController
 	@reportlist.each do |item|
 		detail_ids.push(item.detail_id)
 	end
-	@detaillist = DataDetail.where(id: detail_ids)
+	@detaillist = DataDetail.where(id: detail_ids,is_report: false)
 	@detaillist.each do |item|
 		issue_ids.push(item.issue_id)
 		user_ids.push(item.post_id)
@@ -36,7 +36,7 @@ class ReportlistController < ApplicationController
 
   end
   def add
-	@detail = DataDetail.where(id: params[:id])[0]
+	@detail = DataDetail.where(id: params[:id],is_report: false)[0]
   end
   def new
 	cause = params[:cause]
@@ -48,7 +48,7 @@ class ReportlistController < ApplicationController
                 tempStr += (i+1).to_s + ","
             end
         end
-	@detail = DataDetail.where(id: detail_id)[0]
+	@detail = DataDetail.where(id: detail_id,is_report: false)[0]
 	people_id = current_user.id
 	@report = ReportDetail.create(
 		created_at: Time.now.in_time_zone('Taipei'),
@@ -60,7 +60,7 @@ class ReportlistController < ApplicationController
 	@report.detail_id = detail_id
 	@report.cause = tempStr
 
-	@detail.is_report = true
+	#@detail.is_report = true
 	@detail.save
 	@report.save
 	redirect_to reportlist_all_path
@@ -72,7 +72,7 @@ class ReportlistController < ApplicationController
 		flash[:alert] = "權限不足"
 		redirect_to "/"
 	end
-	@detail = DataDetail.where(id: params[:detail_id])[0]
+	@detail = DataDetail.where(id: params[:detail_id],is_report: false)[0]
 	@reportList = ReportDetail.where(detail_id: @detail.id)
 	@issue = DataIssue.where(id: params[:issue_id])[0]
 	#check there is any report on the detail
@@ -90,7 +90,7 @@ class ReportlistController < ApplicationController
 		flash[:alert] = "權限不足"
 		redirect_to "/"
 	end
-	@detail = DataDetail.where(id: params[:detail_id])[0]
+	@detail = DataDetail.where(id: params[:detail_id],is_report: false)[0]
 	@reportList = ReportDetail.where(detail_id: @detail.id)
 	@report = @reportList.where(id: params[:id])[0]
 	@issue = DataIssue.where(id: params[:issue_id])[0]
@@ -111,7 +111,7 @@ class ReportlistController < ApplicationController
 	end
 	#commend
 	#detail
-	@detail.destroy
+	@detail.is_report = true
 	#report
 	@report.destroy
 
@@ -138,6 +138,7 @@ class ReportlistController < ApplicationController
 			item.destroy
 		end
 	end
+	@detail.save
 	@issue.save
 	redirect_to reportlist_all_path
   end
