@@ -1,0 +1,29 @@
+/*
+預覽視窗 css
+*/
+.previewDiv{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+}
+.previewDiv div{
+    transform: translate(10%, 10%);
+    background-color: white;
+    padding: 5%;
+    width: 80%;
+    height: 80%;
+    border-radius: 50px;
+}
+.previewDiv div span{
+    position: fixed;
+    right: 3%;
+    top: 3%;
+    font-size: 30px;
+}
+.previewDiv div span:hover{
+    cursor: pointer;
+}
