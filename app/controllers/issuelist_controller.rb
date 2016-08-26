@@ -155,20 +155,28 @@ class IssuelistController < ApplicationController
 		if !can_view(1)
 			flash[:alert] = "權限不足"
 			redirect_to "/"
+			return
 		end
 		title = params[:title]
 		post = params[:post]
 		trunk_id = params[:trunk_id]
 		tag = params[:tag]
 		
-
+		if !trunk_id.empty? 
+			father = DataIssue.where(title: trunk_id)[0]
+		end
+		if father.nil?
+			flash[:alert] = "無此父議題" 
+			redirect_to(:back) 
+			return
+		end 
 		@issue = DataIssue.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
 		@issue.title = title
 		@issue.post = post
 		if trunk_id.nil? || trunk_id.empty?
 			@issue.trunk_id = -1;
 		else
-			@issue.trunk_id = trunk_id
+			@issue.trunk_id = father.id
 		end
 		@issue.tag = tag
 		@issue.is_candidate = true
