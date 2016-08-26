@@ -67,10 +67,13 @@
 												<% end %>
 											</ul>
 										</li>
-										<% if current_user.level >= 0 %>
+										<% if can_view(1) %>
 												<li><%= link_to "檢舉頁面", reportlist_all_path, class: "headLink" %></li>
 												<li><%= link_to "加議題頁面", issuelist_add_path, class: "headLink" %></li>
-												<li><%= link_to "加名人頁面", peoplelist_add_path, class: "headLink" %></li>
+												<% if can_view(2) %>
+													<li><%= link_to "加名人頁面", peoplelist_add_path, class: "headLink" %></li>
+												<% end %>
+												
 										<% end %> 
 								
 								
