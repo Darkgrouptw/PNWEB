@@ -24,7 +24,7 @@
                         	<br>
                         	<div style="position: relative;">
                                 <label>父議題 (if no trunk don't fill data)</label>
-                                <input type="text" class="form-control" name="trunk_id" id="queryIssue" value = "<%= @issue.trunk_id %>">
+                                <input type="text" class="form-control" name="trunk_id" id="queryIssue" <% if !@father.nil? %>value = "<%= @father.title %>" <% end %>>
                                 <div id="queryIssueDiv" class="queryDiv" style="display: none;">
                                 </div>
                             </div>

@@ -193,6 +193,7 @@ class IssuelistController < ApplicationController
 			redirect_to "/"
 		end
 		@issue = DataIssue.where(id: params[:id])[0]
+		@father = DataIssue.where(id: @issue.trunk_id)[0]
 	end
 
 	def update
@@ -202,7 +203,7 @@ class IssuelistController < ApplicationController
 		end
 		@issue = DataIssue.where(id: params[:id])[0]
 		if !params[:trunk_id].empty? 
-			father = DataIssue.where(title: trunk_id)[0]
+			father = DataIssue.where(title: params[:trunk_id])[0]
 		end
 		if father.nil?
 			flash[:alert] = "無此父議題" 
