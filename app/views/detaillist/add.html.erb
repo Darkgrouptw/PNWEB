@@ -1,7 +1,9 @@
 <script src="/js/queryPeople.js"></script>
 <script src="/js/detaillistChange.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/table.css">
 <link rel="stylesheet" type="text/css" href="/css/query.css">
 <link rel="stylesheet" type="text/css" href="/css/user/form.css">
+<link rel="stylesheet" type="text/css" href="/css/preview.css">
 <div class="BigTitle">
     <h2>新增議論</h2>
     <hr>
@@ -19,17 +21,17 @@
 							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 							<input type="hidden" name="issue_id" value="<%= @issue.id %>">
 							<label>論述*</label>
-							<input type="text" class="form-control" name="content" required="true" maxlength="100">
+							<input type="text" class="form-control" name="content" required="true" maxlength="100" id="content">
 							<br>
                             
 							<label>誰的意見</label>
-							<input type="text" class="form-control" name="people_id" id="queryPeople" >
+							<input type="text" class="form-control" name="people_id" id="queryPeople">
                             <div id="queryPeopleDiv" class="queryDiv" style="display: none;">
                             </div>
 							<br>
                             
 							<label>當時頭銜</label>
-							<input type="text" class="form-control" name="title_at_that_time" >
+							<input type="text" class="form-control" name="title_at_that_time" id="title_at_that_time">
 							<br>
                             
 							<label>Is supported</label>
@@ -41,7 +43,7 @@
 							<br>
                             
 							<label>刊載媒體</label>
-							<input type="text" class="form-control" name="news_media" >
+							<input type="text" class="form-control" name="news_media" id="news_media" >
 							<br>
 
                             <label>報導時間</label>
@@ -49,12 +51,32 @@
                             <br>
 
 							<label>報導連結</label>
-							<input type="text" class="form-control" name="link" >
+							<input type="text" class="form-control" name="link" id="link">
 							<br>
                             
-							<div>
-								<input type = "submit" class = "btn btn-primary" style = "width: 150px;">
-							</div>
+                            <button type="button" class="btn btn-primary" style="width: 150px;" id="previewButton">檢視預覽</button>
+						</div>
+                        <div class="previewDiv" style="display:none;">
+                            <div>
+                                <span class="glyphicon glyphicon-remove"></span>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td>名嘴<br>（當時頭銜）</td>
+                                        <td>內容</td>
+                                        <td>是否為直接意見</td>
+                                        <td>刊載媒體<br>報導時間</td>
+                                        <td>上線時間</td>
+                                    </tr>
+                                    <tr>
+                                        <td id="queryPeople_blank"></td>
+                                        <td id="content_blank"></td>
+                                        <td id="directClick_blank"></td>
+                                        <td id="news_media_blank"></td>
+                                        <td id="title_at_that_time_blank"></td>
+                                    </tr>
+                                </table>
+                                <input type = "submit" class = "btn btn-primary" style = "width: 150px;">
+                            </div>
 						</div>
 					</form>
 				</div>
