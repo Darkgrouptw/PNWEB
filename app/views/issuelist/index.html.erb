@@ -1,4 +1,5 @@
 <script src="/js/queryToggle.js"></script>
+<script src="/js/queryVoted.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/table.css">
 <% 
 	def HasUser()
@@ -219,8 +220,13 @@
 		<div class = "col-md-10 border-right">
 			<!-- title -->
 			<div>
-				<%= link_to "編輯", issuelist_edit_path(id: @me.id) %>
-				<%= link_to "我要新增意見", detaillist_add_path %>
+				<% if can_editor_issue(1,@me.id) %>
+					<%= link_to "編輯", issuelist_edit_path(id: @me.id) %>
+				<% end %>
+				<% if can_view(0)%>
+					<%= link_to "我要新增意見", detaillist_add_path %>
+					<button type="button" class="btn btn-link ReportModal_Voted" data-toggle="modal" data-target="#ReportModal" issue_name="<%= @me.title %>">按讚過的議題</button>
+				<% end %>
 			</div>
 			<table class = "table col-md-8" >
 				<thead>
@@ -411,3 +417,54 @@
 
 
 <% end %>
+
+<!-- div Modal -->
+
+<div class="modal fade" id="ReportModal" role="dialog">
+	<div class="modal-dialog">
+		
+		<!-- Modal 裡面的內容 -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">我在 <%= @me.title %>投讚過的論述</h4>
+			</div>
+			
+			<!-- 表單 -->
+			<table class = "table table-bordered">
+				<thead>
+					<% if i == 0 %>
+						<tr align = "center"><td class = "col-md-8" colspan = "2">贊成論述</td></tr>
+					<% else %>
+						<tr align = "center"><td class = "col-md-8" colspan = "2">反對論述 </td></tr>
+					<% end %>
+					<tr>
+						<td><div>名嘴</div><div>（當時頭銜）</div></td>
+						<td>內容</td>
+					</tr>
+				</thead>
+				<tbody>
+					<% if current_user.nil? %>
+					<% else %>
+						<%	@details.each do |detail| %>
+
+							<% if !@AllLike.where(detail_id: detail.id,post_id: current_user.id)[0].nil? %>
+								<% person = @persons.where(id: detail.people_id)[0] %>
+								<% user = @users.where(id: detail.post_id)[0] %>
+
+								<tr>
+									<td><div><% if person.nil? %>無名氏<% else %><% link = peoplelist_index_path(id: person.name) %><a href = <%= link %>> <%= person.name %> </a><% end %></div><div> ( <%= detail.	title_at_that_time %> )</div></td>
+										<td>
+										<% link = detaillist_index_path(id: detail.id) %>
+										<a href = <%= link %>><%= detail.content %></a>
+									</td>
+								</tr>
+							<% end %>
+
+						<% end %>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
