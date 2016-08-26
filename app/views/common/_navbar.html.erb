@@ -16,7 +16,7 @@
 		end
 		@issues = DataIssue.where(id: issueList)
 		detailList = []
-		@details  = DataDetail.where(issue_id: issueList)
+		@details  = DataDetail.where(issue_id: issueList,is_report: false)
 		@issues.each do |issue|
 			notify = @notifyList.where(issue_id: issue.id)[0]
 			no_detail = @details.where(issue_id: issue.id).where('created_at >= ?',notify.last_read)
@@ -57,7 +57,7 @@
 											<ul class="dropdown-menu notifications_Box" style="top: 85px;padding-left: 1px;padding-right: 1px;">
 												<% @issues.each do |issue|%>
 													<% notify =  @notifyList.where(issue_id: issue.id)[0] %>
-													<% if notify.newest_detail > notify.last_read || true%>
+													<% if notify.newest_detail > notify.last_read %>
 														<% link = issuelist_index_path(id: issue.id)%>
 														<li><a class = "headLink" href = <%= link %>> <%= issue.title %> NEW <%= @no_issues.shift %> </a></li>
 													<% else %>

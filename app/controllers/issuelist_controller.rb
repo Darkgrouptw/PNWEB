@@ -176,7 +176,7 @@ class IssuelistController < ApplicationController
 		@issue.thumb_up = ""
 		@issue.datadetail_id = ""
 		@issue.save
-		redirect_to issuelist_index_path(id: @issue.id)
+		redirect_to issuelist_candidate_path
 	end
 
 	def edit
@@ -218,11 +218,12 @@ class IssuelistController < ApplicationController
 	end
 
 	def candidate
-		if !can_view(1)
+		if !can_view(0)
 			flash[:alert] = "權限不足"
 			redirect_to "/"
 		end
-		@issues = DataIssue.where(is_candidate: true)
+		@issueList = DataIssue.all
+		@issues = @issueList.where(is_candidate: true)
 	end
 
 	def thumb_up

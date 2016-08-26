@@ -45,10 +45,10 @@ module Authority
         if current_user.level.nil?
             return false
         end
-        if current_user.level == 2
+        if current_user.level >= 2
             return true
         end 
-        detail = DataDetail.where(id: detail_id,is_report: false)
+        detail = DataDetail.where(id: detail_id,is_report: false)[0]
         if detail.post_id == current_user.id
             return true
         end

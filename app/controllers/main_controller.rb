@@ -102,7 +102,7 @@ class MainController < ApplicationController
 	def issueName
 		name = params[:name]
 		@content = ""
-		@issues = DataIssue.where("title like ?", name + "%").first(5)
+		@issues = DataIssue.where(is_candidate: false).where("title like ?", name + "%").first(5)
 		@issues.each do |issue|
 			if @content.length <= 0
 				@content = @content + issue.title
