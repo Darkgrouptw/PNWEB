@@ -26,13 +26,17 @@ class MainController < ApplicationController
             $EmailThread = Thread.new do
                 while true do
                     sleep(1.minutes)
+                    puts "=========================================="
+                    puts "prepare To Send Email "
+                    puts "=========================================="
                     #if @EmailDate.friday? and @EmailDate.hour == 18
-                    if true
+                    #@EmailDate.tuesday? and @EmailDate.hour == 4
+                    if @EmailDate.tuesday? and @EmailDate.hour == 4
                         puts "=========================================="
                         puts "Start To Send Email "
                         puts "=========================================="
                         notify
-                        sleep(1.hours)
+                        sleep(22.hours)
                     end
                 end
             end
@@ -54,9 +58,6 @@ class MainController < ApplicationController
 		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
 		#send email to each user
 		@users.each do |user|
-			puts "=========================================="
-            puts user.nickname
-            puts "=========================================="
 			title = user.nickname + " 你好，正反網頁有新的通知"
 			hasContent = false
 			content = ""
@@ -77,9 +78,6 @@ class MainController < ApplicationController
 			end
 			if hasContent
 				#email
-				puts "=========================================="
-            	puts "send"
-            	puts "=========================================="
 				send_notify_email(user.email,title,content)
 			end
 		end
@@ -118,9 +116,6 @@ class MainController < ApplicationController
 	private
     #寄信
     def send_notify_email(email,title,content)
-    	puts "=========================================="
-        puts "start send"
-        puts "=========================================="
         require 'net/smtp'
 
         tempSMTP = Net::SMTP.new 'smtp.gmail.com', 587
@@ -135,8 +130,5 @@ class MainController < ApplicationController
                 f.puts content
             end
         end
-        puts "=========================================="
-        puts "end send"
-        puts "=========================================="
     end
 end
