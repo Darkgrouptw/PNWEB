@@ -63,7 +63,11 @@ class ReportlistController < ApplicationController
 	#@detail.is_report = true
 	@detail.save
 	@report.save
-	redirect_to reportlist_all_path
+	if can_view(1)
+		redirect_to(:back)
+	else
+		redirect_to reportlist_all_path
+	end
 
   end
 
