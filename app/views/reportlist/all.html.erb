@@ -26,67 +26,71 @@
 				<tbody>
 					<% @reportlist.each do |item| %>
 						<% detail = @detaillist.where(id: item.detail_id)[0] %>
-						<% issue = @issuelist.where(id: detail.issue_id)[0] %>
-						<% user = @userlist.where(id: detail.post_id)[0] %>
-						<tr>
-							<td>
-								<% link = issuelist_index_path(id: issue.id) %>
-								<a href = <%= link %>>
-									<%= issue.title %>
-								</a>
-							</td>
-							<td>
-								<% link = detaillist_index_path(id: detail.id) %>
-								<a href = <%= link %>>
-									<%= detail.content %>
-								</a>
-							</td>
-							<td>
-									<% if item.cause.split(',').include?('1') %>
-										<div>原始文章的截圖不符合規定,</div>
-									<% end %>
-									<% if item.cause.split(',').include?('2') %>
-										<div>根本不是這篇文章,</div>
-									<% end %>
-									<% if item.cause.split(',').include?('3') %>
-										<div>不完整,</div>
-									<% end %>
-									<% if item.cause.split(',').include?('4') %>
-										<div>沒有標題,</div>
-									<% end %>
-									<% if item.cause.split(',').include?('5') %>
-										<div>主文沒有全部擷取,</div>
-									<% end %>
-									<% if item.cause.split(',').include?('6') %>
-										<div>原始文章中沒有這段話,</div>
-									<% end %>
-									<% if item.cause.split(',').include?('7') %>
-										<div>原始文章沒提到作者有講這段話,</div>
-									<% end %>
-									<% if item.cause.split(',').include?('8') %>
-										<div>原始文章中提到的被編者局部改寫了,</div>
-									<% end %>
-									<% if item.cause.split(',').include?('9') %>
-										<div>原始文章中提到的作者講的這段話，應該被歸於贊成／反對的另一邊,</div>
-									<% end %>
-							</td>
-							<td>
-								<% link = userlist_index_path(id: user.id) %>
-								<a href = <%= link %>>
-									<%= user.nickname %>
-								</a>
-							</td>
-							<td>
-								<div>
-									<% link = reportlist_accept_path + "?id=" + item.id.to_s + "&detail_id=" + detail.id.to_s + "&issue_id=" + issue.id.to_s %>
-									<%= link_to "接受",link,method: :post%>
-								</div>
-								<div>
-									<% link = reportlist_reject_path + "?id=" + item.id.to_s + "&detail_id=" + detail.id.to_s + "&issue_id=" + issue.id.to_s %>
-									<%= link_to "駁回",link,method: :post%>
-								</div>
-							</td>
-						</tr>
+						<% if !detail.nil? %>
+							<% issue = @issuelist.where(id: detail.issue_id)[0] %>
+							<% user = @userlist.where(id: detail.post_id)[0] %>
+							<tr>
+								<td>
+									<% link = issuelist_index_path(id: issue.id) %>
+									<a href = <%= link %>>
+										<%= issue.title %>
+									</a>
+								</td>
+								<td>
+									<% link = detaillist_index_path(id: detail.id) %>
+									<a href = <%= link %>>
+										<%= detail.content %>
+									</a>
+								</td>
+								<td>
+										<% if item.cause.split(',').include?('1') %>
+											<div>原始文章的截圖不符合規定,</div>
+										<% end %>
+										<% if item.cause.split(',').include?('2') %>
+											<div>根本不是這篇文章,</div>
+										<% end %>
+										<% if item.cause.split(',').include?('3') %>
+											<div>不完整,</div>
+										<% end %>
+										<% if item.cause.split(',').include?('4') %>
+											<div>沒有標題,</div>
+										<% end %>
+										<% if item.cause.split(',').include?('5') %>
+											<div>主文沒有全部擷取,</div>
+										<% end %>
+										<% if item.cause.split(',').include?('6') %>
+											<div>原始文章中沒有這段話,</div>
+										<% end %>
+										<% if item.cause.split(',').include?('7') %>
+											<div>原始文章沒提到作者有講這段話,</div>
+										<% end %>
+										<% if item.cause.split(',').include?('8') %>
+											<div>原始文章中提到的被編者局部改寫了,</div>
+										<% end %>
+										<% if item.cause.split(',').include?('9') %>
+											<div>原始文章中提到的作者講的這段話，應該被歸於贊成／反對的另一邊,</div>
+										<% end %>
+								</td>
+								<td>
+									<% link = userlist_index_path(id: user.id) %>
+									<a href = <%= link %>>
+										<%= user.nickname %>
+									</a>
+								</td>
+								<td>
+									<div>
+										<% link = reportlist_accept_path + "?id=" + item.id.to_s + "&detail_id=" + detail.id.to_s + "&issue_id=" + issue.id.to_s %>
+										<%= link_to "接受",link,method: :post%>
+									</div>
+									<div>
+										<% link = reportlist_reject_path + "?id=" + item.id.to_s + "&detail_id=" + detail.id.to_s + "&issue_id=" + issue.id.to_s %>
+										<%= link_to "駁回",link,method: :post%>
+									</div>
+								</td>
+							</tr>
+
+						<% end %>
+						
 					<% end %>
 				</tbody>
 			</table>
