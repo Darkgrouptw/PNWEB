@@ -31,7 +31,7 @@ class PeoplelistController < ApplicationController
 		pic_link = params[:pic_link]
 		description = params[:description]
 
-		@person = DataPerson.create(created_at: Time.now,updated_at: Time.now)
+		@person = DataPerson.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
 		@person.name = name
 		@person.pic_link = pic_link
 		@person.description = description

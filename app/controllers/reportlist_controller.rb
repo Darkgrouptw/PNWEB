@@ -51,8 +51,8 @@ class ReportlistController < ApplicationController
 	@detail = DataDetail.where(id: detail_id)[0]
 	people_id = current_user.id
 	@report = ReportDetail.create(
-		created_at: Time.now,
-		updated_at: Time.now,
+		created_at: Time.now.in_time_zone('Taipei'),
+		updated_at: Time.now.in_time_zone('Taipei'),
 		is_check: false,
 		)
 

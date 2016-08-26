@@ -56,8 +56,8 @@ class DetaillistController < ApplicationController
 		else
 			post_id = current_user.id
 			@detail = DataDetail.create(
-				created_at: Time.now,
-				updated_at: Time.now,
+				created_at: Time.now.in_time_zone('Taipei'),
+				updated_at: Time.now.in_time_zone('Taipei'),
 				backup_id: "",
 				count: 0,
 				like_list_id: "",
@@ -91,7 +91,7 @@ class DetaillistController < ApplicationController
 			@notifyList =  NotifyList.where(issue_id: @issue.id)
 			if !@notifyList.nil?
 				@notifyList.each do |item|
-					item.newest_detail = Time.now
+					item.newest_detail = Time.now.in_time_zone('Taipei')
 					item.save
 				end
 			end
@@ -218,7 +218,7 @@ class DetaillistController < ApplicationController
 		post_id = current_user.id
 		path = params[:path]
 		path = path.gsub('!','?').gsub('|','&')
-		@likelist = LikeList.create(created_at: Time.now,updated_at: Time.now)
+		@likelist = LikeList.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
 		@likelist.detail_id = @detail.id
 		@likelist.post_id = post_id
 		@detail.like_list_id = @detail.like_list_id.to_s + "," +@likelist.id.to_s
@@ -228,7 +228,7 @@ class DetaillistController < ApplicationController
 		if @notifyList.length > 0
 			#already notify
 		else
-			@notify = NotifyList.create(created_at: Time.now,updated_at: Time.now,newest_detail: Time.now,last_read: Time.now)
+			@notify = NotifyList.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'),newest_detail: Time.now.in_time_zone('Taipei'),last_read: Time.now.in_time_zone('Taipei'))
 			@notify.user_id = post_id
 			@notify.issue_id = @detail.issue_id
 			@notify.save
@@ -285,8 +285,8 @@ class DetaillistController < ApplicationController
 		post_id = current_user.id
 		content =   params[:content]
 		@comment = DataComment.create(
-			created_at: Time.now,
-			updated_at: Time.now,
+			created_at: Time.now.in_time_zone('Taipei'),
+			updated_at: Time.now.in_time_zone('Taipei'),
 			)
 		@comment.post_id = post_id
 		@comment.content = content

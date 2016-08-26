@@ -136,7 +136,7 @@ class IssuelistController < ApplicationController
 		if !current_user.nil?
 			@notifyList =  NotifyList.where(user_id: current_user.id , issue_id: @me.id)[0]
 			if !@notifyList.nil?
-				@notifyList.last_read = Time.now
+				@notifyList.last_read = Time.now.in_time_zone('Taipei')
 				@notifyList.save
 			end
 		end
@@ -162,7 +162,7 @@ class IssuelistController < ApplicationController
 		tag = params[:tag]
 		
 
-		@issue = DataIssue.create(created_at: Time.now,updated_at: Time.now)
+		@issue = DataIssue.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
 		@issue.title = title
 		@issue.post = post
 		if trunk_id.nil? || trunk_id.empty?
@@ -208,7 +208,7 @@ class IssuelistController < ApplicationController
 		if !(params[:tag].nil? || params[:tag].empty?)
 			@issue.tag = params[:tag]
 		end
-		@issue.updated_at = Time.now
+		@issue.updated_at = Time.now.in_time_zone('Taipei')
 		@issue.save
 		redirect_to issuelist_index_path(id: @issue.id)
 	end
