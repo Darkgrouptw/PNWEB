@@ -100,7 +100,8 @@ class DetaillistController < ApplicationController
 			@issue.save
 			#backup picture
 			#check if it is need or can be backup
-			if true
+			check = checkBackUP(@detail.link)
+			if !check.nil?
 				require "uri"
 				require "net/http"
 				require "open-uri"
@@ -146,9 +147,20 @@ class DetaillistController < ApplicationController
 						end
 					end
 				end
+			else
+				@detail.backup_id = check
 			end
 			redirect_to detaillist_index_path(id: @detail.id)
 		end
+	end
+
+	def checkBackUP(path)
+		result = nil
+		detail = DataDetail.where(link: path)[0]
+		if !detail.nil?
+			result = detail.backup_id
+		end
+		return result
 	end
 
 	def edit
