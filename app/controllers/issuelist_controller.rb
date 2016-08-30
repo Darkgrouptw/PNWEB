@@ -164,6 +164,8 @@ class IssuelistController < ApplicationController
 		
 		if !trunk_id.empty? 
 			father = DataIssue.where(title: trunk_id)[0]
+		else
+			father = -1
 		end
 		if father.nil?
 			flash[:alert] = "無此父議題" 
@@ -202,8 +204,11 @@ class IssuelistController < ApplicationController
 			redirect_to "/"
 		end
 		@issue = DataIssue.where(id: params[:id])[0]
-		if !params[:trunk_id].empty? 
-			father = DataIssue.where(title: params[:trunk_id])[0]
+		trunk_id = params[:trunk_id]
+		if !trunk_id.empty? 
+			father = DataIssue.where(title: trunk_id)[0]
+		else
+			father = -1
 		end
 		if father.nil?
 			flash[:alert] = "無此父議題" 
@@ -219,8 +224,10 @@ class IssuelistController < ApplicationController
 		if !(params[:post].nil? || params[:post].empty?)
 			@issue.post = params[:post]
 		end
-		if !(params[:trunk_id].nil? || params[:trunk_id].empty?)
-			@issue.trunk_id = params[:trunk_id]
+		if trunk_id.nil? || trunk_id.empty?
+			@issue.trunk_id = -1;
+		else
+			@issue.trunk_id = father.id
 		end
 		if !(params[:tag].nil? || params[:tag].empty?)
 			@issue.tag = params[:tag]
