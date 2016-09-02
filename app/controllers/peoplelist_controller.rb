@@ -30,7 +30,11 @@ class PeoplelistController < ApplicationController
 		name = params[:name]
 		pic_link = params[:pic_link]
 		description = params[:description]
-
+		if !DataPerson.where(name: name)[0].nil?
+			flash[:alert] = "此名人已存在"
+			redirect_to(:back)
+			return
+		end
 		@person = DataPerson.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
 		@person.name = name
 		@person.pic_link = pic_link

@@ -162,6 +162,12 @@ class IssuelistController < ApplicationController
 		trunk_id = params[:trunk_id]
 		tag = params[:tag]
 		
+		if !DataIssue.where(title: title)[0].nil?
+			flash[:alert] = "此議題已存在" 
+			redirect_to(:back) 
+			return
+		end
+
 		if !trunk_id.empty? 
 			father = DataIssue.where(title: trunk_id)[0]
 		else
@@ -172,6 +178,7 @@ class IssuelistController < ApplicationController
 			redirect_to(:back) 
 			return
 		end 
+
 		@issue = DataIssue.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
 		@issue.title = title
 		@issue.post = post
