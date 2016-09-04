@@ -44,13 +44,13 @@
 				<thead>
 					<tr align = "center" >
 						<td>議題</td>
-						<td><div>名嘴</div><div>（當時頭銜）</div></td>
-						<td>正反方</td>
-						<td>內容</td>
-						<td>是否為直接意見</td>
-						<td>讚</td>
-						<td><div>刊載媒體</div><div>報導時間</div></td>
-						<td>連結</td>
+						<td>正方或反方</td>
+						<td>意見</td>
+						<td><div>誰的意見</div><div>當時頭銜</div></td>
+						<td>屬於間接意見？</td>
+						<td><div>發言時間</div><div>刊載媒體</div></td>
+						<td><div>原文連結</div><div>原文截圖</div></td>
+						<td>人氣</td>
 						<td><div>上線時間</div><div>編者</div></td>
 					</tr>
 
@@ -68,9 +68,7 @@
 							<a href = <%= link %>>
 								<%= @issue.title %>
 							</a>
-
 						</td>
-						<td><div><% if person.nil? %>無名氏<% else %><% link = peoplelist_index_path(id: person.name) %><a href = <%= link %>> <%= person.name %> </a><% end %></div><div> ( <%= detail.title_at_that_time %> )</div></td>
 						<td>
 							<% if @me.is_support %>
 								正
@@ -78,10 +76,28 @@
 								反
 							<% end %>
 						</td>
-						<td><% if detail.is_direct %>直<% else %>間<% end %></td>
 						<td>
 							<% link = detaillist_index_path(id: detail.id) %>
 							<a href = <%= link %>><%= detail.content %></a>
+						</td>
+						<td><div><% if person.nil? %>無名氏<% else %><% link = peoplelist_index_path(id: person.name) %><a href = <%= link %>> <%= person.name %> </a><% end %></div><div><%= detail.title_at_that_time %></div></td>
+						<td><% if detail.is_direct %>直<% else %>間<% end %></td>
+						<td>
+							<div><%= @me.report_at %></div>
+							<div><%= @me.news_media %></div>
+						</td>
+						<td>
+							<div><% link = detail.link %><a href = <%= "//" + link %> target="_blank">連結</a></div>
+							<div>
+								<% link = "pageBackUp/"+detail.backup_id.to_s+".png" %>
+								<% if File.exist?(Rails.root + "public/" + link) %>
+									<a href = <%= "/"+link %> target="_blank">
+										原文截圖
+									</a>
+								<% else %>
+									<br>圖片尚未備份
+								<% end %>
+							</div>
 						</td>
 						<td>
 							<%= @likeList.length %>
@@ -103,23 +119,6 @@
 								NOT Login
 							<% end %>
 						</td>
-						<td>
-							<div><%= @me.news_media %></div>
-							<div><%= @me.report_at %></div>
-						</td>
-						<td>
-								<div><% link = detail.link %><a href = <%= "//" + link %> target="_blank">連結</a></div>
-								<div>
-									<% link = "pageBackUp/"+detail.backup_id.to_s+".png" %>
-									<% if File.exist?(Rails.root + "public/" + link) %>
-										<a href = <%= "/"+link %> target="_blank">
-											原文截圖
-										</a>
-									<% else %>
-										<br>圖片尚未備份
-									<% end %>
-								</div>
-							</td>
 						<td>
 							<div><%= @me.created_at %></div>
 							<div>
