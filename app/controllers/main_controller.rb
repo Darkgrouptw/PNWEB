@@ -13,7 +13,7 @@ class MainController < ApplicationController
 		@persons=DataPerson.where(id: person)
 	end
 
-	 # 
+    # 
     # 開一個 EmailThread 來執行定時寄信的功能 (設定時間為禮拜六 凌晨4點)
     #
     def open_thread
@@ -45,6 +45,15 @@ class MainController < ApplicationController
             redirect_to "/", :notice => "已經開啟過囉 ！！"
         end
     end
+    
+    
+    
+    #
+    # 編輯樹
+    #
+    def editing
+    end
+    
 
 	def notify
 		@notifyList = NotifyList.all

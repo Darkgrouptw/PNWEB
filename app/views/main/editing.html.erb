@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PNWEB</title>
+        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+        <%= csrf_meta_tags %>
+
+        <!-- For moblie --> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <script src="/js/EditingTree.js"></script>
+        <link rel="stylesheet" type="text/css" href="/css/navbar.css">
+        <link rel="stylesheet" type="text/css" href="/css/EditingTree.css">
+    </head>
+    <body>
+        <div class="MenuBox">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            </svg>
+        </div>
+        <div class="AddItemDiv">
+            <input type="text" name="IssueName">
+            <span id="addNode" class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        </div>
+    </body>
+</html>

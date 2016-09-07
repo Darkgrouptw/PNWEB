@@ -61,9 +61,8 @@ Rails.application.routes.draw do
 	post    "Reportlist/accept" =>  "reportlist#accept",        :as =>  "reportlist_accept"
 	get     "Reportlist/:id"    =>  "reportlist#index",         :as =>  "reportlist_index"
 
-    
+    # 給編輯數使用
     get     "EditingTree"       =>  "main#editing"
-    
 
 	# notify
 	post 	"Notify"            =>	"main#notify",	    :as =>	"notify"
