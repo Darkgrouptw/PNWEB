@@ -65,9 +65,17 @@ class MainController < ApplicationController
     
     def treejson
         #
-        #   AAA
-        #   / \
-        # BBB CCC
+        #     AAA
+        #    / | \
+        # BBB CCC DDD
+        # 限制：不能有兩顆以上的 Tree
+        @jsonFile = "{'item': {
+            'id': 0, 'name': 'AAA', 'parent': [
+                {'id': 1, 'name': 'BBB'},
+                {'id': 2, 'name': 'CCC'},
+                {'id': 3, 'name': 'DDD'}
+            ]}
+            }"
     end
 
 	def notify

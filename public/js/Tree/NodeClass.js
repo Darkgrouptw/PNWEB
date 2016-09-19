@@ -5,7 +5,7 @@ function Node(name)
     this.name = name;
 };
 
-Node.prototype.printInfo()
+Node.prototype.printInfo = function()
 {
     console.log(this.id + " " + this.name);  
 };
