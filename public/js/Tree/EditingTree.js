@@ -25,9 +25,9 @@ $(function(){
     });
     
     // 取消右鍵選單
-    $(".MenuBox").on("contextmenu", function(){
-        return false;
-    });
+    //$(".MenuBox").on("contextmenu", function(){
+    //    return false;
+    //});
 });
 
 /*

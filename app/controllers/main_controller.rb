@@ -51,9 +51,24 @@ class MainController < ApplicationController
     #
     # 編輯樹
     #
-    def editing
+    def treeindex
+        #
+        #   AAA
+        #   / \
+        # BBB CCC
+        
+        #@treeData = [Tree.new("AAA")]
     end
     
+    def treecanvas
+    end
+    
+    def treejson
+        #
+        #   AAA
+        #   / \
+        # BBB CCC
+    end
 
 	def notify
 		@notifyList = NotifyList.all
@@ -122,6 +137,7 @@ class MainController < ApplicationController
 		puts @content
 	end
 
+    
 	private
     #寄信
     def send_notify_email(email,title,content)
@@ -141,3 +157,48 @@ class MainController < ApplicationController
         end
     end
 end
+
+#
+# 自定義一個 Tree 的 Data Structure
+#
+class Tree
+    def initialize(title)
+        @root = Node.new(title)
+        @parent = Array.new()
+    end
+    
+    def SetParent(name)
+    end
+    
+    def GetParent()
+        return @parent
+    end
+    
+    def GetRoot()
+        return @root
+    end
+    
+    #def searchNodeName(name)
+    #end
+    
+    def AddChildFromName(forName, childName)
+    end
+end
+#
+#
+#
+class Node
+    def initialize(name)
+        @name = name
+        @childlist = Array.new(0)
+    end
+    
+    def name()
+        return @name
+    end
+    
+    def AddChild(name)
+        @childlist.push(Node.new(@name))
+    end
+end
+    

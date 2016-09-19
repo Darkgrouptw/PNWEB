@@ -1,0 +1,42 @@
+<% def travel_tree(items) %>
+    <% # 先拿出所有的 Parent %>
+    <% tempGroup = items.GetParent() %>
+    <% if tempGroup.count == 0 %>
+        <circle cx="0" cy="0" r="100" stroke="black" stroke-width="2" fill="red">
+            <%= tempGroup.GetRoot().name() %>
+        </circle>
+    <% else %>
+        <g style="transform: translate(1055px, 507px);">
+            <% items.GetParent().each do |item|  %>
+                <% travel_tree(item) %>
+            <% end %>
+        </g>
+    <% end %>
+<% end %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PNWEB</title>
+        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+        <%= csrf_meta_tags %>
+
+        <!-- For moblie --> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+        <link rel="stylesheet" type="text/css" href="/css/Tree/index.css">
+    </head>
+    <body>
+        <div class="TopCanvas">
+            <input type="text" name="IssueName">
+            <a id="addNode">search</a>
+        </div>
+        
+        <div class="LeftCanvas">
+            這裡要放所有的樹
+        </div>
+        
+        <iframe class="RightCanvas" src="/TreeCanvas"></iframe>
+    </body>
+</html>
