@@ -33,7 +33,7 @@ $(function(){
 /*
 因為 SVG 並非 html(namespace不同)，所以無法直接 append 上去，只能用這個方法貼上去
 */
-function makeSVG(tag, attrs, text) 
+function makeSVG(tag, attrs, text, nowLevel, Degree) 
 {
     var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
@@ -45,7 +45,10 @@ function makeSVG(tag, attrs, text)
         el.setAttribute(k, attrs[k]);
     $(g).attr("id", "Node" + $NodeNumber++);
     
-    //$(g).attr("style", "transform: translate(" + $(document).width() / 2 + "px, " + $(document).height() / 2 + "px);");
+    if(nowLevel >= 7)
+        $(g).attr("style", "transform: translate(" + radius * Math.cos(Degree / 180 * Math.PI) + "px, " + radius * Math.sin(Degree  / 180 * Math.PI) + "px);");
+    else if(nowLevel != 1)
+        $(g).attr("style", "transform: translate(" + radius * Math.cos(Degree / 180 * Math.PI) + "px, " + radius * Math.sin(Degree  / 180 * Math.PI) + "px) scale(0.8);");
     
     $lastPosition.push([$(document).width() / 2, $(document).height() / 2]);
     $offset.push([0, 0]);
