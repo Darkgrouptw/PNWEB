@@ -16,8 +16,15 @@ function TreeManager(JsonData)
 {
     // 0 => 最深有幾個
     // 1 => 最寬有幾個
-    var TreeInfo = {1, 1};
-    TraceTree(JsonData.item, TreeInfo, 1);
+    var TreeInfo = [1, 1];
+    
+    // g 是最上層的，再往下一層要繞一個圓
+    var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    $(g).attr("id", "TopLevel");
+    $(g).attr("style", "transform: translate(" + $(document).width() / 2 + "px, " + $(document).height() / 2 + "px);");
+    g.appendChild(TraceTree(JsonData.item, TreeInfo, 1));
+    $(".MenuBox svg").prepend(g);
+    
     console.log("TreeInfo " + TreeInfo[0] + " " + TreeInfo[1]);
 };
 
@@ -32,13 +39,14 @@ function TraceTree(JsonNode, TreeInfo, nowLevel)
     
     
     console.log(JsonNode.id + " " + JsonNode.name);
-    $(".MenuBox svg").prepend(makeSVG("circle", {cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: 'red'}, JsonNode.name));
+    var gTemp = makeSVG("circle", {cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: 'red'}, JsonNode.name);
     
     // 去 Trace 他的小孩
     if(typeof JsonNode.parent != "undefined")
     {
-        if(JsonNode.parent)
+        //if(JsonNode.parent)
         for(var i = 0; i < JsonNode.parent.length; i++)
-            TraceTree(JsonNode.parent[i], TreeInfo, nowLevel + 1);
+            gTemp.appendChild(TraceTree(JsonNode.parent[i], TreeInfo, nowLevel + 1));
     }
+    return gTemp;
 };

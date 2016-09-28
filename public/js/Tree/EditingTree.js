@@ -8,21 +8,21 @@ $(function(){
     $lastPosition = [];
     $offset = [];
     
-    $("#addNode").click(function(){
-        $(".MenuBox svg").prepend(makeSVG("circle", {cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: 'red'}, $(".AddItemDiv input").prop("value")));
-    });
+    //$("#addNode").click(function(){
+    //    $(".MenuBox svg").prepend(makeSVG("circle", {cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: 'red'}, $(".AddItemDiv input").prop("value")));
+    //});
     
     
     // 滑鼠按下去的時候，假設有點到東西，就可以對整個做移動的功能
-    $(".MenuBox svg").mousemove(function(event){
-        if($clickIndex != -1)
-            NodeMove(event);
+    //$(".MenuBox svg").mousemove(function(event){
+    //    if($clickIndex != -1)
+    //        NodeMove(event);
             //console.log($clickIndex); 
-    });
+    //});
     // 滑鼠放掉的時候，要把 clickIndex 還原成 -1
-    $(".MenuBox svg").mouseup(function(){
-        $clickIndex = -1;
-    });
+    //$(".MenuBox svg").mouseup(function(){
+    //    $clickIndex = -1;
+    //});
     
     // 取消右鍵選單
     //$(".MenuBox").on("contextmenu", function(){
@@ -44,7 +44,8 @@ function makeSVG(tag, attrs, text)
     for (var k in attrs)
         el.setAttribute(k, attrs[k]);
     $(g).attr("id", "Node" + $NodeNumber++);
-    $(g).attr("style", "transform: translate(" + $(document).width() / 2 + "px, " + $(document).height() / 2 + "px);");
+    
+    //$(g).attr("style", "transform: translate(" + $(document).width() / 2 + "px, " + $(document).height() / 2 + "px);");
     
     $lastPosition.push([$(document).width() / 2, $(document).height() / 2]);
     $offset.push([0, 0]);
