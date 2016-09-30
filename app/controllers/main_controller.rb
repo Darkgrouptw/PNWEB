@@ -70,8 +70,8 @@ class MainController < ApplicationController
         # BBB CCC DDD
         # 限制：不能有兩顆以上的 Tree
         @jsonFile = "{'item': {
-            'id': 0, 'name': 'AAA', 'parent': [
-                {'id': 1, 'name': 'BBB', 'parent': [
+            'id': 0, 'name': 'AAA', 'color': '#DB7093', 'parent': [
+                {'id': 1, 'name': 'BBB', 'color': '#4169E1', 'parent': [
                     {'id': 4, 'name': 'EEE'},
                     {'id': 5, 'name': 'EEE'},
                     {'id': 6, 'name': 'EEE'},

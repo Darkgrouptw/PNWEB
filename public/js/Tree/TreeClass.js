@@ -1,5 +1,5 @@
 var NodeTree;
-var radius = 200;        // 每一個之間，差 radius 的距離
+var radius = 150;        // 每一個之間，差 radius 的距離
 $(function(){
     // 先拿 Json 檔，把所有的東西抓下來$.ajax({
     $.get( "/TreeJson", function(data) 
@@ -35,21 +35,21 @@ function TreeManager(JsonData)
 // degree   幾度的
 function TraceTree(JsonNode, nowLevel, MinDegree, MaxDegree)
 {   
-    // 判斷樹的 level
-    //if(nowLevel > TreeInfo[1])
-    //    TreeInfo = nowLevel;
+    // 如果顏色是空的，就塞一個顏色給他
+    if(typeof JsonNode.color == "undefined")
+        JsonNode.color = "#6495ED";
     
-    console.log(JsonNode.id + " " + JsonNode.name);
-    var gTemp = makeSVG("circle", {cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: 'red'}, JsonNode.name, nowLevel, (MaxDegree - MinDegree) / 2 + MinDegree);
+    // 創建一個 svg 的 block
+    var gTemp = makeSVG("circle", {cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: JsonNode.color}, JsonNode.name, nowLevel, (MaxDegree - MinDegree) / 2 + MinDegree);
     
     // 去 Trace 他的小孩
     if(typeof JsonNode.parent != "undefined")
     {
-        //if(JsonNode.parent)
-        // 算出每一個間隔幾度
         var EachDegree = (MaxDegree - MinDegree) / JsonNode.parent.length;
+        
+        // 為了要讓畫出來的舜去逝顛倒的，所以使用 insertBefore，插在前面
         for(var i = 0; i < JsonNode.parent.length; i++)
-            gTemp.appendChild(TraceTree(JsonNode.parent[i], nowLevel + 1, MinDegree + i * EachDegree, MinDegree + (i + 1) * EachDegree));
+            gTemp.insertBefore(TraceTree(JsonNode.parent[i], nowLevel + 1, MinDegree + i * EachDegree, MinDegree + (i + 1) * EachDegree), gTemp.firstChild);
     }
     return gTemp;
 };
