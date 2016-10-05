@@ -1,10 +1,91 @@
 <link rel="stylesheet" type="text/css" href="/css/table.css">
+
+<!-- code donw here -->
+<% def CreateNearHotIssueContent(maxContentNumber) %>
+	<tr><td><%= maxContentNumber + 1%></td></tr>
+<% end %>
+<% def CreateHotIssueTreeContent(maxContentNumber) %>
+	<tr><td><%= maxContentNumber + 1%></td></tr>
+<% end %>
+<% def CreateHotPeopleContent(maxContentNumber) %>
+	<tr><td><%= maxContentNumber + 1%></td></tr>
+<% end %>
+<% def CreateMostInfluencePeopleContent(maxContentNumber) %>
+	<tr><td><%= maxContentNumber + 1%></td></tr>
+<% end %>
+<% def CreateMostInfluenceMediaContent(maxContentNumber) %>
+	<tr><td><%= maxContentNumber + 1%></td></tr>
+<% end %>
+<% def CreateMostBalenceMediaContent(maxContentNumber) %>
+	<tr><td><%= maxContentNumber + 1%></td></tr>
+<% end %>
+<% def CreateNearHotIssueTable() %>
+	<table class="table table-bordered">
+		<thead>
+			<tr><td>近期熱門議題</td></tr>
+		</thead>
+		<tbody>
+			<% CreateNearHotIssueContent(1) %>
+		</tbody>
+	</table>
+<% end %>
+<% def CreateHotIssueTreeTable() %>
+	<table class="table table-bordered">
+		<thead>
+			<tr><td>近期熱門議題樹</td></tr>
+		</thead>
+		<tbody>
+			<% CreateHotIssueTreeContent(2) %>
+		</tbody>
+	</table>
+<% end %>
+<% def CreateHotPeopleTable() %>
+	<table class="table table-bordered">
+		<thead>
+			<tr><td> 近期熱門名人</td></tr>
+		</thead>
+		<tbody>
+			<% CreateHotPeopleContent(3) %>
+		</tbody>
+	</table>
+<% end %>
+<% def CreateMostInfluencePeopleTable() %>
+	<table class="table table-bordered">
+		<thead>
+			<tr><td>最有影響力的名人</td></tr>	
+		</thead>
+		<tbody>
+			<% CreateMostInfluencePeopleContent(4) %>
+		</tbody>
+	</table>
+<% end %>
+<% def CreateMostInfluenceMediaTable() %>
+	<table class="table table-bordered">
+		<thead>
+			<tr><td>媒體影響力排名</td></tr>	
+		</thead>
+		<tbody>
+			<% CreateMostInfluenceMediaContent(5) %>
+		</tbody>
+	</table>
+<% end %>
+<% def CreateMostBalenceMediaTable() %>
+	<table class="table table-bordered">
+		<thead>
+			<tr><td>媒體平衡報導得分排名</td></tr>	
+		</thead>
+		<tbody>
+			<% CreateMostBalenceMediaContent(6) %>
+		</tbody>
+	</table>
+<% end %>
+
 <div class="BigTitle">
     <h2>正反網頁</h2>
     <hr>
 </div>
 <!-- 所有 issue person 連結 -->
-<div align = "center">
+<div align = "center" style="float:none;">
 	<% link=issuelist_all_path %>
 	<a href = <%= link %> class="whiteText">
 		所有根議題
@@ -23,87 +104,18 @@
 	<a href = <%= link %> class="whiteText">
 			所有使用者
 	</a>
-	
 </div>
-<!-- 左邊最新issue 右邊熱門detail -->
-<div >
-	<!-- newest issue -->
-	<div class = "col-md-4 whiteText">
-		<table class="table table-bordered">
-			<thead>
-				<tr align = "center">
-					<td>最新議題</td>
-				</tr>
-			</thead>
-			<tbody>
-				<% time = 0 %>
-				<% @issues.each do |issue| %>
-					<% if time >= 10 %>
-						<% break %>
-					<% end %>
-					<tr>
-						<td>
-							<% link="/Issuelist/"+issue.id.to_s%>
-							<a href = <%= link %> >
-							<%= issue.title %>
-						</td>
-					</tr>
-					<% time = time + 1 %>
-				<% end %>
-				<% if time == 0 %>
-					<tr><td>there is no issue</td></tr>
-				<% end %>
-
-			</tbody>
-		</table>
-	</div>
-	<!-- hotest detail -->
-	<div class = "col-md-offset-1 col-md-7 whiteText">
-		<table class="table table-bordered">
-			<thead>
-				<tr align = "center">
-					<td colspan = "2">熱門論述</td>
-				</tr>
-				<tr align = "center">
-					<td>名嘴</td>
-					<td>論述</td>
-				</tr>
-			</thead>
-			<tbody>
-				<% time = 0 %>
-				<% @details.each do |detail| %>
-					<% if time >= 10 %>
-						<% break %>
-					<% end %>
-					<tr>
-						<td>
-							<% person =  @persons.where(id: detail.people_id)[0] %>
-							<% if person.nil? %>
-								無名氏
-							<% else %>
-								<% link=peoplelist_index_path(id: person.name ) %>
-								<a href = <%= link %> >
-									<%= person.name %>
-								</a>
-							<% end %>
-						</td>
-						<td>
-							<% link="/Detaillist/"+detail.id.to_s%>
-							<a href = <%= link %> >
-								<% if detail.content.length > 30 %>
-									<%= 'click for more' %>
-								<% else %>
-									<%= detail.content %>
-								<% end %>
-							</a>
-						</td>
-					</tr>
-					<% time = time + 1 %>
-				<% end %>
-				<% if time == 0 %>
-					<tr><td>there is no person</td><td>there is no detail</td></tr>
-				<% end %>
-			</tbody>
-		</table>
-	</div>
+<div class = "col-md-offset-1 col-md-10" align = "center">
+	<table class="table">
+		<tr>
+			<td><div><% CreateNearHotIssueTable() %></div></td>
+			<td><div ><% CreateHotIssueTreeTable() %></div></td>
+			<td><div ><% CreateHotPeopleTable() %></div></td>
+		</tr>
+		<tr>
+			<td><div><% CreateMostInfluencePeopleTable() %></div></td>
+			<td><div><% CreateMostInfluenceMediaTable() %></div></td>
+			<td><div><% CreateMostBalenceMediaTable() %></div></td>
+		</tr>
+	</table>
 </div>
