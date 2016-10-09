@@ -51,5 +51,15 @@ function TraceTree(JsonNode, nowLevel, MinDegree, MaxDegree)
         for(var i = 0; i < JsonNode.parent.length; i++)
             gTemp.insertBefore(TraceTree(JsonNode.parent[i], nowLevel + 1, MinDegree + i * EachDegree, MinDegree + (i + 1) * EachDegree), gTemp.firstChild);
     }
+    // 加上滑鼠移過去的事件
+    $(gTemp).on("mouseenter", function(event){NodeMouse($(event.target));});
     return gTemp;
 };
+
+// 黨滑鼠移過去之後，全部的 Node 要散開
+function NodeMouse(target)
+{
+    var target = target.parent();
+    //printInfo
+    console.log(target.attr("id"));
+}

@@ -16,7 +16,7 @@ $(function(){
     //$(".MenuBox svg").mousemove(function(event){
     //    if($clickIndex != -1)
     //        NodeMove(event);
-            //console.log($clickIndex); 
+    //    console.log($clickIndex & $NowFocus); 
     //});
     // 滑鼠放掉的時候，要把 clickIndex 還原成 -1
     //$(".MenuBox svg").mouseup(function(){
