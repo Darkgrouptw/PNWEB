@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20160721082859) do
   create_table "data_comments", force: :cascade do |t|
     t.text     "content"
     t.integer  "post_id"
+    t.integer  "detail_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -32,6 +33,7 @@ ActiveRecord::Schema.define(version: 20160721082859) do
     t.text     "like_list_id"
     t.integer  "post_id"
     t.integer  "people_id"
+    t.string   "people_name"
     t.integer  "issue_id"
     t.string   "comment_id"
     t.string   "news_media"
@@ -58,8 +60,10 @@ ActiveRecord::Schema.define(version: 20160721082859) do
 
   create_table "data_people", force: :cascade do |t|
     t.string   "name"
+    t.text     "valid_name"
     t.string   "pic_link"
     t.string   "description"
+    t.text     "datadetail_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
@@ -101,6 +105,7 @@ ActiveRecord::Schema.define(version: 20160721082859) do
     t.string   "liveplace"
     t.datetime "last_login_in"
     t.string   "own"
+    t.text     "datadetail_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end

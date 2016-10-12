@@ -9,6 +9,7 @@ class CreateDataDetails < ActiveRecord::Migration
       t.text :like_list_id
       t.integer :post_id
       t.integer :people_id
+      t.string :people_name
       t.integer :issue_id
       t.string :comment_id
       t.string :news_media
