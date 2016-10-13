@@ -44,10 +44,19 @@ function makeSVG(tag, attrs, text, nowLevel, Degree)
         el.setAttribute(k, attrs[k]);
     $(g).attr("id", "Node" + $NodeNumber++);
     
+    // 超過一定範圍，就不縮小了
+    var posX = radius * Math.cos(Degree / 180 * Math.PI);
+    var posY = radius * Math.sin(Degree  / 180 * Math.PI);
     if(nowLevel >= 7)
-        $(g).attr("style", "transform: translate(" + radius * Math.cos(Degree / 180 * Math.PI) + "px, " + radius * Math.sin(Degree  / 180 * Math.PI) + "px);");
+        $(g).attr("style", "transform: translate(" + posX + "px, " + posY + "px);");
     else if(nowLevel != 1)
-        $(g).attr("style", "transform: translate(" + radius * Math.cos(Degree / 180 * Math.PI) + "px, " + radius * Math.sin(Degree  / 180 * Math.PI) + "px) scale(0.8);");
+    {
+        $(g).attr("style", "transform: translate(" + posX + "px, " + posY + "px) scale(0.8);");
+        $(g).attr("OrgScale", "0.8");
+    }
+    
+    $(g).attr("org_pos_X", posX);
+    $(g).attr("org_pos_y", posX);
     
     $lastPosition.push([$(document).width() / 2, $(document).height() / 2]);
     $offset.push([0, 0]);

@@ -1,5 +1,5 @@
-var NodeTree;
 var radius = 150;        // 每一個之間，差 radius 的距離
+var NodeNumber = -1;
 $(function(){
     // 先拿 Json 檔，把所有的東西抓下來$.ajax({
     $.get( "/TreeJson", function(data) 
@@ -25,8 +25,6 @@ function TreeManager(JsonData)
     $(g).attr("style", "transform: translate(" + $(document).width() / 2 + "px, " + $(document).height() / 2 + "px);");
     g.appendChild(TraceTree(JsonData.item, 1, 0, 360));
     $(".MenuBox svg").prepend(g);
-    
-    //console.log("TreeInfo " + TreeInfo[0] + " " + TreeInfo[1]);
 };
 
 // JsonNode 是資料
@@ -53,6 +51,8 @@ function TraceTree(JsonNode, nowLevel, MinDegree, MaxDegree)
     }
     // 加上滑鼠移過去的事件
     $(gTemp).on("mouseenter", function(event){NodeMouse($(event.target));});
+
+    NodeNumber++;
     return gTemp;
 };
 
@@ -60,6 +60,22 @@ function TraceTree(JsonNode, nowLevel, MinDegree, MaxDegree)
 function NodeMouse(target)
 {
     var target = target.parent();
-    //printInfo
-    console.log(target.attr("id"));
+    /*for(var i = 1; i < NodeNumber; i++)
+        if(i != targetID)
+        {
+            $("#Node" + i).animate({
+                "min-height": -150
+            },
+            {
+                duration: 2000,
+                step: function(node){
+                   $(this).attr("style", "transfrom: translate(0px, 10px, 0px)");
+                }
+            });
+            //$("#Node" + i).animate({
+            //    "left": "-50px"
+            //}, 1500);
+        }*/
+    console.log(target.attr("style"));
+    //console.log(NodeNumber);
 }
