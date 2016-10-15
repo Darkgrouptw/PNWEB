@@ -1,9 +1,34 @@
 class MainController < ApplicationController
 	
+    def findNearHotIssue(issue_list)
+    end
+
+    def findNearHotIssueTree(issueTree_list)
+    end
+
+    def findNearHotPeople(people_list)
+    end
+
+    def findInfluencePeople(people_list)
+    end
+
+    def findInfluenceMedia()
+    end
+
+    def findBalanceMedia()
+    end
+
+    def writeDataFromFile
+        #   從檔案讀資料進來
+        require 'json'
+        path = ""
+        file = File.read(path)
+        data_hash = JSON.parse(file)
+    end
+
 	def index
 		# 刪除 email 得 Session
 		clearEmailSession
-
 		@issues=DataIssue.where(trunk_id: -1,is_candidate: false).order(:created_at).reverse.first(10)
 		@details=DataDetail.where(is_report: false).order(:count).reverse.first(10)
 		person = []

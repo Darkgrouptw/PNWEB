@@ -152,86 +152,28 @@
     <h2>議題頁面</h2>
     <hr>
 </div>
-<% if @me == nil %>
+<% if @me.nil? %>
 	<div class = "whiteText">
 		錯誤的連結位置
 	</div>
 <% else %>
 	<div class = "whiteText">
-		<!-- find the root issue-->
-		<% temp_issue = @me %>
-		<% while temp_issue.trunk_id != -1 %>
-			<!-- 所有根議題的點閱率都加一 -->
-			<% temp_issue.popularity = temp_issue.popularity + 1 %>
-			<% temp_issue.update(popularity: temp_issue.popularity) %>
-			<% temp_issue =@issues.where(id: temp_issue.trunk_id)[0] %>
-		<% end %>
-		<% temp_issue.popularity = temp_issue.popularity + 1 %>
-		<% temp_issue.update(popularity: temp_issue.popularity) %>
-		<div class = "col-md-2 row border-back">
-			<!-- Tree iterative-->
-			<%	def runTree(issue) %>
-				<div> 
-					<%	@issues.where(trunk_id: issue.id).each do |sub_issue| %> 
-						<blockquote>
-							<% if sub_issue.id.to_s == @tags %>
-				                <span class="glyphicon glyphicon-collapse-down"></span>	
-								<%= sub_issue.title %>
-                                <a href="<%= issuelist_edit_path(id: sub_issue.id) %>">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-							<% else %>
-				                <span class="glyphicon glyphicon-collapse-down"></span>	
-								<% link = "/Issuelist/" + sub_issue.id.to_s %>
-								<a href = <%= link %> >
-									<%= sub_issue.title %>
-								</a>
-                                <a href="<%= issuelist_edit_path(id: sub_issue.id) %>">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-							<% end %>
-							<% runTree(sub_issue) %>
-						</blockquote>
-					<% end %>
-				</div>
-			<% end %>
-			<!-- 產生Tree -->
-			<div>
-				<% if temp_issue.id.to_s == @tags %>
-                    <span class="glyphicon glyphicon-collapse-down"></span>	
-					<%= temp_issue.title %>
-                    <a href="<%= issuelist_edit_path(id: temp_issue.id) %>">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </a>
-				<% else %>
-				    <span class="glyphicon glyphicon-collapse-down"></span>	
-					<% link = "/Issuelist/" + temp_issue.id.to_s %>
-                    <a href = <%= link %> >
-						<%= temp_issue.title %>
-					</a>
-                    <a href="<%= issuelist_edit_path(id: temp_issue.id) %>">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </a>
-				<% end %>
-					<% runTree(temp_issue) %>
-			</div>
-		</div>
 
-		<div class = "col-md-10 border-right">
+		<div class = "col-md-offset-1 col-md-10">
 			<!-- title -->
-			<div>
-				<% if can_editor_issue(1,@me.id) %>
-					<%= link_to "編輯", issuelist_edit_path(id: @me.id) %>
-				<% end %>
-				<% if can_view(0)%>
-					<%= link_to "我要新增意見", detaillist_add_path %>
-					<button type="button" class="btn btn-link ReportModal_Voted" data-toggle="modal" data-target="#ReportModal" issue_name="<%= @me.title %>">按讚過的議題</button>
-				<% end %>
-			</div>
-			<table class = "table col-md-8" >
+			<div align = "center"><h3><%= @me.title %></h3></div>
+			<table class = "table col-md-10" >
 				<thead>
 					<tr>
-						<td align = "left"><%= @me.title %></td>
+						<td align="left">
+							<% if can_editor_issue(1,@me.id) %>
+								<%= link_to "編輯", issuelist_edit_path(id: @me.id) %>
+							<% end %>
+							<% if can_view(0)%>
+								<%= link_to "我要新增意見", detaillist_add_path %>
+								<button type="button" class="btn btn-link ReportModal_Voted" data-toggle="modal" data-target="#ReportModal" issue_name="<%= @me.title %>">按讚過的意見</button>
+							<% end %>
+						</td>
 						<td style="padding-right: 0px;padding-bottom: 0px;padding-left: 0px;padding-top: 0px;background-color:white;"></td>
 						<td align = "right">
 							上線時間：<%= @me.created_at %> 
@@ -251,20 +193,34 @@
 			<% for i in 0..1 %>
 				<% if i == 0 %>
 					<% temp = "table" %>
-					<% if @pos_show == "table" %><% temp = "content" %><% else %><% temp = "table" %><% end %>
-					<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,temp,@neg_show)%><a href = <%= link %> class = "btn">切換顯示內容</a>
+					<% str_show = "只顯示直接意見" %>
+					<% if @pos_show == "table" %>
+						<% temp = "content" %>
+						<% str_show = "只顯示直接意見" %>
+					<% else %>
+						<% temp = "table" %>
+						<% str_show = "顯示全部意見" %>
+					<% end %>
+					<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,temp,@neg_show)%><a href = <%= link %> class = "btn"><%= str_show %></a>
 					<a href = <%= getSelfLink(@positive_page.to_s,@negative_page.to_s,"thumb",@neg_order,@pos_show,@neg_show) %> class = "btn">依投票排序</a>
 					<a href = <%= getSelfLink(@positive_page.to_s,@negative_page.to_s,"time",@neg_order,@pos_show,@neg_show) %> class = "btn">依時間排序</a>
 				<% else %>
 					<% temp = "table" %>
-					<% if @neg_show == "table" %><% temp = "content"%><% else %><% temp = "table" %><% end %>
-					<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,@pos_show,temp)%><a href = <%= link %> class = "btn">切換顯示內容</a>
+					<% str_show = "只顯示直接意見" %>
+					<% if @neg_show == "table" %>
+						<% temp = "content" %>
+						<% str_show = "只顯示直接意見" %>
+					<% else %>
+						<% temp = "table" %>
+						<% str_show = "顯示全部意見" %>
+					<% end %>
+					<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,@pos_show,temp)%><a href = <%= link %> class = "btn"><%= str_show%></a>
 					<a href = <%= getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,"thumb",@pos_show,@neg_show) %> class = "btn">依投票排序</a>
 					<a href = <%= getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,"time",@pos_show,@neg_show) %> class = "btn">依時間排序</a>
 				<% end %>
 				
-				<div <% if i == 0 %> id = "posTable" <% if @pos_show == "content" %>style="display:none;" <% end %> <% else %> id = "negTable" <% if @neg_show == "content" %>style="display:none;" <% end %><% end %>>
-					<table class = "table table-bordered">
+				<div <% if i == 0 %> id = "posTable" <% else %> id = "negTable" <% end %>>
+					<table class = "table table-bordered table-blue">
 						<thead>
 							<% if i == 0 %>
 								<tr align = "center"><td class = "col-md-8" colspan = "9">贊成論述</td></tr>
@@ -279,6 +235,7 @@
 								<td><div>原文連結</div><div>原文截圖</div></td>
 								<td>人氣</td>
 								<td><div>上線時間</div><div>編者</div></td>
+								<td>檢舉</td>
 							</tr>
 							<% details = nil %>
 							<% pageNumber = 0 %>
@@ -354,52 +311,7 @@
 												</a>
 											</div>
 										</td>
-									</tr>
-								<% else %>
-								<% end %>
-							<% end %>
-							<!-- 換頁 -->
-							<% Page_produce(i) %>
-						</tbody>
-					</table>
-				</div>
-				<div <% if i == 0 %> id = "posContent" <% if @pos_show == "table" %>style="display:none;" <% end %> <% else %> id = "negContent" <% if @neg_show == "table" %>style="display:none;" <% end %><% end %> >
-					<table class = "table table-bordered">
-						<thead>
-							<% if i == 0 %>
-								<tr align = "center"><td class = "col-md-8" colspan = "2">贊成論述</td></tr>
-							<% else %>
-								<tr align = "center"><td class = "col-md-8" colspan = "2">反對論述 </td></tr>
-							<% end %>
-							<tr>
-								<td><div>名嘴</div><div>（當時頭銜）</div></td>
-								<td>內容</td>
-							</tr>
-							<% details = nil %>
-							<% pageNumber = 0 %>
-							<% if i == 0 %>
-								<% details = @support %>
-								<% pageNumber = @positive_page %>
-							<% else %>
-								<% details = @disSupport %>
-								<% pageNumber = @negative_page %>
-							<% end %>
-							
-						</thead>
-						<tbody>
-							<% for j in 0..@numberPerPage - 1 %>
-								<% index = @numberPerPage * pageNumber.to_i + j %>
-								<% if details.length > index %>
-									<% detail = details[index] %> 
-									<% person = @persons.where(id: detail.people_id)[0] %>
-									<% user = @users.where(id: detail.post_id)[0] %>
-									<!-- content -->
-									<tr>
-										<td><div><% if person.nil? %>無名氏<% else %><% link = peoplelist_index_path(id: person.name) %><a href = <%= link %>> <%= person.name %> </a><% end %></div><div> ( <%= detail.	title_at_that_time %> )</div></td>
-										<td>
-											<% link = detaillist_index_path(id: detail.id) %>
-											<a href = <%= link %>><%= detail.content %></a>
-										</td>
+										<td> 檢舉 </td>
 									</tr>
 								<% else %>
 								<% end %>

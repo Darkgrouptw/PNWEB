@@ -1,11 +1,11 @@
 
 
-.table-blue tr td:nth-child(even)
+.table-blue tr:nth-child(even)
 {
     background-color: rgb(14 , 97, 174);
     color: white;
 }
-.table-blue tr td a
+.table-blue tr a
 {
 	color: rgb(20, 20, 20);
 }

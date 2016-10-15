@@ -38,4 +38,47 @@ $(function(){
     $(".previewDiv div span").click(function(){
         $(".previewDiv").css("display", "none");
     })
+
+    $( "#upload_type" ).change(function() {
+        var str = "";
+        $( "select option:selected" ).each(function() {
+            str += $( this ).text();
+         });
+        changeLoad(str);
+    });
+
+    function changeLoad(str){
+        if(str == "上傳圖檔"){
+            $("#source_web").css("display", "none");
+            $("#source_file").css("display", "");
+            $("#source_video").css("display", "none");
+            $("#web_source").prop("value", "");
+            $("#file_source").prop("value", "");
+            $("#video_source").prop("value", "");
+        }else if (str == "網頁連結"){
+            $("#source_web").css("display", "");
+            $("#source_file").css("display", "none");
+            $("#source_video").css("display", "none");
+            $("#web_source").prop("value", "");
+            $("#file_source").prop("value", "");
+            $("#video_source").prop("value", "");
+        }else if(str == "錄音檔" ){
+            $("#source_web").css("display", "none");
+            $("#source_file").css("display", "");
+            $("#source_video").css("display", "none");
+            $("#web_source").prop("value", "");
+            $("#file_source").prop("value", "");
+            $("#video_source").prop("value", "");
+        }else if(str == "影片連結(youtube,土豆網等...)"){
+            $("#source_web").css("display", "none");
+            $("#source_file").css("display", "none");
+            $("#source_video").css("display", "");
+            $("#web_source").prop("value", "");
+            $("#file_source").prop("value", "");
+            $("#video_source").prop("value", "");
+        }
+
+    }
+
+
 });

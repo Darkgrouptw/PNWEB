@@ -42,18 +42,18 @@ class DetaillistController < ApplicationController
 		news_media = params[:news_media]
 		report_at = params[:report_at]
 		link = params[:link]
-
 		@issue = DataIssue.where(id: issue_id)[0]
 		@person = DataPerson.where(name: people_id)[0]
 
-		if @person.nil?
-			#fail back to where we are
-			flash[:alert] = "沒有此名嘴！！"
-			redirect_to detaillist_add_path(id: @issue.id)
-		elsif @issue.nil?
+		if @issue.nil?
+			#add new people
 			flash[:alert] = "沒有此議題！！"
 			redirect_to issuelist_all_path
 		else
+
+			if @person.nil?
+				@person = createPerson(people_id)
+			end
 			post_id = current_user.id
 			@detail = DataDetail.create(
 				created_at: Time.now.in_time_zone('Taipei'),
@@ -307,5 +307,53 @@ class DetaillistController < ApplicationController
 		@detail.save
 		path = detaillist_index_path(id: @detail.id)
 		redirect_to path
+	end
+
+	def createPerson(name)
+		pic_link = params[:pic_link]
+		description = params[:description]
+		search_result = DataPerson.where(name: name)[0]
+		if !search_result.nil?
+			#此名人已存在
+			return search_result
+		end
+		person = DataPerson.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
+		person.name = name
+		person.pic_link = nil
+		person.description = "none description"
+		person.save
+		return person
+	end
+	
+	def removePersonDetailRelate(detail_id,people_id)
+		person = DataPerson.where(id: people_id)[0]
+		detail = DataDetail.where(id: detail_id)[0]
+		if person.nil?
+			return false
+		end
+		if detail.nil?
+			return false
+		end
+		#------------------------------------------------------remove ralation wait for database function
+		detail.people_id = nil
+		person.save
+		detail.save
+		return true
+
+	end
+
+	def removeIDFromString(id,string)
+		result = string
+		return result
+	end
+
+	def canView(level)
+		return true
+	end
+
+	def canEdit(level,user_id,detail_id)
+	end
+
+	def canThumbUp(level)
 	end
 end

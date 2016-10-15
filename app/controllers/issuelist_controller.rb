@@ -1,15 +1,11 @@
 class IssuelistController < ApplicationController
 	def index
 		@tags = params[:id]
-		@issues = DataIssue.where(is_candidate: false).order(:created_at)
-		@me = @issues.where(id: @tags)[0]
 		@pos_order = params[:pos_order]
 		@neg_order = params[:neg_order]
 		@pos_show = params[:pos_show]
 		@neg_show = params[:neg_show]
-		if @me ==nil
-			return
-		end
+		
 		if @pos_order.nil? || @pos_order.empty?
 			@pos_order = "thumb"
 		end
@@ -21,6 +17,11 @@ class IssuelistController < ApplicationController
 		end
 		if @neg_show.nil? || @neg_show.empty?
 			@neg_show = "table"
+		end
+		@issues = DataIssue.where(is_candidate: false).order(:created_at)
+		@me = @issues.where(id: @tags)[0]
+		if @me ==nil
+			return
 		end
 		detail_strings = @me.datadetail_id.split(',')
 		@details = DataDetail.where(id: detail_strings,is_report: false)
@@ -40,11 +41,21 @@ class IssuelistController < ApplicationController
 		if likeNumber >= likeLimit
 			@NoMoreLike = true
 		end
+		# 要判斷是不是只要直接意見
+		@support = @details.where(is_support: true)
+		if @pos_show == "table"
+		else
+			@support = @support.where(is_direct: true)
+		end
+		@disSupport = @details.where(is_support: false)
+		if @neg_show == "table"
+		else
+			@disSupport = @disSupport.where(is_direct: true)
+		end
 		# 要判斷是用什麼來排序
 		if @pos_order == "time"
-			@support = @details.where(is_support: true).order(:created_at).reverse
+			@support = @support.order(:created_at).reverse
 		else
-			@support = @details.where(is_support: true)
 			for i in 0..@support.length - 1
 				length_i = 0
 				text_i = @support[i].like_list_id
@@ -63,9 +74,8 @@ class IssuelistController < ApplicationController
 			end
 		end
 		if @neg_order == "time"
-			@disSupport = @details.where(is_support: false).order(:created_at).reverse
+			@disSupport = @disSupport.order(:created_at).reverse
 		else
-			@disSupport = @details.where(is_support: false)
 			for i in 0..@disSupport.length - 1
 				length_i = 0
 				text_i = @disSupport[i].like_list_id

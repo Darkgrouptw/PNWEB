@@ -69,4 +69,5 @@ module Authority
         result = issue
         return result
     end
+    
 end

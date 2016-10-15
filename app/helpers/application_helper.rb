@@ -3,7 +3,8 @@ module ApplicationHelper
     include Userinfo
     include Security
     include Authority
-    
+    include Common
+
     def notice_message
         alert_types = { notice: :success, alert: :danger }
         

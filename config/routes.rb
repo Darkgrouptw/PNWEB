@@ -1,6 +1,6 @@
 Rails.application.routes.draw do 
 	root    "main#index"
-	
+	post 	"read"			=>	"main#writeDataFromFile",	:as =>	"read"
 	# 登入頁面 ＆ 登出
 	get     "User/Login"        =>  "user/login#login",         :as =>  "login"
 	delete  "User/Logout"       =>  "user/login#logout",        :as =>  "logout"
