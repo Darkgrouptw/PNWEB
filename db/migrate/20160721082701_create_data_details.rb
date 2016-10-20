@@ -5,6 +5,7 @@ class CreateDataDetails < ActiveRecord::Migration
       t.text :content
       t.string :link
       t.string :backup_id
+      t.text :backup_type
       t.integer :count
       t.text :like_list_id
       t.integer :post_id

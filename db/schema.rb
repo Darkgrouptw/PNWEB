@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20160721082859) do
     t.text     "content"
     t.string   "link"
     t.string   "backup_id"
+    t.text     "backup_type"
     t.integer  "count"
     t.text     "like_list_id"
     t.integer  "post_id"
