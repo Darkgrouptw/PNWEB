@@ -20,7 +20,7 @@
 	end
 
 	def getSelfLink(p,n,pos_order,neg_order,pos_show,neg_show)
-		return issuelist_index_path(id: @tags) + "?positive_page=" + p + "&negative_page=" + n + "&pos_order=" + pos_order + "&neg_order=" + neg_order + "&pos_show=" + pos_show + "&neg_show=" + neg_show
+		return issuelist_index_path(id: @tags) + "?positive_page=" + p.to_s + "&negative_page=" + n.to_s + "&pos_order=" + pos_order + "&neg_order=" + neg_order + "&pos_show=" + pos_show + "&neg_show=" + neg_show
 	end
 %>
 <% def Page_produce(i) %>
@@ -271,7 +271,7 @@
 											<div><% link = detail.link %><a href = <%= "//" + link %>>連結</a></div>
 											<div>
 												<% link = "pageBackUp/"+detail.backup_id.to_s+".png" %>
-            	                    			<% if File.exist?(Rails.root + "public/" + link) %>
+            	                    			<% if FileIsExit(link) %>
             	                    			    <a href = <%= "/"+link %> >
             	                    			      備份圖片
             	                    			    </a>

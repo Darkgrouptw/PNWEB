@@ -31,4 +31,20 @@ module Common
         end
         return result
     end
+
+    def FileIsExit(fileName)
+        return File.exist?(Rails.root + "public/" + fileName)
+    end
+
+    def GetFilePath(fileType,fileName)
+        if fileType ==0
+        elsif fileType ==1
+        elsif fileType ==2
+        elsif fileType ==3
+        end
+                
+                
+                
+        return
+    end
 end

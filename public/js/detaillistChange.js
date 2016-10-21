@@ -55,6 +55,7 @@ $(function(){
             $("#web_source").prop("value", "");
             $("#file_source").prop("value", "");
             $("#video_source").prop("value", "");
+            $("#backup_type").prop("value", "1");
         }else if (str == "網頁連結"){
             $("#source_web").css("display", "");
             $("#source_file").css("display", "none");
@@ -62,6 +63,7 @@ $(function(){
             $("#web_source").prop("value", "");
             $("#file_source").prop("value", "");
             $("#video_source").prop("value", "");
+            $("#backup_type").prop("value", "0");
         }else if(str == "錄音檔" ){
             $("#source_web").css("display", "none");
             $("#source_file").css("display", "");
@@ -69,6 +71,7 @@ $(function(){
             $("#web_source").prop("value", "");
             $("#file_source").prop("value", "");
             $("#video_source").prop("value", "");
+            $("#backup_type").prop("value", "2");
         }else if(str == "影片連結(youtube,土豆網等...)"){
             $("#source_web").css("display", "none");
             $("#source_file").css("display", "none");
@@ -76,6 +79,7 @@ $(function(){
             $("#web_source").prop("value", "");
             $("#file_source").prop("value", "");
             $("#video_source").prop("value", "");
+            $("#backup_type").prop("value", "3");
         }
 
     }

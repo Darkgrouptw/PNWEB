@@ -33,18 +33,22 @@ class DetaillistController < ApplicationController
 	end
 
 	def new 
+		#get parmater
 		content = params[:content]
 		people_id = params[:people_id]
 		issue_id = params[:issue_id]
 		title_at_that_time = params[:title_at_that_time]
 		is_support = params[:is_support]
 		is_direct = params[:is_direct]
-		news_media = params[:news_media]
+		#-------------------wait for media database
+		#news_media = params[:news_media]
 		report_at = params[:report_at]
 		link = params[:link]
+		backup_type = params[:backup_type]
 		@issue = DataIssue.where(id: issue_id)[0]
 		@person = DataPerson.where(name: people_id)[0]
-
+		#-------------------wait for media database
+		#@media = DataMedia.where(name: news_media)[0]
 		if @issue.nil?
 			#add new people
 			flash[:alert] = "沒有此議題！！"
@@ -54,6 +58,10 @@ class DetaillistController < ApplicationController
 			if @person.nil?
 				@person = createPerson(people_id)
 			end
+			#-------------------wait for media database
+			#if @media.nil?
+			#	@media = createMedia(news_media)
+			#end
 			post_id = current_user.id
 			@detail = DataDetail.create(
 				created_at: Time.now.in_time_zone('Taipei'),
@@ -67,12 +75,15 @@ class DetaillistController < ApplicationController
 				people_id: @person.id,
 				issue_id: issue_id,
 				title_at_that_time: title_at_that_time,
-				news_media: news_media,
+				#-------------------wait for media database
+				#news_media: news_media,
 				report_at: report_at,
 				link: link,
 				post_id: post_id,
 				is_support: is_support,
-				is_direct: is_direct
+				is_direct: is_direct,
+				#-------------------wait for detail database
+				#backup_type: backup_type
 				)
 			if is_support
 				@detail.is_support = true
@@ -98,58 +109,68 @@ class DetaillistController < ApplicationController
 
 			@detail.save
 			@issue.save
+			puts "---------" + backup_type.to_s + "-------------------"
 			#backup picture
 			#check if it is need or can be backup
-			check = checkBackUP(@detail.link)
-			if !check.nil?
-				require "uri"
-				require "net/http"
-				require "open-uri"
-				require 'json'
-				rest_api = "http://api.page2images.com/restfullink"
-				url = @detail.link
-				p2i_device = "6"
-				p2i_screen="1024x768"
-				p2i_size="1024x0"
-				p2i_fullpage="1"
-				p2i_key="8e549b1ac48187d3"
-				rest_key="42b2fe10a13f636c"
-				p2i_wait="0"
-				parameters = {
-				"p2i_url" => url,
-				"p2i_key" => rest_key,
-				"p2i_device" => p2i_device,
-				"p2i_size" => p2i_size,
-				"p2i_screen" => p2i_screen,
-				"p2i_fullpage" => p2i_fullpage,
-				"p2i_wait" => p2i_wait
-				}
-				#open a thread
-				process = true
-				Thread.new do
-					maxWatingTime = 60
-					start_time = Time.new
-	
-					while(process && (Time.new - start_time) < maxWatingTime)
-						resp = Net::HTTP.post_form(URI(rest_api),parameters)
-						resp_text = resp.body
-						result = JSON.parse(resp.body)
-						puts "-------------------------------"
-						puts resp.body
-						puts "-------------------------------"
-						if result["status"] == "finished"
-							open('public/pageBackUp/' + @detail.issue_id.to_s + "_" + @detail.id.to_s + '.png','wb') do |file|
-								file << open(result["image_url"]).read
+			if backup_type == 0
+				if !check.nil?
+					require "uri"
+					require "net/http"
+					require "open-uri"
+					require 'json'
+					rest_api = "http://api.page2images.com/restfullink"
+					url = @detail.link
+					p2i_device = "6"
+					p2i_screen="1024x768"
+					p2i_size="1024x0"
+					p2i_fullpage="1"
+					p2i_key="8e549b1ac48187d3"
+					rest_key="42b2fe10a13f636c"
+					p2i_wait="0"
+					parameters = {
+					"p2i_url" => url,
+					"p2i_key" => rest_key,
+					"p2i_device" => p2i_device,
+					"p2i_size" => p2i_size,
+					"p2i_screen" => p2i_screen,
+					"p2i_fullpage" => p2i_fullpage,
+					"p2i_wait" => p2i_wait
+					}
+					#open a thread
+					process = true
+					Thread.new do
+						maxWatingTime = 60
+						start_time = Time.new
+		
+						while(process && (Time.new - start_time) < maxWatingTime)
+							resp = Net::HTTP.post_form(URI(rest_api),parameters)
+							resp_text = resp.body
+							result = JSON.parse(resp.body)
+							puts "-------------------------------"
+							puts resp.body
+							puts "-------------------------------"
+							if result["status"] == "finished"
+								open('public/pageBackUp/' + @detail.issue_id.to_s + "_" + @detail.id.to_s + '.png','wb') do |file|
+									file << open(result["image_url"]).read
+								end
+								process = false
+							elsif result["status"] = "processong"
+								sleep(5)
 							end
-							process = false
-						elsif result["status"] = "processong"
-							sleep(5)
 						end
 					end
+				else
+					@detail.backup_id = check
 				end
-			else
-				@detail.backup_id = check
+			elsif backup_type == 1.to_s || backup_type == 2.to_s
+				#save file
+				open('public/pageBackUp/' + @detail.issue_id.to_s + "_" + @detail.id.to_s,'wb') do |file|
+					file << open(params[:fileToUpload]).read
+				end
+			elsif backup_type == 3.to_s
+				#do nothing
 			end
+			check = checkBackUP(@detail.link)
 			redirect_to detaillist_index_path(id: @detail.id)
 		end
 	end
@@ -310,8 +331,6 @@ class DetaillistController < ApplicationController
 	end
 
 	def createPerson(name)
-		pic_link = params[:pic_link]
-		description = params[:description]
 		search_result = DataPerson.where(name: name)[0]
 		if !search_result.nil?
 			#此名人已存在
@@ -319,12 +338,27 @@ class DetaillistController < ApplicationController
 		end
 		person = DataPerson.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
 		person.name = name
+		#-------------------wait for person database
+		#person.datadetail_id = ""
 		person.pic_link = nil
 		person.description = "none description"
 		person.save
 		return person
 	end
-	
+	def createMedia(name)
+		search_result = DataMedia.where(name: name)[0]
+		if !search_result.nil?
+			#the media already exit
+			return search_result
+		end
+		media = DataMedia.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
+		media.name = name;
+		media.description = "none description"
+		media.datadetail_id=""
+		media.validName = ""
+		media.save
+		return media
+	end
 	def removePersonDetailRelate(detail_id,people_id)
 		person = DataPerson.where(id: people_id)[0]
 		detail = DataDetail.where(id: detail_id)[0]

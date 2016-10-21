@@ -15,7 +15,7 @@
 		<div class = "container">
 			<div class = "jumbotron">
 				<div class = "row">
-					<form action= "<%= detaillist_new_path %> " method= "post">
+					<form action= "<%= detaillist_new_path %> " method= "post" enctype="multipart/form-data">
 						<div class = "form-group" style="position: relative;">
 							
 							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
@@ -50,12 +50,15 @@
                             <input type="date" class="form-control" name="report_at" required="true" id="reportTime">
                             <br>
                             <lable>資源類型</lable>
-                            <select id="upload_type">
-    							<option value="option1" selected="selected">網頁連結</option>
-	    						<option value="option2">上傳圖檔</option>
-	    						<option value="option3">錄音檔</option>
-	    						<option value="option4">影片連結(youtube,土豆網等...)</option>
-  							</select>
+                            <div>
+                            	<select id="upload_type">
+	    							<option value="option1" selected="selected">網頁連結</option>
+		    						<option value="option2">上傳圖檔</option>
+		    						<option value="option3">錄音檔</option>
+		    						<option value="option4">影片連結(youtube,土豆網等...)</option>
+  								</select>
+  							<input type="hidden" id="backup_type" name="backup_type" value="0">
+  							</div>
   							<br>
 							<div id="source_web">
 								<label>網頁連結</label>
@@ -65,7 +68,7 @@
 							<div id="source_file" style="display: none;">
 								<label>上傳圖檔,錄音檔</label>
 								<form action="upload.php" method="post" enctype="multipart/form-data">
-    								<input type="file" name="fileToUpload" id="file_source">
+    								<input type="file" name="fileToUpload" id="file_source" accept="audio/*,image/*">
 								</form>
 								<br>	
 							</div>
@@ -74,7 +77,7 @@
 								<input type="text" class="form-control" name="link" id="video_source">
 								<br>
 							</div>
-                            
+                            <input type = "submit" class = "btn btn-primary" style = "width: 150px;">
 
                             <button type="button" class="btn btn-primary" style="width: 150px;" id="previewButton">檢視預覽</button>
 						</div>
