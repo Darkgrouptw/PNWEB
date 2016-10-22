@@ -36,15 +36,8 @@ module Common
         return File.exist?(Rails.root + "public/" + fileName)
     end
 
-    def GetFilePath(fileType,fileName)
-        if fileType ==0
-        elsif fileType ==1
-        elsif fileType ==2
-        elsif fileType ==3
-        end
-                
-                
-                
-        return
+    def getFileTypeFromPath(path)
+        string_spilt = path.split(".")
+        return string_spilt[string_spilt.length - 1]
     end
 end

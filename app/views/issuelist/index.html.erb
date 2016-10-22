@@ -270,13 +270,13 @@
 										<td>
 											<div><% link = detail.link %><a href = <%= "//" + link %>>連結</a></div>
 											<div>
-												<% link = "pageBackUp/"+detail.backup_id.to_s+".png" %>
+												<% link = "pageBackUp/"+detail.backup_id.to_s+"."+detail.backup_type %>
             	                    			<% if FileIsExit(link) %>
-            	                    			    <a href = <%= "/"+link %> >
-            	                    			      備份圖片
+            	                    			    <a href = <%= "/"+link %> target="_blank">
+            	                    			      備份檔案
             	                    			    </a>
             	                    			<% else %>
-            	                    			    <br>圖片尚未備份
+            	                    			    <br>
             	                    			<% end %>
 											</div>
 										</td>

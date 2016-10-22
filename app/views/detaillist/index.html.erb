@@ -89,7 +89,7 @@
 						<td>
 							<div><% link = detail.link %><a href = <%= "//" + link %> target="_blank">連結</a></div>
 							<div>
-								<% link = "pageBackUp/"+detail.backup_id.to_s+".png" %>
+								<% link = "pageBackUp/"+detail.backup_id.to_s+"."+detail.backup_type %>
 								<% if File.exist?(Rails.root + "public/" + link) %>
 									<a href = <%= "/"+link %> target="_blank">
 										原文截圖

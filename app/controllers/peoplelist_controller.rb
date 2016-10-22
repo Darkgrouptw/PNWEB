@@ -2,7 +2,8 @@ class PeoplelistController < ApplicationController
 	def index
 
 		@tags = params[:id]
-		@me = DataPerson.where(name: @tags)[0]
+		@people = DataPerson.all;
+		@me = @people.where(name: @tags)[0]
 		if @me.nil?
 			return
 		end

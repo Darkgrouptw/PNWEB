@@ -41,14 +41,14 @@ class DetaillistController < ApplicationController
 		is_support = params[:is_support]
 		is_direct = params[:is_direct]
 		#-------------------wait for media database
-		#news_media = params[:news_media]
+		news_media = params[:news_media]
 		report_at = params[:report_at]
 		link = params[:link]
 		backup_type = params[:backup_type]
 		@issue = DataIssue.where(id: issue_id)[0]
 		@person = DataPerson.where(name: people_id)[0]
 		#-------------------wait for media database
-		#@media = DataMedia.where(name: news_media)[0]
+		@media = DataMedium.where(name: news_media)[0]
 		if @issue.nil?
 			#add new people
 			flash[:alert] = "沒有此議題！！"
@@ -59,9 +59,9 @@ class DetaillistController < ApplicationController
 				@person = createPerson(people_id)
 			end
 			#-------------------wait for media database
-			#if @media.nil?
-			#	@media = createMedia(news_media)
-			#end
+			if @media.nil?
+				@media = createMedia(news_media)
+			end
 			post_id = current_user.id
 			@detail = DataDetail.create(
 				created_at: Time.now.in_time_zone('Taipei'),
@@ -76,14 +76,14 @@ class DetaillistController < ApplicationController
 				issue_id: issue_id,
 				title_at_that_time: title_at_that_time,
 				#-------------------wait for media database
-				#news_media: news_media,
+				news_media: news_media,
 				report_at: report_at,
 				link: link,
 				post_id: post_id,
 				is_support: is_support,
 				is_direct: is_direct,
 				#-------------------wait for detail database
-				#backup_type: backup_type
+				backup_type: ""
 				)
 			if is_support
 				@detail.is_support = true
@@ -112,7 +112,7 @@ class DetaillistController < ApplicationController
 			puts "---------" + backup_type.to_s + "-------------------"
 			#backup picture
 			#check if it is need or can be backup
-			if backup_type == 0
+			if backup_type == 0.to_s
 				if !check.nil?
 					require "uri"
 					require "net/http"
@@ -159,16 +159,24 @@ class DetaillistController < ApplicationController
 							end
 						end
 					end
+					@detail.backup_type = "png"
+					@detail.save
 				else
 					@detail.backup_id = check
 				end
 			elsif backup_type == 1.to_s || backup_type == 2.to_s
 				#save file
-				open('public/pageBackUp/' + @detail.issue_id.to_s + "_" + @detail.id.to_s,'wb') do |file|
-					file << open(params[:fileToUpload]).read
+				puts "---------------------------------------------------------"
+				#puts params[:fileToUpload].path
+				open('public/pageBackUp/' + @detail.issue_id.to_s + "_" + @detail.id.to_s + "." + getFileTypeFromPath(params[:fileToUpload].path),'wb') do |file|
+					file << params[:fileToUpload].read
 				end
+				@detail.backup_type = getFileTypeFromPath(params[:fileToUpload].path)
+				@detail.save
 			elsif backup_type == 3.to_s
 				#do nothing
+				@detail.backup_type = "none"
+				@detail.save
 			end
 			check = checkBackUP(@detail.link)
 			redirect_to detaillist_index_path(id: @detail.id)
@@ -339,23 +347,23 @@ class DetaillistController < ApplicationController
 		person = DataPerson.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
 		person.name = name
 		#-------------------wait for person database
-		#person.datadetail_id = ""
+		person.datadetail_id = ""
 		person.pic_link = nil
 		person.description = "none description"
 		person.save
 		return person
 	end
 	def createMedia(name)
-		search_result = DataMedia.where(name: name)[0]
+		search_result = DataMedium.where(name: name)[0]
 		if !search_result.nil?
 			#the media already exit
 			return search_result
 		end
-		media = DataMedia.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
+		media = DataMedium.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
 		media.name = name;
 		media.description = "none description"
 		media.datadetail_id=""
-		media.validName = ""
+		media.valid_name = ""
 		media.save
 		return media
 	end
