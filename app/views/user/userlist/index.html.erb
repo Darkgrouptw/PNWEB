@@ -7,98 +7,114 @@
 		錯誤的連結位置
 	</div>
 <% else %>
-	<!-- the description with @me -->
-	<div class = "whiteText row">
-		
-		<div class = "col-md-offset-2 col-md-8 row">
-			<table class = "table table-bordered">
-				<thead>
-					<tr align = "center" ><td colspan = "3"><%= @me.nickname %></td></tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td class = "col-md-3">
-							<% if true %>
-								<%= image_tag 'http://i.imgur.com/TbBAqpV.png', width: "200" %>
-							<% end %>
-						</td>  
-						<td class = "col-md-5"><%= @me.nickname %></td> 
-						<td><div><%if @me.level == 0%>一般使用者<% elsif @me.level == 1%>高階使用者<%elsif @me.level == 2%>網管<% elsif @me.level == 3 %>最高管理者<%else%>錯誤<%end%></div>
-							<div>
-								<% if !current_user.nil? %>
-									<% if current_user.level >= @me.level && @me.level < 3%>
-										<% link = userlist_upgrade_path + "?id=" + @me.id.to_s%>
-										<%= link_to "升級",link,method: :post%>
-									<% else %>
-									<%end%>
-								<% end %>
-							</div>
-							<div>
-								<% if !current_user.nil? %>
-									<% if current_user.level > @me.level && @me.level > 0%>
-										<% link = userlist_downgrade_path + "?id=" + @me.id.to_s%>
-										<%= link_to "降級",link,method: :post%>
-									<% else %>
-									<%end%>
-								<% end %>
-							</div>
-							<div>
-								<% if !current_user.nil? %>
-									<% if current_user.level > @me.level && @me.level == 1 %>
-										<% link = userlist_power_edit_path(id: @me.id)%>
-										<%= link_to "編輯管理權限",link,method: :get%>
-									<% else %>
-									<%end%>
-								<% end %>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+	<div name = "whole">
+		<div class = "col-md-3 row">
+			<div style="border-style: solid;" >所有使用者</div>
+			<div style="overflow: scroll;height: 300px;border-style: solid;">
+				<% @users.each  do |item|%>
+					<% link  = userlist_index_path(id: item.id)%>
+					<a href=<%= link %>>
+						<%= item.nickname %>
+					</a>
+				<% end %>
+			</div>
 		</div>
-	</div>
-	<!-- tables with all the detail -->
-	<div class = "whiteText row">
-		<div align = "center"><%= @me.nickname %> 上線的論述 </div>
-		<div class = "col-md-offset-2 col-md-8 row">
-			<table class = "table table-bordered">
-				<thead>
-					<tr align = "center" >
-						<td>議題</td>
-						<td>名嘴</td>
-						<td>論述</td>
-					</tr>
-				</thead>
-				<tbody>
-					<% @details.each do |detail| %>
-						<% issue = @issues.where(id: detail.issue_id)[0] %>
-						<% if issue.nil? %>
-						<% else %>
-							<tr>
-								<td>
-									<% link = issuelist_index_path(id: issue.id) %>
-									<a href = <%= link %>>
-										<%= issue.title %>
-									</a>
-								</td>
-								<td>
-									<% link = detaillist_index_path(id: detail.id) %>
-									<a href = <%= link %>>
-										<%= detail.content %>
-									</a>
-								</td>
-								<td>
-									<% if detail.is_support %>
-										正
-									<% else %>
-										反
+		<div class = "whiteText col-md-offset-1 col-md-8 row">
+			<div>
+				<table class = "table table-bordered">
+					<thead>
+						<tr align = "center" ><td colspan = "3"><%= @me.nickname %></td></tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class = "col-md-3">
+								<% if true %>
+									<%= image_tag 'http://i.imgur.com/TbBAqpV.png', width: "200" %>
+								<% end %>
+							</td>  
+							<td class = "col-md-5"><%= @me.nickname %></td> 
+							<td><div><%if @me.level == 0%>一般使用者<% elsif @me.level == 1%>高階使用者<%elsif @me.level == 2%>網管<% elsif @me.level == 3 %>最高管理者<%else%>錯誤<%end%></div>
+								<div>
+									<% if !current_user.nil? %>
+										<% if current_user.level >= @me.level && @me.level < 3%>
+											<% link = userlist_upgrade_path + "?id=" + @me.id.to_s%>
+											<%= link_to "升級",link,method: :post%>
+										<% else %>
+										<%end%>
 									<% end %>
-								</td>
+								</div>
+								<div>
+									<% if !current_user.nil? %>
+										<% if current_user.level > @me.level && @me.level > 0%>
+											<% link = userlist_downgrade_path + "?id=" + @me.id.to_s%>
+											<%= link_to "降級",link,method: :post%>
+										<% else %>
+										<%end%>
+									<% end %>
+								</div>
+								<div>
+									<% if !current_user.nil? %>
+										<% if current_user.level > @me.level && @me.level == 1 %>
+											<% link = userlist_power_edit_path(id: @me.id)%>
+											<%= link_to "編輯管理權限",link,method: :get%>
+										<% else %>
+										<%end%>
+									<% end %>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class = "whiteText row">
+				<div align = "center"><%= @me.nickname %> 上線的論述 </div>
+				<div>
+					<table class = "table table-bordered">
+						<thead>
+							<tr align = "center" >
+								<td>議題</td>
+								<td>名嘴</td>
+								<td>論述</td>
 							</tr>
-						<% end %>
-					<% end %>
-				</tbody>
-			</table>
+						</thead>
+						<tbody>
+							<% @details.each do |detail| %>
+								<% issue = @issues.where(id: detail.issue_id)[0] %>
+								<% if issue.nil? %>
+								<% else %>
+									<tr>
+										<td>
+											<% link = issuelist_index_path(id: issue.id) %>
+											<a href = <%= link %>>
+												<%= issue.title %>
+											</a>
+										</td>
+										<td>
+											<% link = detaillist_index_path(id: detail.id) %>
+											<a href = <%= link %>>
+												<%= detail.content %>
+											</a>
+										</td>
+										<td>
+											<% if detail.is_support %>
+												正
+											<% else %>
+												反
+											<% end %>
+										</td>
+									</tr>
+								<% end %>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
+
 	</div>
+
+	<!-- tables with all the detail -->
+	
+	<!-- the description with @me -->
+	
 <% end %>

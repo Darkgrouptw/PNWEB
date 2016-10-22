@@ -1,6 +1,7 @@
 class User::UserlistController < ApplicationController
 	def index
-		@me = User.where(id: params[:id])[0]
+		@users = User.all
+		@me = @users.where(id: params[:id])[0]
 		@details = DataDetail.where(post_id: @me.id)
 		issue_ids = []
 		@details.each do |item|
