@@ -1,4 +1,6 @@
 Rails.application.routes.draw do 
+  get 'media/index'
+
 	root    "main#index"
 	post 	"read"			=>	"main#writeDataFromFile",	:as =>	"read"
 	# 登入頁面 ＆ 登出
