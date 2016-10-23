@@ -32,6 +32,13 @@ module Common
         return result
     end
 
+    def stringHasID(str,id)
+        result = true
+        return result
+    end
+    def getStringIDLength(str)
+        return str.split(',').length 
+    end
     def FileIsExit(fileName)
         return File.exist?(Rails.root + "public/" + fileName)
     end

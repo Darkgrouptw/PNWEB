@@ -1,18 +1,112 @@
 class MainController < ApplicationController
 	
     def findNearHotIssue(issue_list)
+        likelist = LikeList.where(created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
+        counter = []
+        recorder = [];
+        issue_list.each do |issue|
+            counter.push(0);
+            recorder.push(issue.id);
+        end
+        likelist.each do |like|
+            for i in 0..counter.length - 2
+                issue = issue_list.where(id: recorder[i])
+                if stringHasID(issue.datadetail_id,like.detail_id)
+                    counter[i] = counter[i] + 1
+                end
+            end
+        end
+        for i in 0..counter.length - 2
+            for j in 0..counter.length - i - 2
+                if counter[j] > counter[j + 1]
+                    temp = counter[j]
+                    counter[j] = counter[j + 1]
+                    counter[j + 1] = temp
+                    temp = recorder[j]
+                    recorder[j] = recorder[j + 1]
+                    recorder[j + 1] = temp
+                end
+            end
+        end
+        return issue_list.where(id: recorder.first(10))
     end
 
-    def findNearHotIssueTree(issueTree_list)
+    def findNearHotIssueTree()
     end
 
     def findNearHotPeople(people_list)
+        likelist = LikeList.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
+        counter = []
+        recorder = [];
+        people_list.each do |people|
+            counter.push(0);
+            recorder.push(people.id);
+        end
+        likelist.each do |like|
+            for i in 0..counter.length - 2
+                people = people_list.where(id: recorder[i])
+                if stringHasID(people.datadetail_id,like.detail_id)
+                    counter[i] = counter[i] + 1
+                end
+            end
+        end
+        for i in 0..counter.length - 2
+            for j in 0..counter.length - i - 2
+                if counter[j] > counter[j + 1]
+                    temp = counter[j]
+                    counter[j] = counter[j + 1]
+                    counter[j + 1] = temp
+                    temp = recorder[j]
+                    recorder[j] = recorder[j + 1]
+                    recorder[j + 1] = temp
+                end
+            end
+        end
+        return people_list.where(id: recorder.first(10))
     end
 
     def findInfluencePeople(people_list)
+        counter = []
+        recorder = []
+        people_list.each do |people|
+            counter.push(getStringIDLength(people.datadetail_id))
+            recorder.push(people.id)
+        end
+        for i in 0..counter.length - 2
+            for j in 0..counter.length - i - 2
+                if counter[j] > counter[j + 1]
+                    temp = counter[j]
+                    counter[j] = counter[j + 1]
+                    counter[j + 1] = temp
+                    temp = recorder[j]
+                    recorder[j] = recorder[j + 1]
+                    recorder[j + 1] = temp
+                end
+            end
+        end
+        return people_list.where(id: recorder.first(10))
     end
 
-    def findInfluenceMedia()
+    def findInfluenceMedia(media_list)
+        counter = []
+        recorder = []
+        media_list.each do |media|
+            #counter.push(getStringIDLength(media.datadetail_id))
+            #recorder.push(people.id)
+        end
+        for i in 0..counter.length - 2
+            for j in 0..counter.length - i - 2
+                if counter[j] > counter[j + 1]
+                    temp = counter[j]
+                    counter[j] = counter[j + 1]
+                    counter[j + 1] = temp
+                    temp = recorder[j]
+                    recorder[j] = recorder[j + 1]
+                    recorder[j + 1] = temp
+                end
+            end
+        end
+        return media_list.where(id: recorder.first(10))
     end
 
     def findBalanceMedia()
@@ -29,7 +123,16 @@ class MainController < ApplicationController
 	def index
 		# 刪除 email 得 Session
 		clearEmailSession
-		@issues=DataIssue.where(trunk_id: -1,is_candidate: false).order(:created_at).reverse.first(10)
+		#@issues=DataIssue.where(trunk_id: -1,is_candidate: false).order(:created_at).reverse.first(10)
+        @issues = DataIssue.all
+        @people = DataPerson.all
+        @media = DataMedium.all
+        @NearHotIssue = findNearHotIssue(@issues)
+        @NearHotPeople = findNearHotPeople(@people)
+        @InfluenceMedia = findInfluenceMedia(@media)
+        @influencePeople = findInfluencePeople(@people)
+        @BalanceMedia = findBalanceMedia()
+        @NearHotIssueTree = findNearHotIssueTree()
 		@details=DataDetail.where(is_report: false).order(:count).reverse.first(10)
 		person = []
 		@details.each do |detail|

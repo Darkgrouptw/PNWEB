@@ -2,16 +2,25 @@
 
 <!-- code donw here -->
 <% def CreateNearHotIssueContent(maxContentNumber) %>
-	<tr><td><%= maxContentNumber + 1%></td></tr>
+	<% @NearHotIssue.each do |item|%>
+		<% link = issuelist_index_path(id: item.id) %>
+		<tr><td><a href=<%= link %>><%= item.title %></a></td></tr>
+	<% end %>
 <% end %>
 <% def CreateHotIssueTreeContent(maxContentNumber) %>
 	<tr><td><%= maxContentNumber + 1%></td></tr>
 <% end %>
 <% def CreateHotPeopleContent(maxContentNumber) %>
-	<tr><td><%= maxContentNumber + 1%></td></tr>
+	<% @NearHotPeople.each do |item|%>
+		<% link = peoplelist_index_path(id: item.name) %>
+		<tr><td><a href=<%= link %>><%= item.name %></a></td></tr>
+	<% end %>
 <% end %>
 <% def CreateMostInfluencePeopleContent(maxContentNumber) %>
-	<tr><td><%= maxContentNumber + 1%></td></tr>
+	<% @influencePeople.each do |item|%>
+		<% link = peoplelist_index_path(id: item.name) %>
+		<tr><td><a href=<%= link %>><%= item.name %></a></td></tr>
+	<% end %>
 <% end %>
 <% def CreateMostInfluenceMediaContent(maxContentNumber) %>
 	<tr><td><%= maxContentNumber + 1%></td></tr>
