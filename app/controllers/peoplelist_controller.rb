@@ -71,5 +71,6 @@ class PeoplelistController < ApplicationController
 	end
 	def all
 		@persons=DataPerson.all
+		redirect_to peoplelist_index_path(id: @persons[0].name)
 	end
 end

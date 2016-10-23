@@ -61,5 +61,6 @@ class User::UserlistController < ApplicationController
 	end
 	def all
 		@userList = User.all
+		redirect_to userlist_index_path(id: @userList[0].id)
 	end
 end

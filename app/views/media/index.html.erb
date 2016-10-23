@@ -1,2 +1,86 @@
-<h1>Media#index</h1>
-<p>Find me in app/views/media/index.html.erb</p>
+<link rel="stylesheet" type="text/css" href="/css/table.css">
+<div class="BigTitle">
+    <h2>媒體頁面</h2>
+    <hr>
+</div>
+<% if @me == nil %>
+	<div class = "whiteText">
+		錯誤的連結位置
+	</div>
+<% else %>
+	<div name = "whole">
+		<!-- the description with @me -->
+
+		<div class = "col-md-3 row">
+			<div style="border-style: solid;" >所有媒體</div>
+			<div style="overflow: scroll;height: 300px;border-style: solid;">
+				<% @media.each  do |item|%>
+					<% link  = media_index_path(id: item.name)%>
+					<a href=<%= link %>>
+						<%= item.name %>
+					</a>
+					<br>
+				<% end %>
+			</div>
+		</div>
+		<div class = "col-md-offset-1 col-md-8 row">
+			<div class = "whiteText row">
+				<div >
+					<div align = "right"><a href = <%= peoplelist_edit_path(id: @tags) %>>編輯</a></div>
+					<table class = "table table-bordered">
+						<thead>
+							<tr align = "center" ><td colspan = "1"><%= @me.name %></td></tr>
+						</thead>
+						<tbody>
+							<tr>  
+								<td class = "col-md-8"><%= @me.description %></td> 
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- tables with all the detail -->
+			<div class = "whiteText row">
+				<div align = "center">和 <%= @me.name %> 相關的論述</div>
+				<div>
+					<table class = "table table-bordered">
+						<thead>
+							<tr align = "center" >
+								<td>議題</td>
+								<td>論述</td>
+								<td>正反方</td>
+							</tr>
+						</thead>
+						<tbody>
+							<% @details.each do |detail| %>
+								<% issue = @issues.where(id: detail.issue_id)[0] %>
+								<tr>
+									<td>
+										<% link = issuelist_index_path(id: issue.id) %>
+										<a href = <%= link %>>
+											<%= issue.title %>
+										</a>
+									</td>
+									<td>
+										<% link = detaillist_index_path(id: detail.id) %>
+										<a href = <%= link %>>
+											<%= detail.content %>
+										</a>
+									</td>
+									<td>
+										<% if detail.is_support %>
+											正
+										<% else %>
+											反
+										<% end %>
+									</td>
+								</tr>
+							<% end %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+<% end %>

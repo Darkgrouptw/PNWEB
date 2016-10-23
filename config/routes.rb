@@ -1,5 +1,4 @@
 Rails.application.routes.draw do 
-  get 'media/index'
 
 	root    "main#index"
 	post 	"read"			=>	"main#writeDataFromFile",	:as =>	"read"
@@ -46,6 +45,10 @@ Rails.application.routes.draw do
 
 	# detail comment page
 	post 	"Comment/new"		=>	"detaillist#comment_new",	:as =>	"detaillist_comment_new"
+
+	#media page
+	post "Media/new"			=>	"media#new",				:as =>	"media_new"
+	get  "Media/:id"			=>	"media#index",				:as =>	"media_index"
 
 	# poster page
 	post 	"User/upgrade"		=>	"user/userlist#upgrade",:as =>	"userlist_upgrade"
