@@ -1,6 +1,6 @@
 class MediaController < ApplicationController
-  def index
-  	@tags = params[:id]
+	def index
+  		@tags = params[:id]
 		@media = DataMedium.all;
 		@me = @media.where(name: @tags)[0]
 		if @me.nil?
@@ -14,9 +14,9 @@ class MediaController < ApplicationController
 		end
 		#find all the issue connect with details
 		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
-  end
-  def new
-  	if !can_view(2)
+  	end
+	def new
+  		if !can_view(2)
 			flash[:alert] = "權限不足"
 			redirect_to "/"
 		end
@@ -35,5 +35,9 @@ class MediaController < ApplicationController
 		@media.datadetail_id = ""
 		@person = DataPerson.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
 		redirect_to(:back)
+	end
+	def all
+		@medias = DataMedium.all
+		redirect_to media_index_path(@medias[0].name)
 	end
 end
