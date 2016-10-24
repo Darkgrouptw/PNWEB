@@ -32,10 +32,10 @@ $(function(){
 /*
 因為 SVG 並非 html(namespace不同)，所以無法直接 append 上去，只能用這個方法貼上去
 */
-function makeSVG(tag, attrs, text, nowLevel, Degree, pos) 
+function makeCircleSVG(attrs, text, nowLevel, Degree, pos, parentID) 
 {
     var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    var el = document.createElementNS('http://www.w3.org/2000/svg', "circle");
     var tarea = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     g.appendChild(el);
     g.appendChild(tarea);
@@ -51,6 +51,7 @@ function makeSVG(tag, attrs, text, nowLevel, Degree, pos)
     //    $(g).attr("style", "transform: translate(" + posX + "px, " + posY + "px);");
     
     
+    $(g).attr("parent", parentID);
     if($NodeNumber != 0)
     {
         $(g).attr("org_pos_X", posX);
@@ -89,6 +90,15 @@ function makeSVG(tag, attrs, text, nowLevel, Degree, pos)
     tarea.textContent = text;
     return g;
 };
+
+function makeLineSVG(attrs, fromID, toID) 
+{
+    var l = document.createElementNS('http://www.w3.org/2000/svg', "line");
+    for (var k in attrs)
+        l.setAttribute(k, attrs[k]);
+    $(l).attr("id", "Line" + fromID + "To" + toID);
+    return l;
+}
 
 // 在 click 的時候，設定 offset 的 function
 function NodeClick()

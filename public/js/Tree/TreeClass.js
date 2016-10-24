@@ -33,17 +33,16 @@ function TreeManager(JsonData)
     $(g).attr("style", "transform: translate(" + $(document).width() / 2 + "px, " + $(document).height() / 2 + "px);");
     $(".MenuBox svg").append(g);
     
-    // 增加所有的 Node
-    TraceTree(JsonData.item, 0, 0, 0, 0, 360);
-    
-    // 滑鼠移到這裡，算是要復原的事件
+    // 增加所有的 Node & Line
+    TraceTree(JsonData.item, 0, 0, 0, 0, 360, -1);
+    GenerateLine();
 };
 
 // JsonNode     是資料
 // posX, posY   前面的 Position，要從這個 Position 開始向外長
 // nowLevel     是現在是第幾個 level，超過 7 層就不要 Scale
 // degree       幾度的
-function TraceTree(JsonNode, posX, posY, nowLevel, MinDegree, MaxDegree)
+function TraceTree(JsonNode, posX, posY, nowLevel, MinDegree, MaxDegree, parentID)
 {   
     // 如果顏色是空的，就塞一個顏色給他
     if(typeof JsonNode.color == "undefined")
@@ -51,7 +50,7 @@ function TraceTree(JsonNode, posX, posY, nowLevel, MinDegree, MaxDegree)
     
     // 創建一個 svg 的 block
     var pos = [posX, posY];
-    var g = makeSVG("circle", {cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: JsonNode.color}, JsonNode.name, nowLevel, (MaxDegree - MinDegree) / 2 + MinDegree, pos);
+    var g = makeCircleSVG({cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: JsonNode.color}, JsonNode.name, nowLevel, (MaxDegree - MinDegree) / 2 + MinDegree, pos, parentID);
     if($NodeNumber == 1)
         $("#TopLevel").append(g);
     else
@@ -62,13 +61,26 @@ function TraceTree(JsonNode, posX, posY, nowLevel, MinDegree, MaxDegree)
     {
         var EachDegree = (MaxDegree - MinDegree) / JsonNode.parent.length;
         for(var i = 0; i < JsonNode.parent.length; i++)
-            TraceTree(JsonNode.parent[i], pos[0], pos[1], nowLevel + 1, MinDegree + i * EachDegree, MinDegree + (i + 1) * EachDegree);
+            TraceTree(JsonNode.parent[i], pos[0], pos[1], nowLevel + 1, MinDegree + i * EachDegree, MinDegree + (i + 1) * EachDegree, $(g).attr("id"));
     }
     
     // 加上滑鼠移過去的事件
     $(g).on("mouseenter", function(event){ NodeMouseEnter( $(event.target)); });
     $(g).on("mouseleave", function(event){ NodeMouseOut( $(event.target)); });
 };
+
+function GenerateLine()
+{
+    for(var i = $NodeNumber - 1; i >= 1; i--)
+    {
+        var NowNode = $("#Node" + i);
+        var NowPos = [NowNode.attr("lerp_pos_x"), NowNode.attr("lerp_pos_y")];
+        var ParentNode = $("#" + NowNode.attr("parent"));
+        var ParentPos = [ParentNode.attr("lerp_pos_x"), ParentNode.attr("lerp_pos_y")];
+        var line = makeLineSVG({x1: NowPos[0], y1: NowPos[1], x2: ParentPos[0], y2: ParentPos[1], stroke: 'black', 'stroke-width': 3}, NowNode.attr("id"), ParentNode.attr("id"));
+        $(line).insertBefore($("#TopLevel").children().eq(0));
+    }
+}
 
 // 當滑鼠移過去之後，全部的 Node 要散開
 function NodeMouseEnter(target)
@@ -142,6 +154,7 @@ function moveToPos()
         }
         CountTime += EachCount;
     }
+    modifyLinePos();
 }
 
 // 將所有的點移至原本的位置
@@ -168,6 +181,25 @@ function moveToOrgPos()
             node.attr("lerp_pos_y", FinalPos[1]);
         }
         CountTime += EachCount;
+    }
+    modifyLinePos();
+}
+
+function modifyLinePos()
+{
+    for(var i = $NodeNumber - 1; i >= 1; i--)
+    {
+        var NowNode = $("#Node" + i);
+        var NowPos = [NowNode.attr("lerp_pos_x"), NowNode.attr("lerp_pos_y")];
+        var ParentNode = $("#" + NowNode.attr("parent"));
+        var ParentPos = [ParentNode.attr("lerp_pos_x"), ParentNode.attr("lerp_pos_y")];
+        
+        var Line = $("#LineNode" + i + "To" + NowNode.attr("parent"));
+        $(Line).attr("x1", NowPos[0]);
+        $(Line).attr("y1", NowPos[1]);
+        $(Line).attr("x2", ParentPos[0]);
+        $(Line).attr("y2", ParentPos[1]);
+        //$(line).insertBefore($("#TopLevel").children().eq(0));
     }
 }
 

@@ -259,6 +259,13 @@ class MainController < ApplicationController
                 {'id': 3, 'name': 'DDD'}
             ]}
             }"
+        #@jsonFile = "{'item': {
+        #    'id': 0, 'name': 'AAA', 'color': '#DB7093', 'parent': [
+        #        {'id': 1, 'name': 'BBB', 'color': '#4169E1'},
+        #        {'id': 2, 'name': 'CCC'},
+        #        {'id': 3, 'name': 'DDD'}
+        #    ]}
+        #    }"
     end
 
 	def notify
