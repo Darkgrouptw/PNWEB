@@ -91,8 +91,8 @@ class MainController < ApplicationController
         counter = []
         recorder = []
         media_list.each do |media|
-            #counter.push(getStringIDLength(media.datadetail_id))
-            #recorder.push(people.id)
+            counter.push(getStringIDLength(media.datadetail_id))
+            recorder.push(media.id)
         end
         for i in 0..counter.length - 2
             for j in 0..counter.length - i - 2
@@ -109,7 +109,54 @@ class MainController < ApplicationController
         return media_list.where(id: recorder.first(10))
     end
 
-    def findBalanceMedia()
+    def findBalanceMedia(media_list)
+        counter = []
+        recorder = []
+        detail_str = []
+        detail_all = DataDetail.all
+        media_list.each do |media|
+            detail_str = media.datadetail_id.split(',')
+            details = detail_all.where(id: detail_str).order(:issue_id)
+            sum = 0
+            issue_ids = []
+            details.each do |detail|
+                if !issue_ids.include? detail.issue_id
+                    issue_ids.push(detail.issue_id)
+                end
+            end
+            issue_ids.each do |issue_id|
+                issue_details = details.where(issue_id: issue_id)
+                num_neg = 0
+                num_pos = 0
+                issue_details.each do |detail|
+                    if detail.is_support
+                        num_pos = num_pos + 1
+                    else
+                        num_neg = num_neg + 1
+                    end
+                end
+                sum = sum + ((num_pos - num_neg).abs)/issue_details.length
+            end
+
+            counter.push(sum)
+            recorder.push(media.id)
+        end
+
+
+        for i in 0..counter.length - 2
+            for j in 0..counter.length - i - 2
+                if counter[j] > counter[j + 1]
+                    temp = counter[j]
+                    counter[j] = counter[j + 1]
+                    counter[j + 1] = temp
+                    temp = recorder[j]
+                    recorder[j] = recorder[j + 1]
+                    recorder[j + 1] = temp
+                end
+            end
+        end
+        return media_list.where(id: recorder.first(10))
+
     end
 
     def writeDataFromFile
@@ -131,7 +178,7 @@ class MainController < ApplicationController
         @NearHotPeople = findNearHotPeople(@people)
         @InfluenceMedia = findInfluenceMedia(@media)
         @influencePeople = findInfluencePeople(@people)
-        @BalanceMedia = findBalanceMedia()
+        @BalanceMedia = findBalanceMedia(@media)
         @NearHotIssueTree = findNearHotIssueTree()
 		@details=DataDetail.where(is_report: false).order(:count).reverse.first(10)
 		person = []

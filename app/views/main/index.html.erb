@@ -23,10 +23,16 @@
 	<% end %>
 <% end %>
 <% def CreateMostInfluenceMediaContent(maxContentNumber) %>
-	<tr><td><%= maxContentNumber + 1%></td></tr>
+	<% @InfluenceMedia.each do |item|%>
+		<% link = media_index_path(id: item.name) %>
+		<tr><td><a href=<%= link %>><%= item.name %></a></td></tr>
+	<% end %>
 <% end %>
 <% def CreateMostBalenceMediaContent(maxContentNumber) %>
-	<tr><td><%= maxContentNumber + 1%></td></tr>
+	<% @BalanceMedia.each do |item|%>
+		<% link = media_index_path(id: item.name) %>
+		<tr><td><a href=<%= link %>><%= item.name %></a></td></tr>
+	<% end %>
 <% end %>
 <% def CreateNearHotIssueTable() %>
 	<table class="table table-bordered">
