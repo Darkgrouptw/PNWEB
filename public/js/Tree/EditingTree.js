@@ -32,7 +32,7 @@ $(function(){
 /*
 因為 SVG 並非 html(namespace不同)，所以無法直接 append 上去，只能用這個方法貼上去
 */
-function makeSVG(tag, attrs, text, nowLevel, Degree) 
+function makeSVG(tag, attrs, text, nowLevel, Degree, pos) 
 {
     var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
@@ -42,21 +42,36 @@ function makeSVG(tag, attrs, text, nowLevel, Degree)
     
     for (var k in attrs)
         el.setAttribute(k, attrs[k]);
-    $(g).attr("id", "Node" + $NodeNumber++);
+    $(g).attr("id", "Node" + $NodeNumber);
     
     // 超過一定範圍，就不縮小了
-    var posX = radius * Math.cos(Degree / 180 * Math.PI);
-    var posY = radius * Math.sin(Degree  / 180 * Math.PI);
-    if(nowLevel >= 7)
-        $(g).attr("style", "transform: translate(" + posX + "px, " + posY + "px);");
-    else if(nowLevel != 1)
+    var posX = pos[0] + radius * Math.cos(Degree / 180 * Math.PI);
+    var posY = pos[1] + radius * Math.sin(Degree  / 180 * Math.PI);
+    //if(nowLevel >= 7)
+    //    $(g).attr("style", "transform: translate(" + posX + "px, " + posY + "px);");
+    
+    
+    if($NodeNumber != 0)
     {
-        $(g).attr("style", "transform: translate(" + posX + "px, " + posY + "px) scale(0.8);");
+        $(g).attr("org_pos_X", posX);
+        $(g).attr("org_pos_y", posY);
+        $(g).attr("lerp_pos_x", posX);
+        $(g).attr("lerp_pos_y", posY);
         $(g).attr("OrgScale", "0.8");
+        $(g).attr("style", "transform: scale(0.8) translate(" + posX + "px, " + posY + "px);");
+        pos[0] = posX;
+        pos[1] = posY;
+    }
+    else
+    {
+        $(g).attr("org_pos_X", 0);
+        $(g).attr("org_pos_y", 0);
+        $(g).attr("lerp_pos_x", 0);
+        $(g).attr("lerp_pos_y", 0);
+        $(g).attr("OrgScale", 1);
     }
     
-    $(g).attr("org_pos_X", posX);
-    $(g).attr("org_pos_y", posX);
+    $NodeNumber++;
     
     $lastPosition.push([$(document).width() / 2, $(document).height() / 2]);
     $offset.push([0, 0]);
@@ -72,7 +87,6 @@ function makeSVG(tag, attrs, text, nowLevel, Degree)
     // 新增文字
     tarea.setAttribute("style", " font-size:24px;");
     tarea.textContent = text;
-    console.log(text);
     return g;
 };
 
