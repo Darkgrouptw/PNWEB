@@ -1,5 +1,5 @@
 var CircleScale = 0.8;
-var Colur = ["#FFFFFF", "#88D365", "#F72758", "#6495ED", "#FFD905", "#F7F7F7", "#FCC2C2", "#2E3192", "#ECA400", "#FBF2C0", "#6FB722", "FF9900", "#2364AA", "#3DA5D9", "#73BFB8", "#00B6CC", "#99CC33"]
+var Colur = ["#FFFFFF", "#88D365", "#F72758", "#6495ED", "#FFD905", "#F7F7F7", "#FCC2C2", "#2E3192", "#ECA400", "#FBF2C0", "#6FB722", "#FF9900", "#2364AA", "#3DA5D9", "#73BFB8", "#00B6CC", "#99CC33"]
 $(function(){
     // 變數宣告
     $NodeNumber = 0;                        // 判斷總共有幾個 Node
@@ -48,6 +48,7 @@ $(function(){
         switch($(event.target).attr("index"))
         {
             case "0":
+            case "1":
                 $(this).hide(100);
                 
                 
@@ -63,6 +64,12 @@ $(function(){
                 break;
         }
     });
+    $(".blackAddItemDiv").on("contextmenu", function(){
+       return false; 
+    });
+    $(".AddItemDiv").on("contextmenu", function(){
+       return false; 
+    });
     $(".input-group-btn button").on("click", function(event){
         var NodeName = $("#queryIssue").prop("value");
         if(NodeName != "")
@@ -70,30 +77,11 @@ $(function(){
             switch($chooseIndex)
             {
                 case 0:
-                    var checkList = [sJsonData.item];
-                    var clickNode = $("#" + $clickID);
-                    while(true)
-                    {
-                        if(checkList.length == 0)
-                        {
-                            console.log("Bug");
-                            break;
-                        }
-                        
-                        var n = clickNode.children()[1].textContent;
-                        if(n != checkList[0].name && typeof checkList[0].parent != "undefined")
-                            for(var i = 0; i < checkList[0].parent.length; i++)
-                                checkList.push(checkList[0].parent[i]);
-                        else
-                        {
-                            checkList[0]['parent'].push({"name":NodeName, "color": RandomColor(), "parent":[]});
-                            break;
-                        }
-                        // 刪除第一個
-                        checkList.splice(0, 1);
-                    }
+                    AddNodeToChild(NodeName);
                     break;
+                    
                 case 1:
+                    AddNodeInSameLevel(NodeName);
                     break;
             }
             
@@ -224,4 +212,74 @@ function RandomColor()
 {
     var index = Math.floor((Math.random() * 117) % Colur.length);
     return Colur[index];
+}
+
+
+/*
+五種操作
+*/
+function AddNodeToChild(NodeName)
+{
+    var checkList = [sJsonData.item];
+    var clickNode = $("#" + $clickID);
+    while(true)
+    {
+        if(checkList.length == 0)
+        {
+            console.log("Bug");
+            break;
+        }
+        
+        var n = clickNode.children()[1].textContent;
+        if(n != checkList[0].name)
+            for(var i = 0; i < checkList[0].parent.length; i++)
+                checkList.push(checkList[0].parent[i]);
+        else
+        {
+            checkList[0]['parent'].push({"name":NodeName, "color": RandomColor(), "parent":[]});
+            break;
+        }
+        // 刪除第一個
+        checkList.splice(0, 1);
+    }
+}
+function AddNodeInSameLevel(NodeName)
+{
+    var checkList = [sJsonData.item];
+    var clickNode = $("#" + $clickID);
+    var Isfind = false;
+    while(!Isfind)
+    {
+        if(checkList.length == 0)
+        {
+            console.log("Bug");
+            break;
+        }
+        
+        var n = clickNode.children()[1].textContent;
+        if(n != checkList[0].name)
+            for(var i = 0; i < checkList[0].parent.length; i++)
+            {
+                if(n != checkList[0].parent[i].name)
+                    checkList.push(checkList[0].parent[i]);
+                else
+                {
+                    checkList[0]['parent'].push({"name":NodeName, "color": RandomColor(), "parent":[]});
+                    Isfind = true;
+                    break;
+                }
+            }
+        else
+        {
+            alert("Root 這層不能加同層的東西！！");
+            break;
+        }
+        
+        // 刪除第一個
+        checkList.splice(0, 1);
+    }
+}
+function MoveTo()
+{
+    
 }
