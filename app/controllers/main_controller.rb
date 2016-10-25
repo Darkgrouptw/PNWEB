@@ -245,27 +245,20 @@ class MainController < ApplicationController
         # BBB CCC DDD
         # 限制：不能有兩顆以上的 Tree
         @jsonFile = "{'item': {
-            'id': 0, 'name': 'AAA', 'color': '#DB7093', 'parent': [
-                {'id': 1, 'name': 'BBB', 'color': '#4169E1', 'parent': [
-                    {'id': 4, 'name': 'EEE'},
-                    {'id': 5, 'name': 'EEE'},
-                    {'id': 6, 'name': 'EEE'},
-                    {'id': 7, 'name': 'EEE'},
-                    {'id': 8, 'name': 'EEE'},
-                    {'id': 9, 'name': 'EEE'},
-                    {'id': 10, 'name': 'EEE'}
+            'name': 'AAA', 'color': '#DB7093', 'parent': [
+                {'name': 'BBB', 'color': '#4169E1', 'parent': [
+                    {'name': 'EEE', 'color': '#6495ED', 'parent': []},
+                    {'name': 'EEE', 'color': '#6495ED', 'parent': []},
+                    {'name': 'EEE', 'color': '#6495ED', 'parent': []},
+                    {'name': 'EEE', 'color': '#6495ED', 'parent': []},
+                    {'name': 'EEE', 'color': '#6495ED', 'parent': []},
+                    {'name': 'EEE', 'color': '#6495ED', 'parent': []},
+                    {'name': 'EEE', 'color': '#6495ED', 'parent': []}
                 ]},
-                {'id': 2, 'name': 'CCC'},
-                {'id': 3, 'name': 'DDD'}
+                {'name': 'CCC', 'color': '#6495ED', 'parent': []},
+                {'name': 'DDD', 'color': '#6495ED', 'parent': []}
             ]}
             }"
-        #@jsonFile = "{'item': {
-        #    'id': 0, 'name': 'AAA', 'color': '#DB7093', 'parent': [
-        #        {'id': 1, 'name': 'BBB', 'color': '#4169E1'},
-        #        {'id': 2, 'name': 'CCC'},
-        #        {'id': 3, 'name': 'DDD'}
-        #    ]}
-        #    }"
     end
 
 	def notify

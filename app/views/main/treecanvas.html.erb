@@ -16,6 +16,10 @@
   crossorigin="anonymous"></script>
         <script src="/js/Tree/TreeClass.js"></script>
         <script src="/js/Tree/EditingTree.js"></script>
+        <script src="/js/queryIssue.js"></script>
+        
+        <link rel="stylesheet" type="text/css" href="/css/query.css">
+        <!--<link rel="stylesheet" type="text/css" href="/css/user/form.css">-->
         <link rel="stylesheet" type="text/css" href="/css/navbar.css">
         <link rel="stylesheet" type="text/css" href="/css/Tree/TreeCanvas.css">
     </head>
@@ -25,9 +29,11 @@
             </svg>
         </div>
         <ul id="ListAddNode" class="custom-menu">
-            <li index="0" class="textArea">新增 Node</li>
-            <!--<li index="1"></li>-->
-            <!--<li index="2"></li>-->
+            <li index="0" class="textArea">新增下一層議題</li>
+            <li index="1" class="textArea">新增同一層議題</li>
+            <li index="2" class="textArea">上移</li>
+            <li index="3" class="textArea">下移</li>
+            <li index="4" class="textArea">刪除</li> 
         </ul>
         
         <!-- 全黑使用 -->
@@ -38,13 +44,14 @@
                 新增樹狀的 Node：
             </div>
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="請輸入議題" name="IssueName">
+                <input type="text" class="form-control" placeholder="請輸入議題" name="IssueName" id="queryIssue">
                 <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" onclick="">
+                    <button class="btn btn-default" type="button">
                         <span class="glyphicon glyphicon-plus"></span>
                     </button>
                 </span>
             </div>
+            <div id="queryIssueDiv" class="queryDiv" style="width: 220px; display: none;"></div>
         </div>
     </body>
 </html>

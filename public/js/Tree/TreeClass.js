@@ -3,8 +3,6 @@ var radius = 200;       // 每一個之間，差 radius 的距離
 var max_radius = 250;   // 滑鼠移過去的時候，最大的半徑
 var circleRadius = 120; // 球的半徑
 
-var NodeNumber = -1;
-
 // 時間設定
 var MoveTimer = null;   // 移動的 Timer
 var CountTime = 0;      // 計算Timer N 次
@@ -13,6 +11,8 @@ var MaxMoveCount = 500; // 最大要算幾次 =>  EachCount * MaxMoveCount 是�
 var MaxMoveDis = 100;   // 最大的移動的距離
 var TargetID = -1;      // 滑鼠移動時，目標的 ID
 var lerpRate = 0.1;
+
+var sJsonData;
 
 $(function(){
     // 先拿 Json 檔，把所有的東西抓下來$.ajax({
@@ -24,6 +24,7 @@ $(function(){
         // 將東西 pass 成 Json
         var JsonData = JSON.parse(data);
         TreeManager(JsonData);
+        sJsonData = JsonData;
     });
 });
 function TreeManager(JsonData)
@@ -44,11 +45,7 @@ function TreeManager(JsonData)
 // nowLevel     是現在是第幾個 level，超過 7 層就不要 Scale
 // degree       幾度的
 function TraceTree(JsonNode, posX, posY, nowLevel, MinDegree, MaxDegree, parentID)
-{   
-    // 如果顏色是空的，就塞一個顏色給他
-    if(typeof JsonNode.color == "undefined")
-        JsonNode.color = "#6495ED";
-    
+{
     // 創建一個 svg 的 block
     var pos = [posX, posY];
     var g = makeCircleSVG({cx: 0, cy: 0, r: circleRadius, stroke: 'black', 'stroke-width': 2, fill: JsonNode.color}, JsonNode.name, nowLevel, (MaxDegree - MinDegree) / 2 + MinDegree, pos, parentID);
@@ -58,7 +55,7 @@ function TraceTree(JsonNode, posX, posY, nowLevel, MinDegree, MaxDegree, parentI
         $(g).insertBefore($("#Node" + ($NodeNumber - 2)));
     
     // 去 Trace 他的小孩
-    if(typeof JsonNode.parent != "undefined")
+    if(typeof JsonNode.parent.length != 0)
     {
         var EachDegree = (MaxDegree - MinDegree) / JsonNode.parent.length;
         for(var i = 0; i < JsonNode.parent.length; i++)
@@ -68,6 +65,7 @@ function TraceTree(JsonNode, posX, posY, nowLevel, MinDegree, MaxDegree, parentI
     // 加上滑鼠移過去的事件
     $(g).on("mouseenter", function(event){ NodeMouseEnter( $(event.target)); });
     $(g).on("mouseleave", function(event){ NodeMouseOut( $(event.target)); });
+    
 };
 
 function GenerateLine()
