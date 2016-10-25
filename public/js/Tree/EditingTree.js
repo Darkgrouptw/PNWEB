@@ -24,9 +24,17 @@ $(function(){
     //});
     
     // 取消右鍵選單
-    //$(".MenuBox").on("contextmenu", function(){
-    //    return false;
-    //});
+    $(".MenuBox svg").on("contextmenu", function(){
+        $(this).css("cursor", "pointer");
+        return false;    
+    });
+    
+    // 放掉滑鼠要變成一班
+    $(".MenuBox svg").on("mouseup", function(){
+        // 判斷是不是右鍵
+        if(event.button == 2)
+            $(this).css("cursor", "default");
+    });
 });
 
 /*
@@ -43,6 +51,7 @@ function makeCircleSVG(attrs, text, nowLevel, Degree, pos, parentID)
     for (var k in attrs)
         el.setAttribute(k, attrs[k]);
     $(g).attr("id", "Node" + $NodeNumber);
+    $(tarea).attr("class", "textArea");
     
     // 超過一定範圍，就不縮小了
     var posX = pos[0] + radius * Math.cos(Degree / 180 * Math.PI);

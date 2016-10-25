@@ -199,7 +199,6 @@ function modifyLinePos()
         $(Line).attr("y1", NowPos[1]);
         $(Line).attr("x2", ParentPos[0]);
         $(Line).attr("y2", ParentPos[1]);
-        //$(line).insertBefore($("#TopLevel").children().eq(0));
     }
 }
 
