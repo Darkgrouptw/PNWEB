@@ -255,6 +255,7 @@
 									<% detail = details[index] %> 
 									<% person = @persons.where(id: detail.people_id)[0] %>
 									<% user = @users.where(id: detail.post_id)[0] %>
+									<% media = @medias.where(name: detail.news_media)[0] %>
 									<!-- content -->
 									<tr>
 										<td>
@@ -265,7 +266,12 @@
 										<td><% if detail.is_direct %>直<% else %>間<% end %></td>
 										<td>
 											<div><%= detail.report_at %></div>
-											<div><%= detail.news_media %></div>
+											<% link = media_index_path(id: media.name) %>
+											<div>
+												<a href=<%= link %>>
+													<%= media.name %>	
+												</a>
+											</div>
 										</td>
 										<td>
 											<div><% link = detail.link %><a href = <%= "//" + link %>>連結</a></div>

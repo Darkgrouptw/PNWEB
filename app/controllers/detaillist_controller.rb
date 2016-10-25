@@ -12,7 +12,7 @@ class DetaillistController < ApplicationController
 		end
 		@issue = DataIssue.where(id: @me.issue_id)[0]
 		@person = DataPerson.where(id: @me.people_id)[0]
-
+		@media = DataMedium.where(name: @me.news_media)[0]
 		comment_ids = @me.comment_id.split(',')
 
 		@comments = DataComment.where(id: comment_ids).order(:created_at).reverse

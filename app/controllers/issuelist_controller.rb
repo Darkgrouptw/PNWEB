@@ -131,16 +131,19 @@ class IssuelistController < ApplicationController
 		#增加名人 編者
 		user = []
 		person = []
+		media = []
 		for i in 0..@numberPerPage-1
 			index = @numberPerPage * @positive_page.to_i + i
 			if(@support.length > index)
 				user.push(@support[index].post_id)
 				person.push(@support[index].people_id)
+				media.push(@support[index].news_media)
 			end
 			index = @numberPerPage * @negative_page.to_i + i
 			if(@disSupport.length > index)
 				user.push(@disSupport[index].post_id)
 				person.push(@disSupport[index].people_id)
+				media.push(@disSupport[index].news_media)
 			end
 		end
 
@@ -154,6 +157,7 @@ class IssuelistController < ApplicationController
 		end
 		@users=User.where(id: user)
 		@persons=DataPerson.where(id: person)
+		@medias = DataMedium.where(name: media)
 	end
 
 	def add
