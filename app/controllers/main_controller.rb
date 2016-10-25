@@ -1,7 +1,7 @@
 class MainController < ApplicationController
 	
     def findNearHotIssue(issue_list)
-        likelist = LikeList.where(created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
+        likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
         counter = []
         recorder = [];
         issue_list.each do |issue|
@@ -171,7 +171,7 @@ class MainController < ApplicationController
 		# 刪除 email 得 Session
 		clearEmailSession
 		#@issues=DataIssue.where(trunk_id: -1,is_candidate: false).order(:created_at).reverse.first(10)
-        @issues = DataIssue.all
+        @issues = DataIssue.where(is_candidate: false)
         @people = DataPerson.all
         @media = DataMedium.all
         @NearHotIssue = findNearHotIssue(@issues)

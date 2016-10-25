@@ -49,7 +49,7 @@
 						<td><div>誰的意見</div><div>當時頭銜</div></td>
 						<td>屬於間接意見？</td>
 						<td><div>發言時間</div><div>刊載媒體</div></td>
-						<td><div>原文連結</div><div>原文截圖</div></td>
+						<td><div>原文連結</div><div>原文備份</div></td>
 						<td>人氣</td>
 						<td><div>上線時間</div><div>編者</div></td>
 					</tr>
@@ -64,7 +64,6 @@
 					<% media = @media %>
 					<tr>
 						<td>
-
 							<% link = issuelist_index_path(id: @issue.id) %>
 							<a href = <%= link %>>
 								<%= @issue.title %>
@@ -93,15 +92,15 @@
 							</div>
 						</td>
 						<td>
-							<div><% link = detail.link %><a href = <%= "//" + link %> target="_blank">連結</a></div>
+							<div><% link = detail.link %><a href = <%= "//" + link %> target="_blank">原文連結</a></div>
 							<div>
 								<% link = "pageBackUp/"+detail.backup_id.to_s+"."+detail.backup_type %>
-								<% if File.exist?(Rails.root + "public/" + link) %>
+								<% if FileIsExit(link) %>
 									<a href = <%= "/"+link %> target="_blank">
-										原文截圖
+										備份檔案
 									</a>
 								<% else %>
-									<br>圖片尚未備份
+									<br>
 								<% end %>
 							</div>
 						</td>

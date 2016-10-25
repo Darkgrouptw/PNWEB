@@ -33,8 +33,16 @@ module Common
     end
 
     def stringHasID(str,id)
-        result = true
-        return result
+        if str.nil?
+            return false
+        end
+        if str.empty?
+            return false
+        end
+        if str.split(',').include?(id.to_s)
+            return true
+        end
+        return false
     end
     def getStringIDLength(str)
         return str.split(',').length 

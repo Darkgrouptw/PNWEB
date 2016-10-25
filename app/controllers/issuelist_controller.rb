@@ -36,15 +36,30 @@ class IssuelistController < ApplicationController
 		# 判斷是否讚太多
 		likeLimit = 3
 		likeNumber = 0
+		posLikeNumber = 0
+		negLikeNumber = 0
 		@NoMoreLike = false
+		@NoMorePosLike = false
+		@NoMoreNegLike = false
 		@details.each do |detail|
 			like = @likeList.where(detail_id: detail.id)[0]
 			if !like.nil?
+				if detail.is_support
+					posLikeNumber = posLikeNumber + 1
+				else
+					negLikeNumber = negLikeNumber + 1
+				end
 				likeNumber = likeNumber + 1
 			end
 		end
 		if likeNumber >= likeLimit
 			@NoMoreLike = true
+		end
+		if posLikeNumber >= likeLimit
+			@NoMorePosLike = true
+		end
+		if negLikeNumber >= likeLimit
+			@NoMoreNegLike = true
 		end
 		# 要判斷是不是只要直接意見
 		@support = @details.where(is_support: true)
@@ -64,11 +79,11 @@ class IssuelistController < ApplicationController
 			for i in 0..@support.length - 1
 				length_i = 0
 				text_i = @support[i].like_list_id
-				length_i = text_i.split(',').length
+				length_i = @likeList.where(detail_id: @support[i].id).length
 				for j in 0..i
 					length_j = 0
 					text_j = @support[i].like_list_id
-					length_j = text_j.split(',').length
+					length_j = @likeList.where(detail_id: @support[j].id).length
 
 					if length_j < length_i
 						temp = @support[i]
@@ -84,11 +99,11 @@ class IssuelistController < ApplicationController
 			for i in 0..@disSupport.length - 1
 				length_i = 0
 				text_i = @disSupport[i].like_list_id
-				length_i = text_i.split(',').length
+				length_i = @likeList.where(detail_id: @disSupport[i].id).length
 				for j in 0..i
 					length_j = 0
 					text_j = @disSupport[i].like_list_id
-					length_j = text_j.split(',').length
+					length_j = @likeList.where(detail_id: @disSupport[j].id).length
 
 					if length_j < length_i
 						temp = @disSupport[i]
@@ -155,6 +170,8 @@ class IssuelistController < ApplicationController
 				@notifyList.save
 			end
 		end
+		@totalDetailNumber = @details.length
+		@totalLikeNumber = @likeList.length
 		@users=User.where(id: user)
 		@persons=DataPerson.where(id: person)
 		@medias = DataMedium.where(name: media)

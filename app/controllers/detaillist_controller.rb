@@ -304,9 +304,11 @@ class DetaillistController < ApplicationController
 	end
 
 	def dislike
-		flash[:alert] = "此功能已不再支援"
-		redirect_to(:back)
-		return
+		if !can_like()
+			flash[:alert] = "權限不足"
+			redirect_to(:back)
+			return
+		end
 		@detail = DataDetail.where(id: params[:id],is_report: false)[0]
 		post_id = current_user.id
 		path = params[:path]
@@ -344,10 +346,43 @@ class DetaillistController < ApplicationController
 			#nothing to do ,Instead there is something wrong if code in here is been excute
 		end
 		@detail.save
-		redirect_to path
+		redirect_to (:back)
 
 	end
-
+	def groupeDislike
+		if !can_like()
+			flash[:alert] = "權限不足"
+			redirect_to(:back)
+			return
+		end
+		detail_ids = params[:detail_ids]
+		detail_ids = detail_ids.split(',')
+		details = DataDetail.where(id: detail_ids)
+		issue = DataIssue.where(id: details[0].issue_id)[0]
+		likeList = LikeList.where(detail_id: detail_ids,post_id: current_user.id)
+		notify = NotifyList.where(user_id: current_user.id,issue_id: issue.id)[0]
+		details.each do |detail|
+			#like
+			if params[detail.id.to_s]
+				like = likeList.where(detail_id: detail.id)[0]
+				detail.like_list_id = removeIDFromString(detail.like_list_id,like.id.to_s)
+				like.destroy
+			end
+		end
+		#notify
+		stillNotify = false
+		likelist = LikeList.where(post_id: current_user)
+		likelist.each do |item|
+			if stringHasID(issue.datadetail_id,item.detail_id.to_s)
+				stillNotify = true
+			end
+		end
+		if stillNotify
+		else
+			notify.destroy
+		end
+		redirect_to(:back)
+	end
 	def comment_new
 		if !can_add_comment()
 			flash[:alert] = "權限不足"

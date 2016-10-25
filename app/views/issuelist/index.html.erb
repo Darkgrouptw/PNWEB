@@ -178,8 +178,8 @@
 						<td align = "right">
 							上線時間：<%= @me.created_at %> 
 							標籤：<%= @me.tag %> 
-							意見總數：<%= @me.datadetail_id.split(',').length %> 
-							投票總數：<%= @me.thumb_up.split(',').length %>
+							意見總數：<%= @totalDetailNumber %> 
+							投票總數：<%= @totalLikeNumber %>
 						</td>
 					</tr>
 				</thead>
@@ -232,7 +232,7 @@
 								<td><div>誰的意見</div><div>當時頭銜</div></td>
 								<td>屬於間接意見？</td>
 								<td><div>發言時間</div><div>刊載媒體</div></td>
-								<td><div>原文連結</div><div>原文截圖</div></td>
+								<td><div>原文連結</div><div>原文備份</div></td>
 								<td>人氣</td>
 								<td><div>上線時間</div><div>編者</div></td>
 								<td>檢舉</td>
@@ -274,7 +274,7 @@
 											</div>
 										</td>
 										<td>
-											<div><% link = detail.link %><a href = <%= "//" + link %>>連結</a></div>
+											<div><% link = detail.link %><a href = <%= "//" + link %> target="_blank">原文連結</a></div>
 											<div>
 												<% link = "pageBackUp/"+detail.backup_id.to_s+"."+detail.backup_type %>
             	                    			<% if FileIsExit(link) %>
@@ -295,8 +295,15 @@
 													<% link = detaillist_dislike_path + "?id=" + detail.id.to_s + "&path=" + path%>
 													<%= link_to "收回讚",link,method: :post%>
 												<% else %>
-													<% if @NoMoreLike%>
-														你已達到此議題的按讚上限
+													<% if(i==0 && @NoMorePosLike) || (i == 1 && @NoMoreNegLike)%>
+														<br>
+														你已達到此議題的
+														<% if i == 0 %>
+															贊成方
+														<% else %>
+															反對方
+														<% end %>
+														按讚上限
 													<% else %>
 														<% path = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,@pos_show,@neg_show) %>
 														<% path = path.gsub('?','!').gsub('&','|') %>
@@ -367,40 +374,53 @@
 			</div>
 			
 			<!-- 表單 -->
-			<table class = "table table-bordered">
-				<thead>
-					<% if i == 0 %>
-						<tr align = "center"><td class = "col-md-8" colspan = "2">贊成論述</td></tr>
-					<% else %>
-						<tr align = "center"><td class = "col-md-8" colspan = "2">反對論述 </td></tr>
-					<% end %>
-					<tr>
-						<td><div>名嘴</div><div>（當時頭銜）</div></td>
-						<td>內容</td>
-					</tr>
-				</thead>
-				<tbody>
-					<% if current_user.nil? %>
-					<% else %>
-						<%	@details.each do |detail| %>
-
-							<% if !@AllLike.where(detail_id: detail.id,post_id: current_user.id)[0].nil? %>
-								<% person = @persons.where(id: detail.people_id)[0] %>
-								<% user = @users.where(id: detail.post_id)[0] %>
-
-								<tr>
-									<td><div><% if person.nil? %>無名氏<% else %><% link = peoplelist_index_path(id: person.name) %><a href = <%= link %>> <%= person.name %> </a><% end %></div><div> ( <%= detail.	title_at_that_time %> )</div></td>
-										<td>
-										<% link = detaillist_index_path(id: detail.id) %>
-										<a href = <%= link %>><%= detail.content %></a>
-									</td>
-								</tr>
+			<form action= "<%= detaillist_groupeDislike_path %> " method="post">
+				<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+				<% detail_ids = "" %>
+				<% for i in 0..1 %>
+					<table class = "table table-bordered">
+						<thead>
+							<% if i == 0 %>
+								<tr align = "center"><td class = "col-md-8" colspan = "3">贊成論述</td></tr>
+							<% else %>
+								<tr align = "center"><td class = "col-md-8" colspan = "3">反對論述 </td></tr>
 							<% end %>
-
-						<% end %>
-					<% end %>
-				</tbody>
-			</table>
+							<tr>
+								<td><div>名嘴</div><div>（當時頭銜）</div></td>
+								<td>內容</td>
+								<td>是否收回</td>
+							</tr>
+						</thead>
+						<tbody>
+							<% if current_user.nil? %>
+							<% else %>
+								<% details = @details %>
+								<% if i == 0 %><% details = @support %><% else %><% details = @disSupport %><% end %>
+								<%	details.each do |detail| %>
+		
+									<% if !@AllLike.where(detail_id: detail.id,post_id: current_user.id)[0].nil? %>
+										<% person = @persons.where(id: detail.people_id)[0] %>
+										<% user = @users.where(id: detail.post_id)[0] %>
+										<tr>
+											<td><div><% if person.nil? %>無名氏<% else %><% link = peoplelist_index_path(id: person.name) %><a href = <%= link %>> <%= person.name %> </a><% end %></div><div> ( <%= detail.	title_at_that_time %> )</div></td>
+											<td>
+												<% link = detaillist_index_path(id: detail.id) %>
+												<a href = <%= link %>><%= detail.content %></a>
+											</td>
+											<td>
+												<input type="checkbox" class="form-control" name="<%= detail.id %>">
+											</td>
+										</tr>
+										<% detail_ids = detail_ids + detail.id.to_s + "," %>
+									<% end %>
+								<% end %>
+							<% end %>
+						</tbody>
+					</table>
+				<% end %>
+				<input type="hidden" name="detail_ids" value="<%= detail_ids %>">
+				<input type = "submit" class = "btn btn-primary" style = "width: 150px;">
+			</form>
 		</div>
 	</div>
 </div>
