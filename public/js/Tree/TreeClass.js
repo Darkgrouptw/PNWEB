@@ -1,6 +1,7 @@
 // 半徑設定
-var radius = 150;       // 每一個之間，差 radius 的距離
-var max_radius = 200;   // 滑鼠移過去的時候，最大的半徑
+var radius = 200;       // 每一個之間，差 radius 的距離
+var max_radius = 250;   // 滑鼠移過去的時候，最大的半徑
+var circleRadius = 120; // 球的半徑
 
 var NodeNumber = -1;
 
@@ -50,11 +51,11 @@ function TraceTree(JsonNode, posX, posY, nowLevel, MinDegree, MaxDegree, parentI
     
     // 創建一個 svg 的 block
     var pos = [posX, posY];
-    var g = makeCircleSVG({cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: JsonNode.color}, JsonNode.name, nowLevel, (MaxDegree - MinDegree) / 2 + MinDegree, pos, parentID);
+    var g = makeCircleSVG({cx: 0, cy: 0, r: circleRadius, stroke: 'black', 'stroke-width': 2, fill: JsonNode.color}, JsonNode.name, nowLevel, (MaxDegree - MinDegree) / 2 + MinDegree, pos, parentID);
     if($NodeNumber == 1)
         $("#TopLevel").append(g);
     else
-       $(g).insertBefore($("#TopLevel").children().eq(0));
+        $(g).insertBefore($("#Node" + ($NodeNumber - 2)));
     
     // 去 Trace 他的小孩
     if(typeof JsonNode.parent != "undefined")

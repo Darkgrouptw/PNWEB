@@ -1,3 +1,4 @@
+var CircleScale = 0.8;
 $(function(){
     // 變數宣告
     //$TreeArray = [];
@@ -5,11 +6,10 @@ $(function(){
     $clickIndex = -1;                       // 判斷點擊的 Index
     
     $lastPosition = [];
-    $offset = [];
     
-    //$("#addNode").click(function(){
-    //    $(".MenuBox svg").prepend(makeSVG("circle", {cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: 'red'}, $(".AddItemDiv input").prop("value")));
-    //});
+    $("#addNode").click(function(){
+        $(".MenuBox svg").prepend(makeSVG({cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: 'red'}, $(".AddItemDiv input").prop("value")));
+    });
     
     
     // 滑鼠按下去的時候，假設有點到東西，就可以對整個做移動的功能
@@ -54,11 +54,14 @@ function makeCircleSVG(attrs, text, nowLevel, Degree, pos, parentID)
     $(tarea).attr("class", "textArea");
     
     // 超過一定範圍，就不縮小了
-    var posX = pos[0] + radius * Math.cos(Degree / 180 * Math.PI);
-    var posY = pos[1] + radius * Math.sin(Degree  / 180 * Math.PI);
-    //if(nowLevel >= 7)
-    //    $(g).attr("style", "transform: translate(" + posX + "px, " + posY + "px);");
+    var scale = 1;
+    if(nowLevel >= 7)
+        scale = Math.pow(0.8, 7);
+    else
+        scale = Math.pow(0.8, nowLevel);
     
+    var posX = pos[0] + radius * Math.cos(Degree / 180 * Math.PI) * scale;
+    var posY = pos[1] + radius * Math.sin(Degree  / 180 * Math.PI) * scale;
     
     $(g).attr("parent", parentID);
     if($NodeNumber != 0)
@@ -67,8 +70,10 @@ function makeCircleSVG(attrs, text, nowLevel, Degree, pos, parentID)
         $(g).attr("org_pos_y", posY);
         $(g).attr("lerp_pos_x", posX);
         $(g).attr("lerp_pos_y", posY);
-        $(g).attr("OrgScale", "0.8");
-        $(g).attr("style", "transform: scale(0.8) translate(" + posX + "px, " + posY + "px);");
+        
+        
+        $(g).attr("OrgScale", scale);
+        $(g).attr("style", "transform: translate(" + posX + "px, " + posY + "px) scale(" + scale + ");");
         pos[0] = posX;
         pos[1] = posY;
     }
@@ -83,8 +88,7 @@ function makeCircleSVG(attrs, text, nowLevel, Degree, pos, parentID)
     
     $NodeNumber++;
     
-    $lastPosition.push([$(document).width() / 2, $(document).height() / 2]);
-    $offset.push([0, 0]);
+    //$lastPosition.push([$(document).width() / 2, $(document).height() / 2]);
     
     // 滑鼠點擊事件
     $(g).mousedown(function(event){
