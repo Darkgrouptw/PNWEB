@@ -212,7 +212,7 @@ function CountAngleByID(SourcePos, TargetPos)
     return Math.atan2(ry, rx) * 180 / Math.PI;
 }
 
-// 從 Pos 到某個 angle 的 ？？
+// 從 Pos 經過 angle 算最大能移動的距離，然後 lerp 到那個點
 function CountMovePos(Pos, angle, LerpPos)
 {
     var FinalX = MaxMoveDis * Math.cos(angle / 180 * Math.PI) + Pos[0];

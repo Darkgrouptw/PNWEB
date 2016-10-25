@@ -5,11 +5,17 @@ $(function(){
     $NodeNumber = 0;                        // 判斷總共有幾個 Node
     $clickIndex = -1;                       // 判斷點擊的 Index
     
-    $lastPosition = [];
-    
-    $("#addNode").click(function(){
-        $(".MenuBox svg").prepend(makeSVG({cx: 0, cy: 0, r: 100, stroke: 'black', 'stroke-width': 2, fill: 'red'}, $(".AddItemDiv input").prop("value")));
-    });
+    $boolIsCreate = false;                  // 是否正屬於創建 Node 的時候
+    $lastPosition = [];                     // 創建的最後一個 pos
+        
+    //$("#addNode").on("mousedown", function(event){
+        /*var g = makeSimpleCircleSVG({cx: 0, cy: 0, r: circleRadius, stroke: 'black', 'stroke-width': 2, fill: 'red'}, $(".AddItemDiv input").prop("value"));
+        
+        $(g).attr("lerp_pos_x", event.pageX);
+        $(g).attr("lerp_pos_y", event.pageY);
+        $(g).attr("style", "transform: translate(" + event.pageX + "px, " + event.pageY + "px);");
+        $(".MenuBox svg").prepend(g);*/
+    //});
     
     
     // 滑鼠按下去的時候，假設有點到東西，就可以對整個做移動的功能
@@ -23,17 +29,61 @@ $(function(){
     //    $clickIndex = -1;
     //});
     
-    // 取消右鍵選單
-    $(".MenuBox svg").on("contextmenu", function(){
-        $(this).css("cursor", "pointer");
-        return false;    
+    /*
+    加東西的 Div 事件
+    */
+    $(".AddItemDiv .glyphicon-remove").on("click", function(){
+        $(".blackAddItemDiv").animate({
+            "background-color": 'rgba(0, 0, 0, 0)'
+        }, 500, function(){
+            $(this).hide();
+        });
+        $(".AddItemDiv").animate({
+            bottom: "-=500px"
+        }, 500, function(){
+            $(this).hide();
+        });
     });
     
-    // 放掉滑鼠要變成一班
-    $(".MenuBox svg").on("mouseup", function(){
-        // 判斷是不是右鍵
-        if(event.button == 2)
-            $(this).css("cursor", "default");
+    /*
+    選單效果
+    */
+    // 取消右鍵選單，依照情形來顯示選單
+    $(".MenuBox svg").on("contextmenu", function(event){
+        // 避免真的選單跳出來
+        event.preventDefault();
+        $("#ListAddNode").show(100).css({
+            top: event.pageY + "px",
+            left: event.pageX + "px"
+        });
+        $lastPosition = [event.pageX, event.pageY];
+    });
+    // 按下按鍵，如果不在視窗裡面，要把選單消除
+    $(".MenuBox svg").on("mousedown", function(event){
+        // 如果按下的地方，不在選單裡面，就要關閉
+        if (!$(event.target).parents(".custom-menu").length > 0 && event.button != 2)
+            $(".custom-menu").hide(100);
+    });
+    $("#ListAddNode").on("click", function(event){
+        switch($(event.target).attr("index"))
+        {
+            case "0":
+                $(this).hide(100);
+                
+                // 產生東西給你加議題
+                $(".blackAddItemDiv").attr("style", "background-color: rgba(0, 0, 0, 0);");
+                $(".AddItemDiv").attr("style", "buttom: -500px;");
+                $(".blackAddItemDiv").animate({
+                    "background-color": 'rgba(0, 0, 0, 0.8)'
+                }, 500);
+                $(".AddItemDiv").animate({
+                    bottom: "+=500px"
+                }, 500);
+                break;
+        }
+    });
+    $(".custom-menu li").on("contextmenu", function(event){
+       event.preventDefault(); 
     });
 });
 
@@ -50,6 +100,8 @@ function makeCircleSVG(attrs, text, nowLevel, Degree, pos, parentID)
     
     for (var k in attrs)
         el.setAttribute(k, attrs[k]);
+    
+    // 判斷他是否是現在要加進去的
     $(g).attr("id", "Node" + $NodeNumber);
     $(tarea).attr("class", "textArea");
     
@@ -70,9 +122,9 @@ function makeCircleSVG(attrs, text, nowLevel, Degree, pos, parentID)
         $(g).attr("org_pos_y", posY);
         $(g).attr("lerp_pos_x", posX);
         $(g).attr("lerp_pos_y", posY);
-        
-        
         $(g).attr("OrgScale", scale);
+        $(g).attr("NowLevel", nowLevel);
+        
         $(g).attr("style", "transform: translate(" + posX + "px, " + posY + "px) scale(" + scale + ");");
         pos[0] = posX;
         pos[1] = posY;
@@ -84,18 +136,13 @@ function makeCircleSVG(attrs, text, nowLevel, Degree, pos, parentID)
         $(g).attr("lerp_pos_x", 0);
         $(g).attr("lerp_pos_y", 0);
         $(g).attr("OrgScale", 1);
+        $(g).attr("NowLevel", nowLevel);
     }
-    
     $NodeNumber++;
-    
-    //$lastPosition.push([$(document).width() / 2, $(document).height() / 2]);
     
     // 滑鼠點擊事件
     $(g).mousedown(function(event){
         $clickIndex = parseInt($(this).attr("id").replace("Node", ""));
-        
-        // 要跑去裡面設定 offset 多少
-        NodeClick();
     });
     
     // 新增文字
@@ -103,6 +150,28 @@ function makeCircleSVG(attrs, text, nowLevel, Degree, pos, parentID)
     tarea.textContent = text;
     return g;
 };
+
+// 只有在按下加點的時候，會產生一個 Node
+function makeSimpleCircleSVG(attrs, text)
+{
+    var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    var el = document.createElementNS('http://www.w3.org/2000/svg', "circle");
+    var tarea = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    g.appendChild(el);
+    g.appendChild(tarea);
+    
+    for (var k in attrs)
+        el.setAttribute(k, attrs[k]);
+
+    $(g).attr("id", "NodeMove");
+    $(tarea).attr("class", "textArea");
+    
+    // 新增文字
+    tarea.setAttribute("style", " font-size:24px;");
+    tarea.textContent = text;
+    
+    return g;
+}
 
 function makeLineSVG(attrs, fromID, toID) 
 {
@@ -114,11 +183,11 @@ function makeLineSVG(attrs, fromID, toID)
 }
 
 // 在 click 的時候，設定 offset 的 function
-function NodeClick()
+/*function NodeClick()
 {
     $offset[$clickIndex][0] = event.pageX - $lastPosition[$clickIndex][0];
     $offset[$clickIndex][1] = event.pageY - $lastPosition[$clickIndex][1];
-};
+};*/
 // 滑鼠移動事件
 function NodeMove(event)
 {
