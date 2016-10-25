@@ -315,8 +315,15 @@
 											<% if current_user.nil? %>
 												登入後方可檢舉
 											<% else %>
-												<% if @reports.nil?%>
-													<button type="button" class="btn btn-link ReportModal_Button" data-toggle="modal" data-target="#ReportModal	" issue_name="<%= @me.title %>" post_name="<%= user.nickname %>" content="<%= detail.content %>" issue_id=	"<%= params[:issue_id] %>"  detail_id="<%= @me.id %>">我要檢舉</button>
+												<% if @reports.where(detail_id: detail.id)[0].nil? %>
+													<button type="button" class="btn btn-link ReportModal_Button" 
+													data-toggle="modal" data-target="#ReportModal	" 
+													issue_name="<%= @me.title %>" 
+													post_name="<%= user.nickname %>" 
+													content="<%= detail.content %>" 
+													issue_id=	"<%= params[:issue_id] %>"  
+													detail_id="<%= detail.id %>"
+													>我要檢舉</button>
 												<% else %>
 													你已檢舉過了
 												<% end %>

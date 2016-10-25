@@ -26,7 +26,7 @@ class IssuelistController < ApplicationController
 		@reports = nil
 		if !current_user.nil?
 			detail_ids = @me.datadetail_id.split(',')
-			@reports = ReportDetail.where(detail_id: detail_ids,people_id: current_user.id)[0]
+			@reports = ReportDetail.where(detail_id: detail_ids,people_id: current_user.id)
 		end
 		detail_strings = @me.datadetail_id.split(',')
 		@details = DataDetail.where(id: detail_strings,is_report: false)

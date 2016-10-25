@@ -44,7 +44,7 @@ class MainController < ApplicationController
         end
         likelist.each do |like|
             for i in 0..counter.length - 2
-                people = people_list.where(id: recorder[i])
+                people = people_list.where(id: recorder[i])[0]
                 if stringHasID(people.datadetail_id,like.detail_id)
                     counter[i] = counter[i] + 1
                 end

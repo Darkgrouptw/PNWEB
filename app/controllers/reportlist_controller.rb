@@ -99,14 +99,20 @@ class ReportlistController < ApplicationController
 	@report = @reportList.where(id: params[:id])[0]
 	@issue = DataIssue.where(id: params[:issue_id])[0]
 	@LikeListList = LikeList.where(detail_id: @detail.id)
+	@user = User.where(id: @detail.post_id)[0]
+	@media = DataMedium.where(name: @detail.news_media)[0]
+	@person = DataPerson.where(id: @detail.people_id)[0]
 
 	#issue
-	if @issue.datadetail_id.include?("," + @detail.id.to_s)
-		@issue.datadetail_id = @issue.datadetail_id.sub("," + @detail.id.to_s,"")
-	else
-		@issue.datadetail_id = @issue.datadetail_id.sub(@detail.id.to_s,"")
-	end
-	
+	@issue.datadetail_id = removeIDFromString(@issue.datadetail_id,@detail.id)
+	#poster
+	@user.datadetail_id = removeIDFromString(@user.datadetail_id,@detail.id)
+	#media
+	@media.datadetail_id = removeIDFromString(@media.datadetail_id,@detail.id)
+	#person
+	@person.datadetail_id = removeIDFromString(@person.datadetail_id,@detail.id)
+	#user
+	@user.datadetail_id = removeIDFromString(@user.datadetail_id,@detail.id)
 	#likelist 	#notify's user
 	users = []
 	@LikeListList.each do |item|
@@ -127,7 +133,6 @@ class ReportlistController < ApplicationController
 		user = item.user_id
 		like = @LikeListList.where(post_id: user)
 		datadetail_id = @issue.datadetail_id.split(',')
-
 		#if user did't like these issue any more => kill it
 		stillNotify = false
 		like.each do |item|
@@ -144,6 +149,9 @@ class ReportlistController < ApplicationController
 	end
 	@detail.save
 	@issue.save
-	redirect_to reportlist_all_path
+	@person.save
+	@media.save
+	@user.save
+	redirect_to(:back)
   end
 end

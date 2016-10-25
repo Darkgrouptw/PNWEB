@@ -73,10 +73,11 @@ class DetaillistController < ApplicationController
 				is_report: false,
 				content: content,
 				people_id: @person.id,
+				people_name: @person.name,
 				issue_id: issue_id,
 				title_at_that_time: title_at_that_time,
 				#-------------------wait for media database
-				news_media: news_media,
+				news_media: @media.name,
 				report_at: report_at,
 				link: link,
 				post_id: post_id,
@@ -96,8 +97,10 @@ class DetaillistController < ApplicationController
 				@detail.is_direct = false
 			end
 			@detail.backup_id = @issue.id.to_s + "_" + @detail.id.to_s
-			@issue.datadetail_id = @issue.datadetail_id + "," + @detail.id.to_s
-
+			@issue.datadetail_id = addIDToString(@issue.datadetail_id,@detail.id)
+			@person.datadetail_id = addIDToString(@person.datadetail_id,@detail.id)
+			current_user.datadetail_id = addIDToString(current_user.datadetail_id,@detail_id)
+			@media.datadetail_id = addIDToString(@media.datadetail_id,@detail_id)
 			#notify
 			@notifyList =  NotifyList.where(issue_id: @issue.id)
 			if !@notifyList.nil?
@@ -109,6 +112,9 @@ class DetaillistController < ApplicationController
 
 			@detail.save
 			@issue.save
+			@person.save
+			current_user.save
+			@media.save
 			puts "---------" + backup_type.to_s + "-------------------"
 			#backup picture
 			#check if it is need or can be backup

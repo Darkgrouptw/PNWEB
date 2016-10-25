@@ -9,7 +9,6 @@ $(document).ready(function(){
         const content = $(this).attr("content") + " ";
         const issue_id = $(this).attr("issue_id");
         const detail_id = $(this).attr("detail_id");
-
         $(".modal-title").text(strTitle + post_name + issue_name + content);
         $("#ReportForm").attr("action", "/Reportlist/new" );
         $("#detail_id").attr("value", detail_id);
