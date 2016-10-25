@@ -13,41 +13,42 @@ module Authority
         end
         return true
     end
-    def can_editor_issue(levelLimit,issue_id)
-
-        if current_user.nil?
-            return false
-        end
-        if current_user.level.nil?
-            return false
-        end
-        if current_user.level < levelLimit
-            return false
-        end
-        if current_user.level > levelLimit
+    def can_add_issue()
+        return can_view(0)
+    end
+    def can_add_detail()
+        return can_view(0)
+    end
+    def can_add_comment()
+        return can_view(0)
+    end
+    def can_editor_issue()
+        if can_view(2)
             return true
-        end
-
-        if current_user.own.nil?
+        else
             return false
         end
-        if current_user.own.split(',').include?(find_root_issue(issue_id).id.to_s)
-            return true
-        end
-
-        return false
+    end
+    def can_like()
+        return can_view(0)
+    end
+    def can_Trial()
+        return can_view(2)
+    end
+    def can_level_up_issue()
+        return can_view(2)
+    end
+    def can_level_up_user()
+        return can_view(2) 
     end
     def can_editor_detail(detail_id)
 
-        if current_user.nil?
-            return false
-        end
-        if current_user.level.nil?
-            return false
-        end
-        if current_user.level >= 2
+        if can_view(2)
             return true
-        end 
+        end
+        if !can_view(0)
+            return false
+        end
         detail = DataDetail.where(id: detail_id,is_report: false)[0]
         if detail.post_id == current_user.id
             return true
@@ -69,5 +70,4 @@ module Authority
         result = issue
         return result
     end
-    
 end

@@ -10,7 +10,7 @@
 				<tr align = "center">
 					<td colspan = "5">候選議題</td>
 				</tr>
-				<tr><td>標題</td><td>父議題</td><td>票數</td><td>創間時間</td><td>升為正式議題</td></tr>
+				<tr><td>標題</td><td>父議題</td><td>票數</td><td>上線時間</td><td>升為正式議題</td></tr>
 			</thead>
 			<tbody>
 				<% @issues.each do |issue| %>
@@ -42,7 +42,7 @@
 							<%= issue.created_at %>
 						</td>
 						<td>
-							<% if can_editor_issue(1,issue.id)%>
+							<% if can_editor_issue()%>
 								<% link = issuelist_upgrade_path + "?id=" + issue.id.to_s %>
 								<%= link_to "升級",link,method: :post%>
 							<% else %>

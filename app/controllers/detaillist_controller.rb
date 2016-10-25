@@ -29,10 +29,20 @@ class DetaillistController < ApplicationController
 	end
 
 	def add
+		if !can_add_detail()
+			flash[:alert] = "權限不足"
+			redirect_to(:back)
+			return
+		end
 		@issue = DataIssue.where(id: params[:id])[0]
 	end
 
-	def new 
+	def new
+		if !can_add_detail()
+			flash[:alert] = "權限不足"
+			redirect_to(:back)
+			return
+		end
 		#get parmater
 		content = params[:content]
 		people_id = params[:people_id]
@@ -119,6 +129,7 @@ class DetaillistController < ApplicationController
 			#backup picture
 			#check if it is need or can be backup
 			if backup_type == 0.to_s
+				check = checkBackUP(@detail.link)
 				if !check.nil?
 					require "uri"
 					require "net/http"
@@ -184,7 +195,7 @@ class DetaillistController < ApplicationController
 				@detail.backup_type = "none"
 				@detail.save
 			end
-			check = checkBackUP(@detail.link)
+			
 			redirect_to detaillist_index_path(id: @detail.id)
 		end
 	end
@@ -199,18 +210,20 @@ class DetaillistController < ApplicationController
 	end
 
 	def edit
-		if !can_editor_detail(params[:id])
+		if !can_editor_detail()
 			flash[:alert] = "權限不足"
-			redirect_to "/"
+			redirect_to(:back)
+			return
 		end
 		@detail = DataDetail.where(id: params[:id],is_report: false)[0]
 		@person = DataPerson.where(id: @detail.post_id)[0]
 	end
 
 	def update
-		if !can_editor_detail(params[:id])
+		if !can_editor_detail()
 			flash[:alert] = "權限不足"
-			redirect_to "/"
+			redirect_to(:back)
+			return
 		end
 		content = params[:content]
 		people_id = params[:people_id]
@@ -261,6 +274,11 @@ class DetaillistController < ApplicationController
 	end
 
 	def like
+		if !can_like()
+			flash[:alert] = "權限不足"
+			redirect_to(:back)
+			return
+		end
 		@detail = DataDetail.where(id: params[:id],is_report: false)[0]
 		post_id = current_user.id
 		path = params[:path]
@@ -282,10 +300,13 @@ class DetaillistController < ApplicationController
 		end
 		@detail.save
 		@likelist.save
-		redirect_to path
+		redirect_to(:back)
 	end
 
 	def dislike
+		flash[:alert] = "此功能已不再支援"
+		redirect_to(:back)
+		return
 		@detail = DataDetail.where(id: params[:id],is_report: false)[0]
 		post_id = current_user.id
 		path = params[:path]
@@ -328,6 +349,10 @@ class DetaillistController < ApplicationController
 	end
 
 	def comment_new
+		if !can_add_comment()
+			flash[:alert] = "權限不足"
+			redirect_to(:back)
+		end
 		@detail = DataDetail.where(id: params[:detail_id],is_report: false)[0]
 		post_id = current_user.id
 		content =   params[:content]
@@ -372,36 +397,5 @@ class DetaillistController < ApplicationController
 		media.valid_name = ""
 		media.save
 		return media
-	end
-	def removePersonDetailRelate(detail_id,people_id)
-		person = DataPerson.where(id: people_id)[0]
-		detail = DataDetail.where(id: detail_id)[0]
-		if person.nil?
-			return false
-		end
-		if detail.nil?
-			return false
-		end
-		#------------------------------------------------------remove ralation wait for database function
-		detail.people_id = nil
-		person.save
-		detail.save
-		return true
-
-	end
-
-	def removeIDFromString(id,string)
-		result = string
-		return result
-	end
-
-	def canView(level)
-		return true
-	end
-
-	def canEdit(level,user_id,detail_id)
-	end
-
-	def canThumbUp(level)
 	end
 end

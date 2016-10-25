@@ -166,7 +166,7 @@
 				<thead>
 					<tr>
 						<td align="left">
-							<% if can_editor_issue(1,@me.id) %>
+							<% if can_editor_issue() %>
 								<%= link_to "編輯", issuelist_edit_path(id: @me.id) %>
 							<% end %>
 							<% if can_view(0)%>

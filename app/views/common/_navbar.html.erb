@@ -67,7 +67,7 @@
 												<% end %>
 											</ul>
 										</li>
-										<% if can_view(1) %>
+										<% if can_view(0) %>
 												<li><%= link_to "檢舉頁面", reportlist_all_path, class: "headLink" %></li>
 												<li><%= link_to "加議題頁面", issuelist_add_path, class: "headLink" %></li>
 												<% if can_view(2) %>

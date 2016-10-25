@@ -1,5 +1,10 @@
 class ReportlistController < ApplicationController
   def index
+  	if !can_Trial()
+		flash[:alert] = "權限不足"
+		redirect_to(:back)
+		return
+	end
   	@me = ReportDetail.where(id: params[:id])[0]
   	@detail = DataDetail.where(id: @me.detail_id,is_report: false)[0]
   	if !can_editor_issue(1,@detail.issue_id)
@@ -15,9 +20,10 @@ class ReportlistController < ApplicationController
 
   end
   def all
-  	if !can_view(1)
+  	if !can_Trial()
 		flash[:alert] = "權限不足"
-		redirect_to "/"
+		redirect_to(:back)
+		return
 	end
 	@reportlist = ReportDetail.all.order(:created_at).reverse
 	detail_ids = []
@@ -36,9 +42,19 @@ class ReportlistController < ApplicationController
 
   end
   def add
+  	if !can_view(0)
+		flash[:alert] = "權限不足"
+		redirect_to(:back)
+		return
+	end
 	@detail = DataDetail.where(id: params[:id],is_report: false)[0]
   end
   def new
+  	if !can_view(0)
+		flash[:alert] = "權限不足"
+		redirect_to(:back)
+		return
+	end
 	cause = params[:cause]
 	detail_id = params[:detail_id]
 	tempStr = ""
@@ -63,18 +79,16 @@ class ReportlistController < ApplicationController
 	#@detail.is_report = true
 	@detail.save
 	@report.save
-	if can_view(1)
-		redirect_to(:back)
-	else
-		redirect_to reportlist_all_path
-	end
+
+	redirect_to(:back)
 
   end
 
   def reject
-  	if !can_editor_issue(1,params[:issue_id])
+  	if !can_Trial()
 		flash[:alert] = "權限不足"
-		redirect_to "/"
+		redirect_to(:back)
+		return
 	end
 	@detail = DataDetail.where(id: params[:detail_id],is_report: false)[0]
 	@reportList = ReportDetail.where(detail_id: @detail.id)
@@ -90,9 +104,10 @@ class ReportlistController < ApplicationController
   end
 
   def accept
-  	if !can_editor_issue(1,params[:issue_id])
+  	if !can_Trial()
 		flash[:alert] = "權限不足"
-		redirect_to "/"
+		redirect_to(:back)
+		return
 	end
 	@detail = DataDetail.where(id: params[:detail_id],is_report: false)[0]
 	@reportList = ReportDetail.where(detail_id: @detail.id)

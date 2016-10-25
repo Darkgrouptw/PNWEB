@@ -161,16 +161,17 @@ class IssuelistController < ApplicationController
 	end
 
 	def add
-		if !can_view(1)
+		if !can_add_issue()
 			flash[:alert] = "權限不足"
-			redirect_to "/"
+			redirect_to (:back)
+			return
 		end
 	end
 
 	def new
-		if !can_view(1)
+		if !can_add_issue()
 			flash[:alert] = "權限不足"
-			redirect_to "/"
+			redirect_to (:back)
 			return
 		end
 		title = params[:title]
@@ -213,18 +214,20 @@ class IssuelistController < ApplicationController
 	end
 
 	def edit
-		if !can_editor_issue(1,params[:id])
+		if !can_editor_issue()
 			flash[:alert] = "權限不足"
-			redirect_to "/"
+			redirect_to (:back)
+			return
 		end
 		@issue = DataIssue.where(id: params[:id])[0]
 		@father = DataIssue.where(id: @issue.trunk_id)[0]
 	end
 
 	def update
-		if !can_editor_issue(1,params[:id])
+		if !can_editor_issue()
 			flash[:alert] = "權限不足"
-			redirect_to "/"
+			redirect_to (:back)
+			return
 		end
 		@issue = DataIssue.where(id: params[:id])[0]
 		trunk_id = params[:trunk_id]
@@ -267,13 +270,19 @@ class IssuelistController < ApplicationController
 	def candidate
 		if !can_view(0)
 			flash[:alert] = "權限不足"
-			redirect_to "/"
+			redirect_to (:back)
+			return
 		end
 		@issueList = DataIssue.all
 		@issues = @issueList.where(is_candidate: true).order(:thumb_up).reverse
 	end
 
 	def thumb_up
+    	if !can_like()
+			flash[:alert] = "權限不足"
+			redirect_to (:back)
+			return
+		end
 		post_id = current_user.id
 		@issue = DataIssue.where(id: params[:id])[0]
 		if @issue.thumb_up.nil?
@@ -289,9 +298,10 @@ class IssuelistController < ApplicationController
 	end
 
 	def upgrade
-		if !can_view(1)
+		if !can_level_up_issue()
 			flash[:alert] = "權限不足"
-			redirect_to "/"
+			redirect_to (:back)
+			return
 		end
 		@issue = DataIssue.where(id: params[:id])[0]
 		@issue.is_candidate = false

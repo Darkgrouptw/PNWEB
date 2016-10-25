@@ -16,9 +16,10 @@ class MediaController < ApplicationController
 		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
   	end
 	def new
-  		if !can_view(2)
+		if !can_add_detail()
 			flash[:alert] = "權限不足"
-			redirect_to "/"
+			redirect_to(:back)
+			return
 		end
 		name = params[:name]
 		pic_link = params[:pic_link]
