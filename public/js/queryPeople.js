@@ -16,7 +16,7 @@ $(function(){
                 document.getElementById("queryPeopleDiv").style.display = "";
                 
                 for($i = 0; $i < data.length; $i++)
-                    $("#queryPeopleDiv").append("<div onclick=clickQuery(this)>" + data[$i] + "</div>");
+                    $("#queryPeopleDiv").append("<div onclick=clickPeopleQuery(this)>" + data[$i] + "</div>");
             }
         );
     });
@@ -28,9 +28,10 @@ $(function(){
     });
 });
 
-function clickQuery(result)
+function clickPeopleQuery(result)
 {
     document.getElementById("queryPeople").value = result.innerText;
     document.getElementById("queryPeopleDiv").style.display = "none";
     result.parentNode.innerHTML = "";
+    console.log(result.innerText)
 }

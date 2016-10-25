@@ -79,4 +79,5 @@ Rails.application.routes.draw do
 	# peopleName & issueName 要拿 params 用的
 	get 	"PeopleName"        =>	"main#peopleName",	:as =>	"peopleName"
 	get		"IssueName"			=>	"main#issueName",	:as =>	"issueName"
+	get		"MediaName"			=>	"main#mediaName",	:as =>	"mediaName"
 end

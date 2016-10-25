@@ -335,6 +335,20 @@ class MainController < ApplicationController
 		puts @content
 	end
 
+    def mediaName
+        name = params[:name]
+        @content = ""
+        @medias = DataMedium.where("name like ?", name + "%").first(5)
+        @medias.each do |media|
+            #@content = addIDToString(@content,media.name)
+            if @content.length <= 0
+                @content = @content + media.name
+            else
+                @content = @content  + "," + media.name
+            end
+        end
+        puts @content
+    end
     
 	private
     #寄信
