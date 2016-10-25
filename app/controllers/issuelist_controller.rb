@@ -23,6 +23,11 @@ class IssuelistController < ApplicationController
 		if @me ==nil
 			return
 		end
+		@reports = nil
+		if !current_user.nil?
+			detail_ids = @me.datadetail_id.split(',')
+			@reports = ReportDetail.where(detail_id: detail_ids,people_id: current_user.id)[0]
+		end
 		detail_strings = @me.datadetail_id.split(',')
 		@details = DataDetail.where(id: detail_strings,is_report: false)
 		@AllLike = LikeList.where(detail_id: detail_strings)

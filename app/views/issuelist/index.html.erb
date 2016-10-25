@@ -171,7 +171,7 @@
 							<% end %>
 							<% if can_view(0)%>
 								<%= link_to "我要新增意見", detaillist_add_path %>
-								<button type="button" class="btn btn-link ReportModal_Voted" data-toggle="modal" data-target="#ReportModal" issue_name="<%= @me.title %>">按讚過的意見</button>
+								<button type="button" class="btn btn-link VotedModal_Voted" data-toggle="modal" data-target="#VoteModal" issue_name="<%= @me.title %>">按讚過的意見</button>
 							<% end %>
 						</td>
 						<td style="padding-right: 0px;padding-bottom: 0px;padding-left: 0px;padding-top: 0px;background-color:white;"></td>
@@ -311,7 +311,18 @@
 												</a>
 											</div>
 										</td>
-										<td> 檢舉 </td>
+										<td>
+											<% if current_user.nil? %>
+												登入後方可檢舉
+											<% else %>
+												<% if @reports.nil?%>
+													<button type="button" class="btn btn-link ReportModal_Button" data-toggle="modal" data-target="#ReportModal	" issue_name="<%= @me.title %>" post_name="<%= user.nickname %>" content="<%= detail.content %>" issue_id=	"<%= params[:issue_id] %>"  detail_id="<%= @me.id %>">我要檢舉</button>
+												<% else %>
+													你已檢舉過了
+												<% end %>
+											<% end %>
+											
+										</td>
 									</tr>
 								<% else %>
 								<% end %>
@@ -332,14 +343,14 @@
 
 <!-- div Modal -->
 
-<div class="modal fade" id="ReportModal" role="dialog">
+<div class="modal fade" id="VoteModal" role="dialog">
 	<div class="modal-dialog">
 		
 		<!-- Modal 裡面的內容 -->
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">我在 <%= @me.title %>投讚過的論述</h4>
+				<h4>我在 <%= @me.title %>投讚過的論述</h4>
 			</div>
 			
 			<!-- 表單 -->
@@ -377,6 +388,62 @@
 					<% end %>
 				</tbody>
 			</table>
+		</div>
+	</div>
+</div>
+
+<!-- div Modal -->
+
+<div class="modal fade" id="ReportModal" role="dialog">
+	<div class="modal-dialog">
+		
+		<!-- Modal 裡面的內容 -->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">我要檢舉  —  </h4>
+			</div>
+			
+			<!-- 表單 -->
+			<form id="ReportForm" method="post">
+				<div class="modal-body">
+					<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+					<input type="hidden" name="detail_id" id="detail_id" value="">
+					<input type="hidden" name="pos_page" value="<%= "posg" %>">
+					<input type="hidden" name="neg_page" value="<%= "test" %>">
+					<div class="checkbox">
+						<label><input type="checkbox" name="rule1" id="CheckRule1">原始文章的截圖不符合規定<%=  %></label>
+					</div>
+					<div class="checkbox" style="padding-left:40px;">
+						<label><input type="checkbox" name="rule2" id="CheckRule2">根本不是這篇文章</label>
+					</div>
+					<div class="checkbox" style="padding-left:40px;">
+						<label><input type="checkbox" name="rule3" id="CheckRule3">不完整</label>
+					</div>
+					<div class="checkbox" style="padding-left:80px;">
+						<label><input type="checkbox" name="rule4" id="CheckRule4">沒有標題</label>
+					</div>
+					<div class="checkbox" style="padding-left:80px;">
+						<label><input type="checkbox" name="rule5" id="CheckRule5">主文沒有全部擷取</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" name="rule6" id="CheckRule6">原始文章中沒有這段話</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" name="rule7" id="CheckRule7">原始文章沒提到作者有講這段話</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" name="rule8" id="CheckRule8">原始文章中提到的被編者局部改寫了</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" name="rule9" id="CheckRule9">原始文章中提到的作者講的這段話，應該被歸於贊成／反對的另一邊</label>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary">確定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
