@@ -248,12 +248,7 @@ class MainController < ApplicationController
             'name': 'AAA', 'color': '#DB7093', 'parent': [
                 {'name': 'BBB', 'color': '#4169E1', 'parent': [
                     {'name': 'EEE', 'color': '#6495ED', 'parent': []},
-                    {'name': 'EEE', 'color': '#6495ED', 'parent': []},
-                    {'name': 'EEE', 'color': '#6495ED', 'parent': []},
-                    {'name': 'EEE', 'color': '#6495ED', 'parent': []},
-                    {'name': 'EEE', 'color': '#6495ED', 'parent': []},
-                    {'name': 'EEE', 'color': '#6495ED', 'parent': []},
-                    {'name': 'EEE', 'color': '#6495ED', 'parent': []}
+                    {'name': 'E', 'color': '#6495ED', 'parent': []}
                 ]},
                 {'name': 'CCC', 'color': '#6495ED', 'parent': []},
                 {'name': 'DDD', 'color': '#6495ED', 'parent': []}

@@ -62,6 +62,18 @@ $(function(){
                     bottom: "+=500px"
                 }, 500);
                 break;
+            case "2":
+                MoveToParent();
+                $(this).hide(100);
+                break;
+            case "3":
+                MoveToChild();
+                $(this).hide(100);
+                break;
+            case "4":
+                DeleteNode();
+                $(this).hide(100);
+                break;
         }
     });
     $(".blackAddItemDiv").on("contextmenu", function(){
@@ -84,10 +96,6 @@ $(function(){
                     AddNodeInSameLevel(NodeName);
                     break;
             }
-            
-            $(".MenuBox svg").empty();
-            $NodeNumber = 0;
-            TreeManager(sJsonData);
             
             $(".blackAddItemDiv").animate({
                 "background-color": 'rgba(0, 0, 0, 0)'
@@ -222,7 +230,8 @@ function AddNodeToChild(NodeName)
 {
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
-    while(true)
+    var IsFind = false;
+    while(!IsFind)
     {
         if(checkList.length == 0)
         {
@@ -237,18 +246,26 @@ function AddNodeToChild(NodeName)
         else
         {
             checkList[0]['parent'].push({"name":NodeName, "color": RandomColor(), "parent":[]});
+            IsFind = true;
             break;
         }
         // 刪除第一個
         checkList.splice(0, 1);
+    }
+    
+    if(IsFind)
+    {
+        $(".MenuBox svg").empty();
+        $NodeNumber = 0;
+        TreeManager(sJsonData);
     }
 }
 function AddNodeInSameLevel(NodeName)
 {
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
-    var Isfind = false;
-    while(!Isfind)
+    var IsFind = false;
+    while(!IsFind)
     {
         if(checkList.length == 0)
         {
@@ -265,7 +282,7 @@ function AddNodeInSameLevel(NodeName)
                 else
                 {
                     checkList[0]['parent'].push({"name":NodeName, "color": RandomColor(), "parent":[]});
-                    Isfind = true;
+                    IsFind = true;
                     break;
                 }
             }
@@ -278,8 +295,162 @@ function AddNodeInSameLevel(NodeName)
         // 刪除第一個
         checkList.splice(0, 1);
     }
-}
-function MoveTo()
-{
     
+    if(IsFind)
+    {
+        $(".MenuBox svg").empty();
+        $NodeNumber = 0;
+        TreeManager(sJsonData);
+    }
+}
+function MoveToParent()
+{
+    var checkList = [sJsonData.item];
+    var clickNode = $("#" + $clickID);
+    var IsFind = false;
+    while(!IsFind)
+    {
+        if(checkList.length == 0)
+        {
+            console.log("Bug");
+            IsFind = true;
+            break;
+        }
+        
+        var n = clickNode.children()[1].textContent;
+        if(n != checkList[0].name)
+            for(var i = 0; i < checkList[0].parent.length && !IsFind; i++)
+            {
+                console.log(i + " " + checkList[0].parent.length + " " +  checkList[0].parent[i].name + " " + n);
+                if(n == checkList[0].parent[i].name)
+                {
+                    alert("不能上移到跟 Root 同一層！！");
+                    IsFind = true;
+                    break;
+                }
+                else
+                {
+                    for(var j = 0; j < checkList[0].parent[i].parent.length; j++)
+                        if(n == checkList[0].parent[i].parent[j].name)
+                        {
+                            //var name = checkList[0].parent[i].parent[j].name;
+                            checkList[0]['parent'].push(checkList[0].parent[i].parent[j]);
+                            checkList[0].parent[i]['parent'].splice(j, 1);
+                            IsFind = true;
+                            break;
+                        }
+                    checkList.push(checkList[0].parent[i]);
+                }
+            }
+        else
+        {
+            alert("已經是最上層了！！");
+            break;
+        }
+        
+        // 刪除第一個
+        checkList.splice(0, 1);
+    }
+    
+    
+    if(IsFind)
+    {
+        $(".MenuBox svg").empty();
+        $NodeNumber = 0;
+        TreeManager(sJsonData);
+    }
+}
+function MoveToChild()
+{
+    var checkList = [sJsonData.item];
+    var clickNode = $("#" + $clickID);
+    var IsFind = false;
+    while(!IsFind)
+    {
+        if(checkList.length == 0)
+        {
+            console.log("Bug");
+            break;
+        }
+        
+        var n = clickNode.children()[1].textContent;
+        if(n != checkList[0].name)
+            for(var i = 0; i < checkList[0].parent.length; i++)
+            {
+                if(n != checkList[0].parent[i].name)
+                    checkList.push(checkList[0].parent[i]);
+                else
+                {
+                    if(checkList[0].parent[i].parent.length == 0)
+                        alert("已經在最下層囉！！");
+                    else
+                    {
+                        var NodeNumber = checkList[0].parent[i].parent.length;
+                        for(var j = 0; j < NodeNumber; j++)
+                            checkList[0]['parent'].splice(i + j, 0, checkList[0].parent[i + j].parent[j]);
+                        checkList[0].parent[i + NodeNumber]['parent'].splice(0, NodeNumber);
+                    }
+                    IsFind = true;
+                    break;
+                }
+            }
+        else
+        {
+            alert("不能移動 Root ！！");
+            break;
+        }
+        
+        // 刪除第一個
+        checkList.splice(0, 1);
+    }
+    
+    if(IsFind)
+    {
+        $(".MenuBox svg").empty();
+        $NodeNumber = 0;
+        TreeManager(sJsonData);
+    }
+}
+function DeleteNode()
+{
+    var checkList = [sJsonData.item];
+    var clickNode = $("#" + $clickID);
+    var IsFind = false;
+    while(!IsFind)
+    {
+        if(checkList.length == 0)
+        {
+            console.log("Bug");
+            break;
+        }
+        
+        var n = clickNode.children()[1].textContent;
+        if(n != checkList[0].name)
+            for(var i = 0; i < checkList[0].parent.length && !IsFind; i++)
+            {
+                if(n != checkList[0].parent[i].name)
+                    checkList.push(checkList[0].parent[i]);
+                else
+                {
+                    checkList[0]['parent'].splice(i, 1);
+                    IsFind = true;
+                    break;
+                }
+            }
+        else
+        {
+            alert("不能刪除 Root ！！");
+            break;
+        }
+        
+        // 刪除第一個
+        checkList.splice(0, 1);
+    }
+    
+    if(IsFind)
+    {
+        $(".MenuBox svg").empty();
+        $NodeNumber = 0;
+        TreeManager(sJsonData);
+    }
 }
