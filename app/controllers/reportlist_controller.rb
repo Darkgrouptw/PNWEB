@@ -64,6 +64,11 @@ class ReportlistController < ApplicationController
                 tempStr += (i+1).to_s + ","
             end
         end
+        if params[:rule10].nil? || params[:rule10].empty?
+        else
+        	tempStr += "#" + params[:rule10]
+        end
+
 	@detail = DataDetail.where(id: detail_id,is_report: false)[0]
 	people_id = current_user.id
 	@report = ReportDetail.create(
@@ -100,7 +105,9 @@ class ReportlistController < ApplicationController
 	@report = @reportList.where(people_id: current_user.id)[0]
 	@report.destroy
 	@detail.save
-	redirect_to detaillist_index_path(id: @detail.id)
+	#redirect_to detaillist_index_path(id: @detail.id)
+	redirect_to(:back)
+
   end
 
   def accept

@@ -70,6 +70,13 @@
 										<% if item.cause.split(',').include?('9') %>
 											<div>原始文章中提到的作者講的這段話，應該被歸於贊成／反對的另一邊,</div>
 										<% end %>
+										<% if item.cause.include?('#') %>
+											<div>其他原因</div>
+											<% string = item.cause.split(',') %>
+											<% string = string[string.length - 1 ] %>
+											<% string[0] = '' %>
+											<div><%= string %></div>
+										<% end %>
 								</td>
 								<td>
 									<% link = userlist_index_path(id: user.id) %>
