@@ -50,8 +50,6 @@ ActiveRecord::Schema.define(version: 20161020134859) do
     t.string   "title"
     t.text     "post"
     t.boolean  "is_candidate"
-    t.integer  "trunk_id"
-    t.integer  "popularity"
     t.string   "datadetail_id"
     t.string   "thumb_up"
     t.string   "tag"

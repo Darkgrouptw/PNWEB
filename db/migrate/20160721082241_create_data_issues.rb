@@ -4,8 +4,6 @@ class CreateDataIssues < ActiveRecord::Migration
       t.string :title
       t.text :post
       t.boolean :is_candidate
-      t.integer :trunk_id
-      t.integer :popularity
       t.string :datadetail_id
       t.string :thumb_up
       t.string :tag
