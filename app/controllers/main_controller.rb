@@ -18,7 +18,7 @@ class MainController < ApplicationController
         end
         for i in 0..counter.length - 2
             for j in 0..counter.length - i - 2
-                if counter[j] > counter[j + 1]
+                if counter[j] < counter[j + 1]
                     temp = counter[j]
                     counter[j] = counter[j + 1]
                     counter[j + 1] = temp
@@ -28,7 +28,11 @@ class MainController < ApplicationController
                 end
             end
         end
-        return issue_list.where(id: recorder.first(10))
+        result = []
+        recorder.first(10).each do |record|
+            result.push(issue_list.where(id: record)[0])
+        end
+        return result
     end
 
     def findNearHotIssueTree()
@@ -43,7 +47,7 @@ class MainController < ApplicationController
             recorder.push(people.id);
         end
         likelist.each do |like|
-            for i in 0..counter.length - 2
+            for i in 0..counter.length - 1
                 people = people_list.where(id: recorder[i])[0]
                 if stringHasID(people.datadetail_id,like.detail_id)
                     counter[i] = counter[i] + 1
@@ -52,7 +56,7 @@ class MainController < ApplicationController
         end
         for i in 0..counter.length - 2
             for j in 0..counter.length - i - 2
-                if counter[j] > counter[j + 1]
+                if counter[j] < counter[j + 1]
                     temp = counter[j]
                     counter[j] = counter[j + 1]
                     counter[j + 1] = temp
@@ -62,7 +66,12 @@ class MainController < ApplicationController
                 end
             end
         end
-        return people_list.where(id: recorder.first(10))
+        #return people_list.where(id: recorder.first(10))
+        result = []
+        recorder.first(10).each do |record|
+            result.push(people_list.where(id: record)[0])
+        end
+        return result
     end
 
     def findInfluencePeople(people_list)
@@ -74,7 +83,7 @@ class MainController < ApplicationController
         end
         for i in 0..counter.length - 2
             for j in 0..counter.length - i - 2
-                if counter[j] > counter[j + 1]
+                if counter[j] < counter[j + 1]
                     temp = counter[j]
                     counter[j] = counter[j + 1]
                     counter[j + 1] = temp
@@ -96,7 +105,7 @@ class MainController < ApplicationController
         end
         for i in 0..counter.length - 2
             for j in 0..counter.length - i - 2
-                if counter[j] > counter[j + 1]
+                if counter[j] < counter[j + 1]
                     temp = counter[j]
                     counter[j] = counter[j + 1]
                     counter[j + 1] = temp
@@ -135,7 +144,7 @@ class MainController < ApplicationController
                         num_neg = num_neg + 1
                     end
                 end
-                sum = sum + ((num_pos - num_neg).abs)/issue_details.length
+                sum = sum + [num_neg,num_pos].min
             end
 
             counter.push(sum)
@@ -145,7 +154,7 @@ class MainController < ApplicationController
 
         for i in 0..counter.length - 2
             for j in 0..counter.length - i - 2
-                if counter[j] > counter[j + 1]
+                if counter[j] < counter[j + 1]
                     temp = counter[j]
                     counter[j] = counter[j + 1]
                     counter[j + 1] = temp
