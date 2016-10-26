@@ -33,5 +33,4 @@ function clickPeopleQuery(result)
     document.getElementById("queryPeople").value = result.innerText;
     document.getElementById("queryPeopleDiv").style.display = "none";
     result.parentNode.innerHTML = "";
-    console.log(result.innerText)
 }
