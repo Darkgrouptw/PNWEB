@@ -105,12 +105,10 @@
 	<a href = <%= link %> class="whiteText">
 		所有名人
 	</a>
-	<% if can_view(0) %>
-		<% link=issuelist_candidate_path %>
-		<a href = <%= link %> class="whiteText">
-			所有候選議題
-		</a>
-	<% end %>
+	<% link=issuelist_candidate_path %>
+	<a href = <%= link %> class="whiteText">
+		所有候選議題
+	</a>
 	<% link=media_all_path %>
 	<a href = <%= link %> class="whiteText">
 			所有媒體

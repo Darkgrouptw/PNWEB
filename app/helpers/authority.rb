@@ -56,6 +56,31 @@ module Authority
         #end
         #ßreturn false
     end
+    def can_editor_people()
+        if can_view(2)
+            return true
+        end
+        return false
+    end
+    def can_editor_media()
+        if can_view(2)
+            return true
+        end
+        return false
+    end
+
+    def can_report_detail()
+        if can_view(0)
+            return true
+        end
+        return false
+    end
+    def can_leave_comment()
+        if can_view(0)
+            return true
+        end
+        return false
+    end
     def find_root_issue(issue_id)
         result = nil
         issuelist = DataIssue.all

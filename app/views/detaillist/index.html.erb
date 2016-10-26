@@ -32,8 +32,12 @@
 		<div class = "col-md-offset-1 col-md-10 row">
 			<div align = "right">
 				<% link = detaillist_edit_path(id: @tags) %>
+				<% if can_editor_detail()%>
 				<a href = "<%= link %>">編輯</a>
-				<% if @report.nil?%>
+				<% end %>
+				<% if !can_report_detail()%>
+					登入後才可檢舉
+				<% elsif @report.nil?%>
 					<button type="button" class="btn btn-link ReportModal_Button" data-toggle="modal" data-target="#ReportModal" issue_name="<%= @issue.title %>" post_name="<%= @user.nickname %>" content="<%= @me.content %>" issue_id="<%= params[:issue_id] %>"  detail_id="<%= @me.id %>">我要檢舉</button>
 				<% else %>
 					你已檢舉過了
@@ -121,7 +125,8 @@
 									<% end %>
 								<% end %>
 							<% else %>
-								NOT Login
+								<br>
+								登入後才能按讚
 							<% end %>
 						</td>
 						<td>
@@ -163,7 +168,7 @@
 			</table>
 
 			<div >
-				<% if HasUser() %>
+				<% if can_leave_comment() %>
 				<div align = "center" >我有話說</div>
 					<form action= "<%= detaillist_comment_new_path %> " method= "post">
 						<div class = "form-group">

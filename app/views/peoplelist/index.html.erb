@@ -26,7 +26,9 @@
 		<div class = "col-md-offset-1 col-md-8 row">
 			<div class = "whiteText row">
 				<div >
-					<div align = "right"><a href = <%= peoplelist_edit_path(id: @tags) %>>編輯</a></div>
+					<% if can_editor_people()%>
+						<div align = "right"><a href = <%= peoplelist_edit_path(id: @tags) %>>編輯</a></div>
+					<% end %>
 					<table class = "table table-bordered">
 						<thead>
 							<tr align = "center" ><td colspan = "2"><%= @me.name %></td></tr>

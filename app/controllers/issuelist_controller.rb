@@ -285,12 +285,6 @@ class IssuelistController < ApplicationController
 	end
 
 	def candidate
-		if !can_view(0)
-			flash[:alert] = "權限不足"
-			redirect_to (:back)
-			return
-		end
-
 		@issueList = DataIssue.all
 		if params[:order] == "time"
 			@issues = @issueList.where(is_candidate: true).order(:created_at).reverse

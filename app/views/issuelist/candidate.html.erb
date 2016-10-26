@@ -37,8 +37,10 @@
 						</td>
 						<td>
 							<div><%= issue.thumb_up.split(',').length %></div>
-								<div>
-								<% if issue.thumb_up.include?(current_user.id.to_s)%>
+							<div>
+								<% if !can_like() %>
+									登入後才能按讚
+								<% elsif issue.thumb_up.include?(current_user.id.to_s) %>
 									你已投過票
 								<% else %>
 									<% link = issuelist_thumb_up_path + "?id=" + issue.id.to_s %>
