@@ -232,7 +232,6 @@ class MainController < ApplicationController
         #   / \
         # BBB CCC
         
-        #@treeData = [Tree.new("AAA")]
     end
     
     def treecanvas
