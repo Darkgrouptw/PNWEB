@@ -4,7 +4,16 @@
     <hr>
 </div>
 <div align = "center" class = "whiteText">
+
 	<div class = "col-md-offset-2 col-md-8 ">
+		<div align = "left">
+			<% link = issuelist_candidate_path(order: "time") %>
+			<a href= <%= link %> >依時間排序</a>
+			<% link = issuelist_candidate_path(order: "thumb_up") %>
+			<a href= <%= link %> >依人氣排序</a>
+			<% link = issuelist_candidate_path(order: "thumb_up_day") %>
+			<a href= <%= link %> >顯示近期人氣議題</a>
+		</div>
 		<table class = "table table-bordered">
 			<thead>
 				<tr align = "center">

@@ -290,8 +290,17 @@ class IssuelistController < ApplicationController
 			redirect_to (:back)
 			return
 		end
+
 		@issueList = DataIssue.all
-		@issues = @issueList.where(is_candidate: true).order(:thumb_up).reverse
+		if params[:order] == "time"
+			@issues = @issueList.where(is_candidate: true).order(:created_at).reverse
+		elsif params[:order] == "thumb_up"
+			@issues = @issueList.where(is_candidate: true).order(:thumb_up).reverse
+		elsif params[:order] == "thumb_up_day"
+			@issues = @issueList.where(is_candidate: true).where(updated_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei')).order(:thumb_up).reverse
+		else
+			@issues = @issueList.where(is_candidate: true).order(:created_at).reverse
+		end
 	end
 
 	def thumb_up
