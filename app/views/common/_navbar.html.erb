@@ -67,16 +67,13 @@
 												<% end %>
 											</ul>
 										</li>
-										<% if can_view(0) %>
-												<li><%= link_to "檢舉頁面", reportlist_all_path, class: "headLink" %></li>
-												<li><%= link_to "加議題頁面", issuelist_add_path, class: "headLink" %></li>
-												<% if can_view(2) %>
-													<li><%= link_to "加名人頁面", peoplelist_add_path, class: "headLink" %></li>
-												<% end %>
-												
-										<% end %> 
-								
-								
+										<% if can_Trial()%>
+											<li><%= link_to "檢舉頁面", reportlist_all_path, class: "headLink" %></li>
+										<% end %>
+										<% if can_add_issue() %>
+											<li><%= link_to "加議題頁面", issuelist_add_path, class: "headLink" %></li>
+										<% end %>
+										
 										<% #帳號的 Dropdown %>
 										<li class="dropdown">
 												<a href="#" class="dropdown-toggle headLink" data-toggle="dropdown" style="padding-bottom: 10px;">

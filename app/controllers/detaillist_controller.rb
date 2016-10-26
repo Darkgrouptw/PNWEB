@@ -54,6 +54,7 @@ class DetaillistController < ApplicationController
 		news_media = params[:news_media]
 		report_at = params[:report_at]
 		link = params[:link]
+		video_source = params[:video_source]
 		backup_type = params[:backup_type]
 		@issue = DataIssue.where(id: issue_id)[0]
 		@person = DataPerson.where(name: people_id)[0]
@@ -180,7 +181,9 @@ class DetaillistController < ApplicationController
 					@detail.backup_type = "png"
 					@detail.save
 				else
+					@detail.backup_type = "png"
 					@detail.backup_id = check
+					@detail.save
 				end
 			elsif backup_type == 1.to_s || backup_type == 2.to_s
 				#save file
@@ -199,6 +202,7 @@ class DetaillistController < ApplicationController
 				@detail.save
 			elsif backup_type == 3.to_s
 				#do nothing
+				@detail.link = video_source
 				@detail.backup_type = "none"
 				@detail.save
 			end
@@ -365,6 +369,11 @@ class DetaillistController < ApplicationController
 		detail_ids = params[:detail_ids]
 		detail_ids = detail_ids.split(',')
 		details = DataDetail.where(id: detail_ids)
+		if details.length == 0
+			flash[:alert] = "沒有讚可以回收"
+			redirect_to(:back)
+			return
+		end
 		issue = DataIssue.where(id: details[0].issue_id)[0]
 		likeList = LikeList.where(detail_id: detail_ids,post_id: current_user.id)
 		notify = NotifyList.where(user_id: current_user.id,issue_id: issue.id)[0]
