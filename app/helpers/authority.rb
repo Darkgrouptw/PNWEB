@@ -41,19 +41,20 @@ module Authority
     def can_level_up_user()
         return can_view(2) 
     end
-    def can_editor_detail(detail_id)
+    def can_editor_detail()
 
         if can_view(2)
             return true
         end
-        if !can_view(0)
-            return false
-        end
-        detail = DataDetail.where(id: detail_id,is_report: false)[0]
-        if detail.post_id == current_user.id
-            return true
-        end
         return false
+        #if !can_view(0)
+        #    return false
+        #end
+        #detail = DataDetail.where(id: detail_id,is_report: false)[0]
+        #if detail.post_id == current_user.id
+        #    return true
+        #end
+        #ßreturn false
     end
     def find_root_issue(issue_id)
         result = nil

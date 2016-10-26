@@ -186,10 +186,16 @@ class DetaillistController < ApplicationController
 				#save file
 				puts "---------------------------------------------------------"
 				#puts params[:fileToUpload].path
-				open('public/pageBackUp/' + @detail.issue_id.to_s + "_" + @detail.id.to_s + "." + getFileTypeFromPath(params[:fileToUpload].path),'wb') do |file|
-					file << params[:fileToUpload].read
+				# check file is > 200mb
+				if params[:fileToUpload].size > 200000000
+					flash[:alert] = "備份檔案過大"
+					@detail.backup_type = "none"
+				else
+					open('public/pageBackUp/' + @detail.issue_id.to_s + "_" + @detail.id.to_s + "." + getFileTypeFromPath(params[:fileToUpload].path),'wb') do |file|
+						file << params[:fileToUpload].read
+					end
+					@detail.backup_type = getFileTypeFromPath(params[:fileToUpload].path)
 				end
-				@detail.backup_type = getFileTypeFromPath(params[:fileToUpload].path)
 				@detail.save
 			elsif backup_type == 3.to_s
 				#do nothing
