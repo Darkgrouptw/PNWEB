@@ -171,7 +171,7 @@ class IssuelistController < ApplicationController
 			end
 		end
 		@totalDetailNumber = @details.length
-		@totalLikeNumber = @likeList.length
+		@totalLikeNumber = @AllLike.length
 		@users=User.where(id: user)
 		@persons=DataPerson.where(id: person)
 		@medias = DataMedium.where(name: media)
