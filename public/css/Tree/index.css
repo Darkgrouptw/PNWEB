@@ -2,17 +2,56 @@
 {
     position: fixed;
     left: 0px;
-    width: 30%;
+    width: 350px;
     height: 100%;
     background-color: rgb(242, 238, 228);
-    border-right: 2px;
-    border-right-style: solid;
-    border-right-color: #878787;
+    border-right: 2px solid #878787;
 }
 .RightCanvas
 {
     position: fixed;
     right: 0px;
-    width: 70%;
+    width: calc(100% - 350px);
     height: 100%;
+}
+.TreeList
+{
+    position: relative;
+    top: 120px;
+    height: calc(100% - 120px);
+    box-sizing: border-box;
+    border-top: 2px solid #06ACF9;
+    overflow-y: scroll;
+}
+.BoxSpace
+{
+    position: relative;
+    height: 120px;
+    background-color: rgb(242, 238, 228);
+}
+.BoxSpace:hover
+{
+    background-color: #06ACF9;
+}
+.BoxSelectBorder
+{
+    position: absolute;
+    width: 100%;
+    height: 120px;
+    border: 3px solid #06ACF9;
+}
+.BoxText
+{
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    top: 15px;
+    bottom: 15px;
+    font-size: 16px;
+    
+    /* 字超過了，會自動不見 */
+    overflow: hidden;
+    
+    /*橫向超過了，會自動換行 */
+    word-wrap: break-word;
 }

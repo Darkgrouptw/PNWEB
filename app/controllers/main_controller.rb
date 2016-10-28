@@ -236,11 +236,6 @@ class MainController < ApplicationController
     # 編輯樹
     #
     def treeindex
-        #
-        #   AAA
-        #   / \
-        # BBB CCC
-        
     end
     
     def treecanvas
