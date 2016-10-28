@@ -45,7 +45,7 @@
     position: absolute;
     left: 20px;
     right: 20px;
-    top: 15px;
+    top: 10px;
     bottom: 15px;
     font-size: 16px;
     
@@ -54,4 +54,34 @@
     
     /*橫向超過了，會自動換行 */
     word-wrap: break-word;
+}
+.BoxTitle
+{
+    font-size: 20px;
+    overflow: hidden;
+    /* 把超過的東西，變成...，底下那行則是不能換行 */
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.BoxPeople
+{
+    position: absolute;
+    left: 65%;
+    top: 30px;
+    font-size: 16px;
+}
+.BoxContent
+{
+    position: relative;
+    top: 5px;
+    width: 60%;
+    font-size: 16px;
+}
+.BoxOtherInfo
+{
+    position: absolute;
+    left: 65%;
+    top: 55px;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }

@@ -105,7 +105,8 @@ ActiveRecord::Schema.define(version: 20161028142918) do
 
   create_table "tree_infos", force: :cascade do |t|
     t.text     "info"
-    t.string   "people_id"
+    t.integer  "issue_id"
+    t.integer  "people_id"
     t.text     "like_list_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false

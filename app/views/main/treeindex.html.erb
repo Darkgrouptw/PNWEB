@@ -1,3 +1,35 @@
+<% def ListItems() %>
+    <% index = 0 %>
+	<% @items.each do |item|%>
+        <div class="BoxSpace">
+            <!-- 被選到時，會有 Border -->
+            <div class="BoxSelectBorder" <% if index != 0 %> style = "display:none" <% end %></di>
+            </div>
+            
+            <!-- 文字框框 -->
+            <div class="BoxText">
+                <div class="BoxTitle">
+                    <%= @issue_info[index].title %>
+                </div>
+                <div class="BoxPeople">
+                    <%= @nicknames[index] %>
+                </div>
+                
+                <div class="BoxContent">
+                    <%= @issue_info[index].post %>
+                </div>
+                
+                <div class="BoxOtherInfo">
+                    讚數： <%= @up[index] %>000000000 
+                    <br>
+                    <%= @times[index] %>
+                </div>
+            </div>
+            <% index += 1 %>
+        </div>
+    <% end %>
+<% end %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -15,15 +47,7 @@
     <body>
         <div class="LeftCanvas">
             <div class="TreeList">
-                <div class="BoxSpace">
-                    <!-- 被選到時，會有 Border -->
-                    <div class="BoxSelectBorder">
-                    </div>
-                        
-                    <!-- 文字框框 -->
-                    <div class="BoxText>
-                    </div>
-                </div>
+                <% ListItems() %>
             </div>
         </div>
         

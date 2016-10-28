@@ -236,6 +236,29 @@ class MainController < ApplicationController
     # 編輯樹
     #
     def treeindex
+        @items = TreeInfo.order(updated_at: :desc).first(10)
+        @issue_info = []
+        @nicknames = []
+        @up = []
+        @times = []
+        
+        @items.each do |item|
+            temp = DataIssue.where(id: item.id)[0]
+            @issue_info.push(temp)
+            
+            
+            temp = User.where(id: item.people_id)[0]
+            if temp == nil
+                @nicknames.push("")
+            else
+                @nicknames.push(temp.nickname)
+            end
+            
+            # 按讚的個數
+            @up.push(0)
+            
+            @times.push(item.updated_at.strftime("%Y/%m/%d"))
+        end
     end
     
     def treecanvas
@@ -404,4 +427,3 @@ class Node
         @childlist.push(Node.new(@name))
     end
 end
-    
