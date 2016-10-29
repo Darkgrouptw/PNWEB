@@ -45,6 +45,9 @@ module Common
         return false
     end
     def getStringIDLength(str)
+        if str.nil? || str.empty?
+            return 0
+        end
         count = 0
         str.split.each do |subS|
             if subS.nil? || subS.empty?
