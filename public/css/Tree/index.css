@@ -82,6 +82,9 @@
     position: absolute;
     left: 65%;
     top: 55px;
+    
+    width: 35%;
+    overflow: hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
 }
