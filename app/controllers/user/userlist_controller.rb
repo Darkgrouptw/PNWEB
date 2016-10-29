@@ -4,9 +4,12 @@ class User::UserlistController < ApplicationController
 		@me = @users.where(id: params[:id])[0]
 		@details = DataDetail.where(post_id: @me.id)
 		issue_ids = []
+		people_ids = []
 		@details.each do |item|
 			issue_ids.push(item.issue_id)
+			people_ids.push(item.people_id)
 		end
+		@people = DataPerson.where(id: people_ids)
 		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
 	end
 
