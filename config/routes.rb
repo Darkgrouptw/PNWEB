@@ -70,6 +70,7 @@ Rails.application.routes.draw do
     # 給編輯數使用
     get     "TreeIndex"         =>  "main#treeindex"
     get     "TreeCanvas"        =>  "main#treecanvas"
+    get     "TreeThumbUp"       =>  "main#tree_thumb_up"
     get     "TreeJson"          =>  "main#treejson"
 
 	# notify

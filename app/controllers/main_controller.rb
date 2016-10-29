@@ -240,6 +240,7 @@ class MainController < ApplicationController
         @issue_info = []
         @nicknames = []
         @up = []
+        @hasThumpAlready = []
         @times = []
         
         @items.each do |item|
@@ -256,12 +257,29 @@ class MainController < ApplicationController
             
             # 按讚的個數
             @up.push(getStringIDLength(item.like_list_id))
+            if current_user != nil
+                @hasThumpAlready.push(stringHasID(item.like_list_id, current_user.id))
+            end
             
             @times.push(item.updated_at.strftime("%Y/%m/%d"))
         end
     end
     
     def treecanvas
+    end
+    
+    def tree_thumb_up
+        paramsStr = ""
+        if params[:page] != nil
+            params = "?page=" + params[:page]
+        end
+        
+        if current_user != nil
+            
+        end
+            
+        
+        redirect_to "/TreeIndex" + paramsStr
     end
     
     def treejson
@@ -281,7 +299,12 @@ class MainController < ApplicationController
             ]}
             }"
     end
-
+    
+    
+    
+    #
+    # 其他功能
+    #
 	def notify
 		@notifyList = NotifyList.all
 		user_ids = []

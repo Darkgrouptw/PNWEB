@@ -11,6 +11,18 @@
                 <div class="BoxTitle">
                     <%= @issue_info[index].title %>
                 </div>
+                
+                <!-- 按讚 button -->
+                <% if current_user != nil %>
+                    <% if !@hasThumpAlready[index] %>
+                        <a href="/TreeThumbUp?id=<%= item.id  %>" class="btn btn-primary BoxThumbUp">按讚👍</a>
+                    <% else %>
+                        <a href="/TreeThumbUp?id=<%= item.id  %>" class="btn btn-info disabled BoxThumbUp">已讚過</a>
+                    <% end %>
+                <% else %>
+                    <a href="/TreeThumbUp?id=<%= item.id  %>" class="btn btn-info disabled BoxThumbUp">請登入</a>
+                <% end %>
+                
                 <div class="BoxPeople">
                     <%= @nicknames[index] %>
                 </div>
@@ -20,7 +32,7 @@
                 </div>
                 
                 <div class="BoxOtherInfo">
-                    讚數： <%= @up[index] %>000000000 
+                    讚數： <%= @up[index] %> 
                     <br>
                     <%= @times[index] %>
                 </div>
@@ -29,28 +41,25 @@
         </div>
     <% end %>
 <% end %>
+<!-- 前面的宣告 -->
+<link rel="stylesheet" type="text/css" href="/css/Tree/index.css">
+<script src="js/Tree/TreeIndex.js"></script>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>PNWEB</title>
-        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-        <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-        <%= csrf_meta_tags %>
+<!-- 左邊Canvas -->
+<div class="LeftCanvas">
+    <div class="TreeList">
+        <% ListItems() %>
+    </div>
+</div>
 
-        <!-- For moblie --> 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<!-- 右邊的 -->
+<iframe class="RightCanvas" src="/TreeCanvas" frameBorder="0"></iframe>
 
-        <link rel="stylesheet" type="text/css" href="/css/Tree/index.css">
-    </head>
-    <body>
-        <div class="LeftCanvas">
-            <div class="TreeList">
-                <% ListItems() %>
-            </div>
-        </div>
-        
-        <iframe class="RightCanvas" src="/TreeCanvas" frameBorder="0"></iframe>
-    </body>
-</html>
+<!-- 如果視窗 Size 小於某個值，會顯示小於預設視窗 -->
+<div class="WindowSizeWarning" style="display: none;">
+    <div>
+        <h3>注意！！</h3>
+        由於視窗太小小於預設的範圍 (1600 x 900)，所以有些東西會因為排版，而導致可能會看不到。
+        <button class="btn btn-warning">了解</button>
+    </div>
+</div>
