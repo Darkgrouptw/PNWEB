@@ -255,7 +255,7 @@ class MainController < ApplicationController
             end
             
             # 按讚的個數
-            @up.push(0)
+            @up.push(getStringIDLength(item.like_list_id))
             
             @times.push(item.updated_at.strftime("%Y/%m/%d"))
         end

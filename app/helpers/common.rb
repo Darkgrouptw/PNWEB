@@ -45,7 +45,14 @@ module Common
         return false
     end
     def getStringIDLength(str)
-        return str.split(',').length 
+        count = 0
+        str.split.each do |subS|
+            if subS.nil? || subS.empty?
+            else
+                count = count + 1
+            end
+        end
+        return count
     end
     def FileIsExit(fileName)
         return File.exist?(Rails.root + "public/" + fileName)
