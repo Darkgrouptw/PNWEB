@@ -49,7 +49,7 @@ module Common
             return 0
         end
         count = 0
-        str.split.each do |subS|
+        str.split(',').each do |subS|
             if subS.nil? || subS.empty?
             else
                 count = count + 1
