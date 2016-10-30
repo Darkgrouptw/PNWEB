@@ -84,4 +84,5 @@ Rails.application.routes.draw do
 	get 	"PeopleName"        =>	"main#peopleName",	:as =>	"peopleName"
 	get		"IssueName"			=>	"main#issueName",	:as =>	"issueName"
 	get		"MediaName"			=>	"main#mediaName",	:as =>	"mediaName"
+	get		"tree_check"		=>	"main#tree_check",	:as =>	"tree_check"
 end

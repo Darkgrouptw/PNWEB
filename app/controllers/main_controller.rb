@@ -305,7 +305,15 @@ class MainController < ApplicationController
     end
     
     def tree_check
-        
+        name = params[:name]
+        @content = ""
+        @issue = DataIssue.where(is_candidate: false,title: name)[0]
+        if @issue.nil?
+            @content = "false"
+        else
+            @content = "true"
+        end
+        puts @content
     end
     
     
