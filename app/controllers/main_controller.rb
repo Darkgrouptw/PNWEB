@@ -1,5 +1,4 @@
 class MainController < ApplicationController
-	
     def findNearHotIssue(issue_list)
         likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
         counter = []
@@ -35,7 +34,30 @@ class MainController < ApplicationController
         return result
     end
 
-    def findNearHotIssueTree()
+    def findNearHotIssueTree(treeInfo)
+        counter = []
+        recorder = [];
+        treeInfo.each do |item|
+            counter.push(getStringIDLength(item.like_list_id));
+            recorder.push(item.id);
+        end
+        for i in 0..counter.length - 2
+            for j in 0..counter.length - i - 2
+                if counter[j] < counter[j + 1]
+                    temp = counter[j]
+                    counter[j] = counter[j + 1]
+                    counter[j + 1] = temp
+                    temp = recorder[j]
+                    recorder[j] = recorder[j + 1]
+                    recorder[j + 1] = temp
+                end
+            end
+        end
+        result = []
+        recorder.first(10).each do |record|
+            result.push(treeInfo.where(id: record)[0])
+        end
+        return result
     end
 
     def findNearHotPeople(people_list)
@@ -236,7 +258,22 @@ class MainController < ApplicationController
     # 編輯樹
     #
     def treeindex
-        @items = TreeInfo.order(updated_at: :desc).first(10)
+        @OrderBy = params[:OrderBy]
+        if @OrderBy == 0.to_s
+            @items = TreeInfo.order(updated_at: :desc).first(10)
+        elsif @OrderBy == 1.to_s
+            #likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
+            @items = TreeInfo.order(updated_at: :desc)
+            @items = findNearHotIssueTree(@items)
+        elsif @OrderBy == 2.to_s
+            @items = TreeInfo.where(created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
+            @items = findNearHotIssueTree(@items)
+        else
+            @items = TreeInfo.where(updated_at: :desc).first(10)
+        end
+                
+                
+        
         @issue_info = []
         @nicknames = []
         @up = []

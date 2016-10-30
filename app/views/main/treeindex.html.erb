@@ -55,12 +55,25 @@
 
     <!-- 依照什麼排序 -->
     <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">依照 <%= %> 排序
+        <% orderByName= "最新" %>
+        <% if @OrderBy == 0.to_s %>
+            <% orderByName = "最新"%>
+        <% elsif @OrderBy == 1.to_s %>
+            <% orderByName = "歷史人氣"%>
+        <% elsif @OrderBy == 2.to_s %>
+            <% orderByName = "近期人氣"%>
+        <% end %>
+            
+            
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">依照 <%= orderByName %> 排序
         <span class="caret"></span></button>
         <ul class="dropdown-menu">
-            <li><a href="#">HTML</a></li>
-            <li><a href="#">CSS</a></li>
-            <li><a href="#">JavaScript</a></li>
+            <% link = treeindex_path(OrderBy: 0) %>
+            <li><a href= <%= link %> >最新排序</a></li>
+            <% link = treeindex_path(OrderBy: 1) %>
+            <li><a href= <%= link %> >歷史人氣排序</a></li>
+            <% link = treeindex_path(OrderBy: 2) %>
+            <li><a href= <%= link %> >近期人氣排序</a></li>
         </ul>
     </div>
     

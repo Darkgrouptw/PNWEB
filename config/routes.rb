@@ -68,7 +68,7 @@ Rails.application.routes.draw do
 	get     "Reportlist/:id"    =>  "reportlist#index",         :as =>  "reportlist_index"
 
     # 給編輯數使用
-    get     "TreeIndex"         =>  "main#treeindex"
+    get     "TreeIndex"         =>  "main#treeindex",			:as =>	"treeindex"
     get     "TreeCanvas"        =>  "main#treecanvas"
     get     "TreeThumbUp"       =>  "main#tree_thumb_up"
     get     "TreeJson"          =>  "main#treejson"
