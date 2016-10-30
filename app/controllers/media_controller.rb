@@ -7,12 +7,15 @@ class MediaController < ApplicationController
 			return
 		end
 		issue_ids = []
+		people_ids = []
 		#find all the detail is said by the @me
 		@details = DataDetail.where(news_media: @me.name,is_report: false)
 		@details.each do |detail|
 			issue_ids.push(detail.issue_id)
+			people_ids.push(detail.people_id)
 		end
 		#find all the issue connect with details
+		@people = DataPerson.where(id: people_ids)
 		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
   	end
 	def new

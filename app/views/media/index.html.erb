@@ -26,7 +26,10 @@
 		<div class = "col-md-offset-1 col-md-8 row">
 			<div class = "whiteText row">
 				<div >
-					<div align = "right"><a href = <%= peoplelist_edit_path(id: @tags) %>>編輯</a></div>
+					<% if can_view(2) %>
+						<div align = "right"><a href = <%= peoplelist_edit_path(id: @tags) %>>編輯</a></div>
+					<% end %>
+					
 					<table class = "table table-bordered">
 						<thead>
 							<tr align = "center" ><td colspan = "1"><%= @me.name %></td></tr>
@@ -41,19 +44,20 @@
 			</div>
 			<!-- tables with all the detail -->
 			<div class = "whiteText row">
-				<div align = "center">和 <%= @me.name %> 相關的論述</div>
+				<div align = "center">由 <%= @me.name %> 刊載的意見</div>
 				<div>
 					<table class = "table table-bordered">
 						<thead>
 							<tr align = "center" >
 								<td>議題</td>
-								<td>論述</td>
-								<td>正反方</td>
+								<td>名嘴</td>
+								<td>意見</td>
 							</tr>
 						</thead>
 						<tbody>
 							<% @details.each do |detail| %>
 								<% issue = @issues.where(id: detail.issue_id)[0] %>
+								<% person = @people.where(id: detail.people_id)[0] %>
 								<tr>
 									<td>
 										<% link = issuelist_index_path(id: issue.id) %>
@@ -62,17 +66,16 @@
 										</a>
 									</td>
 									<td>
+										<% link = peoplelist_index_path(id: person.name) %>
+										<a href=<%= link %> >
+											<%= person.name %>
+										</a>
+									</td>
+									<td>
 										<% link = detaillist_index_path(id: detail.id) %>
 										<a href = <%= link %>>
 											<%= detail.content %>
 										</a>
-									</td>
-									<td>
-										<% if detail.is_support %>
-											正
-										<% else %>
-											反
-										<% end %>
 									</td>
 								</tr>
 							<% end %>
