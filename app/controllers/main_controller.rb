@@ -268,7 +268,7 @@ class MainController < ApplicationController
             @items = TreeInfo.where(created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
             @items = findNearHotIssueTree(@items)
         else
-            @items = TreeInfo.where(updated_at: :desc).first(10)
+            @items = TreeInfo.order(updated_at: :desc).first(10)
         end
                 
                 
