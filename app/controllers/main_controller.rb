@@ -252,26 +252,22 @@ class MainController < ApplicationController
         end
     end
     
-    
-    
     #
     # 編輯樹
     #
     def treeindex
         @OrderBy = params[:OrderBy]
         if @OrderBy == 0.to_s
-            @items = TreeInfo.order(updated_at: :desc).first(10)
+            @items = TreeInfo.order(created_at: :desc).first(10)
         elsif @OrderBy == 1.to_s
-            @items = TreeInfo.order(updated_at: :desc)
+            @items = TreeInfo.order(created_at: :desc)
             @items = findNearHotIssueTree(@items)
         elsif @OrderBy == 2.to_s
             @items = TreeInfo.where(created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
             @items = findNearHotIssueTree(@items)
         else
-            @items = TreeInfo.order(updated_at: :desc).first(10)
+            @items = TreeInfo.order(created_at: :desc).first(10)
         end
-                
-                
         
         @issue_info = []
         @nicknames = []
@@ -280,7 +276,7 @@ class MainController < ApplicationController
         @times = []
         
         @items.each do |item|
-            temp = DataIssue.where(id: item.id)[0]
+            temp = DataIssue.where(id: item.issue_id)[0]
             @issue_info.push(temp)
             
             
@@ -313,7 +309,8 @@ class MainController < ApplicationController
         if current_user != nil
             info = TreeInfo.where(id: params[:id])[0]
             if !stringHasID(info.like_list_id, current_user.id)
-                info.like_list_id += current_user.id + ","
+                info.like_list_id += current_user.id.to_s + ","
+                info.save
             end
         end
         
@@ -338,11 +335,17 @@ class MainController < ApplicationController
     end
     
     def root_add
-        DataIssue.where(title: params[:name])[0]
+        titleID =  DataIssue.where(title: params[:name])[0].id
         
         item = TreeInfo.new
-        item
-        byebug
+        item.issue_id = titleID
+        item.people_id = current_user.id
+        item.info = "{'item': {
+                    'name': '" + params[:name] + "', 'color': '#3DA5D9', 'parent': []
+                    }}"
+        item.like_list_id = ""
+        item.save
+        redirect_to "/TreeCanvas?id=" + item.id.to_s
     end
     
     

@@ -49,9 +49,11 @@
 
 <!-- 左邊Canvas -->
 <div class="LeftCanvas">
-    <div class="AddNodeButton">
-        <button class="btn btn-primary" id="addRoot">新增 Root 的 Node</button>
-    </div>
+    <% if current_user !=nil and current_user.level >=2 %>
+        <div class="AddNodeButton">
+            <button class="btn btn-primary" id="addRoot">新增 Root 的 Node</button>
+        </div>
+    <% end %>
 
     <!-- 依照什麼排序 -->
     <div class="dropdown">
