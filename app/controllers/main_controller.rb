@@ -287,21 +287,6 @@ class MainController < ApplicationController
     def treejson
         item = TreeInfo.where(id: params[:id])[0]
         @jsonFile = item.info
-        #
-        #     AAA
-        #    / | \
-        # BBB CCC DDD
-        # 限制：不能有兩顆以上的 Tree
-        #@jsonFile = "{'item': {
-        #    'name': 'AAA', 'color': '#DB7093', 'parent': [
-        #        {'name': 'BBB', 'color': '#4169E1', 'parent': [
-        #            {'name': 'EEE', 'color': '#6495ED', 'parent': []},
-        #            {'name': 'E', 'color': '#6495ED', 'parent': []}
-        #        ]},
-        #        {'name': 'CCC', 'color': '#6495ED', 'parent': []},
-        #        {'name': 'DDD', 'color': '#6495ED', 'parent': []}
-        #    ]}
-        #}"
     end
     
     def tree_check
@@ -314,6 +299,14 @@ class MainController < ApplicationController
             @content = "true"
         end
         puts @content
+    end
+    
+    def root_add
+        DataIssue.where(title: params[:name])[0]
+        
+        item = TreeInfo.new
+        item
+        byebug
     end
     
     

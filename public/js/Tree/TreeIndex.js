@@ -40,7 +40,7 @@ $(function(){
                     return;
                 }
                 
-                $(location).attr('href','/TreeAddRoot');
+                $(location).attr('href','/TreeAddRoot?name=' +  IssueName);
             }
         );
     });
