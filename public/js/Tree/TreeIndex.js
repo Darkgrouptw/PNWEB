@@ -30,22 +30,18 @@ $(function(){
     
     $("#addRootBtn").on("click", function(){
         var IssueName = $("#queryIssue").prop("value");
-        /*$.get( "/IssueName", { name: IssueName }).done( 
+        var IsCorrect = false;
+        $.get( "/tree_check", { name: IssueName }).done( 
             function( data ) {
-                // 刪除前面的空白
-                data = data.substr(4, data.length);
-                // 刪除後面的換行
-                data = data.substr(0, data.length - 1);
-                data = data.split(",")
-                $("#queryIssueDiv").empty();
-                
-                if(data.length == 1 && data[0] == "\n")
+                data = data.replace("    ", "");
+                if(data == "false")
                 {
-                    alert("無此議題！！");
+                    alert("沒有這個議題！！");
                     return;
                 }
                 
+                $(location).attr('href','/TreeAddRoot');
             }
-        );*/
+        );
     });
 });
