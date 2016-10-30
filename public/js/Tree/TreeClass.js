@@ -16,7 +16,9 @@ var sJsonData;
 
 $(function(){
     // 先拿 Json 檔，把所有的東西抓下來$.ajax({
-    $.get( "/TreeJson", function(data) 
+
+    var param_id = getUrlParameter("id");
+    $.get( "/TreeJson?id=" + param_id, function(data) 
     {
         // 拿回來的東西轉一下
         data = data.split("&#39;").join("\"");
@@ -27,6 +29,22 @@ $(function(){
         sJsonData = JsonData;
     });
 });
+
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
 function TreeManager(JsonData)
 {   
     // 增加 TopLevel，移動頁面的時候，可以只改變這一層

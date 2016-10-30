@@ -271,33 +271,37 @@ class MainController < ApplicationController
     def tree_thumb_up
         paramsStr = ""
         if params[:page] != nil
-            params = "?page=" + params[:page]
+            paramsStr = "?page=" + params[:page]
         end
         
         if current_user != nil
-            
+            info = TreeInfo.where(id: params[:id])[0]
+            if !stringHasID(info.like_list_id, current_user.id)
+                info.like_list_id += current_user.id + ","
+            end
         end
-            
         
         redirect_to "/TreeIndex" + paramsStr
     end
     
     def treejson
+        item = TreeInfo.where(id: params[:id])[0]
+        @jsonFile = item.info
         #
         #     AAA
         #    / | \
         # BBB CCC DDD
         # 限制：不能有兩顆以上的 Tree
-        @jsonFile = "{'item': {
-            'name': 'AAA', 'color': '#DB7093', 'parent': [
-                {'name': 'BBB', 'color': '#4169E1', 'parent': [
-                    {'name': 'EEE', 'color': '#6495ED', 'parent': []},
-                    {'name': 'E', 'color': '#6495ED', 'parent': []}
-                ]},
-                {'name': 'CCC', 'color': '#6495ED', 'parent': []},
-                {'name': 'DDD', 'color': '#6495ED', 'parent': []}
-            ]}
-            }"
+        #@jsonFile = "{'item': {
+        #    'name': 'AAA', 'color': '#DB7093', 'parent': [
+        #        {'name': 'BBB', 'color': '#4169E1', 'parent': [
+        #            {'name': 'EEE', 'color': '#6495ED', 'parent': []},
+        #            {'name': 'E', 'color': '#6495ED', 'parent': []}
+        #        ]},
+        #        {'name': 'CCC', 'color': '#6495ED', 'parent': []},
+        #        {'name': 'DDD', 'color': '#6495ED', 'parent': []}
+        #    ]}
+        #}"
     end
     
     

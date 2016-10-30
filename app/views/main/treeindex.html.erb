@@ -1,9 +1,9 @@
 <% def ListItems() %>
     <% index = 0 %>
 	<% @items.each do |item|%>
-        <div class="BoxSpace">
+        <div class="BoxSpace" tree_id="<%= item.id %>">
             <!-- 被選到時，會有 Border -->
-            <div class="BoxSelectBorder" <% if index != 0 %> style = "display:none" <% end %></di>
+            <div class="BoxSelectBorder" <% if index != 0 %> style = "display:none" <% end %>>
             </div>
             
             <!-- 文字框框 -->
@@ -43,23 +43,45 @@
 <% end %>
 <!-- 前面的宣告 -->
 <link rel="stylesheet" type="text/css" href="/css/Tree/index.css">
+<link rel="stylesheet" type="text/css" href="/css/query.css">
 <script src="js/Tree/TreeIndex.js"></script>
+<script src="/js/queryIssue.js"></script>
 
 <!-- 左邊Canvas -->
 <div class="LeftCanvas">
+    <div class="AddNodeButton">
+        <button class="btn btn-primary" id="addRoot">新增 Root 的 Node</button>
+    </div>
     <div class="TreeList">
         <% ListItems() %>
     </div>
 </div>
 
 <!-- 右邊的 -->
-<iframe class="RightCanvas" src="/TreeCanvas" frameBorder="0"></iframe>
+<iframe class="RightCanvas" src="/TreeCanvas?id=<%= @items[0].id %>" frameBorder="0"></iframe>
 
 <!-- 如果視窗 Size 小於某個值，會顯示小於預設視窗 -->
 <div class="WindowSizeWarning" style="display: none;">
     <div>
         <h3>注意！！</h3>
         由於視窗太小小於預設的範圍 (1600 x 900)，所以有些東西會因為排版，而導致可能會看不到。
-        <button class="btn btn-warning">了解</button>
+        <button class="btn btn-primary">了解</button>
+    </div>
+</div>
+
+<!-- 加 Root 的點 -->
+<div class="AddRoot" style="display: none;">
+    <div class="AddRootBox">
+        <span class="glyphicon glyphicon-remove" id="RemoveAddRoot"></span>
+        
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="請輸入議題" name="IssueName" id="queryIssue">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </span>
+        </div>
+        <div id="queryIssueDiv" class="queryDiv" style="width: 350px; display: none;"></div>
     </div>
 </div>
