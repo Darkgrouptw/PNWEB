@@ -58,7 +58,11 @@
 </div>
 
 <!-- 右邊的 -->
-<iframe class="RightCanvas" src="/TreeCanvas?id=<%= @items[0].id %>" frameBorder="0"></iframe>
+<% if @item != nil %>
+    <iframe class="RightCanvas" src="/TreeCanvas?id=<%= @items[0].id %>" frameBorder="0"></iframe>
+<% else %>
+    <iframe class="RightCanvas" src="/TreeCanvas" frameBorder="0"></iframe>
+<% end %>
 
 <!-- 如果視窗 Size 小於某個值，會顯示小於預設視窗 -->
 <div class="WindowSizeWarning" style="display: none;">
@@ -75,9 +79,13 @@
         <span class="glyphicon glyphicon-remove" id="RemoveAddRoot"></span>
         
         <div class="input-group">
+            <div class="AddRootTitle">
+                新增的 Root 名稱：
+            </div>
+            
             <input type="text" class="form-control" placeholder="請輸入議題" name="IssueName" id="queryIssue">
             <span class="input-group-btn">
-                <button class="btn btn-default" type="button">
+                <button class="btn btn-default" type="button" id="addRootBtn">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
             </span>

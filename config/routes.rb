@@ -72,6 +72,8 @@ Rails.application.routes.draw do
     get     "TreeCanvas"        =>  "main#treecanvas"
     get     "TreeThumbUp"       =>  "main#tree_thumb_up"
     get     "TreeJson"          =>  "main#treejson"
+    get     "TreeCheck"         =>  "main#tree_check"
+    get     "TreeAddRoot"       =>  "main#root_add"
 
 	# notify
 	post 	"Notify"            =>	"main#notify",	    :as =>	"notify"

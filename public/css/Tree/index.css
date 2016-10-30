@@ -162,7 +162,7 @@
     padding: 10px;
     background-color: #84A3FF;
     font-family: "微軟正黑體";
-    color: white;
+    
 }
 .AddRootBox .glyphicon-remove
 {
@@ -170,14 +170,25 @@
     right: 20px;
     top: 20px;
 }
-.AddRootBox div
+.AddRootBox .input-group
 {
     position: relative;
     top: 50px;
     left: 50px;
     width: 400px;
 }
+.AddRootBox .queryDiv
+{
+    top: 94px;
+    left: 60px;
+}
 .AddRootBox span:hover
 {
     cursor: pointer;
+}
+.AddRootTitle 
+{
+    position: absolute;
+    top: -20px;
+    left 50px;
 }

@@ -18,16 +18,17 @@ $(function(){
     // 先拿 Json 檔，把所有的東西抓下來$.ajax({
 
     var param_id = getUrlParameter("id");
-    $.get( "/TreeJson?id=" + param_id, function(data) 
-    {
-        // 拿回來的東西轉一下
-        data = data.split("&#39;").join("\"");
-        
-        // 將東西 pass 成 Json
-        var JsonData = JSON.parse(data);
-        TreeManager(JsonData);
-        sJsonData = JsonData;
-    });
+    if(typeof param_id != "undefined")
+        $.get( "/TreeJson?id=" + param_id, function(data) 
+        {
+            // 拿回來的東西轉一下
+            data = data.split("&#39;").join("\"");
+
+            // 將東西 pass 成 Json
+            var JsonData = JSON.parse(data);
+            TreeManager(JsonData);
+            sJsonData = JsonData;
+        });
 });
 
 function getUrlParameter(sParam) {
