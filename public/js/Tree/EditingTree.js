@@ -51,7 +51,6 @@ $(function(){
             case "1":
                 $(this).hide(100);
                 
-                
                 // 產生東西給你加議題
                 $(".blackAddItemDiv").attr("style", "background-color: rgba(0, 0, 0, 0);");
                 $(".AddItemDiv").attr("style", "buttom: -500px;");
@@ -72,6 +71,10 @@ $(function(){
                 break;
             case "4":
                 DeleteNode();
+                $(this).hide(100);
+                break;
+            case "5":
+                saveAllNode();
                 $(this).hide(100);
                 break;
         }
@@ -245,7 +248,7 @@ function AddNodeToChild(NodeName)
                 checkList.push(checkList[0].parent[i]);
         else
         {
-            checkList[0]['parent'].push({"name":NodeName, "color": RandomColor(), "parent":[]});
+            checkList[0]['parent'].push({'name':NodeName, 'color': RandomColor(), 'parent':[]});
             IsFind = true;
             break;
         }
@@ -281,7 +284,7 @@ function AddNodeInSameLevel(NodeName)
                     checkList.push(checkList[0].parent[i]);
                 else
                 {
-                    checkList[0]['parent'].push({"name":NodeName, "color": RandomColor(), "parent":[]});
+                    checkList[0]['parent'].push({'name':NodeName, 'color': RandomColor(), 'parent':[]});
                     IsFind = true;
                     break;
                 }
@@ -454,3 +457,23 @@ function DeleteNode()
         TreeManager(sJsonData);
     }
 }
+function saveAllNode()
+{
+    $.post("TreeSaveAllNode", {"id": getUrlParameter("id"), "TreeInfo": JSON.stringify(sJsonData)}).done(function(data){
+        $(location).attr('href','/TreeIndex');
+    });
+}
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};

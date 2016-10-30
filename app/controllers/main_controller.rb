@@ -319,7 +319,10 @@ class MainController < ApplicationController
     
     def treejson
         item = TreeInfo.where(id: params[:id])[0]
-        @jsonFile = item.info
+        
+        require 'cgi'
+        require 'nokogiri'
+        @jsonFile = CGI.unescapeHTML(item.info)
     end
     
     def tree_check
@@ -346,6 +349,12 @@ class MainController < ApplicationController
         item.like_list_id = ""
         item.save
         redirect_to "/TreeCanvas?id=" + item.id.to_s
+    end
+    
+    def tree_save_all_node
+        node = TreeInfo.where(id: params[:id])[0]
+        node.info = params[:TreeInfo].to_s.gsub("\"","\'")
+        node.save
     end
     
     
