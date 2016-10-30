@@ -262,7 +262,6 @@ class MainController < ApplicationController
         if @OrderBy == 0.to_s
             @items = TreeInfo.order(updated_at: :desc).first(10)
         elsif @OrderBy == 1.to_s
-            #likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
             @items = TreeInfo.order(updated_at: :desc)
             @items = findNearHotIssueTree(@items)
         elsif @OrderBy == 2.to_s
