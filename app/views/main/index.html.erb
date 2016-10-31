@@ -119,6 +119,7 @@
 	<a href = <%= link %> class="whiteText">
 			所有使用者
 	</a>
+	<% link = treeindex_path %><a class="whiteText" href = <%=link%>>所有議題樹</a>
 </div>
 <div class = "col-md-offset-1 col-md-10" align = "center">
 	<table class="table">
@@ -131,7 +132,7 @@
 			
 			<td><div><% CreateMostInfluenceMediaTable() %></div></td>
 			<td><div><% CreateMostBalenceMediaTable() %></div></td>
-			<td><div ><% CreateHotIssueTreeTable() %></div></td>
+			<!--<td><div ><% CreateHotIssueTreeTable() %></div></td>-->
 		</tr>
 	</table>
 </div>
