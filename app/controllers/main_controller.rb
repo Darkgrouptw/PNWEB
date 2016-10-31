@@ -343,7 +343,13 @@ class MainController < ApplicationController
     end
     
     def root_add
-        titleID =  DataIssue.where(title: params[:name])[0].id
+        title = DataIssue.where(title: params[:name])[0]
+        if root_add == nil
+            flash[:warning] = "沒有這個議題!!"
+            redirect "/TreeIndex"
+            return
+        end
+        titleID = title.id
         
         item = TreeInfo.new
         item.issue_id = titleID
