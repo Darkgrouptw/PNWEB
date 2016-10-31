@@ -8,14 +8,14 @@ class MainController < ApplicationController
             recorder.push(issue.id);
         end
         likelist.each do |like|
-            for i in 0..counter.length - 2
+            for i in 0..counter.length - 1
                 issue = issue_list.where(id: recorder[i])[0]
                 if stringHasID(issue.datadetail_id,like.detail_id)
                     counter[i] = counter[i] + 1
                 end
             end
         end
-        for i in 0..counter.length - 2
+        for i in 0..counter.length - 1
             for j in 0..counter.length - i - 2
                 if counter[j] < counter[j + 1]
                     temp = counter[j]
@@ -41,7 +41,7 @@ class MainController < ApplicationController
             counter.push(getStringIDLength(item.like_list_id));
             recorder.push(item.id);
         end
-        for i in 0..counter.length - 2
+        for i in 0..counter.length - 1
             for j in 0..counter.length - i - 2
                 if counter[j] < counter[j + 1]
                     temp = counter[j]
@@ -76,7 +76,7 @@ class MainController < ApplicationController
                 end
             end
         end
-        for i in 0..counter.length - 2
+        for i in 0..counter.length - 1
             for j in 0..counter.length - i - 2
                 if counter[j] < counter[j + 1]
                     temp = counter[j]
@@ -103,7 +103,7 @@ class MainController < ApplicationController
             counter.push(getStringIDLength(people.datadetail_id))
             recorder.push(people.id)
         end
-        for i in 0..counter.length - 2
+        for i in 0..counter.length - 1
             for j in 0..counter.length - i - 2
                 if counter[j] < counter[j + 1]
                     temp = counter[j]
@@ -115,7 +115,11 @@ class MainController < ApplicationController
                 end
             end
         end
-        return people_list.where(id: recorder.first(10))
+        result = []
+        recorder.first(10).each do |record|
+            result.push(people_list.where(id: record)[0])
+        end
+        return result
     end
 
     def findInfluenceMedia(media_list)
@@ -125,7 +129,7 @@ class MainController < ApplicationController
             counter.push(getStringIDLength(media.datadetail_id))
             recorder.push(media.id)
         end
-        for i in 0..counter.length - 2
+        for i in 0..counter.length - 1
             for j in 0..counter.length - i - 2
                 if counter[j] < counter[j + 1]
                     temp = counter[j]
@@ -137,7 +141,11 @@ class MainController < ApplicationController
                 end
             end
         end
-        return media_list.where(id: recorder.first(10))
+        result = []
+        recorder.first(10).each do |record|
+            result.push(media_list.where(id: record)[0])
+        end
+        return result
     end
 
     def findBalanceMedia(media_list)
@@ -174,7 +182,7 @@ class MainController < ApplicationController
         end
 
 
-        for i in 0..counter.length - 2
+        for i in 0..counter.length - 1
             for j in 0..counter.length - i - 2
                 if counter[j] < counter[j + 1]
                     temp = counter[j]
@@ -186,8 +194,11 @@ class MainController < ApplicationController
                 end
             end
         end
-        return media_list.where(id: recorder.first(10))
-
+        result = []
+        recorder.first(10).each do |record|
+            result.push(media_list.where(id: record)[0])
+        end
+        return result
     end
 
     def writeDataFromFile
