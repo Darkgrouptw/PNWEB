@@ -344,9 +344,9 @@ class MainController < ApplicationController
     
     def root_add
         title = DataIssue.where(title: params[:name])[0]
-        if root_add == nil
+        if title == nil
             flash[:warning] = "沒有這個議題!!"
-            redirect "/TreeIndex"
+            redirect_to "/TreeIndex"
             return
         end
         titleID = title.id
