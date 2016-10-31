@@ -28,14 +28,18 @@
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             </svg>
         </div>
-        <ul id="ListAddNode" class="custom-menu">
-            <li index="0" class="textArea">新增下一層議題</li>
-            <li index="1" class="textArea">新增同一層議題</li>
-            <li index="2" class="textArea">上移</li>
-            <li index="3" class="textArea">下移</li>
-            <li index="4" class="textArea">刪除</li>
-            <li index="5" class="textArea">儲存</li> 
-        </ul>
+        <% if current_user != nil %>
+            <% if current_user.id == @id || current_user.level == 3 %>
+                <ul id="ListAddNode" class="custom-menu">
+                    <li index="0" class="textArea">新增下一層議題</li>
+                    <li index="1" class="textArea">新增同一層議題</li>
+                    <li index="2" class="textArea">上移</li>
+                    <li index="3" class="textArea">下移</li>
+                    <li index="4" class="textArea">刪除</li>
+                    <li index="5" class="textArea">儲存</li> 
+                </ul>
+            <% end %>
+        <% end %>
         
         <!-- 全黑使用 -->
         <div class="blackAddItemDiv" style="background-color: rgba(0, 0, 0, 0); display: none;"></div>

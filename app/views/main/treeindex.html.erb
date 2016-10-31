@@ -85,7 +85,7 @@
 </div>
 
 <!-- 右邊的 -->
-<% if @item != nil %>
+<% if @items != nil %>
     <iframe class="RightCanvas" src="/TreeCanvas?id=<%= @items[0].id %>" frameBorder="0"></iframe>
 <% else %>
     <iframe class="RightCanvas" src="/TreeCanvas" frameBorder="0"></iframe>

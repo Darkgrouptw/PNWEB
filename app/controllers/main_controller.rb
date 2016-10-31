@@ -299,6 +299,10 @@ class MainController < ApplicationController
     end
     
     def treecanvas
+        @id = -1
+        if params[:id] != nil
+            @id = TreeInfo.where(id: params[:id])
+        end
     end
     
     def tree_thumb_up
