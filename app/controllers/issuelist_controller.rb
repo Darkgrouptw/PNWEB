@@ -320,7 +320,8 @@ class IssuelistController < ApplicationController
 		@issue = DataIssue.where(id: params[:id])[0]
 		@issue.is_candidate = false
 		@issue.save
-		redirect_to issuelist_index_path(id: @issue.id)
+		redirect_to (:back)
+		#redirect_to issuelist_index_path(id: @issue.id)
 	end
 
 	def toggle(attribute)
