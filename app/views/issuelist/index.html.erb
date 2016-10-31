@@ -23,6 +23,25 @@
 		return issuelist_index_path(id: @tags) + "?positive_page=" + p.to_s + "&negative_page=" + n.to_s + "&pos_order=" + pos_order + "&neg_order=" + neg_order + "&pos_show=" + pos_show + "&neg_show=" + neg_show
 	end
 %>
+
+<% def CreateReferenceIssueContent() %>
+	<% @ReferenceIssue.each do |item|%>
+		<% link = issuelist_index_path(id: item.id) %>
+		<tr><td><a href=<%= link %>><%= item.title %></a></td></tr>
+	<% end %>
+<% end %>
+<% def CreateDownFlowIssueContent() %>
+	<% @DownFlowIssue.each do |item|%>
+		<% link = issuelist_index_path(id: item.id) %>
+		<tr><td><a href=<%= link %>><%= item.title %></a></td></tr>
+	<% end %>
+<% end %>
+<% def CreateReferenceIssueTreeContent() %>
+	<% @ReferenceIssueTree.each do |item|%>
+		<% link = issuelist_index_path(id: item.id) %>
+		<tr><td><a href=<%= link %>><%= item.title %></a></td></tr>
+	<% end %>
+<% end %>
 <% def Page_produce(i) %>
 	<% if i == 0 %>
 		<tr style="text-align:center;">
@@ -354,7 +373,55 @@
 				</div>
 			<% end %>
 			
-			<!-- dissupport detail -->
+			<!-- reference issue && donwflow issue -->
+			<div  align = "center">
+				<table class = "col-md-offset-1 col-md-10">
+					<td align="center" >
+						<table class = "table table-bordered">
+							<thead>
+								<tr>
+									<td>相關議題</td>	
+								</tr>								
+							</thead>
+							<tbody>
+								<tr>
+									<% CreateReferenceIssueContent() %>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+					<td width="20px"></td>
+					<td align="center">
+						<table class = "table table-bordered">
+							<thead>
+								<tr>
+									<td>下游議題</td>	
+								</tr>								
+							</thead>
+							<tbody>
+								<tr>
+									<td>2</td>	
+								</tr>
+							</tbody>
+						</table>
+					</td>
+					<td width="20px"></td>
+					<td align="center">
+						<table class = "table table-bordered">
+							<thead>
+								<tr>
+									<td>相關議題樹</td>	
+								</tr>								
+							</thead>
+							<tbody>
+								<tr>
+									<td>3</td>	
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</table>
+			</div>
 		</div>
 	</div>
 

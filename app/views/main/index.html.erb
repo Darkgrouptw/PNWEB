@@ -10,7 +10,7 @@
 <% def CreateHotIssueTreeContent(maxContentNumber) %>
 	<% @NearHotIssueTree.each do |item|%>
 		<% link = "#" %>
-		<tr><td><a href=<%= link %>><%= item.issue_id %></a></td></tr>
+		<tr><td><a href=<%= link %>><%= @issues.where(id: item.issue_id)[0].title %></a></td></tr>
 	<% end %>
 <% end %>
 <% def CreateHotPeopleContent(maxContentNumber) %>

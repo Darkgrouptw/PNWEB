@@ -17,23 +17,15 @@
 		<table class = "table table-bordered">
 			<thead>
 				<tr align = "center">
-					<td colspan = "5">候選議題</td>
+					<td colspan = "4">候選議題</td>
 				</tr>
-				<tr><td>標題</td><td>父議題</td><td>票數</td><td>上線時間</td><td>升為正式議題</td></tr>
+				<tr><td>標題</td><td>票數</td><td>上線時間</td><td>升為正式議題</td></tr>
 			</thead>
 			<tbody>
 				<% @issues.each do |issue| %>
 					<tr>
 						<td>
 								<%= issue.title %>
-						</td>
-						<td>
-							<% father = @issueList.where(id: issue.trunk_id)[0]%>
-							<% if father.nil? %>
-								此為根議題
-							<% else %>
-								<%= father.title %>
-							<% end %>
 						</td>
 						<td>
 							<div><%= issue.thumb_up.split(',').length %></div>

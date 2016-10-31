@@ -1,11 +1,33 @@
 class IssuelistController < ApplicationController
+	def findReferenceIssue(me,issue_list)
+		if issue_list.nil? || issue_list.length == 0
+			return nil
+		end
+		issue_ids = []
+		me_tags = me.tag.split(',')
+		issue_list.each do |issue|
+			if issue.id == me.id
+			else
+				issue_tags = issue.tag.split(',')
+				me_tags.each do |tag|
+					if issue_tags.include? tag
+						issue_ids.push(issue.id)
+						break
+					end
+				end	
+			end
+		end
+		return issue_list.where(id: issue_ids)
+	end
 	def index
 		@tags = params[:id]
 		@pos_order = params[:pos_order]
 		@neg_order = params[:neg_order]
 		@pos_show = params[:pos_show]
 		@neg_show = params[:neg_show]
-		
+		@all_issue = DataIssue.all
+		@issues = @all_issue.where(is_candidate: false).order(:created_at)
+		@me = @issues.where(id: @tags)[0]
 		if @pos_order.nil? || @pos_order.empty?
 			@pos_order = "thumb"
 		end
@@ -18,8 +40,6 @@ class IssuelistController < ApplicationController
 		if @neg_show.nil? || @neg_show.empty?
 			@neg_show = "table"
 		end
-		@issues = DataIssue.where(is_candidate: false).order(:created_at)
-		@me = @issues.where(id: @tags)[0]
 		if @me ==nil
 			return
 		end
@@ -175,6 +195,9 @@ class IssuelistController < ApplicationController
 		@users=User.where(id: user)
 		@persons=DataPerson.where(id: person)
 		@medias = DataMedium.where(name: media)
+		@ReferenceIssue = findReferenceIssue(@me,@all_issue)
+		#@DownFlowIssue = @all_issue.where(id: @me.parent_node.split(','))
+		#@ReferenceIssueTree = findReferenceIssueTree(@me)
 	end
 
 	def add
@@ -193,7 +216,6 @@ class IssuelistController < ApplicationController
 		end
 		title = params[:title]
 		post = params[:post]
-		trunk_id = params[:trunk_id]
 		tag = params[:tag]
 		
 		if !DataIssue.where(title: title)[0].nil?
@@ -202,25 +224,10 @@ class IssuelistController < ApplicationController
 			return
 		end
 
-		if !trunk_id.empty? 
-			father = DataIssue.where(title: trunk_id)[0]
-		else
-			father = -1
-		end
-		if father.nil?
-			flash[:alert] = "無此父議題" 
-			redirect_to(:back) 
-			return
-		end 
-
 		@issue = DataIssue.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
 		@issue.title = title
 		@issue.post = post
-		if trunk_id.nil? || trunk_id.empty?
-			@issue.trunk_id = -1;
-		else
-			@issue.trunk_id = father.id
-		end
+
 		@issue.tag = tag
 		@issue.is_candidate = true
 		@issue.popularity = 0
@@ -237,7 +244,6 @@ class IssuelistController < ApplicationController
 			return
 		end
 		@issue = DataIssue.where(id: params[:id])[0]
-		@father = DataIssue.where(id: @issue.trunk_id)[0]
 	end
 
 	def update
@@ -247,17 +253,7 @@ class IssuelistController < ApplicationController
 			return
 		end
 		@issue = DataIssue.where(id: params[:id])[0]
-		trunk_id = params[:trunk_id]
-		if !trunk_id.empty? 
-			father = DataIssue.where(title: trunk_id)[0]
-		else
-			father = -1
-		end
-		if father.nil?
-			flash[:alert] = "無此父議題" 
-			redirect_to(:back) 
-			return
-		end 
+
 		if @issue.nil?
 			return
 		end
@@ -267,11 +263,7 @@ class IssuelistController < ApplicationController
 		if !(params[:post].nil? || params[:post].empty?)
 			@issue.post = params[:post]
 		end
-		if trunk_id.nil? || trunk_id.empty?
-			@issue.trunk_id = -1;
-		else
-			@issue.trunk_id = father.id
-		end
+
 		if !(params[:tag].nil? || params[:tag].empty?)
 			@issue.tag = params[:tag]
 		end
