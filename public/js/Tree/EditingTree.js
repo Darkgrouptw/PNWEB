@@ -460,7 +460,7 @@ function DeleteNode()
 function saveAllNode()
 {
     $.post("TreeSaveAllNode", {"id": getUrlParameter("id"), "TreeInfo": JSON.stringify(sJsonData)}).done(function(data){
-        $(location).attr('href','/TreeIndex');
+        window.top.location.reload();
     });
 }
 function getUrlParameter(sParam) {

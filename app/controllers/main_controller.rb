@@ -353,7 +353,7 @@ class MainController < ApplicationController
                     }}"
         item.like_list_id = ""
         item.save
-        redirect_to "/TreeCanvas?id=" + item.id.to_s
+        redirect_to "/TreeIndex" #+ item.id.to_s
     end
     
     def tree_save_all_node
