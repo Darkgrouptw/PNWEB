@@ -42,6 +42,12 @@ class MediaController < ApplicationController
 	end
 	def all
 		@medias = DataMedium.all
-		redirect_to media_index_path(@medias[0].name)
+		if @medias.length == 0
+			flash[:alert] = "資料中沒有任何媒體"
+			redirect_to(:back)
+		else
+			redirect_to media_index_path(@medias[0].name)
+		end
+		
 	end
 end

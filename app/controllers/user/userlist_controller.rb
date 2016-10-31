@@ -64,6 +64,12 @@ class User::UserlistController < ApplicationController
 	end
 	def all
 		@userList = User.all
-		redirect_to userlist_index_path(id: @userList[0].id)
+		if @userList.length == 0
+			flash[:alert] = "資料中沒有任何媒體"
+			redirect_to(:back)
+		else
+			redirect_to userlist_index_path(id: @userList[0].id)
+		end
+		
 	end
 end

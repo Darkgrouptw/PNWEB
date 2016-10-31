@@ -75,6 +75,12 @@ class PeoplelistController < ApplicationController
 	end
 	def all
 		@persons=DataPerson.all
-		redirect_to peoplelist_index_path(id: @persons[0].name)
+		if @persons.length == 0
+			flash[:alert] = "資料中沒有任何媒體"
+			redirect_to(:back)
+		else
+			redirect_to peoplelist_index_path(id: @persons[0].name)
+		end
+		
 	end
 end
