@@ -33,7 +33,7 @@ $(function(){
         
         var today = new Date();
         $("#title_at_that_time_blank").text(today);
-    })
+    });
     
     $(".previewDiv div span").click(function(){
         $(".previewDiv").css("display", "none");

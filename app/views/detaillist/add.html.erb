@@ -70,9 +70,10 @@
 							</div>
 							<div id="source_file" style="display: none;">
 								<label>上傳圖檔,錄音檔</label>
-								<form action="upload.php" method="post" enctype="multipart/form-data">
-    								<input type="file" name="fileToUpload" id="file_source" accept="audio/*,image/*">
-								</form>
+                                <input type="file" name="fileToUpload" id="file_source" accept="audio/*,image/*">
+								<!--<form action="upload.php" method="post" enctype="multipart/form-data">
+    								
+								</form>-->
 								<br>	
 							</div>
 							<div id="source_video" style="display: none;">
@@ -80,7 +81,6 @@
 								<input type="text" class="form-control" name="video_source" id="video_source">
 								<br>
 							</div>
-                            <input type = "submit" class = "btn btn-primary" style = "width: 150px;">
 
                             <button type="button" class="btn btn-primary" style="width: 150px;" id="previewButton">檢視預覽</button>
 						</div>
@@ -103,7 +103,7 @@
                                         <td id="title_at_that_time_blank"></td>
                                     </tr>
                                 </table>
-                                <input type = "submit" class = "btn btn-primary" style = "width: 150px;">
+                                <input type="submit" class = "btn btn-primary" style = "width: 150px;">
                             </div>
 						</div>
 					</form>
