@@ -205,12 +205,13 @@ class MainController < ApplicationController
         @issues = DataIssue.where(is_candidate: false)
         @people = DataPerson.all
         @media = DataMedium.all
+        @treeInfo = TreeInfo.all
         @NearHotIssue = findNearHotIssue(@issues)
         @NearHotPeople = findNearHotPeople(@people)
         @InfluenceMedia = findInfluenceMedia(@media)
         @influencePeople = findInfluencePeople(@people)
         @BalanceMedia = findBalanceMedia(@media)
-        @NearHotIssueTree = findNearHotIssueTree()
+        @NearHotIssueTree = findNearHotIssueTree(@treeInfo)
 		@details=DataDetail.where(is_report: false).order(:count).reverse.first(10)
 		person = []
 		@details.each do |detail|

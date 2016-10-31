@@ -8,7 +8,10 @@
 	<% end %>
 <% end %>
 <% def CreateHotIssueTreeContent(maxContentNumber) %>
-	<tr><td><%= maxContentNumber + 1%></td></tr>
+	<% @NearHotIssueTree.each do |item|%>
+		<% link = "#" %>
+		<tr><td><a href=<%= link %>><%= item.issue_id %></a></td></tr>
+	<% end %>
 <% end %>
 <% def CreateHotPeopleContent(maxContentNumber) %>
 	<% @NearHotPeople.each do |item|%>
