@@ -183,7 +183,7 @@ function makeCircleSVG(attrs, text, nowLevel, Degree, pos, parentID)
     });
     
     // 新增文字
-    tarea.setAttribute("style", " font-size:24px;");
+    tarea.setAttribute("style", " font-size:24px; transform: translate(-60px, 0px);");
     tarea.textContent = text;
     return g;
 };
