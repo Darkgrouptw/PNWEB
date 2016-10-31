@@ -50,10 +50,9 @@
 <% def CreateHotIssueTreeTable() %>
 	<table class="table table-bordered">
 		<thead>
-			<tr><td>近期熱門議題樹</td></tr>
+			<tr><td><% link = treeindex_path %><a href = <%=link%>>近期熱門議題樹</a></td></tr>
 		</thead>
 		<tbody>
-			<% CreateHotIssueTreeContent(2) %>
 		</tbody>
 	</table>
 <% end %>
