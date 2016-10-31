@@ -202,8 +202,8 @@ class DetaillistController < ApplicationController
 				@detail.save
 			elsif backup_type == 3.to_s
 				#do nothing
-				@detail.link = video_source
-				@detail.backup_type = "none"
+				@detail.backup_id = video_source
+				@detail.backup_type = "video_source"
 				@detail.save
 			end
 			

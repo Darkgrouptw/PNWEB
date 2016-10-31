@@ -106,7 +106,14 @@
 							</div>
 							<div>
 								<% link = "pageBackUp/"+detail.backup_id.to_s+"."+detail.backup_type %>
-								<% if FileIsExit(link) %>
+								<% if detail.backup_type == "video_source" %>
+									<% link = detail.backup_id %>
+									<% if link.first(4).include?("http") %>
+									<% else %>
+										<% link = "http://" + link %>
+									<% end %>
+									<a href = "<%= link %>"" target="_blank">影片連結</a>
+								<% elsif FileIsExit(link) %>
 									<a href = <%= "/"+link %> target="_blank">
 										備份檔案
 									</a>
