@@ -249,29 +249,20 @@ class User::RegisterController < ApplicationController
     def send_verfiy_email(uuid, email)
         require 'net/smtp'
 
-        
-        mailStr = "Content-type: text/plain; charset=UTF-8\n"
-        mailStr += "From: 正反網頁<npwebntust@gmail.com>\n"
-        mailStr += "To: " + email + "\n"
-        mailStr += 'Subject: 正反網頁的認證\n'
-        mailStr += "親愛的 " + email + "你好：\n"
-        mainStr += "\t這是你的認證網址，請點擊下面網址，及繼續接下來的流程\nhttps://npweb.herokuapp.com/VerifyEmail?token=" + uuid + "&email=" + email
-        
-        mail(:to => user.email, :subject => mailStr)
-        #tempSMTP = Net::SMTP.new 'smtp.gmail.com', 587
-        #tempSMTP.enable_starttls
-        #tempSMTP.start("gmail.com", "npwebntust@gmail.com", "NTUSTCSIE2016", :login) do |smtp|
-        #    smtp.open_message_stream('npwebntust@gmail.com', [email]) do |f|
-        #        f.puts "Content-type: text/plain; charset=UTF-8"
-        #        f.puts 
-        #        f.puts 
-        #        f.puts 
-        #        f.puts
-        #        f.puts 
-        #        f.puts
-        #        f.puts l
-        #    end
-        #end
+        tempSMTP = Net::SMTP.new 'smtp.gmail.com', 587
+        tempSMTP.enable_starttls
+        tempSMTP.start("gmail.com", "npwebntust@gmail.com", "NTUSTCSIE2016", :login) do |smtp|
+            smtp.open_message_stream('npwebntust@gmail.com', [email]) do |f|
+                f.puts "Content-type: text/plain; charset=UTF-8"
+                f.puts "From: 正反網頁<npwebntust@gmail.com>"
+                f.puts "To: " + email
+                f.puts 'Subject: 正反網頁的認證信'
+                f.puts
+                f.puts "親愛的 " + email + "你好："
+                f.puts
+                f.puts "\t這是你的認證網址，請點擊下面網址，及繼續接下來的流程\nhttps://npweb.herokuapp.com/VerifyEmail?token=" + uuid + "&email=" + email
+            end
+        end
     end
     
     def verifylist_params
