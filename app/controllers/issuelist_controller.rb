@@ -25,7 +25,7 @@ class IssuelistController < ApplicationController
 		@neg_order = params[:neg_order]
 		@pos_show = params[:pos_show]
 		@neg_show = params[:neg_show]
-		@all_issue = DataIssue.all
+		@all_issue = DataIssue.where(is_candidate: false)
 		@issues = @all_issue.where(is_candidate: false).order(:created_at)
 		@me = @issues.where(id: @tags)[0]
 		if @pos_order.nil? || @pos_order.empty?
@@ -41,6 +41,8 @@ class IssuelistController < ApplicationController
 			@neg_show = "table"
 		end
 		if @me ==nil
+			flash[:alert] = "議題不存在"
+			redirect_to (:back)
 			return
 		end
 		@reports = nil
