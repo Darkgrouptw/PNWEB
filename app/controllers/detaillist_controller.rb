@@ -25,7 +25,21 @@ class DetaillistController < ApplicationController
 		@user = @users.where(id: @me.post_id)[0]
 		likelist_id = []
 		likelist_ids = @me.like_list_id.split(',')
-		@likeList = LikeList.where(detail_id: @me.id)
+		@details = DataDetail.where(id: @issue.datadetail_id.split(',')).where(is_support: @me.is_support)
+		detail_ids = []
+		@details.each do |item|
+			detail_ids.push(item.id)
+		end
+		@likeLists = LikeList.where(detail_id: detail_ids)
+		@likeList = @likeLists.where(detail_id: @me)
+
+		@CanThumbUp = true
+		if @likeLists.where(post_id: current_user.id).length >= 3
+			@CanThumbUp = false
+		elsif @likeLists.where(post_id: current_user.id,detail_id: @me.id)[0].nil?
+		else
+			@CanThumbUp = false
+		end
 	end
 
 	def add
