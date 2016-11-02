@@ -219,7 +219,22 @@ class IssuelistController < ApplicationController
 		title = params[:title]
 		post = params[:post]
 		tag = params[:tag]
-		
+		if !tag.nil? || !tag.empty?
+			tagStr = tag.split(',')
+			if tagStr.length < 3
+				flash[:alert] = "議題標籤不得少於3項"
+				redirect_to (:back)
+				return
+			elsif tagStr.length > 10
+				flash[:alert] = "議題標籤不得少於10項"
+				redirect_to (:back)
+				return
+			end
+		else
+			flash[:alert] = "標籤遺失"
+			redirect_to (:back)
+			return
+		end
 		if !DataIssue.where(title: title)[0].nil?
 			flash[:alert] = "此議題已存在" 
 			redirect_to(:back) 
@@ -265,9 +280,24 @@ class IssuelistController < ApplicationController
 		if !(params[:post].nil? || params[:post].empty?)
 			@issue.post = params[:post]
 		end
-
-		if !(params[:tag].nil? || params[:tag].empty?)
-			@issue.tag = params[:tag]
+		tag = params[:tag]
+		if !tag.nil? || !tag.empty?
+			tagStr = tag.split(',')
+			if tagStr.length < 3
+				flash[:alert] = "議題標籤不得少於3項"
+				redirect_to (:back)
+				return
+			elsif tagStr.length > 10
+				flash[:alert] = "議題標籤不得少於10項"
+				redirect_to (:back)
+				return
+			else
+				@issue.tag = params[:tag]
+			end
+		else
+			flash[:alert] = "標籤遺失"
+			redirect_to (:back)
+			return
 		end
 		@issue.updated_at = Time.now.in_time_zone('Taipei')
 		@issue.save

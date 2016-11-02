@@ -23,7 +23,7 @@
                         	<textarea class="form-control" name="post" cols = "50" rows="5"><%= @issue.post %></textarea>
                             <br>
                         	<label>標籤 (請用','隔開)</label>
-                        	<input type="text" class="form-control" name="tag" value = "<%= @issue.tag %>">
+                        	<input type="text" class="form-control" name="tag" value = "<%= @issue.tag %>" required="true">
                         	<br>
                         	<div>
                         		<input type = "submit" class = "btn btn-primary" style = "width: 150px;">
