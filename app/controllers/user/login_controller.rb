@@ -50,7 +50,7 @@ class User::LoginController < ApplicationController
         userList = User.where(:email => params[:email], :password => encrypt_password(params[:password]))
         if userList.count == 0
             redirect_to :back
-            flash[:alert] = "沒有這個使用者！！"
+            flash[:alert] = "沒有該使用者帳號或密碼錯誤！！"
             return
         end
         
