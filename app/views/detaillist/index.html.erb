@@ -42,6 +42,11 @@
 				<% else %>
 					你已檢舉過了
 				<% end %>
+				<% if @canDelete %>
+					<% link = detaillist_delete_path(id: @me.id) %>
+					<%= link_to "刪除意見",link,method: :post%>
+				<% else %>
+				<% end %>
 			</div>
 			
 			<table class = "table table-bordered">

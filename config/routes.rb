@@ -42,6 +42,7 @@ Rails.application.routes.draw do
 	post    "Detaillist/like"   =>  "detaillist#like",          :as =>  "detaillist_like"
 	post    "Detaillist/dislike"=>  "detaillist#dislike",       :as =>  "detaillist_dislike"
 	post 	"Detaillist/groupeDislike"	=>	"detaillist#groupeDislike",	:as => "detaillist_groupeDislike"
+	post 	"Detaillist/delete"	=>	"detaillist#delete",		:as =>	"detaillist_delete"
 	get     "Detaillist/:id"    =>  "detaillist#index",         :as =>  "detaillist_index"
 
 	# detail comment page

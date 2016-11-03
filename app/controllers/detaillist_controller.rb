@@ -1,4 +1,5 @@
 class DetaillistController < ApplicationController
+
 	def index
 		@tags = params[:id]
 		#find the data will be used in page
@@ -40,8 +41,19 @@ class DetaillistController < ApplicationController
 		else
 			@CanThumbUp = false
 		end
-	end
 
+		@canDelete = false
+		if @me.post_id == current_user.id && @likeList.length <= 10
+			@canDelete = true
+		end
+	end
+	def delete
+		@me = DataDetail.where(id: params[:id])[0]
+		redirect_to issuelist_index_path(id: @me.issue_id)
+		
+		return
+		@me.destroy
+	end
 	def add
 		if !can_add_detail()
 			flash[:alert] = "權限不足"

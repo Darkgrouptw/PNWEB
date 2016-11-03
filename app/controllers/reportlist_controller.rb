@@ -99,11 +99,11 @@ class ReportlistController < ApplicationController
 	@reportList = ReportDetail.where(detail_id: @detail.id)
 	@issue = DataIssue.where(id: params[:issue_id])[0]
 	#check there is any report on the detail
-	if @reportList.length < 2
-		@detail.is_report = false
+	#if the report is judge other report is cancle
+	@detail.is_report = false
+	@reportList.each do |item|
+		item.destroy
 	end
-	@report = @reportList.where(people_id: current_user.id)[0]
-	@report.destroy
 	@detail.save
 	#redirect_to detaillist_index_path(id: @detail.id)
 	redirect_to(:back)
@@ -145,7 +145,9 @@ class ReportlistController < ApplicationController
 	#detail
 	@detail.is_report = true
 	#report
-	@report.destroy
+	@reportList.each do |item|
+		item.destroy
+	end
 
 	#notify
 	@notifyList = NotifyList.where(issue_id: @issue.id)
