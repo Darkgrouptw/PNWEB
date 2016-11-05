@@ -1,5 +1,6 @@
 <script src="/js/queryToggle.js"></script>
 <script src="/js/queryVoted.js"></script>
+<script src="/js/queryScroll.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/table.css">
 <% 
 	def HasUser()
@@ -168,8 +169,8 @@
 	<% end %>
 <% end %>
 <div class="BigTitle">
-    <h2>議題頁面</h2>
-    <hr>
+	<h2>議題頁面</h2>
+	<hr>
 </div>
 <% if @me.nil? %>
 	<div class = "whiteText">
@@ -177,7 +178,7 @@
 	</div>
 <% else %>
 	<div class = "whiteText">
-
+	<div id = "scroll" value = "" style="visibility: hidden;">qwqweqwew</div>
 		<div class = "col-md-offset-1 col-md-10">
 			<!-- title -->
 			<div align = "center"><h3><%= @me.title %></h3></div>
@@ -214,28 +215,77 @@
 					<% temp = "table" %>
 					<% str_show = "只顯示直接意見" %>
 					<% if @pos_show == "table" %>
-						<% temp = "content" %>
+						
 						<% str_show = "只顯示直接意見" %>
 					<% else %>
-						<% temp = "table" %>
+						
 						<% str_show = "顯示全部意見" %>
 					<% end %>
-					<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,temp,@neg_show)%><a href = <%= link %> class = "btn"><%= str_show %></a>
-					<a href = <%= getSelfLink(@positive_page.to_s,@negative_page.to_s,"thumb",@neg_order,@pos_show,@neg_show) %> class = "btn">依投票排序</a>
-					<a href = <%= getSelfLink(@positive_page.to_s,@negative_page.to_s,"time",@neg_order,@pos_show,@neg_show) %> class = "btn">依時間排序</a>
+					<div>
+						<select name="pos_show" onchange="location = this.value;">
+							<% temp = "table" %>
+							<% str_show = "顯示全部意見" %>
+							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,temp,@neg_show)%>
+							<option value="<%= link %>"  <%if @pos_show == "table"%>selected="selected"<%end%>><%= str_show %></option>
+							<% temp = "content" %>
+							<% str_show = "只顯示直接意見" %>
+							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,temp,@neg_show)%>
+							<option value="<%= link %>" <%if @pos_show == "content"%>selected="selected"<%end%>><%= str_show %></option>
+						</select>
+						<select name="pos_order" onchange="location = this.value;">
+							<% temp = "thumb" %>
+							<% str_show = "依投票排序" %>
+							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,"thumb",@neg_order,@pos_show,@neg_show)%>
+							<option value="<%= link %>"  <%if @pos_order == "thumb"%>selected="selected"<%end%>><%= str_show %></option>
+							<% temp = "time" %>
+							<% str_show = "依時間排序" %>
+							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,"time",@neg_order,@pos_show,@neg_show)%>
+							<option value="<%= link %>" <%if @pos_order == "time"%>selected="selected"<%end%>><%= str_show %></option>
+						</select>
+						<select name="filter">
+							<% temp = "NotBlock" %>
+							<% str_show = "計算全部投票" %>
+							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,@pos_show,@neg_show)%>
+							<option value="<%= link %>"  <%if @pos_order == "thumb"%>selected="selected"<%end%>><%= str_show %></option>
+							<% temp = "Block" %>
+							<% str_show = "只計算境內(台灣)投票" %>
+							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,@pos_show,@neg_show)%>
+							<option value="<%= link %>" <%if @pos_order == "time"%>selected="selected"<%end%>><%= str_show %></option>
+						</select>
+					</div>
 				<% else %>
-					<% temp = "table" %>
-					<% str_show = "只顯示直接意見" %>
-					<% if @neg_show == "table" %>
-						<% temp = "content" %>
-						<% str_show = "只顯示直接意見" %>
-					<% else %>
-						<% temp = "table" %>
-						<% str_show = "顯示全部意見" %>
-					<% end %>
-					<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,@pos_show,temp)%><a href = <%= link %> class = "btn"><%= str_show%></a>
-					<a href = <%= getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,"thumb",@pos_show,@neg_show) %> class = "btn">依投票排序</a>
-					<a href = <%= getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,"time",@pos_show,@neg_show) %> class = "btn">依時間排序</a>
+					<div>
+						<select name="neg_show" onchange="location = this.value;">
+							<% temp = "table" %>
+							<% str_show = "顯示全部意見" %>
+							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,@pos_show,temp)%>
+							<option value="<%= link %>"  <%if @neg_show == "table"%>selected="selected"<%end%>><%= str_show %></option>
+							<% temp = "content" %>
+							<% str_show = "只顯示直接意見" %>
+							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,@pos_show,temp)%>
+							<option value="<%= link %>" <%if @neg_show == "content"%>selected="selected"<%end%>><%= str_show %></option>
+						</select>
+						<select name="neg_order" onchange="location = this.value;">
+							<% temp = "thumb" %>
+							<% str_show = "依投票排序" %>
+							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,"thumb",@pos_show,@neg_show)%>
+							<option value="<%= link %>"  <%if @neg_order == "thumb"%>selected="selected"<%end%>><%= str_show %></option>
+							<% temp = "time" %>
+							<% str_show = "依時間排序" %>
+							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,"time",@pos_show,@neg_show)%>
+							<option value="<%= link %>" <%if @neg_order == "time"%>selected="selected"<%end%>><%= str_show %></option>
+						</select>
+						<select name="filter">
+							<% temp = "NotBlock" %>
+							<% str_show = "計算全部投票" %>
+							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,@pos_show,@neg_show)%>
+							<option value="<%= link %>"  <%if @pos_order == "thumb"%>selected="selected"<%end%>><%= str_show %></option>
+							<% temp = "Block" %>
+							<% str_show = "只計算境內(台灣)投票" %>
+							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,@pos_order,@neg_order,@pos_show,@neg_show)%>
+							<option value="<%= link %>" <%if @pos_order == "time"%>selected="selected"<%end%>><%= str_show %></option>
+						</select>
+					</div>
 				<% end %>
 				
 				<div <% if i == 0 %> id = "posTable" <% else %> id = "negTable" <% end %>>
@@ -310,13 +360,13 @@
 														<% link = "http://" + link %>
 													<% end %>
 													<a href = "<%= link %>"" target="_blank">影片連結</a>
-            	                    			<% elsif FileIsExit(link) %>
-            	                    			    <a href = <%= "/"+link %> target="_blank">
-            	                    			      備份檔案
-            	                    			    </a>
-            	                    			<% else %>
-            	                    			    <br>
-            	                    			<% end %>
+												<% elsif FileIsExit(link) %>
+													<a href = <%= "/"+link %> target="_blank">
+													  備份檔案
+													</a>
+												<% else %>
+													<br>
+												<% end %>
 											</div>
 										</td>
 										<td>
