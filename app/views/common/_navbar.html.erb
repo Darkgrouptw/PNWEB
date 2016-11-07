@@ -42,6 +42,15 @@
 				<!-- 要縮起來的其他東西 -->
 		<div id = "navbar-login" class = "collapse navbar-collapse">
 			<ul class = "nav navbar-nav navbar-right">
+
+
+
+								<% link=peoplelist_all_path %>
+								<li><a href="<%= link %>" class = "headLink">所有名人</a></li>
+								<% link=issuelist_candidate_path %>
+								<li><a href="<%= link %>" class = "headLink">所有議題</a></li>
+								<% link = treeindex_path %>
+								<li><a href="<%= link %>" class = "headLink">所有議題樹</a></li>
 								<% if !current_user %>
 										<% #沒有登入的時候 %>
 										<li><a href="<%= register_email_path %>" class="headLink">註冊會員</a></li>
@@ -70,12 +79,7 @@
 												<% end %>
 											</ul>
 										</li>
-										<% if can_Trial()%>
-											<li><%= link_to "檢舉頁面", reportlist_all_path, class: "headLink" %></li>
-										<% end %>
-										<% if can_add_issue() %>
-											<li><%= link_to "加議題頁面", issuelist_add_path, class: "headLink" %></li>
-										<% end %>
+										
 										
 										<% #帳號的 Dropdown %>
 										<li class="dropdown">
@@ -100,6 +104,12 @@
 															<li class="dropdown-header headLink">高階使用者</li>
 													<% else %>
 															<li class="dropdown-header headLink">普通使用者</li>
+													<% end %>
+													<% if can_Trial()%>
+														<li><%= link_to "檢舉頁面", reportlist_all_path, class: "headLink" %></li>
+													<% end %>
+													<% if can_add_issue() %>
+														<li><%= link_to "加議題頁面", issuelist_add_path, class: "headLink" %></li>
 													<% end %>
 													<% if current_user.level == 3 %>
 														<li class=" headLink"><%= link_to "啟動寄信程序",open_thread_path,style: 'color:#A0D8FF;align: left;',method: :post%></li>

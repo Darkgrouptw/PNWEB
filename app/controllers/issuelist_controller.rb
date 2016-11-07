@@ -305,7 +305,7 @@ class IssuelistController < ApplicationController
 	end
 
 	def all
-		@issues = DataIssue.where(trunk_id: -1,is_candidate: false).order(:created_at)
+		@issues = DataIssue.all.order(:created_at).reverse
 	end
 
 	def candidate
