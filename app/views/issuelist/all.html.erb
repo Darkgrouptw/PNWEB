@@ -1,31 +1,105 @@
 <link rel="stylesheet" type="text/css" href="/css/table.css">
+<% def CreateIssueValue(issue) %>
+	<td>
+		<%= issue.title %>
+	</td>
+	<td>
+		<div><%= issue.thumb_up.split(',').length %></div>
+		<div>
+			<% if !can_like() %>
+				登入後才能按讚
+			<% elsif issue.thumb_up.include?(current_user.id.to_s) %>
+				你已投過票
+			<% else %>
+				<% link = issuelist_thumb_up_path + "?id=" + issue.id.to_s %>
+				<%= link_to "投票",link,method: :post%>
+			<% end %>
+		</div>
+		
+	</td>
+	<td>
+		<%= issue.created_at %>
+	</td>
+	<td>
+		<% if can_editor_issue()%>
+			<% link = issuelist_upgrade_path + "?id=" + issue.id.to_s %>
+			<%= link_to "升級",link,method: :post%>
+		<% else %>
+			限管理員使用
+		<% end %>
+	</td>
+<% end %>
+<% def CreateIssueContent(maxContentNumber) %>
+	<% @issues.each do |item|%>
+		<% link = issuelist_index_path(id: item.id) %>
+		<tr><% CreateIssueValue(item) %></tr>
+	<% end %>
+<% end %>
+<% def CreateCandidateContent(maxContentNumber) %>
+	<% @issues.each do |item|%>
+		<% link = issuelist_index_path(id: item.id) %>
+		<tr><% CreateIssueValue(item) %></tr>
+	<% end %>
+<% end %>
+<% def CreateIssueTable() %>
+	<table class="table table-bordered">
+		<thead>
+			<tr><td colspan = "4"> 議題清單</td></tr>
+			<tr><td>標題</td><td>票數</td><td>上線時間</td><td>升為正式議題</td></tr>
+		</thead>
+		<tbody>
+			<% CreateIssueContent(3) %>
+		</tbody>
+	</table>
+<% end %>
+<% def CreateCandidateTable() %>
+	<table class="table table-bordered">
+		<thead>
+			<tr><td colspan = "4"> 候選議題</td></tr>
+			<tr><td>標題</td><td>票數</td><td>上線時間</td><td>升為正式議題</td></tr>
+		</thead>
+		<tbody>
+			<% CreateCandidateContent(3) %>
+		</tbody>
+	</table>
+<% end %>
+
+
 <div class="BigTitle">
-    <h2>所有根議題</h2>
+    <h2>議題頁面</h2>
     <hr>
 </div>
 <div align = "center" class = "whiteText">
-	<div class = "col-md-offset-2 col-md-8 ">
-		<table class = "table table-bordered">
-			<thead>
-				<tr align = "center">
-					<td colspan = "3">所有根議題</td>
-				</tr>
-				<tr><td>標題</td><td>熱門度</td><td>創建時間</td></tr>
-			</thead>
-			<tbody>
-				<% @issues.where(trunk_id: -1).each do |issue| %>
-					<tr>
-						<td>
-							<% link = issuelist_index_path ( issue.id.to_s) %>
-							<a href = <%= link %>>
-								<%= issue.title %>
-							</a>
-						</td>
-						<td><%= issue.popularity %></td>
-						<td><%= issue.created_at %></td>
-					</tr>
-				<% end %>
-			</tbody>
+	<div id = "bigTable">
+		<table class="table">
+			<tr>
+				<td>
+					<div align = "left">
+						<% link = issuelist_candidate_path(order: "time") %>
+						<a href= <%= link %> >依時間排序</a>
+						<% link = issuelist_candidate_path(order: "thumb_up") %>
+						<a href= <%= link %> >依人氣排序</a>
+						<% link = issuelist_candidate_path(order: "thumb_up_day") %>
+						<a href= <%= link %> >顯示近期人氣議題</a>
+					</div>
+					<div>
+						<% CreateCandidateTable() %>
+					</div>
+				</td>
+				<td>
+					<div align = "left">
+						<% link = issuelist_candidate_path(order: "time") %>
+						<a href= <%= link %> >依時間排序</a>
+						<% link = issuelist_candidate_path(order: "thumb_up") %>
+						<a href= <%= link %> >依人氣排序</a>
+						<% link = issuelist_candidate_path(order: "thumb_up_day") %>
+						<a href= <%= link %> >顯示近期人氣議題</a>
+					</div>
+					<div>
+						<% CreateIssueTable() %>
+					</div>
+				</td>
+			</tr>
 		</table>
 	</div>
 </div>
