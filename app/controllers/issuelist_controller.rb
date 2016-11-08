@@ -1,4 +1,72 @@
 class IssuelistController < ApplicationController
+	def findNearHotIssue(issue_list)
+        likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
+        counter = []
+        recorder = [];
+        issue_list.each do |issue|
+            counter.push(0);
+            recorder.push(issue.id);
+        end
+        likelist.each do |like|
+            for i in 0..counter.length - 1
+                issue = issue_list.where(id: recorder[i])[0]
+                if stringHasID(issue.datadetail_id,like.detail_id)
+                    counter[i] = counter[i] + 1
+                end
+            end
+        end
+        for i in 0..counter.length - 1
+            for j in 0..counter.length - i - 2
+                if counter[j] < counter[j + 1]
+                    temp = counter[j]
+                    counter[j] = counter[j + 1]
+                    counter[j + 1] = temp
+                    temp = recorder[j]
+                    recorder[j] = recorder[j + 1]
+                    recorder[j + 1] = temp
+                end
+            end
+        end
+        result = []
+        recorder.each do |record|
+            result.push(issue_list.where(id: record)[0])
+        end
+        return result
+    end
+    def findHotIsssue(issue_list)
+    	likelist = LikeList.all
+        counter = []
+        recorder = [];
+        issue_list.each do |issue|
+            counter.push(0);
+            recorder.push(issue.id);
+        end
+        likelist.each do |like|
+            for i in 0..counter.length - 1
+                issue = issue_list.where(id: recorder[i])[0]
+                if stringHasID(issue.datadetail_id,like.detail_id)
+                    counter[i] = counter[i] + 1
+                end
+            end
+        end
+        for i in 0..counter.length - 1
+            for j in 0..counter.length - i - 2
+                if counter[j] < counter[j + 1]
+                    temp = counter[j]
+                    counter[j] = counter[j + 1]
+                    counter[j + 1] = temp
+                    temp = recorder[j]
+                    recorder[j] = recorder[j + 1]
+                    recorder[j + 1] = temp
+                end
+            end
+        end
+        result = []
+        recorder.each do |record|
+            result.push(issue_list.where(id: record)[0])
+        end
+        return result
+    end
 	def findReferenceIssue(me,issue_list)
 		if issue_list.nil? || issue_list.length == 0
 			return nil
@@ -305,7 +373,42 @@ class IssuelistController < ApplicationController
 	end
 
 	def all
-		@issues = DataIssue.all.order(:created_at).reverse
+		@all_issues = DataIssue.all.order(:created_at)
+		@candidated_order = params[:candidated_order]
+		@issue_order = params[:issue_order]
+		@candidated_search = params[:candidated_search]
+		@issue_search = params[:issue_search]
+		@issues
+		@candidates
+		if @issue_search.nil? || @issue_search.empty?
+			#@issues = DataIssue.where(is_candidate: false).where("title like ?", name + "%").first(5)
+			@issues = @all_issues.where(is_candidate: false)
+		else
+			@issues = @all_issues.where(is_candidate: false).where("title like ?", "%" + @issue_search + "%")
+		end
+		if @candidated_search.nil? || @candidated_search.empty?
+			@candidates = @all_issues.where(is_candidate: true)
+		else
+			@candidates = @all_issues.where(is_candidate: true).where("title like ?", "%" + @candidated_search + "%")
+		end
+
+		if @issue_order == "time"
+			@issues = @issues.order(created_at: :desc)
+		elsif @issue_order == "hot"
+			@issue = findHotIsssue(@issues)
+			#@issues.sort_by{|item| item.datadetail_id.length}
+		else
+			#@issues = @issues.sort_by{|item| item.datadetail_id.length}.reverse
+			@issues = findNearHotIssue(@issues)
+		end
+		
+		if @candidated_order == "time"
+			@candidates = @candidates.order(created_at: :desc)
+		else
+			@candidates = findNearHotIssue(@candidates)
+		end
+				
+
 	end
 
 	def candidate
