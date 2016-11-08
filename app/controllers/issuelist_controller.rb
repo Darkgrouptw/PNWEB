@@ -441,7 +441,7 @@ class IssuelistController < ApplicationController
 			@issue.thumb_up = @issue.thumb_up + "," + post_id.to_s
 		end
 		@issue.save
-		redirect_to issuelist_candidate_path
+		redirect_to (:back)
 	end
 
 	def upgrade
