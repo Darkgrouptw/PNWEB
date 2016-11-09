@@ -44,16 +44,19 @@
 			</div>
 		</td>
 		<td>
-			<%= issue.created_at %>
+			<%= issue.created_at.to_date %>
 		</td>
 		<td>
-			<% if can_editor_issue()%>
+			提案網友
+		</td>
+		<% if can_level_up_issue() %>
+			<td>
 				<% link = issuelist_upgrade_path + "?id=" + issue.id.to_s %>
 				<%= link_to "升級",link,method: :post%>
-			<% else %>
-				限管理員使用
-			<% end %>
-		</td>
+			</td>
+		<% else %>
+		<% end %>
+		
 	<% else %>
 		<td>
 			<% link = issuelist_index_path(id: issue.id) %>
@@ -66,11 +69,13 @@
 		<td>
 			按讚總數
 		</td>
-			
-		<td>
-			<%= issue.created_at %>
-		</td>
 		
+		<td>
+			<%= issue.created_at.to_date %>
+		</td>
+		<td>
+			提案網友
+		</td>
 	<% end %>
 	
 	
@@ -88,8 +93,8 @@
 <% def CreateIssueTable() %>
 	<table class="table table-bordered">
 		<thead>
-			<tr><td colspan = "4"> 議題清單</td></tr>
-			<tr><td>標題</td><td>意見總數</td><td>按讚總數</td><td>上線時間</td></tr>
+			<tr><td colspan = "5"> 議題清單</td></tr>
+			<tr><td>標題</td><td>意見總數</td><td>按讚總數</td><td>上線時間</td><td>提案網友</td></tr>
 		</thead>
 		<tbody>
 			<% CreateIssueContent(3) %>
@@ -99,8 +104,11 @@
 <% def CreateCandidateTable() %>
 	<table class="table table-bordered">
 		<thead>
-			<tr><td colspan = "5"> 候選議題</td></tr>
-			<tr><td>標題</td><td>連署數</td><td>提案時間</td><td>提案網友</td><td>升為正式議題</td></tr>
+			<tr><td colspan = <% if can_level_up_issue() %>"5"<% else %>"4"<% end %>> 候選議題</td></tr>
+			<tr>
+				<td>標題</td><td>連署數</td><td>提案時間</td><td>提案網友</td>
+				<% if can_level_up_issue() %><td>升為正式議題</td><% else %><% end %>>
+			</tr>
 		</thead>
 		<tbody>
 			<% CreateCandidateContent(3) %>
