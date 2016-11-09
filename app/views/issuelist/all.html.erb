@@ -1,5 +1,10 @@
 <link rel="stylesheet" type="text/css" href="/css/table.css">
 <% 
+	def getLikeNumber(issue)
+		detail_strings = issue.datadetail_id.split(',')
+		return @AllLike.where(detail_id: detail_strings).length
+	end
+
 	def getSelfLink(candidated_order,issue_order,candidated_search,issue_search)
 		result = ""
 		if candidated_order.nil? || candidated_order.empty?
@@ -64,10 +69,10 @@
 		</td>
 			
 		<td>
-			意見總數
+			<%= getStringIDLength(issue.datadetail_id) %>
 		</td>
 		<td>
-			按讚總數
+			<%= getLikeNumber(issue) %>
 		</td>
 		
 		<td>

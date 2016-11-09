@@ -35,37 +35,40 @@ class IssuelistController < ApplicationController
     end
     def findHotIsssue(issue_list)
     	likelist = LikeList.all
-        counter = []
-        recorder = [];
-        issue_list.each do |issue|
-            counter.push(0);
-            recorder.push(issue.id);
-        end
-        likelist.each do |like|
-            for i in 0..counter.length - 1
-                issue = issue_list.where(id: recorder[i])[0]
-                if stringHasID(issue.datadetail_id,like.detail_id)
-                    counter[i] = counter[i] + 1
-                end
-            end
-        end
-        for i in 0..counter.length - 1
-            for j in 0..counter.length - i - 2
-                if counter[j] < counter[j + 1]
-                    temp = counter[j]
-                    counter[j] = counter[j + 1]
-                    counter[j + 1] = temp
-                    temp = recorder[j]
-                    recorder[j] = recorder[j + 1]
-                    recorder[j + 1] = temp
-                end
-            end
-        end
-        result = []
-        recorder.each do |record|
-            result.push(issue_list.where(id: record)[0])
-        end
-        return result
+        #counter = []
+        #recorder = [];
+        #issue_list.each do |issue|
+        #    counter.push(0);
+        #    recorder.push(issue.id);
+        #end
+        #likelist.each do |like|
+        #    for i in 0..counter.length - 1
+        #        issue = issue_list.where(id: recorder[i])[0]
+        #        if stringHasID(issue.datadetail_id,like.detail_id)
+        #            counter[i] = counter[i] + 1
+        #        end
+        #    end
+        #end
+        #for i in 0..counter.length - 1
+        #    for j in 0..counter.length - i - 2
+        #        if counter[j] < counter[j + 1]
+        #            temp = counter[j]
+        #            counter[j] = counter[j + 1]
+        #            counter[j + 1] = temp
+        #            temp = recorder[j]
+        #            recorder[j] = recorder[j + 1]
+        #            recorder[j + 1] = temp
+        #        end
+        #    end
+        #end
+        #result = []
+        #recorder.each do |record|
+        #    result.push(issue_list.where(id: record)[0])
+        #end
+        #return result
+        #@issues = @issues.sort_by{|item| item.datadetail_id.length}.reverse
+        return issue_list.sort_by{|item| likelist.where(detail_id: item.datadetail_id.split(',')).length}.reverse
+        
     end
 	def findReferenceIssue(me,issue_list)
 		if issue_list.nil? || issue_list.length == 0
@@ -380,6 +383,7 @@ class IssuelistController < ApplicationController
 		@issue_search = params[:issue_search]
 		@issues
 		@candidates
+		@AllLike = LikeList.all
 		if @issue_search.nil? || @issue_search.empty?
 			#@issues = DataIssue.where(is_candidate: false).where("title like ?", name + "%").first(5)
 			@issues = @all_issues.where(is_candidate: false)
@@ -395,7 +399,7 @@ class IssuelistController < ApplicationController
 		if @issue_order == "time"
 			@issues = @issues.order(created_at: :desc)
 		elsif @issue_order == "hot"
-			@issue = findHotIsssue(@issues)
+			@issues = findHotIsssue(@issues)
 			#@issues.sort_by{|item| item.datadetail_id.length}
 		else
 			#@issues = @issues.sort_by{|item| item.datadetail_id.length}.reverse
