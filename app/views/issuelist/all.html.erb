@@ -112,7 +112,7 @@
 			<tr><td colspan = <% if can_level_up_issue() %>"5"<% else %>"4"<% end %>> 候選議題</td></tr>
 			<tr>
 				<td>標題</td><td>連署數</td><td>提案時間</td><td>提案網友</td>
-				<% if can_level_up_issue() %><td>升為正式議題</td><% else %><% end %>>
+				<% if can_level_up_issue() %><td>升為正式議題</td><% else %><% end %>
 			</tr>
 		</thead>
 		<tbody>
@@ -122,9 +122,13 @@
 <% end %>
 
 
-<div class="BigTitle">
-    <h2>議題頁面</h2>
-    <hr>
+<div class="BigTitle col-md-12"">
+	<table class = "col-md-12">
+		<tr>
+			<td class = "col-md-6"><h2>議題</h2></td>
+			<td class = "col-md-6"><h2>候選議題</h2></td>
+		</tr>
+	</table>
 </div>
 <div align = "center" class = "whiteText">
 	<div id = "bigTable">
@@ -132,6 +136,8 @@
 			<tr>
 				<td class = "col-md-6">
 					<div align = "left">
+					<table>
+						<td>
 						<div>
 							<select name="candidated_time" onchange="location = this.value;">
 								<% temp = "near_hot" %>
@@ -148,20 +154,34 @@
 								</option>
 							</select>
 						</div>
+						</td>
+						<td><p>&nbsp</p></td>
+						<td>
 						<form action="<%= getSelfLink(@candidated_order,@issue_order,@candidated_search,@issue_search) %>">
-						  搜尋候選議題
 						  <input type="text" name="candidated_search" value="<%=@candidated_search%>">
 						  <input type="hidden" name="candidated_order" value="<%=@candidated_order%>">
 						  <input type="hidden" name="issue_order" value="<%=@issue_order %>">
 						  <input type="hidden" name="issue_search" value="<%=@issue_search%>">
 						  <input type="submit" value="搜尋">
 						</form>
+						</td>
+						<td><p>&nbsp</p></td>
+						<td>
+						<% if can_add_issue() %>
+							<form action="<%= issuelist_add_path %>">
+								<input type="submit" value="新增議題" />
+							</form>
+						<% end %>
+						</td>
 					</div>
+					</table>
 					<div>
 						<% CreateCandidateTable() %>
 					</div>
 				</td>
 				<td class = "col-md-6">
+					<table>
+					<td>
 					<div>
 						<select name="issue_time" onchange="location = this.value;">
 							<% temp = "near_hot" %>
@@ -184,6 +204,9 @@
 							</option>
 						</select>
 					</div>
+					</td>
+					<td><p>&nbsp</p></td>
+					<td>
 					<form action="<%= getSelfLink(@candidated_order,@issue_order,@candidated_search,@issue_search) %>">
 						  搜尋議題
 						  <input type="text" name="issue_search" value="<%= @issue_search %>">
@@ -192,9 +215,12 @@
 						  <input type="hidden" name="issue_order" value="<%=@issue_order %>">
 						  <input type="submit" value="搜尋">
 						</form>
+					</td>
+					</table>
 					<div>
 						<% CreateIssueTable() %>
 					</div>
+					
 				</td>
 			</tr>
 		</table>
