@@ -3,56 +3,66 @@
 <link rel="stylesheet" type="text/css" href="/css/user/form.css">
 
 <div class="BigTitle">
-    <h2>新增議題</h2>
-    <hr>
+	<h2>新增議題</h2>
+	<hr>
 </div>
 <% if current_user.nil? %>
 	錯誤：請確認你是否有登入
 <% else %>
 
-    <div class="LeftPeople">
-        <img src="/images/user/Say.png">
-    </div>
+	<div class="LeftPeople">
+		<img src="/images/user/Say.png">
+	</div>
 
 	<div class = "container-fluid">
 		<div class = "row">
-            <div class="col-md-8" style="margin-left: 620px; padding-right: 0px;">
-                
-                <div class="FormTop">
-                </div>
+			<div class="col-md-8" style="margin-left: 620px; padding-right: 0px;">
+				
+				<div class="FormTop">
+				</div>
 
-                <form action= "<%= issuelist_new_path %> " method= "post">
-                    <div class="FormInside">
-                        <div class = "form-group"  style="position: relative; margin-bottom: 0px;">
-                            <div class="row">
-                                <div class="col-md-offset-2 col-md-8">
-                                    <label>標題*</label>
-                                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                                    <input type="text" class="form-control" name="title" required="true" >
-                                    <br>
-                                    <label>推薦上游議題#1</label>
-                                    <input type="text" class="form-control" name="tag" >
-                                    <br>
-                                    <label>推薦上游議題#2</label>
-                                    <input type="text" class="form-control" name="tag" >
-                                    <br>
-                                    <label>推薦上游議題#3</label>
-                                    <input type="text" class="form-control" name="tag">
-                                    <br>
-                                    <label>標籤* (請用','隔開)</label>
-                                    <input type="text" class="form-control" name="tag" required="true">
-                                    <br>
+				<form action= "<%= issuelist_new_path %> " method= "post">
+					<div class="FormInside">
+						<div class = "form-group"  style="position: relative; margin-bottom: 0px;">
+							<div class="row">
+								<div class="col-md-offset-2 col-md-8">
+									<label>標題*</label>
+									<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+									<input type="text" class="form-control" name="title" required="true" >
+									<br>
 
-                                    <input type = "submit" class = "btn btn-primary" style = "width: 150px;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+									<label>推薦上游議題#1</label>
+									<input list="1browsers" name="browser" class = "issueList">
+									<datalist id="1browsers">
+									</datalist>
+									<br>
 
-                <div class="FormBottom">
-                </div>
-            </div>
+									<label>推薦上游議題#2</label>
+									<input list="2browsers" name="browser" class = "issueList">
+									<datalist id="2browsers">
+									</datalist>
+									<br>
+
+									<label>推薦上游議題#3</label>
+									<input list="3browsers" name="browser" class = "issueList">
+									<datalist id="3browsers">
+									</datalist>
+									<br>
+
+									<label>標籤* (請用','隔開)</label>
+									<input type="text" class="form-control" name="tag" required="true">
+									<br>
+
+									<input type = "submit" class = "btn btn-primary" style = "width: 150px;">
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+
+				<div class="FormBottom">
+				</div>
+			</div>
 		</div>
 	</div>
 <% end %>
