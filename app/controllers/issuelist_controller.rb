@@ -279,6 +279,10 @@ class IssuelistController < ApplicationController
 			redirect_to (:back)
 			return
 		end
+		@suggest = params[:suggest]
+		if DataIssue.where(title: @suggest).length == 0
+			@suggest = ""
+		end
 	end
 
 	def new

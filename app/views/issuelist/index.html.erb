@@ -189,6 +189,9 @@
 								<%= link_to "我要新增意見", detaillist_add_path %>
 								<button type="button" class="btn btn-link VotedModal_Voted" data-toggle="modal" data-target="#VoteModal" issue_name="<%= @me.title %>">按讚過的意見</button>
 							<% end %>
+							<% if can_add_issue() %>
+								<%= link_to "我要新增下游議題", issuelist_add_path(suggest: @me.title) %>
+							<% end %>
 						</td>
 						<td style="padding-right: 0px;padding-bottom: 0px;padding-left: 0px;padding-top: 0px;background-color:white;"></td>
 						<td align = "right">
@@ -292,7 +295,7 @@
 								<tr align = "center"><td class = "col-md-8" colspan = "9">反對意見 </td></tr>
 							<% end %>
 							<tr>
-								<td>意見</td>
+								<td style="width: 300px">意見</td>
 								<td><div>誰的意見</div><div>當時頭銜</div></td>
 								<td>屬於間接意見？</td>
 								<td><div>發言時間</div><div>刊載媒體</div></td>
@@ -322,7 +325,7 @@
 									<% media = @medias.where(name: detail.news_media)[0] %>
 									<!-- content -->
 									<tr>
-										<td>
+										<td style="width: 300px">
 											<% link = detaillist_index_path(id: detail.id) %>
 											<a href = <%= link %>><%= detail.content %></a>
 										</td>
@@ -394,7 +397,7 @@
 											<% end %>
 										</td>
 										<td>
-											<div><%= detail.created_at %></div>
+											<div><%= detail.created_at.to_date %></div>
 											<div>
 												<% link = userlist_index_path(id: user.id) %>
 												<a href = <%= link %>>

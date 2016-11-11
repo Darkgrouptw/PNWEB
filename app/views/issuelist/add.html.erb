@@ -31,23 +31,30 @@
 									<input type="text" class="form-control" name="title" required="true" >
 									<br>
 
-									<label>推薦上游議題#1</label>
-									<input list="1browsers" name="browser" class = "issueList">
-									<datalist id="1browsers">
-									</datalist>
-									<br>
+									<% if @suggest.nil? || @suggest.empty? %>
+										<label>推薦上游議題#1</label>
+										<input list="1browsers" name="suggest1" class = "issueList">
+										<datalist id="1browsers">
+										</datalist>
+										<br>
 
-									<label>推薦上游議題#2</label>
-									<input list="2browsers" name="browser" class = "issueList">
-									<datalist id="2browsers">
-									</datalist>
-									<br>
+										<label>推薦上游議題#2</label>
+										<input list="2browsers" name="suggest2" class = "issueList">
+										<datalist id="2browsers">
+										</datalist>
+										<br>
 
-									<label>推薦上游議題#3</label>
-									<input list="3browsers" name="browser" class = "issueList">
-									<datalist id="3browsers">
-									</datalist>
-									<br>
+										<label>推薦上游議題#3</label>
+										<input list="3browsers" name="suggest3" class = "issueList">
+										<datalist id="3browsers">
+										</datalist>
+										<br>
+									<% else %>
+										<label>推薦上游議題</label>
+										<input type="text" class="form-control" name="suggest1" value="<%= @suggest %>" required="true" readonly="readonly">
+										<br>
+									<% end %>
+									
 
 									<label>標籤* (請用','隔開)</label>
 									<input type="text" class="form-control" name="tag" required="true">
