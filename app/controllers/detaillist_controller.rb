@@ -74,8 +74,16 @@ class DetaillistController < ApplicationController
 		people_id = params[:people_id]
 		issue_id = params[:issue_id]
 		title_at_that_time = params[:title_at_that_time]
-		is_support = params[:is_support]
-		is_direct = params[:is_direct]
+		if params[:is_support].nil? || params[:is_support].empty? || params[:is_support] == "false"
+			is_support = false
+		else
+			is_support = true
+		end
+		if params[:is_direct].nil? || params[:is_direct].empty? || params[:is_direct] == "false"
+			is_direct = false
+		else
+			is_direct = true
+		end
 		#-------------------wait for media database
 		news_media = params[:news_media]
 		report_at = params[:report_at]

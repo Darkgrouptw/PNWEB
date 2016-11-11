@@ -1,4 +1,16 @@
 $(function(){
+    $("#not_directClick").change(function(){
+        if(!$(this).prop("checked"))
+        {
+            $("#reportTime").attr("type", "date");
+            $("#reportTime").prop("value", "");
+        }
+        else
+        {
+            $("#reportTime").attr("type", "text");
+            $("#reportTime").prop("value", "");
+        }
+    });
     $("#directClick").change(function(){
         if($(this).prop("checked"))
         {
@@ -11,7 +23,6 @@ $(function(){
             $("#reportTime").prop("value", "");
         }
     });
-    
     $("#previewButton").click(function(){
         $(".previewDiv").removeAttr("style");
         

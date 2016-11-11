@@ -21,7 +21,7 @@
 							
 							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 							<input type="hidden" name="issue_id" value="<%= @issue.id %>">
-							<label>論述*</label>
+							<label>意見*</label>
 							<input type="text" class="form-control" name="content" required="true" maxlength="100" id="content">
 							<br>
 							
@@ -35,12 +35,19 @@
 							<input type="text" class="form-control" name="title_at_that_time" id="title_at_that_time">
 							<br>
 							
-							<label>Is supported</label>
-							<input type="checkbox" class="form-control" name="is_support">
+							<label>贊成或反對</label>
+							<div>
+  								贊成<input type="radio" name="is_support" value = "true" checked = "true">
+  								反對<input type="radio" name="is_support" value = "false">
+							</div>
 							<br>
 							
-							<label>是否為直接意見</label>
-							<input type="checkbox" class="form-control" name="is_direct" id="directClick" checked = "true">
+							
+							<label>屬於間接意見?</label>
+							<div>
+								直接意見<input type="radio" name="is_direct" value = "true" checked = "true" id = "directClick">
+								間接意見<input type="radio" name="is_direct" value = "false" id = "not_directClick">
+							</div>
 							<br>
 							
 							<label>刊載媒體</label>
@@ -49,10 +56,10 @@
 							</div>
 							<br>
 
-							<label>報導時間</label>
+							<label>發言時間</label>
 							<input type="date" class="form-control" name="report_at" required="true" id="reportTime">
 							<br>
-							<lable>資源類型</lable>
+							<lable>原文備份類型</lable>
 							<div>
 								<select id="upload_type">
 									<option value="option1" selected="selected">網頁連結</option>
@@ -63,7 +70,7 @@
 							<input type="hidden" id="backup_type" name="backup_type" value="0">
 							</div>
 							<br>
-							<label>網頁連結</label>
+							<label>原文連結</label>
 							<input type="text" class="form-control" name="link" id="web_source">
 							<br>
 							<div id="source_web">
