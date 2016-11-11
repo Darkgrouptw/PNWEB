@@ -24,13 +24,13 @@
 			<table class = "table table-bordered">
 				<thead>
 					<tr align = "center" >
-						<td>論述</td>
+						<td style="width: 300px" >論述</td>
 						<td>原因</td>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td>
+						<td style="width: 300px" >
 							<% link = detaillist_index_path(id: @detail.id) %>
 							<a href = <%= link %>>
 								<% if @detail.content.split(',').include?('6') %>
