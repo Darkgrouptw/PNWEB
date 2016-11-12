@@ -241,7 +241,8 @@ class DetaillistController < ApplicationController
 				@detail.save
 			end
 			
-			redirect_to detaillist_index_path(id: @detail.id)
+			#redirect_to detaillist_index_path(id: @detail.id)
+			redirect_to issuelist_index_path(id: @issue.id)
 		end
 	end
 
