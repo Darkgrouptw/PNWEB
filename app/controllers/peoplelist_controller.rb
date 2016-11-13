@@ -1,12 +1,40 @@
 class PeoplelistController < ApplicationController
+	def findNearHotPeople(people_list)
+		likelist = LikeList.all
+		return people_list.sort_by{|item| likelist.where(created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei')).where(detail_id: item.datadetail_id.split(',')).length}.reverse
+	end
+
+	def findInfluencePeople(people_list)
+		return people_list.sort_by{|item|  getStringIDLength(item.datadetail_id)}.reverse
+	end
+
 	def index
 
 		@tags = params[:id]
-		@people = DataPerson.all;
-		@me = @people.where(name: @tags)[0]
+		@all_people = DataPerson.all;
+		@people_order = params[:people_order]
+		@people_search = params[:people_search]
+		@me = @all_people.where(name: @tags)[0]
 		if @me.nil?
 			return
 		end
+
+		if @people_search.nil? || @people_search.empty?
+			#@issues = DataIssue.where(is_candidate: false).where("title like ?", name + "%").first(5)
+			@people = @all_people
+		else
+			@people = @all_people.where("name like ?", "%" + @people_search + "%")
+		end
+
+		if @people_order == "time"
+			@people = @people.order(created_at: :desc)
+		elsif @people_order == "influence"
+			@people = findInfluencePeople(@people)
+		else
+			@people = findNearHotPeople(@people)
+		end
+
+
 		issue_ids = []
 		#find all the detail is said by the @me
 		@details = DataDetail.where(people_id: @me.id,is_report: false)

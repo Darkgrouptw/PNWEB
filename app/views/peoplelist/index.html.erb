@@ -1,4 +1,20 @@
 <link rel="stylesheet" type="text/css" href="/css/table.css">
+<%
+	def getSelfLink(people_order,people_search)
+		result = ""
+		if people_order.nil? || people_order.empty?
+			result = result + "?people_order=" + "near_hot"
+		else
+			result = result + "?people_order=" + people_order
+		end
+		if people_search.nil? || people_search.empty?
+			result = result + "&people_search=" + ""
+		else
+			result = result + "&people_search=" + people_search
+		end
+		return peoplelist_index_path(id: @me.name) + result
+	end
+%>
 <div class="BigTitle">
     <h2>名人</h2>
     <hr>
@@ -12,6 +28,36 @@
 		<!-- the description with @me -->
 
 		<div class = "col-md-3 row">
+			<form action="<%= "#" %>">
+				搜尋議題
+				<input type="text" name="issue_search" value="<%= @issue_search %>">
+				<input type="hidden" name="candidated_search" value="<%=@candidated_search%>">
+				<input type="hidden" name="candidated_order" value="<%=@candidated_order%>">
+				<input type="hidden" name="issue_order" value="<%=@issue_order %>">
+				<input type="submit" value="搜尋">
+			</form>
+			<div>
+				<select name="issue_time" onchange="location = this.value;">
+					<% temp = "near_hot" %>
+					<% str_show = "近期熱門排序" %>
+					<% link  = getSelfLink("near_hot",@people_search) %>
+					<option value="<%= link %>"  <%if @people_order == "near_hot"%>selected="selected"<%end%>>
+						<%= str_show %>
+					</option>
+					<% temp = "time" %>
+					<% str_show = "最新排序" %>
+					<% link  = getSelfLink("time",@people_search) %>
+					<option value="<%= link %>" <%if @people_order == "time"%>selected="selected"<%end%>>
+						<%= str_show %>	
+					</option>
+					<% temp = "time" %>
+					<% str_show = "歷史熱門" %>
+					<% link  = getSelfLink("influence",@people_search) %>
+					<option value="<%= link %>" <%if @people_order == "influence"%>selected="selected"<%end%>>
+						<%= str_show %>	
+					</option>
+				</select>
+			</div>
 			<div style="border-style: solid;" >所有名嘴</div>
 			<div style="overflow: scroll;height: 300px;border-style: solid;">
 				<% @people.each  do |item|%>
@@ -24,6 +70,7 @@
 			</div>
 		</div>
 		<div class = "col-md-offset-1 col-md-8 row">
+
 			<div class = "whiteText row">
 				<div >
 					<% if can_editor_people()%>
