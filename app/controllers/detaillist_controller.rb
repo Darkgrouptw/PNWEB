@@ -43,14 +43,48 @@ class DetaillistController < ApplicationController
 		end
 
 		@canDelete = false
-		if @me.post_id == current_user.id && @likeList.length <= 10
+		if @me.post_id == current_user.id && @likeList.length <= 20
 			@canDelete = true
 		end
 	end
 	def delete
 		@me = DataDetail.where(id: params[:id])[0]
-		redirect_to issuelist_index_path(id: @me.issue_id)
+		@people = DataPerson.where(id: @me.people_id)[0]
+		@issue = DataIssue.where(id: @me.issue_id)[0]
+		@media = DataMedium.where(name: @me.news_media)[0]
+		@likelist = LikeList.where(detail_id: @me.id)
+		users = []
+		@likelist.each do |like|
+			users.push(like.post_id)
+		end
+		@users = User.where(id: users)
+		@user = @users.where(id: @me.post_id)[0]
+		@comments = DataComment.where(detail_id: @me.id)
+		@reports = ReportDetail.where(detail_id: @me.id)
+		@notifyList = NotifyList.where(issue_id: @me.issue_id)[0]
+
+		#disable connection
+		#people
+		@people.datadetail_id = removeIDFromString(@people.datadetail_id,@me.id)
+		#issue
+		@issue.datadetail_id = removeIDFromString(@issue.datadetail_id,@me.id)
+		#media
+		@media.datadetail_id = removeIDFromString(@media.datadetail_id,@me.id)
+		#user
+		if @user.nil?
+		else
+			@user.datadetail_id = removeIDFromString(@user.datadetail_id,@me.id)
+		end
 		
+
+		#destory data
+		#destory notifyList
+		@users.each do |user|
+
+		end
+
+		return_path = issuelist_index_path(id: @me.issue_id)
+		redirect_to return_path
 		return
 		@me.destroy
 	end
