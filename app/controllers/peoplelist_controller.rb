@@ -37,7 +37,7 @@ class PeoplelistController < ApplicationController
 
 		issue_ids = []
 		#find all the detail is said by the @me
-		@details = DataDetail.where(people_id: @me.id,is_report: false)
+		@details = DataDetail.where(people_id: @me.id,is_report: false).order(:created_at)
 		@details.each do |detail|
 			issue_ids.push(detail.issue_id)
 		end
