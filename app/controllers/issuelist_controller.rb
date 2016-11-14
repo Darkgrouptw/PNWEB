@@ -269,7 +269,7 @@ class IssuelistController < ApplicationController
 		@persons=DataPerson.where(id: person)
 		@medias = DataMedium.where(name: media)
 		@ReferenceIssue = findReferenceIssue(@me,@all_issue)
-		#@DownFlowIssue = @all_issue.where(id: @me.parent_node.split(','))
+		@DownFlowIssue = @ReferenceIssue
 		#@ReferenceIssueTree = findReferenceIssueTree(@me)
 	end
 

@@ -438,23 +438,7 @@
 			<!-- reference issue && donwflow issue -->
 			<div  align = "center">
 				<table class = "col-md-offset-1 col-md-10">
-					<td align="center" >
-						<table class = "table table-bordered">
-							<thead>
-								<tr>
-									<td>相關議題</td>	
-								</tr>								
-							</thead>
-							<tbody>
-								<tr>
-									<% CreateReferenceIssueContent() %>
-								</tr>
-							</tbody>
-						</table>
-					</td>
-					<!--
-					<td width="20px"></td>
-					<td align="center">
+					<td>
 						<table class = "table table-bordered">
 							<thead>
 								<tr>
@@ -462,28 +446,25 @@
 								</tr>								
 							</thead>
 							<tbody>
-								<tr>
-									<td>2</td>	
-								</tr>
+								
+									<% CreateDownFlowIssueContent() %>
+								
 							</tbody>
 						</table>
 					</td>
 					<td width="20px"></td>
-					<td align="center">
+					<td>
 						<table class = "table table-bordered">
 							<thead>
 								<tr>
-									<td>相關議題樹</td>	
+									<td>相關議題</td>	
 								</tr>								
 							</thead>
 							<tbody>
-								<tr>
-									<td>3</td>	
-								</tr>
+									<% CreateReferenceIssueContent() %>
 							</tbody>
 						</table>
 					</td>
-					-->
 				</table>
 			</div>
 		</div>
