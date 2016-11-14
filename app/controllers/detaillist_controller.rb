@@ -52,16 +52,16 @@ class DetaillistController < ApplicationController
 		@people = DataPerson.where(id: @me.people_id)[0]
 		@issue = DataIssue.where(id: @me.issue_id)[0]
 		@media = DataMedium.where(name: @me.news_media)[0]
-		@likelist = LikeList.where(detail_id: @me.id)
+		@likelist = LikeList.where(detail_id: @issue.datadetail_id.split(","))
 		users = []
-		@likelist.each do |like|
+		@likelist.where(detail_id: @me.id).each do |like|
 			users.push(like.post_id)
 		end
 		@users = User.where(id: users)
 		@user = @users.where(id: @me.post_id)[0]
 		@comments = DataComment.where(detail_id: @me.id)
 		@reports = ReportDetail.where(detail_id: @me.id)
-		@notifyList = NotifyList.where(issue_id: @me.issue_id)[0]
+		@notifyList = NotifyList.where(issue_id: @me.issue_id)
 
 		#disable connection
 		#people
@@ -77,16 +77,40 @@ class DetaillistController < ApplicationController
 		end
 		
 
-		#destory data
-		#destory notifyList
+		#destroy data
+		#destroy notifyList
 		@users.each do |user|
-
+			if @likelist.where(post_id: user.id).where.not(detail_id: @me.id).length <= 0
+				@notifyList.where(user_id: user.id)[0].destroy
+			end
 		end
-
+		#destroy like
+		@likelist.each do |like|
+			if like.detail_id == @me.id
+				like.destroy
+			end
+		end
+		#destroy comment
+		@comments.each do |comment|
+			if comment.detail_id == @me.id
+				comment.destroy
+			end
+		end
+		#destroy report
+		@reports.each do |report|
+			if report.detail_id == @me.id
+				report.destroy
+			end
+		end
 		return_path = issuelist_index_path(id: @me.issue_id)
+		@people.save
+		@issue.save
+		@media.save
+		@user.save
+		@me.destroy
 		redirect_to return_path
 		return
-		@me.destroy
+		
 	end
 	def add
 		if !can_add_detail()
