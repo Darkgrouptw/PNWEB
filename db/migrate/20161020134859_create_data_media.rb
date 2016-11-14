@@ -5,6 +5,7 @@ class CreateDataMedia < ActiveRecord::Migration
       t.text :valid_name
       t.string :description
       t.text :datadetail_id
+      t.text :other
 
       t.timestamps null: false
     end

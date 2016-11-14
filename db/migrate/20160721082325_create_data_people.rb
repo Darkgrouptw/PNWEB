@@ -6,6 +6,7 @@ class CreateDataPeople < ActiveRecord::Migration
       t.string :pic_link
       t.string :description
       t.text :datadetail_id
+      t.text :other
 
       t.timestamps null: false
     end

@@ -13,6 +13,7 @@ class CreateUsers < ActiveRecord::Migration
       t.datetime :last_login_in
       t.string :own
       t.text :datadetail_id
+      t.text :other
 
       t.timestamps null: false
     end

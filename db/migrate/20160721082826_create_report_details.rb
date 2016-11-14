@@ -5,6 +5,7 @@ class CreateReportDetails < ActiveRecord::Migration
       t.boolean :is_check
       t.string :cause
       t.integer :people_id
+      t.text :other
 
       t.timestamps null: false
     end

@@ -3,6 +3,7 @@ class CreateVerifyLists < ActiveRecord::Migration
     create_table :verify_lists do |t|
       t.string :email
       t.string :uuid
+      t.text :other
 
       t.timestamps null: false
     end

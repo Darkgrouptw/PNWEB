@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20161028142918) do
     t.text     "content"
     t.integer  "post_id"
     t.integer  "detail_id"
+    t.text     "other"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 20161028142918) do
     t.string   "title_at_that_time"
     t.boolean  "is_direct"
     t.boolean  "is_report"
+    t.text     "other"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end
@@ -54,6 +56,9 @@ ActiveRecord::Schema.define(version: 20161028142918) do
     t.string   "datadetail_id"
     t.string   "thumb_up"
     t.string   "tag"
+    t.string   "suggest_father"
+    t.integer  "post_id"
+    t.text     "other"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
@@ -63,6 +68,7 @@ ActiveRecord::Schema.define(version: 20161028142918) do
     t.text     "valid_name"
     t.string   "description"
     t.text     "datadetail_id"
+    t.text     "other"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
@@ -73,6 +79,7 @@ ActiveRecord::Schema.define(version: 20161028142918) do
     t.string   "pic_link"
     t.string   "description"
     t.text     "datadetail_id"
+    t.text     "other"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
@@ -80,6 +87,8 @@ ActiveRecord::Schema.define(version: 20161028142918) do
   create_table "like_lists", force: :cascade do |t|
     t.integer  "detail_id"
     t.integer  "post_id"
+    t.string   "ip"
+    t.text     "other"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -89,6 +98,7 @@ ActiveRecord::Schema.define(version: 20161028142918) do
     t.integer  "issue_id"
     t.datetime "last_read"
     t.datetime "newest_detail"
+    t.text     "other"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
@@ -98,6 +108,7 @@ ActiveRecord::Schema.define(version: 20161028142918) do
     t.boolean  "is_check"
     t.string   "cause"
     t.integer  "people_id"
+    t.text     "other"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -107,6 +118,7 @@ ActiveRecord::Schema.define(version: 20161028142918) do
     t.integer  "issue_id"
     t.integer  "people_id"
     t.text     "like_list_id"
+    t.text     "other"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
@@ -124,6 +136,7 @@ ActiveRecord::Schema.define(version: 20161028142918) do
     t.datetime "last_login_in"
     t.string   "own"
     t.text     "datadetail_id"
+    t.text     "other"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
@@ -131,6 +144,7 @@ ActiveRecord::Schema.define(version: 20161028142918) do
   create_table "verify_lists", force: :cascade do |t|
     t.string   "email"
     t.string   "uuid"
+    t.text     "other"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

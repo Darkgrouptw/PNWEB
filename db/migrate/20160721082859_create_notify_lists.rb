@@ -5,6 +5,7 @@ class CreateNotifyLists < ActiveRecord::Migration
       t.integer :issue_id
       t.datetime :last_read
       t.datetime :newest_detail
+      t.text :other
 
       t.timestamps null: false
     end

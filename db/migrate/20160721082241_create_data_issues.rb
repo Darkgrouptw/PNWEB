@@ -7,6 +7,9 @@ class CreateDataIssues < ActiveRecord::Migration
       t.string :datadetail_id
       t.string :thumb_up
       t.string :tag
+      t.string :suggest_father
+      t.integer :post_id
+      t.text :other
 
       t.timestamps null: false
     end

@@ -5,6 +5,7 @@ class CreateTreeInfos < ActiveRecord::Migration
       t.integer :issue_id
       t.integer :people_id
       t.text :like_list_id
+      t.text :other
 
       t.timestamps null: false
     end

@@ -4,6 +4,7 @@ class CreateDataComments < ActiveRecord::Migration
       t.text :content
       t.integer :post_id
       t.integer :detail_id
+      t.text :other
 
       t.timestamps null: false
     end
