@@ -460,6 +460,7 @@ class IssuelistController < ApplicationController
 		end
 		@issue = DataIssue.where(id: params[:id])[0]
 		@issue.is_candidate = false
+		@issue.created_at = Time.now.in_time_zone('Taipei')
 		@issue.save
 		redirect_to (:back)
 		#redirect_to issuelist_index_path(id: @issue.id)

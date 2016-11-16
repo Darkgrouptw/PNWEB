@@ -39,12 +39,12 @@
 			<div><%= issue.thumb_up.split(',').length %></div>
 			<div>
 				<% if !can_like() %>
-					登入後才能按讚
+					登入後才能連署
 				<% elsif issue.thumb_up.include?(current_user.id.to_s) %>
-					你已投過票
+					你已連署過
 				<% else %>
 					<% link = issuelist_thumb_up_path + "?id=" + issue.id.to_s %>
-					<%= link_to "投票",link,method: :post%>
+					<%= link_to "連署",link,method: :post%>
 				<% end %>
 			</div>
 		</td>
@@ -125,7 +125,7 @@
 <div class="BigTitle col-md-12"">
 	<table class = "col-md-12">
 		<tr>
-			<td class = "col-md-6"><h2>議題</h2></td>
+			<td class = "col-md-6"><h2>議題清單</h2></td>
 			<td class = "col-md-6"><h2>候選議題</h2></td>
 		</tr>
 	</table>
