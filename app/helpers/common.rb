@@ -32,7 +32,7 @@ module Common
 		if result.nil?
 			result = ""
 		end
-		if id.nil? || id.empty?
+		if id.nil? || id.to_s.empty?
 			return result
 		end
 		if result.empty?
