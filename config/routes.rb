@@ -87,4 +87,5 @@ Rails.application.routes.draw do
 	get		"IssueName"			=>	"main#issueName",	:as =>	"issueName"
 	get		"MediaName"			=>	"main#mediaName",	:as =>	"mediaName"
 	get		"tree_check"		=>	"main#tree_check",	:as =>	"tree_check"
+	get		"ipTest"			=>	"main#ipTest",		:as =>	"ipTest"
 end

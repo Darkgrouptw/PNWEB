@@ -76,4 +76,13 @@ module Common
 		string_spilt = path.split(".")
 		return string_spilt[string_spilt.length - 1]
 	end
+
+	def isLocal(ip)
+		if ip == "false"
+			return false
+		elsif ip == "true"
+			return true
+		end
+				
+	end
 end

@@ -390,6 +390,7 @@ class DetaillistController < ApplicationController
 		@likelist = LikeList.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
 		@likelist.detail_id = @detail.id
 		@likelist.post_id = post_id
+		@likelist.ip = "true"
 		@detail.like_list_id = @detail.like_list_id.to_s + "," +@likelist.id.to_s
 		
 		#notify
