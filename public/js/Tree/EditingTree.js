@@ -120,13 +120,21 @@ $(function(){
 /*
 因為 SVG 並非 html(namespace不同)，所以無法直接 append 上去，只能用這個方法貼上去
 */
-function makeCircleSVG(attrs, text, nowLevel, Degree, pos, parentID) 
+function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID) 
 {
     var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     var el = document.createElementNS('http://www.w3.org/2000/svg', "circle");
     var tarea = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    
+    var tareaLink =  document.createElementNS('http://www.w3.org/2000/svg', 'a');
+    
+    tareaLink.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', "issuelist/" + id);
+    tareaLink.setAttribute("target", "_parent");
+    
+    tareaLink.appendChild(tarea);
+    
     g.appendChild(el);
-    g.appendChild(tarea);
+    g.appendChild(tareaLink);
     
     for (var k in attrs)
         el.setAttribute(k, attrs[k]);
@@ -194,6 +202,7 @@ function makeSimpleCircleSVG(attrs, text)
     var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     var el = document.createElementNS('http://www.w3.org/2000/svg', "circle");
     var tarea = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    
     g.appendChild(el);
     g.appendChild(tarea);
     

@@ -322,7 +322,6 @@ class IssuelistController < ApplicationController
 
 		@issue.tag = tag
 		@issue.is_candidate = true
-		@issue.popularity = 0
 		@issue.thumb_up = ""
 		@issue.datadetail_id = ""
 		@issue.save

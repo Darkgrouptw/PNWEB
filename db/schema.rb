@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(version: 20161028142918) do
     t.string   "title_at_that_time"
     t.boolean  "is_direct"
     t.boolean  "is_report"
-    t.text     "other"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end
@@ -52,15 +51,14 @@ ActiveRecord::Schema.define(version: 20161028142918) do
     t.string   "title"
     t.text     "post"
     t.boolean  "is_candidate"
-    t.integer  "popularity"
     t.string   "datadetail_id"
     t.string   "thumb_up"
     t.string   "tag"
     t.string   "suggest_father"
     t.integer  "post_id"
     t.text     "other"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "data_media", force: :cascade do |t|

@@ -366,6 +366,7 @@ class MainController < ApplicationController
 		item.issue_id = titleID
 		item.people_id = current_user.id
 		item.info = "{'item': {
+                    'id': '" + titleID.to_s + "',
 					'name': '" + params[:name] + "', 'color': '#3DA5D9', 'parent': []
 					}}"
 		item.like_list_id = ""
