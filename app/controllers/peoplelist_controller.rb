@@ -14,6 +14,9 @@ class PeoplelistController < ApplicationController
 		@all_people = DataPerson.all;
 		@people_order = params[:people_order]
 		@people_search = params[:people_search]
+		@issue_order = params[:issue_order]
+		@issue_search = params[:issue_search]
+
 		@me = @all_people.where(name: @tags)[0]
 		if @me.nil?
 			return
@@ -42,7 +45,13 @@ class PeoplelistController < ApplicationController
 			issue_ids.push(detail.issue_id)
 		end
 		#find all the issue connect with details
-		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
+		if @issue_search.nil? || @issue_search.empty?
+			@issue_search = ""
+		end
+		@issues = DataIssue.where("title like ?","%" + @issue_search + "%").where(id: issue_ids,is_candidate: false)
+		if @issue_order == ""
+			@issues = @issues
+		end
 
 	end
 	def add

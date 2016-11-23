@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/css/table.css">
 <%
-	def getSelfLink(people_order,people_search)
+	def getSelfLink(people_order,people_search,issue_order,issue_search)
 		result = ""
 		if people_order.nil? || people_order.empty?
 			result = result + "?people_order=" + "near_hot"
@@ -11,6 +11,16 @@
 			result = result + "&people_search=" + ""
 		else
 			result = result + "&people_search=" + people_search
+		end
+		if issue_order.nil? || issue_order.empty?
+			result = result + "&issue_order=" + ""
+		else
+			result = result + "&issue_order=" + issue_order
+		end
+		if issue_search.nil? || issue_search.empty?
+			result = result + "&issue_search=" + ""
+		else
+			result = result + "&issue_search=" + issue_search
 		end
 		return peoplelist_index_path(id: @me.name) + result
 	end
@@ -28,11 +38,11 @@
 		<!-- the description with @me -->
 
 		<div class = "col-md-3 row">
-			<form action="<%= "#" %>">
+			<form action="<%= peoplelist_index_path(id: @me.name) %>">
 				搜尋名嘴
-				<input type="text" name="issue_search" value="<%= @issue_search %>">
-				<input type="hidden" name="candidated_search" value="<%=@candidated_search%>">
-				<input type="hidden" name="candidated_order" value="<%=@candidated_order%>">
+				<input type="text" name="people_search" value="<%= @people_search %>">
+				<input type="hidden" name="people_order" value="<%=@people_order %>">
+				<input type="hidden" name="issue_search" value="<%=@issue_search %>">
 				<input type="hidden" name="issue_order" value="<%=@issue_order %>">
 				<input type="submit" value="搜尋">
 			</form>
@@ -40,19 +50,19 @@
 				<select name="issue_time" onchange="location = this.value;">
 					<% temp = "near_hot" %>
 					<% str_show = "近期熱門排序" %>
-					<% link  = getSelfLink("near_hot",@people_search) %>
+					<% link  = getSelfLink("near_hot",@people_search,@issue_order,@issue_search) %>
 					<option value="<%= link %>"  <%if @people_order == "near_hot"%>selected="selected"<%end%>>
 						<%= str_show %>
 					</option>
 					<% temp = "time" %>
 					<% str_show = "最新排序" %>
-					<% link  = getSelfLink("time",@people_search) %>
+					<% link  = getSelfLink("time",@people_search,@issue_order,@issue_search) %>
 					<option value="<%= link %>" <%if @people_order == "time"%>selected="selected"<%end%>>
 						<%= str_show %>	
 					</option>
 					<% temp = "time" %>
 					<% str_show = "歷史熱門" %>
-					<% link  = getSelfLink("influence",@people_search) %>
+					<% link  = getSelfLink("influence",@people_search,@issue_order,@issue_search) %>
 					<option value="<%= link %>" <%if @people_order == "influence"%>selected="selected"<%end%>>
 						<%= str_show %>	
 					</option>
@@ -97,7 +107,17 @@
 			</div>
 			<!-- tables with all the detail -->
 			<div class = "whiteText row">
-				<div align = "center">名人語錄</div>
+				<div align = "center">
+					名人語錄
+					 <form action="<%= peoplelist_index_path(id: @me.name) %>">
+						搜尋議題
+						<input type="text" name="issue_search" value="<%= @issue_search %>">
+						<input type="hidden" name="people_order" value="<%=@people_order %>">
+						<input type="hidden" name="people_search" value="<%=@people_search %>">
+						<input type="hidden" name="issue_order" value="<%=@issue_order %>">
+						<input type="submit" value="搜尋">
+					</form>
+				</div>
 				<div>
 					<table class = "table table-bordered">
 						<thead>
@@ -110,6 +130,9 @@
 						<tbody>
 							<% @details.each do |detail| %>
 								<% issue = @issues.where(id: detail.issue_id)[0] %>
+								<% if issue.nil?  %>
+									<% next %>
+								<% end %>
 								<tr>
 									<td>
 										<% link = issuelist_index_path(id: issue.id) %>
