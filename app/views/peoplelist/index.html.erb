@@ -117,18 +117,18 @@
 											<%= issue.title %>
 										</a>
 									</td>
-									<td style="width: 300px" >
-										<% link = detaillist_index_path(id: detail.id) %>
-										<a href = <%= link %>>
-											<%= detail.content %>
-										</a>
-									</td>
 									<td>
 										<% if detail.is_support %>
 											讚成
 										<% else %>
 											反對
 										<% end %>
+									</td>
+									<td style="width: 300px" >
+										<% link = detaillist_index_path(id: detail.id) %>
+										<a href = <%= link %>>
+											<%= detail.content %>
+										</a>
 									</td>
 								</tr>
 							<% end %>
