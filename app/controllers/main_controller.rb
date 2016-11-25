@@ -374,14 +374,38 @@ class MainController < ApplicationController
 		redirect_to "/TreeIndex"
 	end
 	
+    #
+    # 把 Node 存進 Db 裡面，並作一些處理
+    #
 	def tree_save_all_node
         # 把東西存起來
 		node = TreeInfo.where(id: params[:id])[0]
 		node.info = params[:TreeInfo].to_s.gsub("\"","\'")
 		node.save
         
-        # 要去處理下游議題 ＆ 建議議題
+        # 要先把以前的東西刪掉
+        TreeLink.where(treeinfo_id: params[:id]).destroy_all
         
+        # 要去 Trace 所有的樹，處理下游議題
+        require 'json'
+        @parseItem = JSON.parse(params[:TreeInfo])
+        @parseItem = [@parseItem['item']]
+        
+        byebug
+        while @parseItem.length != 0
+            childArray = @parseItem[0]['parent']
+            childArray.each do |childItem|
+                item = TreeLink.new
+                item.issue_id = @parseItem[0]['id']
+                item.treeinfo_id = params[:id]
+                item.children_id = childItem['id']
+                item.save
+                @parseItem.push(childItem)
+            end
+            
+            # 把第一個丟掉
+            @parseItem.shift
+        end
 	end
 	
 	
