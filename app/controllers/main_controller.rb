@@ -391,7 +391,6 @@ class MainController < ApplicationController
         @parseItem = JSON.parse(params[:TreeInfo])
         @parseItem = [@parseItem['item']]
         
-        byebug
         while @parseItem.length != 0
             childArray = @parseItem[0]['parent']
             childArray.each do |childItem|
