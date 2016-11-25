@@ -107,6 +107,10 @@ function NodeMouseEnter(target)
     // 有時候移入，會是在移到右鍵選單時產生，所以要做這個 error detect
     if(typeof target == "undefined")
         return
+        
+    // 有時候移入，會是拿到 text 或是其他東西，要確定是拿 circle ，所以他的 parent 是 g
+    if(!target.is("g"))
+        return;
     
     // 只保留數字的部分
     TargetID = parseInt(target.attr("id").replace("Node", ""));
@@ -125,6 +129,9 @@ function NodeMouseOut(target)
     // 有時候移開，會是在移到右鍵選單時產生，所以要做這個 error detect
     if(typeof target == "undefined")
         return
+        
+    if(!target.is("g"))
+        return;
         
     // 只保留數字的部分
     TargetID = parseInt(target.attr("id").replace("Node", ""));
