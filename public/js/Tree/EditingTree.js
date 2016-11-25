@@ -89,27 +89,52 @@ $(function(){
         var NodeName = $("#queryIssue").prop("value");
         if(NodeName != "")
         {
-            switch($chooseIndex)
-            {
-                case 0:
-                    AddNodeToChild(NodeName);
-                    break;
+            // 要去 trace 說是否真的有，個東西
+            $.get("/IssueID", { title: NodeName }).done(
+                function(data)
+                {
+                    // 刪除前面的空白 & 後面的換行
+                    data = data.substr(4, data.length);
+                    data = data.substr(0, data.length - 1);
                     
-                case 1:
-                    AddNodeInSameLevel(NodeName);
-                    break;
-            }
-            
-            $(".blackAddItemDiv").animate({
-                "background-color": 'rgba(0, 0, 0, 0)'
-            }, 500, function(){
-                $(this).hide();
-            });
-            $(".AddItemDiv").animate({
-                bottom: "-=500px"
-            }, 500, function(){
-                $(this).hide();
-            });
+                    if(data == "")
+                    {
+                        alert("沒有這個議題 !!");
+                        return;
+                    }
+                    
+                    // 要去 Trace 說目前的樹有沒有這個東西
+                    if(IsAppearedBefore(NodeName))
+                    {
+                        alert("這個 Node 已經被加過囉！！");
+                        return;
+                    }
+                    
+                    // 代表 data 有東西，並繼續執行
+                    switch($chooseIndex)
+                    {
+                        case 0:
+                            AddNodeToChild(NodeName, data);
+                            break;
+                    
+                        case 1:
+                            AddNodeInSameLevel(NodeName, data);
+                            break;
+                    }
+                    
+                    // 動畫
+                    $(".blackAddItemDiv").animate({
+                        "background-color": 'rgba(0, 0, 0, 0)'
+                    }, 500, function(){
+                        $(this).hide();
+                    });
+                    $(".AddItemDiv").animate({
+                        bottom: "-=500px"
+                    }, 500, function(){
+                        $(this).hide();
+                    });
+                }
+            );
         }
     });
     $(".custom-menu li").on("contextmenu", function(event){
@@ -128,7 +153,7 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
     
     var tareaLink =  document.createElementNS('http://www.w3.org/2000/svg', 'a');
     
-    tareaLink.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', "issuelist/" + id);
+    tareaLink.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', "Issuelist/" + id);
     tareaLink.setAttribute("target", "_parent");
     
     tareaLink.appendChild(tarea);
@@ -196,29 +221,6 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
     return g;
 };
 
-// 只有在按下加點的時候，會產生一個 Node
-function makeSimpleCircleSVG(attrs, text)
-{
-    var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    var el = document.createElementNS('http://www.w3.org/2000/svg', "circle");
-    var tarea = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    
-    g.appendChild(el);
-    g.appendChild(tarea);
-    
-    for (var k in attrs)
-        el.setAttribute(k, attrs[k]);
-
-    $(g).attr("id", "NodeMove");
-    $(tarea).attr("class", "textArea");
-    
-    // 新增文字
-    tarea.setAttribute("style", " font-size:24px;");
-    tarea.textContent = text;
-    
-    return g;
-}
-
 function makeLineSVG(attrs, fromID, toID) 
 {
     var l = document.createElementNS('http://www.w3.org/2000/svg', "line");
@@ -238,7 +240,7 @@ function RandomColor()
 /*
 五種操作
 */
-function AddNodeToChild(NodeName)
+function AddNodeToChild(NodeName, nodeID)
 {
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
@@ -251,13 +253,13 @@ function AddNodeToChild(NodeName)
             break;
         }
         
-        var n = clickNode.children()[1].textContent;
+        var n = $(clickNode.children()[1]).children()[0].textContent;
         if(n != checkList[0].name)
             for(var i = 0; i < checkList[0].parent.length; i++)
                 checkList.push(checkList[0].parent[i]);
         else
         {
-            checkList[0]['parent'].push({'name':NodeName, 'color': RandomColor(), 'parent':[]});
+            checkList[0]['parent'].push({'id': nodeID, 'name':NodeName, 'color': RandomColor(), 'parent':[]});
             IsFind = true;
             break;
         }
@@ -272,7 +274,7 @@ function AddNodeToChild(NodeName)
         TreeManager(sJsonData);
     }
 }
-function AddNodeInSameLevel(NodeName)
+function AddNodeInSameLevel(NodeName, nodeID)
 {
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
@@ -285,7 +287,7 @@ function AddNodeInSameLevel(NodeName)
             break;
         }
         
-        var n = clickNode.children()[1].textContent;
+        var n = $(clickNode.children()[1]).children()[0].textContent;
         if(n != checkList[0].name)
             for(var i = 0; i < checkList[0].parent.length; i++)
             {
@@ -333,7 +335,6 @@ function MoveToParent()
         if(n != checkList[0].name)
             for(var i = 0; i < checkList[0].parent.length && !IsFind; i++)
             {
-                console.log(i + " " + checkList[0].parent.length + " " +  checkList[0].parent[i].name + " " + n);
                 if(n == checkList[0].parent[i].name)
                 {
                     alert("不能上移到跟 Root 同一層！！");
@@ -471,6 +472,19 @@ function saveAllNode()
     $.post("TreeSaveAllNode", {"id": getUrlParameter("id"), "TreeInfo": JSON.stringify(sJsonData)}).done(function(data){
         window.top.location.reload();
     });
+}
+
+function IsAppearedBefore(NodeName)
+{
+    //alert($NodeNumber);
+    for(var i = 0; i < $NodeNumber; i++)
+    {
+        var GetLink = $("#Node" + i).children()[1];
+        var name = $(GetLink).children()[0].textContent;
+        if(NodeName == name)
+            return true
+    }
+    return false;
 }
 function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),

@@ -67,7 +67,7 @@ function TraceTree(JsonNode, posX, posY, nowLevel, MinDegree, MaxDegree, parentI
 {
     // 創建一個 svg 的 block
     var pos = [posX, posY];
-    var g = makeCircleSVG({cx: 0, cy: 0, r: circleRadius, stroke: 'black', 'stroke-width': 2, fill: JsonNode.color}, JsonNode.name, nowLevel, (MaxDegree - MinDegree) / 2 + MinDegree, pos, parentID);
+    var g = makeCircleSVG({cx: 0, cy: 0, r: circleRadius, stroke: 'black', 'stroke-width': 2, fill: JsonNode.color}, JsonNode.name, JsonNode.id,  nowLevel, (MaxDegree - MinDegree) / 2 + MinDegree, pos, parentID);
     if($NodeNumber == 1)
         $("#TopLevel").append(g);
     else
@@ -84,8 +84,7 @@ function TraceTree(JsonNode, posX, posY, nowLevel, MinDegree, MaxDegree, parentI
     // 加上滑鼠移過去的事件
     $(g).on("mouseenter", function(event){ NodeMouseEnter( $(event.target)); });
     $(g).on("mouseleave", function(event){ NodeMouseOut( $(event.target)); });
-    
-};
+}
 
 function GenerateLine()
 {
@@ -104,8 +103,10 @@ function GenerateLine()
 function NodeMouseEnter(target)
 {
     var target = target.parent();
-    // 只保留數字的部分
-    TargetID = parseInt(target.attr("id").replace("Node", ""));
+    var id = target.attr("id");
+    // 有時候移入，會是在移到右鍵選單時產生，所以要做這個 error detect
+    if(typeof id == "undefined")
+        return
     
     if(MoveTimer != null)
         clearInterval(MoveTimer);
@@ -117,8 +118,13 @@ function NodeMouseEnter(target)
 function NodeMouseOut(target)
 {   
     var target = target.parent();
+    var id = target.attr("id");
+    // 有時候移開，會是在移到右鍵選單時產生，所以要做這個 error detect
+    if(typeof id == "undefined")
+        return
+        
     // 只保留數字的部分
-    TargetID = parseInt(target.attr("id").replace("Node", ""));
+    TargetID = parseInt(id.replace("Node", ""));
     
     if(MoveTimer != null)
         clearInterval(MoveTimer);

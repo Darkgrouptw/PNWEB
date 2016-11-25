@@ -451,6 +451,18 @@ class MainController < ApplicationController
 		end
 		puts @content
 	end
+    
+    def issueID
+        title = params[:title]
+        @content = ""
+        if title == nil || title == ""
+            return
+        end
+		@issues = DataIssue.where(title: title)
+        if @issues.length != 0
+            @content = @issues[0].id
+        end
+    end
 
 	def mediaName
 		name = params[:name]
