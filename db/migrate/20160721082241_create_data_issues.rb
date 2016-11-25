@@ -10,6 +10,7 @@ class CreateDataIssues < ActiveRecord::Migration
       t.string :suggest_father
       t.integer :post_id
       t.text :other
+      t.boolean :is_hide
 
       t.timestamps null: false
     end

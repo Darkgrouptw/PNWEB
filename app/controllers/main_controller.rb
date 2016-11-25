@@ -375,9 +375,13 @@ class MainController < ApplicationController
 	end
 	
 	def tree_save_all_node
+        # 把東西存起來
 		node = TreeInfo.where(id: params[:id])[0]
 		node.info = params[:TreeInfo].to_s.gsub("\"","\'")
 		node.save
+        
+        # 要去處理下游議題 ＆ 建議議題
+        
 	end
 	
 	

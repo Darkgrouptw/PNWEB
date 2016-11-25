@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161028142918) do
+ActiveRecord::Schema.define(version: 20161125132923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20161028142918) do
     t.string   "suggest_father"
     t.integer  "post_id"
     t.text     "other"
+    t.boolean  "is_hide"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
@@ -119,6 +120,15 @@ ActiveRecord::Schema.define(version: 20161028142918) do
     t.text     "other"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+  end
+
+  create_table "tree_links", force: :cascade do |t|
+    t.integer  "issue_id"
+    t.integer  "treeinfo_id"
+    t.integer  "children_id"
+    t.text     "other"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "users", force: :cascade do |t|
