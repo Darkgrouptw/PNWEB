@@ -102,11 +102,14 @@ function GenerateLine()
 // 當滑鼠移過去之後，全部的 Node 要散開
 function NodeMouseEnter(target)
 {
+    //console.log("In" + target);
     var target = target.parent();
-    var id = target.attr("id");
     // 有時候移入，會是在移到右鍵選單時產生，所以要做這個 error detect
-    if(typeof id == "undefined")
+    if(typeof target == "undefined")
         return
+    
+    // 只保留數字的部分
+    TargetID = parseInt(target.attr("id").replace("Node", ""));
     
     if(MoveTimer != null)
         clearInterval(MoveTimer);
@@ -117,14 +120,14 @@ function NodeMouseEnter(target)
 }
 function NodeMouseOut(target)
 {   
+    //console.log("Out" + target);
     var target = target.parent();
-    var id = target.attr("id");
     // 有時候移開，會是在移到右鍵選單時產生，所以要做這個 error detect
-    if(typeof id == "undefined")
+    if(typeof target == "undefined")
         return
         
     // 只保留數字的部分
-    TargetID = parseInt(id.replace("Node", ""));
+    TargetID = parseInt(target.attr("id").replace("Node", ""));
     
     if(MoveTimer != null)
         clearInterval(MoveTimer);
