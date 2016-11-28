@@ -90,6 +90,18 @@ class IssuelistController < ApplicationController
 		end
 		return issue_list.where(id: issue_ids)
 	end
+
+	def findDownIssueIds(issue)
+		all_nodes = TreeLink.all
+		nodes =  all_nodes.where(issue_id: issue.id)
+		issue_ids = []
+		nodes.each do |node|
+			donwNodes = nodes.where(id: node.children_id)[0]
+			#issue_ids.push(donwNodes.issue_id)
+			issue_ids.push(node.children_id)
+		end
+		return issue_ids;
+	end
 	def index
 		@tags = params[:id]
 		@pos_order = params[:pos_order]
@@ -269,7 +281,8 @@ class IssuelistController < ApplicationController
 		@persons=DataPerson.where(id: person)
 		@medias = DataMedium.where(name: media)
 		@ReferenceIssue = findReferenceIssue(@me,@all_issue)
-		@DownFlowIssue = @ReferenceIssue
+		downIssueIds = findDownIssueIds(@me);
+		@DownFlowIssue = @all_issue.where(id: downIssueIds)
 		#@ReferenceIssueTree = findReferenceIssueTree(@me)
 	end
 
