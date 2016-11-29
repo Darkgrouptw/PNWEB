@@ -427,6 +427,7 @@ class IssuelistController < ApplicationController
 
 	def all
 		@all_issues = DataIssue.all.order(:created_at)
+		@users = User.all
 		@candidated_order = params[:candidated_order]
 		@issue_order = params[:issue_order]
 		@candidated_search = params[:candidated_search]

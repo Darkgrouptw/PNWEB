@@ -52,7 +52,9 @@
 			<%= issue.created_at.to_date %>
 		</td>
 		<td>
-			提案網友
+			<% user = @users.where(id: issue.post_id)[0] %>
+			<% link = userlist_index_path(id: user.id) %>
+			<a href="<%= link %>"><%= user.nickname %></a>
 		</td>
 		<% if can_level_up_issue() %>
 			<td>
@@ -79,7 +81,9 @@
 			<%= issue.created_at.to_date %>
 		</td>
 		<td>
-			提案網友
+			<% user = @users.where(id: issue.post_id)[0] %>
+			<% link = userlist_index_path(id: user.id) %>
+			<a href="<%= link %>"><%= user.nickname %></a>
 		</td>
 	<% end %>
 	
