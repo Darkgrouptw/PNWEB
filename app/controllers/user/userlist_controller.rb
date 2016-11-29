@@ -1,16 +1,47 @@
 class User::UserlistController < ApplicationController
+
 	def index
 		@users = User.all
 		@me = @users.where(id: params[:id])[0]
 		@details = DataDetail.where(post_id: @me.id)
+		detail_ids = []
 		issue_ids = []
 		people_ids = []
+		@score = 0
 		@details.each do |item|
 			issue_ids.push(item.issue_id)
 			people_ids.push(item.people_id)
+			detail_ids.push(item.id)
 		end
 		@people = DataPerson.where(id: people_ids)
+		#Post.where("id = 1").or(Post.where("author_id = 3"))
+		#users.where(users[:name].eq('bob').or(users[:age].lt(25)))
 		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
+		@postedIssueNumber = DataIssue.where(post_id: @me.id,is_candidate: false).length
+		@likedNumber = LikeList.where(detail_id: detail_ids).length
+		@likeList = LikeList.where(post_id: @me.id)
+		@reportedNumber = ReportDetail.where(detail_id: detail_ids).length
+
+		@detailIn10Top = 0
+		@all_detail = DataDetail.where(issue_id: issue_ids)
+		all_detail_ids=[]
+		@all_detail.each do |item|
+			all_detail_ids.push(item.id)
+		end
+		all_likes = LikeList.where(detail_id: all_detail_ids)
+		@details.each do |item|
+			issue = @issues.where(id: item.issue_id)[0]
+			like = all_likes.where(detail_id: issue.datadetail_id.split(','))
+			details_temp = @details
+			details_temp.sort_by{|item| like.where(detail_id: item.id).length}.reverse
+			if details_temp.index(details_temp.where(id: item.id)[0]) < 10
+				@detailIn10Top = @detailIn10Top + 1
+			end
+			#issue_list.sort_by{|item| likelist.where(detail_id: item.datadetail_id.split(',')).length}.reverse
+		end
+		
+		@score = @detailIn10Top * 3 + @details.length * 1 + @postedIssueNumber * 3
+
 	end
 
 	def upgrade

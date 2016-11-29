@@ -24,45 +24,80 @@
 			<div>
 				<table class = "table table-bordered">
 					<thead>
-						<tr align = "center" ><td colspan = "3"><%= @me.nickname %></td></tr>
+						<tr align = "center" >
+							<td>綽號</td>
+							<td>註冊日期</td>
+							<td>總積分</td>
+							<td>議題採納數</td>
+							<td>ＰＯ意見數</td>
+							<td>對意見按讚數</td>
+							<% if can_level_up_user %>
+								<td>權限</td>
+							<% end %>
+						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td class = "col-md-3">
-								<% if true %>
-									<%= image_tag 'http://i.imgur.com/TbBAqpV.png', width: "200" %>
-								<% end %>
-							</td>  
-							<td class = "col-md-5"><%= @me.nickname %></td> 
-							<td><div><%if @me.level == 0%>一般使用者<% elsif @me.level == 1%>高階使用者<%elsif @me.level == 2%>網管<% elsif @me.level == 3 %>最高管理者<%else%>錯誤<%end%></div>
+						<tr> 
+							<td><%= @me.nickname %></td> 
+							<td><%=@me.created_at.to_date %></td> 
+							<td><%= @score %></td>
+							<td><%= @postedIssueNumber %></td>
+							<td>
 								<div>
-									<% if can_level_up_user() %>
-										<% if current_user.level >= @me.level && @me.level < 3%>
-											<% link = userlist_upgrade_path + "?id=" + @me.id.to_s%>
-											<%= link_to "升級",link,method: :post%>
-										<% else %>
-										<%end%>
-									<% end %>
+									所ＰＯ意見被按讚總數: <%= @likedNumber %>
 								</div>
 								<div>
-									<% if can_level_up_user() %>
-										<% if current_user.level > @me.level && @me.level > 0%>
-											<% link = userlist_downgrade_path + "?id=" + @me.id.to_s%>
-											<%= link_to "降級",link,method: :post%>
-										<% else %>
-										<%end%>
-									<% end %>
+									所ＰＯ意見被排入前10總數: <%= @detailIn10Top%>
 								</div>
 								<div>
-									<% if !current_user.nil? %>
-										<% if current_user.level > @me.level && @me.level == 1 %>
-											<% link = userlist_power_edit_path(id: @me.id)%>
-											<!--<%= link_to "編輯管理權限",link,method: :get%>-->
-										<% else %>
-										<%end%>
-									<% end %>
+									所ＰＯ意見被檢舉總數: <%= @reportedNumber %>
 								</div>
 							</td>
+							<td><%= @likeList.length %></td>
+							<% if can_level_up_user %>
+								<td>
+									<div>
+										<%if @me.level == 0%>
+											一般使用者
+										<% elsif @me.level == 1%>
+											高階使用者
+										<%elsif @me.level == 2%>
+											網管
+										<% elsif @me.level == 3 %>
+											最高管理者
+										<%else%>
+											錯誤
+										<%end%>
+									</div>
+									<div>
+										<% if can_level_up_user() %>
+											<% if current_user.level >= @me.level && @me.level < 3%>
+												<% link = userlist_upgrade_path + "?id=" + @me.id.to_s%>
+												<%= link_to "升級",link,method: :post%>
+											<% else %>
+											<%end%>
+										<% end %>
+									</div>
+									<div>
+										<% if can_level_up_user() %>
+											<% if current_user.level > @me.level && @me.level > 0%>
+												<% link = userlist_downgrade_path + "?id=" + @me.id.to_s%>
+												<%= link_to "降級",link,method: :post%>
+											<% else %>
+											<%end%>
+										<% end %>
+									</div>
+									<div>
+										<% if !current_user.nil? %>
+											<% if current_user.level > @me.level && @me.level == 1 %>
+												<% link = userlist_power_edit_path(id: @me.id)%>
+												<!--<%= link_to "編輯管理權限",link,method: :get%>-->
+											<% else %>
+											<%end%>
+										<% end %>
+									</div>
+								</td>
+							<% end %>
 						</tr>
 					</tbody>
 				</table>
