@@ -44,4 +44,14 @@ $(function(){
             }
         );
     });
+    
+    
+    $("#TreeIndexSearch").on("click", function(){
+        var SearchName = $("#queryIssue").prop("value");
+        if(typeof SearchName != "undefined")
+            if (SearchName == "")
+                $(location).attr('href','/TreeIndex');
+            else
+                $(location).attr('href','/TreeIndex?search=' +  SearchName);
+    });
 });

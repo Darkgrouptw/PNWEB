@@ -4,14 +4,25 @@
     border-color: rgb(243, 243, 243);
     top: -30px;
     padding-top: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 40px;
 }
 .headLogo
 {
-    padding-top: 50px;
     color: rgb(160, 216, 255) !important;
     font-family: font;
     font-size: 48px;
+}
+.headLogo img
+{
+    position: fixed;
+    width: 70px;
+    height: 70px;
+}
+.headLogo div
+{
+    position: fixed;
+    top: 20px;
+    padding-left: 75px;
 }
 .headLink
 {

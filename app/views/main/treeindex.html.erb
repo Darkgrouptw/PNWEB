@@ -78,6 +78,17 @@
             <li><a href= <%= link %> >近期人氣排序</a></li>
         </ul>
     </div>
+            
+    <!-- 搜尋的 DIV -->
+    <div class="TreeIndexSearch">
+        <input type="text" class="form-control" placeholder="搜尋議題" id="queryIssue"  value="<%= @searchParams %>">
+    </div>
+    <span class="input-group-btn TreeIndexSearchButton">
+        <button class="btn btn-default" type="button" id="TreeIndexSearch">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+    </span>
+    <div id="queryIssueDiv" class="queryDiv TreeSearchDIV" style="width: 350px; display: none;"></div>
     
     <div class="TreeList">
         <% ListItems() %>

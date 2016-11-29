@@ -268,17 +268,31 @@ class MainController < ApplicationController
 	# 編輯樹
 	#
 	def treeindex
+        if params[:search] != nil &&  params[:search] != ""             # 判斷他是否有這個參數
+            @searchParams = params[:search]
+            @issueList = DataIssue.where(title: params[:search])
+            if @issueList.length != 0
+                @TreeInfoList = TreeInfo.where(issue_id: @issueList[0])
+            else
+                # 找不到東西，所以用 id 是 -1 來找
+                @TreeInfoList = TreeInfo.where(id: -1)
+            end
+        else
+            @searchParams = ""
+            @TreeInfoList = TreeInfo.all
+        end
+        
 		@OrderBy = params[:OrderBy]
 		if @OrderBy == 0.to_s
-			@items = TreeInfo.order(created_at: :desc).first(10)
+			@items = @TreeInfoList.order(created_at: :desc).first(10)
 		elsif @OrderBy == 1.to_s
-			@items = TreeInfo.order(created_at: :desc)
+			@items = @TreeInfoList.order(created_at: :desc)
 			@items = findNearHotIssueTree(@items)
 		elsif @OrderBy == 2.to_s
-			@items = TreeInfo.where(created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
+			@items = @TreeInfoList.where(created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
 			@items = findNearHotIssueTree(@items)
 		else
-			@items = TreeInfo.order(created_at: :desc).first(10)
+			@items = @TreeInfoList.order(created_at: :desc).first(10)
 		end
 		
 		@issue_info = []
