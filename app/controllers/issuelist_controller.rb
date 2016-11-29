@@ -307,6 +307,10 @@ class IssuelistController < ApplicationController
 		title = params[:title]
 		post = params[:post]
 		tag = params[:tag]
+		suggest1 = params[:suggest1]
+		suggest2 = params[:suggest2]
+		suggest3 = params[:suggest3]
+
 		if !tag.nil? || !tag.empty?
 			tagStr = tag.split(',')
 			if tagStr.length < 3
@@ -329,15 +333,45 @@ class IssuelistController < ApplicationController
 			return
 		end
 
-		@issue = DataIssue.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
+		
+		@issue = DataIssue.new(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
 		@issue.title = title
 		@issue.post = post
-
+		@issue.is_hide = false
+		@issue.post_id = current_user.id
 		@issue.tag = tag
+		@issue.suggest_father = ""
 		@issue.is_candidate = true
 		@issue.thumb_up = ""
 		@issue.datadetail_id = ""
 		@issue.save
+		if suggest1.nil? || suggest1.empty?
+		else
+			father_issues = DataIssue.where(title: suggest1)
+			if father_issues.length >= 0
+				father_issue = father_issues[0]
+				father_issue.suggest_father = addIDToString(father_issue.suggest_father,@issue.id)
+				father_issue.save
+			end
+		end
+		if suggest2.nil? || suggest2.empty?
+		else
+			father_issues = DataIssue.where(title: suggest2)
+			if father_issues.length >= 0
+				father_issue = father_issues[0]
+				father_issue.suggest_father = addIDToString(father_issue.suggest_father,@issue.id)
+				father_issue.save
+			end
+		end
+		if suggest3.nil? || suggest3.empty?
+		else
+			father_issues = DataIssue.where(title: suggest3)
+			if father_issues.length >= 0
+				father_issue = father_issues[0]
+				father_issue.suggest_father = addIDToString(father_issue.suggest_father,@issue.id)
+				father_issue.save
+			end
+		end
 		redirect_to issuelist_candidate_path
 	end
 
