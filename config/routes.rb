@@ -24,6 +24,7 @@ Rails.application.routes.draw do
 	get		"Issuelist/candidate"	=>	"issuelist#candidate",	:as =>	"issuelist_candidate"
 	post 	"Issuelist/thumb_up"	=>	"issuelist#thumb_up",	:as => 	"issuelist_thumb_up"
 	post 	"Issuelist/upgrade"	=>	"issuelist#upgrade",	    :as =>	"issuelist_upgrade"
+	post 	"Issuelist/hide"	=>	"issuelist#hide",			:as =>	"issuelist_hide"
 	get     "Issuelist/:id"     =>  "issuelist#index",          :as =>  "issuelist_index"
 
 	# people page

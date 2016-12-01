@@ -348,7 +348,7 @@ class IssuelistController < ApplicationController
 		if suggest1.nil? || suggest1.empty?
 		else
 			father_issues = DataIssue.where(title: suggest1)
-			if father_issues.length >= 0
+			if father_issues.length > 0
 				father_issue = father_issues[0]
 				father_issue.suggest_father = addIDToString(father_issue.suggest_father,@issue.id)
 				father_issue.save
@@ -357,7 +357,7 @@ class IssuelistController < ApplicationController
 		if suggest2.nil? || suggest2.empty?
 		else
 			father_issues = DataIssue.where(title: suggest2)
-			if father_issues.length >= 0
+			if father_issues.length > 0
 				father_issue = father_issues[0]
 				father_issue.suggest_father = addIDToString(father_issue.suggest_father,@issue.id)
 				father_issue.save
@@ -366,13 +366,13 @@ class IssuelistController < ApplicationController
 		if suggest3.nil? || suggest3.empty?
 		else
 			father_issues = DataIssue.where(title: suggest3)
-			if father_issues.length >= 0
+			if father_issues.length > 0
 				father_issue = father_issues[0]
 				father_issue.suggest_father = addIDToString(father_issue.suggest_father,@issue.id)
 				father_issue.save
 			end
 		end
-		redirect_to issuelist_candidate_path
+		redirect_to issuelist_all_path
 	end
 
 	def edit
@@ -516,5 +516,20 @@ class IssuelistController < ApplicationController
 	def toggle(attribute)
 		self[attribute] = !send("#{attribute}?")
 		self
+	end
+
+	def hide
+		puts "======================================================================================"
+		id = params[:Name]
+		puts id
+		puts "======================================================================================"
+		issue = DataIssue.where(id: id)[0]
+		if !issue.nil?
+			if issue.is_candidate
+				issue.is_hide = !issue.is_hide
+				issue.save
+			end
+		end
+		return
 	end
 end

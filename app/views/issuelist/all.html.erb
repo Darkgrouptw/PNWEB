@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/css/table.css">
+<script src="/js/queryHide.js"></script>
 <% 
 	def getLikeNumber(issue)
 		detail_strings = issue.datadetail_id.split(',')
@@ -63,6 +64,16 @@
 			</td>
 		<% else %>
 		<% end %>
+		<% if can_hide_issue() %>
+			<td>
+				<% if issue.is_hide == true %>
+					<% @text = "顯示" %>
+				<% else %>
+					<% @text = "隱藏" %>
+				<% end %>
+				<input type="button" class = "hideIssueButton" issue_id=<%= issue.id %> value = <%= @text %> >
+			</td>
+		<% end %>
 		
 	<% else %>
 		<td>
@@ -113,10 +124,11 @@
 <% def CreateCandidateTable() %>
 	<table class="table table-bordered">
 		<thead>
-			<tr><td colspan = <% if can_level_up_issue() %>"5"<% else %>"4"<% end %>> 候選議題</td></tr>
+			<tr><td colspan = <% if can_level_up_issue() %>"6"<% else %>"4"<% end %>> 候選議題</td></tr>
 			<tr>
 				<td>標題</td><td>連署數</td><td>提案時間</td><td>提案網友</td>
 				<% if can_level_up_issue() %><td>升為正式議題</td><% else %><% end %>
+				<% if can_hide_issue() %><td>隱藏議題</td><% else %><% end %>
 			</tr>
 		</thead>
 		<tbody>
@@ -127,6 +139,7 @@
 
 
 <div class="BigTitle col-md-12"">
+	
 	<table class = "col-md-12">
 		<tr>
 			<td class = "col-md-6"><h2>候選議題</h2></td>

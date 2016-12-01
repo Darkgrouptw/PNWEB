@@ -38,6 +38,9 @@ module Authority
     def can_level_up_issue()
         return can_view(2)
     end
+    def can_hide_issue()
+        return can_view(2)
+    end
     def can_level_up_user()
         return can_view(2) 
     end
