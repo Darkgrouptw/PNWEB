@@ -432,6 +432,7 @@ class IssuelistController < ApplicationController
 		@issue_order = params[:issue_order]
 		@candidated_search = params[:candidated_search]
 		@issue_search = params[:issue_search]
+		@show_hide = params[:show_hide]
 		@issues
 		@candidates
 		@AllLike = LikeList.all
@@ -457,6 +458,12 @@ class IssuelistController < ApplicationController
 			@issues = findNearHotIssue(@issues)
 		end
 		
+		if @show_hide == "true"
+
+		else
+			@candidates = @candidates.where(is_hide: false)
+		end
+
 		if @candidated_order == "time"
 			@candidates = @candidates.order(created_at: :desc)
 		else

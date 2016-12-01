@@ -6,7 +6,7 @@
 		return @AllLike.where(detail_id: detail_strings).length
 	end
 
-	def getSelfLink(candidated_order,issue_order,candidated_search,issue_search)
+	def getSelfLink(candidated_order,issue_order,candidated_search,issue_search,show_hide)
 		result = ""
 		if candidated_order.nil? || candidated_order.empty?
 			result = result + "?candidated_order=" + "near_hot"
@@ -27,6 +27,11 @@
 			result = result + "&issue_search=" + ""
 		else
 			result = result + "&issue_search=" + issue_search
+		end
+		if show_hide.nil? || show_hide.empty?
+			result = result + "&show_hide=" + ""
+		else
+			result = result + "&show_hide=" + show_hide
 		end
 		return issuelist_all_path() + result
 	end
@@ -159,22 +164,40 @@
 							<select name="candidated_time" onchange="location = this.value;">
 								<% temp = "near_hot" %>
 								<% str_show = "近期熱門排序" %>
-								<% link  = getSelfLink("near_hot",@issue_order,@candidated_search,@issue_search) %>
+								<% link  = getSelfLink("near_hot",@issue_order,@candidated_search,@issue_search,@show_hide) %>
 								<option value="<%= link %>"  <%if @candidated_order == "near_hot"%>selected="selected"<%end%>>
 									<%= str_show %>
 								</option>
 								<% temp = "time" %>
 								<% str_show = "最新排序" %>
-								<% link  = getSelfLink("time",@issue_order,@candidated_search,@issue_search)%>
+								<% link  = getSelfLink("time",@issue_order,@candidated_search,@issue_search,@show_hide)%>
 								<option value="<%= link %>" <%if @candidated_order == "time"%>selected="selected"<%end%>>
 									<%= str_show %>	
 								</option>
 							</select>
+
+							<% if can_hide_issue()%>
+								<select name="show_hide" onchange="location = this.value;">
+									<% temp = "true" %>
+									<% str_show = "顯示全部候選議題" %>
+									<% link  = getSelfLink(@candidated_order,@issue_order,@candidated_search,@issue_search,temp) %>
+									<option value="<%= link %>"  <%if @show_hide == "true"%>selected="selected"<%end%>>
+										<%= str_show %>
+									</option>
+									<% temp = "false" %>
+									<% str_show = "不顯示隱藏的候選議題" %>
+									<% link  = getSelfLink(@candidated_order,@issue_order,@candidated_search,@issue_search,temp)%>
+									<option value="<%= link %>" <%if @show_hide == "false"%>selected="selected"<%end%>>
+										<%= str_show %>	
+									</option>
+								</select>
+							<% end %>
+							
 						</div>
 						</td>
 						<td><p>&nbsp</p></td>
 						<td>
-						<form action="<%= getSelfLink(@candidated_order,@issue_order,@candidated_search,@issue_search) %>">
+						<form action="<%= getSelfLink(@candidated_order,@issue_order,@candidated_search,@issue_search,@show_hide) %>">
 						  <input type="text" name="candidated_search" value="<%=@candidated_search%>">
 						  <input type="hidden" name="candidated_order" value="<%=@candidated_order%>">
 						  <input type="hidden" name="issue_order" value="<%=@issue_order %>">
@@ -203,19 +226,19 @@
 						<select name="issue_time" onchange="location = this.value;">
 							<% temp = "near_hot" %>
 							<% str_show = "近期熱門排序" %>
-							<% link  = getSelfLink(@candidated_order,"near_hot",@candidated_search,@issue_search) %>
+							<% link  = getSelfLink(@candidated_order,"near_hot",@candidated_search,@issue_search,@show_hide) %>
 							<option value="<%= link %>"  <%if @issue_order == "near_hot"%>selected="selected"<%end%>>
 								<%= str_show %>
 							</option>
 							<% temp = "time" %>
 							<% str_show = "最新排序" %>
-							<% link  = getSelfLink(@candidated_order,"time",@candidated_search,@issue_search) %>
+							<% link  = getSelfLink(@candidated_order,"time",@candidated_search,@issue_search,@show_hide) %>
 							<option value="<%= link %>" <%if @issue_order == "time"%>selected="selected"<%end%>>
 								<%= str_show %>	
 							</option>
 							<% temp = "time" %>
 							<% str_show = "歷史熱門" %>
-							<% link  = getSelfLink(@candidated_order,"hot",@candidated_search,@issue_search) %>
+							<% link  = getSelfLink(@candidated_order,"hot",@candidated_search,@issue_search,@show_hide) %>
 							<option value="<%= link %>" <%if @issue_order == "hot"%>selected="selected"<%end%>>
 								<%= str_show %>	
 							</option>
@@ -224,7 +247,7 @@
 					</td>
 					<td><p>&nbsp</p></td>
 					<td>
-					<form action="<%= getSelfLink(@candidated_order,@issue_order,@candidated_search,@issue_search) %>">
+					<form action="<%= getSelfLink(@candidated_order,@issue_order,@candidated_search,@issue_search,@show_hide) %>">
 						  搜尋議題
 						  <input type="text" name="issue_search" value="<%= @issue_search %>">
 						  <input type="hidden" name="candidated_search" value="<%=@candidated_search%>">
