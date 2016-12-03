@@ -25,21 +25,39 @@ class ReportlistController < ApplicationController
 		redirect_to(:back)
 		return
 	end
+	@detail_search = params[:detail_search]
+	@user_search = params[:user_search]
+	@order = params[:order]
+	if @order.nil? || @order.empty?
+		@order = "detail"
+	end
+	
+
 	@reportlist = ReportDetail.all.order(:created_at).reverse
 	detail_ids = []
 	issue_ids = []
 	user_ids = []
+	media_names = []
+	
 	@reportlist.each do |item|
 		detail_ids.push(item.detail_id)
 	end
+	#detail_ids = detail_ids.sort_by{|item| detail_ids.count(item)}.reverse
+	if @order == "detail"
+		@reportlist = @reportlist.sort_by{|item| detail_ids.count(item.detail_id)}.reverse
+	end
+
 	@detaillist = DataDetail.where(id: detail_ids,is_report: false)
 	@detaillist.each do |item|
 		issue_ids.push(item.issue_id)
 		user_ids.push(item.post_id)
+		media_names.push(item.news_media)
 	end
 	@issuelist = DataIssue.where(id: issue_ids)
 	@userlist = User.where(id: user_ids)
-
+	@likelist = LikeList.where(detail_id: detail_ids)
+	
+	@media = DataMedium.where(name: media_names)
   end
   def add
   	if !can_view(0)

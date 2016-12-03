@@ -85,4 +85,16 @@ module Common
 		end
 				
 	end
+	def String_like(str,search)
+		if str.nil? || str.empty?
+			return false
+		end
+		if search.nil? || search.empty?
+			return true
+		end
+		if str.include? search
+		   return true
+		end
+		return false
+	end
 end

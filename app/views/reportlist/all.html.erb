@@ -1,4 +1,25 @@
 <link rel="stylesheet" type="text/css" href="/css/table.css">
+<%
+	def getSelfLink(order,detail_search,user_search)
+		result = ""
+		if order.nil? || order.empty?
+			result = result + "?order=" + "detail"
+		else
+			result = result + "?order=" + order
+		end
+		if detail_search.nil? || detail_search.empty?
+			result = result + "&detail_search=" + ""
+		else
+			result = result + "&detail_search=" + detail_search
+		end
+		if user_search.nil? || user_search.empty?
+			result = result + "&user_search=" + ""
+		else
+			result = result + "&user_search=" + user_search
+		end
+		return reportlist_all_path + result
+	end
+%>
 <div class="BigTitle">
     <h2>所有檢舉</h2>
     <hr>
@@ -12,14 +33,47 @@
 	<div class = "whiteText row">
 		<div class = "col-md-offset-1 col-md-10 row">
 			<div align = "right">
+				<form action="<%= reportlist_all_path %>">
+					搜尋意見
+					<input type="text" name="detail_search" value="<%= @detail_search %>">
+					<input type="hidden" name="user_search" value="<%=@user_search %>">
+					<input type="hidden" name="order" value="<%=@order %>">
+					<input type="submit" value="搜尋">
+				</form>
+				<form action="<%= reportlist_all_path %>">
+					搜尋使用者
+					<input type="hidden" name="detail_search" value="<%= @detail_search %>">
+					<input type="text" name="user_search" value="<%=@user_search %>">
+					<input type="hidden" name="order" value="<%=@order %>">
+					<input type="submit" value="搜尋">
+				</form>
+				<select name="order" onchange="location = this.value;">
+					<% temp = "detail" %>
+					<% str_show = "意見排序" %>
+					<% link  = getSelfLink("detail",@detail_search,@user_search) %>
+					<option value="<%= link %>"  <%if @order == "detail"%>selected="selected"<%end%>>
+						<%= str_show %>
+					</option>
+					<% temp = "time" %>
+					<% str_show = "最新排序" %>
+					<% link  = getSelfLink("time",@detail_search,@user_search) %>
+					<option value="<%= link %>" <%if @order == "time"%>selected="selected"<%end%>>
+						<%= str_show %>	
+					</option>
+				</select>
 			</div>
 			<table class = "table table-bordered">
 				<thead>
 					<tr align = "center" >
 						<td>議題</td>
-						<td>論述</td>
+						<td style="width: 300px">意見</td>
+						<td><div>誰的意見</div><div>當時頭銜</div></td>
+						<td>屬於間接意見</td>
+						<td><div>發言時間</div><div>刊載媒體</div></td>
+						<td><div>原文連結</div><div>原文備份</div></td>
+						<td>人氣</td>
+						<td><div>上線時間</div><div>編者</div></td>
 						<td>原因</td>
-						<td>編者</td>
 						<td>處置</td>
 					</tr>
 				</thead>
@@ -29,6 +83,13 @@
 						<% if !detail.nil? %>
 							<% issue = @issuelist.where(id: detail.issue_id)[0] %>
 							<% user = @userlist.where(id: detail.post_id)[0] %>
+							<% likelist = @likelist.where(detail_id: detail.id) %>
+							<% if !String_like(user.nickname,@user_search) %>
+								<% next %>
+							<% end %>
+							<% if !String_like(detail.content,@detail_search) %>
+								<% next %>
+							<% end %>
 							<tr>
 								<td>
 									<% link = issuelist_index_path(id: issue.id) %>
@@ -36,11 +97,58 @@
 										<%= issue.title %>
 									</a>
 								</td>
-								<td>
+								
+								<td style="width: 300px">
 									<% link = detaillist_index_path(id: detail.id) %>
 									<a href = <%= link %>>
 										<%= detail.content %>
 									</a>
+								</td>
+								<td><div><%= detail.people_name %></div><div><%= detail.title_at_that_time %></div></td>
+								<td><% if detail.is_direct %><% else %>間<% end %></td>
+								<td>
+									<div><% detail.report_at.to_date %></div>
+									<div><% link = media_index_path(id: detail.news_media) %>
+										<a href=<%= link %>>
+											<%= detail.news_media %>	
+										</a>
+									</div>
+								</td>
+								<td>
+									<div>
+										<% link = detail.link %>
+										<% if link.first(4).include?("http") %>
+										<% else %>
+											<% link = "http://" + link %>
+										<% end %>
+										<a href = <%= link %> target="_blank">原文連結</a>
+									</div>
+									<div>
+										<% link = "pageBackUp/"+detail.backup_id.to_s+"."+detail.backup_type %>
+										<% if detail.backup_type == "video_source" %>
+											<% link = detail.backup_id %>
+											<% if link.first(4).include?("http") %>
+											<% else %>
+												<% link = "http://" + link %>
+											<% end %>
+											<a href = "<%= link %>"" target="_blank">影片連結</a>
+										<% elsif FileIsExit(link) %>
+											<a href = <%= "/"+link %> target="_blank">
+											  備份檔案
+											</a>
+										<% else %>
+											<br>
+										<% end %>
+									</div>
+								<td><%= likelist.length %></td>
+								<td>
+									<div><%= detail.created_at.to_date %></div>
+									<div>
+										<% link = userlist_index_path(id: user.id) %>
+										<a href = <%= link %>>
+											<%= user.nickname %>
+										</a>
+									</div>
 								</td>
 								<td>
 										<% if item.cause.split(',').include?('1') %>
@@ -77,12 +185,6 @@
 											<% string[0] = '' %>
 											<div><%= string %></div>
 										<% end %>
-								</td>
-								<td>
-									<% link = userlist_index_path(id: user.id) %>
-									<a href = <%= link %>>
-										<%= user.nickname %>
-									</a>
 								</td>
 								<td>
 									<div>
