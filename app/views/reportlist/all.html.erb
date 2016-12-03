@@ -32,36 +32,46 @@
 	<!-- show detail data-->
 	<div class = "whiteText row">
 		<div class = "col-md-offset-1 col-md-10 row">
-			<div align = "right">
-				<form action="<%= reportlist_all_path %>">
-					搜尋意見
-					<input type="text" name="detail_search" value="<%= @detail_search %>">
-					<input type="hidden" name="user_search" value="<%=@user_search %>">
-					<input type="hidden" name="order" value="<%=@order %>">
-					<input type="submit" value="搜尋">
-				</form>
-				<form action="<%= reportlist_all_path %>">
-					搜尋使用者
-					<input type="hidden" name="detail_search" value="<%= @detail_search %>">
-					<input type="text" name="user_search" value="<%=@user_search %>">
-					<input type="hidden" name="order" value="<%=@order %>">
-					<input type="submit" value="搜尋">
-				</form>
-				<select name="order" onchange="location = this.value;">
-					<% temp = "detail" %>
-					<% str_show = "意見排序" %>
-					<% link  = getSelfLink("detail",@detail_search,@user_search) %>
-					<option value="<%= link %>"  <%if @order == "detail"%>selected="selected"<%end%>>
-						<%= str_show %>
-					</option>
-					<% temp = "time" %>
-					<% str_show = "最新排序" %>
-					<% link  = getSelfLink("time",@detail_search,@user_search) %>
-					<option value="<%= link %>" <%if @order == "time"%>selected="selected"<%end%>>
-						<%= str_show %>	
-					</option>
-				</select>
-			</div>
+			<table>
+				<tr>
+					<td>
+						<form action="<%= reportlist_all_path %>">
+							搜尋意見
+							<input type="text" name="detail_search" value="<%= @detail_search %>">
+							<input type="hidden" name="user_search" value="<%=@user_search %>">
+							<input type="hidden" name="order" value="<%=@order %>">
+							<input type="submit" value="搜尋">
+						</form>
+					</td>
+					<td>&nbsp&nbsp</td>
+					<td>
+						<form action="<%= reportlist_all_path %>">
+							搜尋使用者
+							<input type="hidden" name="detail_search" value="<%= @detail_search %>">
+							<input type="text" name="user_search" value="<%=@user_search %>">
+							<input type="hidden" name="order" value="<%=@order %>">
+							<input type="submit" value="搜尋">
+						</form>
+					</td>
+					<td>&nbsp&nbsp</td>
+					<td>
+						<select name="order" onchange="location = this.value;">
+							<% temp = "detail" %>
+							<% str_show = "意見排序" %>
+							<% link  = getSelfLink("detail",@detail_search,@user_search) %>
+							<option value="<%= link %>"  <%if @order == "detail"%>selected="selected"<%end%>>
+								<%= str_show %>
+							</option>
+							<% temp = "time" %>
+							<% str_show = "最新排序" %>
+							<% link  = getSelfLink("time",@detail_search,@user_search) %>
+							<option value="<%= link %>" <%if @order == "time"%>selected="selected"<%end%>>
+								<%= str_show %>	
+							</option>
+						</select>
+					</td>
+				</tr>
+			</table>
 			<table class = "table table-bordered">
 				<thead>
 					<tr align = "center" >
