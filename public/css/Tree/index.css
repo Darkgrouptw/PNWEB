@@ -10,7 +10,9 @@
     left: 0px;
     width: 350px;
     height: 100%;
+    top: 80px;
     background-color: rgb(242, 238, 228);
+    border-top: 2px solid #878787;
     border-right: 2px solid #878787;
 }
 .RightCanvas
@@ -19,6 +21,8 @@
     right: 0px;
     width: calc(100% - 350px);
     height: 100%;
+    top: 80px;
+    border-top: 2px solid #878787;
 }
 .TreeList
 {

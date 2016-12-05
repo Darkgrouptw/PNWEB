@@ -1,3 +1,7 @@
+// Resize 測試
+$(window).resize(function() {
+    //console.log("Resize");
+});
 $(function(){
     var window = $( document );
     if(window.width() < 1600 || window.height() < 750)
@@ -7,6 +11,7 @@ $(function(){
     $(".WindowSizeWarning div button").on("click", function(){
        $(".WindowSizeWarning").attr("style", "display: none;");
     });
+    
     
     $("#RemoveAddRoot").on("click", function(){
         $(".AddRoot").attr("style", "display: none;");
