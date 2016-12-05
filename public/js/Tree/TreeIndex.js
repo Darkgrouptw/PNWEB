@@ -52,7 +52,7 @@ $(function(){
     
     
     $("#TreeIndexSearch").on("click", function(){
-        var SearchName = $("#queryIssue").prop("value");
+        var SearchName = $("#queryIssue2").prop("value");
         if(typeof SearchName != "undefined")
             if (SearchName == "")
                 $(location).attr('href','/TreeIndex');

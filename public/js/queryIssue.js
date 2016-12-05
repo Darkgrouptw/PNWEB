@@ -24,7 +24,7 @@ $(function(){
         setTimeout(function(){
             document.getElementById("queryIssueDiv").style.display = "none";
             $("#queryIssueDiv").empty();
-        },100);
+        },500);
     });
 
     $(".issueList").each(function(index){

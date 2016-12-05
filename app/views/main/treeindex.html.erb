@@ -46,6 +46,7 @@
 <link rel="stylesheet" type="text/css" href="/css/query.css">
 <script src="js/Tree/TreeIndex.js"></script>
 <script src="/js/queryIssue.js"></script>
+<script src="/js/queryIssue2.js"></script>
 
 <!-- 左邊Canvas -->
 <div class="LeftCanvas">
@@ -81,14 +82,14 @@
             
     <!-- 搜尋的 DIV -->
     <div class="TreeIndexSearch">
-        <input type="text" class="form-control" placeholder="搜尋議題" id="queryIssue"  value="<%= @searchParams %>">
+        <input type="text" class="form-control" placeholder="搜尋議題" id="queryIssue2"  value="<%= @searchParams %>">
     </div>
     <span class="input-group-btn TreeIndexSearchButton">
         <button class="btn btn-default" type="button" id="TreeIndexSearch">
             <span class="glyphicon glyphicon-plus"></span>
         </button>
     </span>
-    <div id="queryIssueDiv" class="queryDiv TreeSearchDIV" style="width: 350px; display: none;"></div>
+    <div id="queryIssueDiv2" class="queryDiv TreeSearchDIV" style="width: 350px; display: none;"></div>
     
     <div class="TreeList">
         <% ListItems() %>
