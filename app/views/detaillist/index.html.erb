@@ -35,6 +35,7 @@
 				<% if can_editor_detail()%>
 				<a href = "<%= link %>">編輯</a>
 				<% end %>
+				檢舉數：<%= @all_reports.length%>
 				<% if !can_report_detail()%>
 					登入後才可檢舉
 				<% elsif @report.nil?%>

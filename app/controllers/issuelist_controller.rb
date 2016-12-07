@@ -129,11 +129,12 @@ class IssuelistController < ApplicationController
 			return
 		end
 		@reports = nil
-		if !current_user.nil?
-			detail_ids = @me.datadetail_id.split(',')
-			@reports = ReportDetail.where(detail_id: detail_ids,people_id: current_user.id)
-		end
+		
 		detail_strings = @me.datadetail_id.split(',')
+		@all_reports = ReportDetail.where(detail_id: detail_strings)
+		if !current_user.nil?
+			@reports = @all_reports.where(people_id: current_user.id)
+		end
 		@details = DataDetail.where(id: detail_strings,is_report: false)
 		@AllLike = LikeList.where(detail_id: detail_strings)
 		#@likeList = LikeList.where(post_id: current_user)
