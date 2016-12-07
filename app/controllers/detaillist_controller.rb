@@ -35,7 +35,9 @@ class DetaillistController < ApplicationController
 		@likeList = @likeLists.where(detail_id: @me)
 
 		@CanThumbUp = true
-		if @likeLists.where(post_id: current_user.id).length >= 3
+		if current_user.nil?
+			@CanThumbUp = false
+		elsif @likeLists.where(post_id: current_user.id).length >= 3
 			@CanThumbUp = false
 		elsif @likeLists.where(post_id: current_user.id,detail_id: @me.id)[0].nil?
 		else
@@ -43,7 +45,9 @@ class DetaillistController < ApplicationController
 		end
 
 		@canDelete = false
-		if @me.post_id == current_user.id && @likeList.length <= 20
+		if current_user.nil?
+			@canDelete = false
+		elsif @me.post_id == current_user.id && @likeList.length <= 20
 			@canDelete = true
 		end
 	end
