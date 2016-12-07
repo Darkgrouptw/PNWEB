@@ -1,3 +1,19 @@
+<%
+	def getSelfLink(user_search,user_order)
+		result = ""
+		if user_search.nil? || user_search.empty?
+			result = result + "?user_search=" + "near_hot"
+		else
+			result = result + "?user_search=" + user_search
+		end
+		if user_order.nil? || user_order.empty?
+			result = result + "&user_order=" + ""
+		else
+			result = result + "&user_order=" + user_order
+		end
+		return userlist_index_path(id: @me.id) + result
+	end
+%>
 <div class="BigTitle">
 	<h2>使用者頁面</h2>
 	<hr>
@@ -9,6 +25,36 @@
 <% else %>
 	<div name = "whole">
 		<div class = "col-md-3 row">
+
+			<form action="<%= userlist_index_path(id: @me.id) %>">
+				搜尋使用者
+				<input type="text" name="user_search" value="<%= @user_search %>">
+				<input type="hidden" name="user_order" value="<%=@user_order %>">
+				<input type="submit" value="搜尋">
+			</form>
+			<div>
+				<select name="user_order" onchange="location = this.value;">
+					<% temp = "near_hot" %>
+					<% str_show = "近期熱絡程度" %>
+					<% link  = getSelfLink(@user_search,"near_hot") %>
+					<option value="<%= link %>"  <%if @user_order == "near_hot"%>selected="selected"<%end%>>
+						<%= str_show %>
+					</option>
+					<% temp = "hot" %>
+					<% str_show = "歷史熱絡程度" %>
+					<% link  = getSelfLink(@user_search,"hot") %>
+					<option value="<%= link %>" <%if @user_order == "hot"%>selected="selected"<%end%>>
+						<%= str_show %>	
+					</option>
+					<% temp = "score" %>
+					<% str_show = "積分" %>
+					<% link  = getSelfLink(@user_search,"score") %>
+					<option value="<%= link %>" <%if @user_order == "score"%>selected="selected"<%end%>>
+						<%= str_show %>	
+					</option>
+				</select>
+			</div>
+
 			<div style="border-style: solid;" >所有使用者</div>
 			<div style="overflow: scroll;height: 300px;border-style: solid;">
 				<% @users.each  do |item|%>

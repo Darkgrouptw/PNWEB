@@ -194,6 +194,8 @@ class ReportlistController < ApplicationController
 	@person.save
 	@media.save
 	@user.save
+
+	#user notify
 	redirect_to(:back)
   end
 end
