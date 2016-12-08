@@ -55,13 +55,13 @@
 						<%= str_show %>
 					</option>
 					<% temp = "time" %>
-					<% str_show = "最新排序" %>
+					<% str_show = "歷史熱門" %>
 					<% link  = getSelfLink("time",@people_search,@issue_order,@issue_search) %>
 					<option value="<%= link %>" <%if @people_order == "time"%>selected="selected"<%end%>>
 						<%= str_show %>	
 					</option>
 					<% temp = "time" %>
-					<% str_show = "歷史熱門" %>
+					<% str_show = "最有影響力" %>
 					<% link  = getSelfLink("influence",@people_search,@issue_order,@issue_search) %>
 					<option value="<%= link %>" <%if @people_order == "influence"%>selected="selected"<%end%>>
 						<%= str_show %>	
