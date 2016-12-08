@@ -64,7 +64,7 @@ class DetaillistController < ApplicationController
 			users.push(like.post_id)
 		end
 		@users = User.where(id: users)
-		@user = @users.where(id: @me.post_id)[0]
+		@user = current_user
 		@comments = DataComment.where(detail_id: @me.id)
 		@reports = ReportDetail.where(detail_id: @me.id)
 		@notifyList = NotifyList.where(issue_id: @me.issue_id)
@@ -230,7 +230,7 @@ class DetaillistController < ApplicationController
 			#check if it is need or can be backup
 			if backup_type == 0.to_s
 				check = checkBackUP(@detail.link)
-				if !check.nil?
+				if check.nil?
 					require "uri"
 					require "net/http"
 					require "open-uri"
@@ -312,11 +312,13 @@ class DetaillistController < ApplicationController
 
 	def checkBackUP(path)
 		result = nil
-		detail = DataDetail.where(link: path,is_report: false)[0]
-		if !detail.nil?
-			result = detail.backup_id
+		detail = DataDetail.where(link: path,is_report: false)
+		if detail.length > 1
+			result = detail[0].backup_id
+			return result
+		else
+			return nil
 		end
-		return result
 	end
 
 	def edit
