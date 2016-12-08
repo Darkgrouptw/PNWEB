@@ -68,7 +68,7 @@ class DetaillistController < ApplicationController
 		@comments = DataComment.where(detail_id: @me.id)
 		@reports = ReportDetail.where(detail_id: @me.id)
 		@notifyList = NotifyList.where(issue_id: @me.issue_id)
-
+		
 		#disable connection
 		#people
 		@people.datadetail_id = removeIDFromString(@people.datadetail_id,@me.id)
