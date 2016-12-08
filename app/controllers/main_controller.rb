@@ -519,19 +519,12 @@ class MainController < ApplicationController
 		end
 		puts @content
 	end
-	
 	def ipTest
-		require 'net/http'
-		@ip = params[:ip]
-		@ip = current_user.ip
-		url = URI.parse('http://ip-api.com/json/'+@ip)
-		req = Net::HTTP::Get.new(url.to_s)
-		res = Net::HTTP.start(url.host, url.port) {|http|
-		  http.request(req)
-		}
-		@result = JSON.parse(res.body)
-		#@result = @result['country']
+		@result = ipInfo()
 	end
+	
+
+
 
 	private
 	#寄信

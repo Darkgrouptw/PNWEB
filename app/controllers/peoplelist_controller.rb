@@ -5,6 +5,7 @@ class PeoplelistController < ApplicationController
 	end
 
 	def findInfluencePeople(people_list)
+		
 		return people_list.sort_by{|item|  getStringIDLength(item.datadetail_id)}.reverse
 	end
 

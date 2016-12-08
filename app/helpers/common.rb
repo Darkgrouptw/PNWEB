@@ -4,6 +4,21 @@ module Common
 		return kasim + john
 	end
 
+
+	def ipInfo()
+		require 'net/http'
+		@ip = params[:ip]
+		@ip = current_user.ip
+		url = URI.parse('http://ip-api.com/json/'+@ip)
+		req = Net::HTTP::Get.new(url.to_s)
+		res = Net::HTTP.start(url.host, url.port) {|http|
+		  http.request(req)
+		}
+		@result = JSON.parse(res.body)
+		return res.body;
+		#@result = @result['country']
+	end
+	
 	def removeIDFromString(str,id)
 		result = str
 		if result.nil? || result.empty?

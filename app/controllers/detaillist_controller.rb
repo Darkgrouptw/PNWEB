@@ -68,7 +68,7 @@ class DetaillistController < ApplicationController
 		@comments = DataComment.where(detail_id: @me.id)
 		@reports = ReportDetail.where(detail_id: @me.id)
 		@notifyList = NotifyList.where(issue_id: @me.issue_id)
-		
+
 		#disable connection
 		#people
 		@people.datadetail_id = removeIDFromString(@people.datadetail_id,@me.id)
@@ -398,7 +398,6 @@ class DetaillistController < ApplicationController
 		@likelist = LikeList.create(created_at: Time.now.in_time_zone('Taipei'),updated_at: Time.now.in_time_zone('Taipei'))
 		@likelist.detail_id = @detail.id
 		@likelist.post_id = post_id
-		@likelist.ip = "true"
 		@detail.like_list_id = @detail.like_list_id.to_s + "," +@likelist.id.to_s
 		
 		#notify
@@ -412,6 +411,26 @@ class DetaillistController < ApplicationController
 			@notify.save
 		end
 		@detail.save
+		#countryCode
+		ipinfo = ipInfo()
+		if ipinfo.nil? || ipinfo.empty?
+			@likelist.ip = "none"
+		else
+			ipinfo = JSON.parse(ipinfo)
+			if ipinfo['country'].nil? || ipinfo['country'].empty?
+				if ipinfo['query'] == "::1"
+					@likelist.ip = "Taiwan"
+				else
+					@likelist.ip = "none"
+				end
+				
+			else
+				@likelist.ip = "ipinfo['country']"
+			end
+		end
+		#@result = @result['country']
+		
+
 		@likelist.save
 		redirect_to(:back)
 	end
