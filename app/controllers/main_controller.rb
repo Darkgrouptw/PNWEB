@@ -1,6 +1,6 @@
 class MainController < ApplicationController
 	def findNearHotIssue(issue_list)
-		likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
+		likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei')).where(ip: "Taiwan")
 		counter = []
 		recorder = [];
 		issue_list.each do |issue|
@@ -32,8 +32,8 @@ class MainController < ApplicationController
 			result.push(issue_list.where(id: record)[0])
 		end
 		return result
+		#@issues = @issues.sort_by{|item| item.datadetail_id.length}.reverse
 	end
-
 	def findNearHotIssueTree(treeInfo)
 		counter = []
 		recorder = [];

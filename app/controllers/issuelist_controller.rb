@@ -110,6 +110,8 @@ class IssuelistController < ApplicationController
 		@neg_show = params[:neg_show]
 		@all_issue = DataIssue.where(is_candidate: false)
 		@issues = @all_issue.where(is_candidate: false).order(:created_at)
+		@pos_ip_select = params[:pos_ip_select]
+		@neg_ip_select = params[:neg_ip_select]
 		@me = @issues.where(id: @tags)[0]
 		if @pos_order.nil? || @pos_order.empty?
 			@pos_order = "thumb"
@@ -182,41 +184,22 @@ class IssuelistController < ApplicationController
 		if @pos_order == "time"
 			@support = @support.order(:created_at).reverse
 		else
-			for i in 0..@support.length - 1
-				length_i = 0
-				text_i = @support[i].like_list_id
-				length_i = @likeList.where(detail_id: @support[i].id).length
-				for j in 0..i
-					length_j = 0
-					text_j = @support[i].like_list_id
-					length_j = @likeList.where(detail_id: @support[j].id).length
-
-					if length_j < length_i
-						temp = @support[i]
-						@support[i] = @support[j]
-						@support[j] = temp
-					end
-				end
+			#issue_list.sort_by{|item| likelist.where(detail_id: item.datadetail_id.split(',')).length}.reverse
+			if !@pos_ip_select.nil? && @pos_ip_select == "off"
+				@support = @support.sort_by{|item| @likeList.where(detail_id: item.id).length}.reverse
+			else
+				@pos_ip_select = "on"
+				@support = @support.sort_by{|item| @likeList.where(detail_id: item.id,ip: "Taiwan").length}.reverse
 			end
 		end
 		if @neg_order == "time"
 			@disSupport = @disSupport.order(:created_at).reverse
 		else
-			for i in 0..@disSupport.length - 1
-				length_i = 0
-				text_i = @disSupport[i].like_list_id
-				length_i = @likeList.where(detail_id: @disSupport[i].id).length
-				for j in 0..i
-					length_j = 0
-					text_j = @disSupport[i].like_list_id
-					length_j = @likeList.where(detail_id: @disSupport[j].id).length
-
-					if length_j < length_i
-						temp = @disSupport[i]
-						@disSupport[i] = @disSupport[j]
-						@disSupport[j] = temp
-					end
-				end
+			if !@neg_ip_select.nil? && @neg_ip_select == "off"
+				@disSupport = @disSupport.sort_by{|item| @likeList.where(detail_id: item.id).length}.reverse
+			else
+				@neg_ip_select = "on"
+				@disSupport = @disSupport.sort_by{|item| @likeList.where(detail_id: item.id,ip: "Taiwan").length}.reverse
 			end
 		end
 		#判斷顯示的頁數
