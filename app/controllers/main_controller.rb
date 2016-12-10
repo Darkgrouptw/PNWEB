@@ -436,8 +436,10 @@ class MainController < ApplicationController
 		end
 		@users = User.where(id: user_ids)
 		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
+		@details = DataDetail.where(issue_id: issue_ids,is_report: false)
 		#send email to each user
 		@users.each do |user|
+			notifyNumber = 0
 			title = user.nickname + " 你好，正反網頁有新的通知"
 			hasContent = false
 			content = ""
@@ -445,6 +447,7 @@ class MainController < ApplicationController
 			notifys = @notifyList.where(user_id: user.id)
 			notifys.each do |notify|
 				issue = @issues.where(id: notify.issue_id)[0]
+				notifyNumber = notifyNumber + @details.where(issue_id: issue.id).where('created_at >= ?',notify.last_read).length
 				#check issue is exit
 				if issue.nil?
 				else
@@ -456,7 +459,7 @@ class MainController < ApplicationController
 					end
 				end
 			end
-			if hasContent
+			if hasContent && notifyNumber >= 20
 				#email
 				send_notify_email(user.email,title,content)
 			end
