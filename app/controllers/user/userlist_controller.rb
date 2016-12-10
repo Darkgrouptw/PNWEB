@@ -103,6 +103,7 @@ class User::UserlistController < ApplicationController
 		if current_user.level >= @me.level
 			@me.level = @me.level + 1
 		end
+		@me.other = "0"
 		@me.save
 		redirect_to userlist_index_path(id: @me.id)
 	end
@@ -156,5 +157,17 @@ class User::UserlistController < ApplicationController
 			redirect_to userlist_index_path(id: @userList[0].id)
 		end
 		
+	end
+
+	def disable
+		suspended = params[:able]
+		user_id = params[:user_id]
+		user = User.where(id: user_id)[0]
+		if user.nil?
+		else
+			user.other = suspended.to_s
+			user.save
+		end
+		redirect_to(:back)
 	end
 end

@@ -60,7 +60,7 @@ class ReportlistController < ApplicationController
 	@media = DataMedium.where(name: media_names)
   end
   def add
-  	if !can_view(0)
+  	if !can_report_detail()
 		flash[:alert] = "權限不足"
 		redirect_to(:back)
 		return
@@ -68,7 +68,7 @@ class ReportlistController < ApplicationController
 	@detail = DataDetail.where(id: params[:id],is_report: false)[0]
   end
   def new
-  	if !can_view(0)
+  	if !can_report_detail()
 		flash[:alert] = "權限不足"
 		redirect_to(:back)
 		return

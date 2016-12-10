@@ -13,14 +13,34 @@ module Authority
         end
         return true
     end
+    def been_disable(disable_level)
+        if current_user.nil?
+            return true
+        end
+        if current_user.level.nil?
+            return true
+        end
+        if current_user.level >= 1
+            return false 
+        end
+        if current_user.other.nil? || current_user.other.empty? || current_user.other == "0"
+            return false
+        end
+        if current_user.other.to_i >= disable_level
+            return true
+        else
+            return false
+        end
+        return false
+    end
     def can_add_issue()
-        return can_view(0)
+        return !been_disable(2) && can_view(0)
     end
     def can_add_detail()
-        return can_view(0)
+        return !been_disable(1) && can_view(0)
     end
     def can_add_comment()
-        return can_view(0)
+        return !been_disable(2) && can_view(0)
     end
     def can_editor_issue()
         if can_view(2)
@@ -30,7 +50,7 @@ module Authority
         end
     end
     def can_like()
-        return can_view(0)
+        return !been_disable(1) && can_view(0)
     end
     def can_Trial()
         return can_view(2)
@@ -73,13 +93,13 @@ module Authority
     end
 
     def can_report_detail()
-        if can_view(0)
+        if !been_disable(1) && can_view(0)
             return true
         end
         return false
     end
     def can_leave_comment()
-        if can_view(0)
+        if !been_disable(2) && can_view(0)
             return true
         end
         return false

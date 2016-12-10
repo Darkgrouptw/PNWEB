@@ -54,6 +54,7 @@ Rails.application.routes.draw do
 	get		"Media/all"			=>	"media#all",				:as =>	"media_all"
 	get  	"Media/:id"			=>	"media#index",				:as =>	"media_index"
 	# poster page
+	post 	"User/disable"		=>	"user/userlist#disable",	:as =>	"userlist_disable"
 	post 	"User/upgrade"		=>	"user/userlist#upgrade",:as =>	"userlist_upgrade"
 	post 	"User/downgrade"	=>	"user/userlist#downgrade",	:as =>	"userlist_downgrade"
 	get		"User/power/edit/:id"	=>	"user/userlist#power_edit",	:as =>	"userlist_power_edit"
