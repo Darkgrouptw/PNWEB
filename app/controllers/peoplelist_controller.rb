@@ -20,6 +20,7 @@ class PeoplelistController < ApplicationController
 
 		@me = @all_people.where(name: @tags)[0]
 		if @me.nil?
+			redirect_to(:back)
 			return
 		end
 
@@ -114,7 +115,7 @@ class PeoplelistController < ApplicationController
 	def all
 		@persons=DataPerson.all
 		if @persons.length == 0
-			flash[:alert] = "資料中沒有任何媒體"
+			flash[:alert] = "資料中沒有任何名人"
 			redirect_to(:back)
 		else
 			redirect_to peoplelist_index_path(id: @persons[0].name)

@@ -2,7 +2,7 @@
 	def getSelfLink(user_search,user_order)
 		result = ""
 		if user_search.nil? || user_search.empty?
-			result = result + "?user_search=" + "near_hot"
+			result = result + "?user_search=" + ""
 		else
 			result = result + "?user_search=" + user_search
 		end

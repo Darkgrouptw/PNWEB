@@ -162,6 +162,7 @@ class DetaillistController < ApplicationController
 			#add new people
 			flash[:alert] = "沒有此議題！！"
 			redirect_to issuelist_all_path
+			return
 		else
 
 			if @person.nil?
@@ -307,6 +308,7 @@ class DetaillistController < ApplicationController
 			
 			#redirect_to detaillist_index_path(id: @detail.id)
 			redirect_to issuelist_index_path(id: @issue.id)
+			return
 		end
 	end
 
@@ -383,6 +385,7 @@ class DetaillistController < ApplicationController
 		end
 		@detail.save
 		redirect_to detaillist_index_path(id: @detail.id)
+		return
 	end
 
 	def like
@@ -433,6 +436,7 @@ class DetaillistController < ApplicationController
 
 		@likelist.save
 		redirect_to(:back)
+		return
 	end
 
 	def dislike
@@ -479,7 +483,7 @@ class DetaillistController < ApplicationController
 		end
 		@detail.save
 		redirect_to (:back)
-
+		return
 	end
 	def groupeDislike
 		if !can_like()
@@ -519,11 +523,13 @@ class DetaillistController < ApplicationController
 			notify.destroy
 		end
 		redirect_to(:back)
+		return
 	end
 	def comment_new
 		if !can_add_comment()
 			flash[:alert] = "權限不足"
 			redirect_to(:back)
+			return
 		end
 		@detail = DataDetail.where(id: params[:detail_id],is_report: false)[0]
 		post_id = current_user.id
@@ -539,6 +545,7 @@ class DetaillistController < ApplicationController
 		@detail.save
 		path = detaillist_index_path(id: @detail.id)
 		redirect_to path
+		return
 	end
 
 	def createPerson(name)
