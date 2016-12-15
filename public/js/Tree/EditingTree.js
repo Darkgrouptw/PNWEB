@@ -207,7 +207,13 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
         // 避免真的選單跳出來
         event.preventDefault();
         
-        $clickID = $(event.target.parentNode).attr("id");
+        var clickItem = $(event.target.parentNode);
+        
+        // 確保拿到的是 g 才能拿到 id，拿到其他的要做處理
+        if(clickItem.prop("nodeName") == 'a')
+            clickItem = clickItem.parent();
+        
+        $clickID = clickItem.attr("id");
         
         $("#ListAddNode").show(100).css({
             top: event.pageY + "px",
