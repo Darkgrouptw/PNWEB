@@ -14,7 +14,7 @@
 				<div class = "row">
 					<form action= "<%= issuelist_update_path %> " method= "post">
 						<div class = "form-group">
-							<label>標題*</label>
+							<label>議題主文*</label>
 							<input type="hidden" name="authenticity_token"  value="<%= form_authenticity_token %>">
 							<input type = "hidden" name = "id" value = "<%= @issue.id %>" >
                         	<input type="text" class="form-control" name="title" maxlength="100" required="true" value = "<%= @issue.title %>" >
