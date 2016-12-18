@@ -50,13 +50,24 @@
 			<ul class = "nav navbar-nav navbar-right">
 
 								<% link=issuelist_all_path %>
-								<li><a href="<%= link %>" class = "headLink">議題</a></li>
+								<% black = false %>
+								<% if request.path == issuelist_all_path%>
+									<% black = true %>
+								<% end %>
+								<li><a href="<%= link %>" class = "headLink" <%if black%> style="color:black !important;" <%end%>>議題</a></li>
 
 								<% link=peoplelist_all_path %>
-								<li><a href="<%= link %>" class = "headLink">名人</a></li>
+								<% black = false %>
+								<% if !@tags.nil? %>
+									<% if request.path  == peoplelist_index_path %>
+										<% black = true %>
+									<% end %>
+								<% end %>
+								<li><a href="<%= link %>" class = "headLink" <%if black %> style="color:black !important;" <%end%>>名人</a></li>
 								
 								<% link = treeindex_path %>
-								<li><a href="<%= link %>" class = "headLink">議題樹</a></li>
+								<% black = false %><% if request.path  == treeindex_path%><% black = true %><% end %>
+								<li><a href="<%= link %>" class = "headLink"<%if black %> style="color:black !important;" <%end%>>議題樹</a></li>
 								<% if !current_user %>
 										<% #沒有登入的時候 %>
 										<li><a href="<%= register_email_path %>" class="headLink">註冊會員</a></li>
@@ -95,7 +106,7 @@
 											</a>
 											<ul class="dropdown-menu" style="top: 85px;padding-left: 1px;padding-right: 1px;">
 													<% link = userlist_index_path(id: current_user.id)%>
-													<li><a href=<%= link%> class="headLink">帳號設定</a></li>
+													<li><a href=<%= link%> class="headLink">使用者頁面</a></li>
 													<li><a href="<%= logout_path %>" class="headLink" data-method="delete">登出</a></li>
 													
 													<% #分隔線 %>
@@ -112,8 +123,9 @@
 													<% else %>
 															<li class="dropdown-header headLink">普通使用者</li>
 													<% end %>
+													
 													<% if can_Trial()%>
-														<li><%= link_to "檢舉頁面", reportlist_all_path, class: "headLink" %></li>
+														<li><%= link_to "網管頁面", reportlist_all_path, class: "headLink" %></li>
 													<% end %>
 													
 													<% if current_user.level == 3 %>

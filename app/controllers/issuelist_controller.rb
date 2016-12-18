@@ -446,6 +446,7 @@ class IssuelistController < ApplicationController
 
 		else
 			@candidates = @candidates.where(is_hide: false)
+			@show_hide = "false"
 		end
 
 		if @candidated_order == "time"

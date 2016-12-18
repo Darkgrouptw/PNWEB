@@ -471,7 +471,7 @@ class MainController < ApplicationController
 	def peopleName
 		name = params[:name]
 		@content = ""
-		@persons = DataPerson.where("name like ?", name + "%").first(5)
+		@persons = DataPerson.where("name like ?","%" +  name + "%").first(5)
 		@persons.each do |person|
 			if @content.length <= 0
 				@content = @content + person.name
@@ -485,7 +485,7 @@ class MainController < ApplicationController
 	def issueName
 		name = params[:name]
 		@content = ""
-		@issues = DataIssue.where(is_candidate: false).where("title like ?", name + "%").first(5)
+		@issues = DataIssue.where(is_candidate: false).where("title like ?", "%" + name + "%").first(5)
 		@issues.each do |issue|
 			if @content.length <= 0
 				@content = @content + issue.title
@@ -511,7 +511,7 @@ class MainController < ApplicationController
 	def mediaName
 		name = params[:name]
 		@content = ""
-		@medias = DataMedium.where("name like ?", name + "%").first(5)
+		@medias = DataMedium.where("name like ?","%" +  name + "%").first(5)
 		@medias.each do |media|
 			#@content = addIDToString(@content,media.name)
 			if @content.length <= 0
