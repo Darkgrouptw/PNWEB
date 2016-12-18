@@ -18,6 +18,9 @@
 							
 							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 							<input type="hidden" name="id" value = "<%= @detail.id %>">
+							<label>議題主文</label>
+							<div><%= @issue.title %></div>
+							<br>
 							<label>論述*</label>
 							<input type="text" class="form-control" name="content" required="true" maxlength="100" value = "<%= @detail.content %>">
 							<br>

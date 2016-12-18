@@ -21,10 +21,14 @@
 							
 							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 							<input type="hidden" name="issue_id" value="<%= @issue.id %>">
+							<label>議題主文</label>
+							<div><%= @issue.title %></div>
+							<br>
+							
 							<label>意見*</label>
 							<input type="text" class="form-control" name="content" required="true" maxlength="100" id="content">
 							<br>
-							
+
 							<label>誰的意見<br>若非個人，請填團體名或代表人(如: 乖乖黨、乖乖黨發言人、乖乖報、乖乖報社論....等)</label>
 							<input type="text" class="form-control" name="people_id" id="queryPeople">
 							<div id="queryPeopleDiv" class="queryDiv" style="display: none;">

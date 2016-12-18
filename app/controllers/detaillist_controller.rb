@@ -331,6 +331,7 @@ class DetaillistController < ApplicationController
 		end
 		@detail = DataDetail.where(id: params[:id],is_report: false)[0]
 		@person = DataPerson.where(id: @detail.post_id)[0]
+		@issue = DataIssue.where(id: @detail.issue_id)[0]
 	end
 
 	def update
