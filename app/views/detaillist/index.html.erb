@@ -137,7 +137,7 @@
 									<%= link_to "收回讚",link,method: :post%>
 								<% else %>
 									<% if !@CanThumbUp%>
-										你已達到此議題的 <% if @me.is_support%>贊成方<% else %>反對方<%end%>按讚上限
+										以達<% if @me.is_support%>贊成<% else %>反對<%end%>按讚上限
 									<% else %>
 										<% path = detaillist_index_path(id: @me.id) %>
 										<% link = detaillist_like_path + "?id=" + detail.id.to_s + "&path=" + path%>
