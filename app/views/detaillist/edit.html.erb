@@ -1,64 +1,111 @@
 <script src="/js/queryPeople.js"></script>
+<script src="/js/queryMedia.js"></script>
 <script src="/js/detaillistChange.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/table.css">
 <link rel="stylesheet" type="text/css" href="/css/query.css">
 <link rel="stylesheet" type="text/css" href="/css/user/form.css">
+<link rel="stylesheet" type="text/css" href="/css/preview.css">
 <div class="BigTitle">
-    <h2>編輯意見</h2>
-    <hr>
+	<h2>編輯意見</h2>
+	<hr>
 </div>
-<% if current_user.nil?%>
+<% if current_user.nil? %>
 	錯誤：請確認你是否有登入
 <% else %>
 	<div class >
 		<div class = "container">
 			<div class = "jumbotron">
 				<div class = "row">
-					<form action= "<%= detaillist_update_path %> " method= "post">
-						<div class = "form-group">
+					<form action= "<%= detaillist_new_path %> " method= "post" enctype="multipart/form-data">
+						<div class = "form-group" style="position: relative;">
 							
 							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-							<input type="hidden" name="id" value = "<%= @detail.id %>">
+							<input type="hidden" name="issue_id" value="<%= @issue.id %>">
 							<label>議題主文</label>
 							<div><%= @issue.title %></div>
 							<br>
-							<label>論述*</label>
+							
+							<label>
+								意見*
+								<h6 style="color: rgb(128,128,128);display: inline-block;">
+									附註：最多100字，太長的意見可分成多條意見
+								</h6>
+							</label>
 							<input type="text" class="form-control" name="content" required="true" maxlength="100" value = "<%= @detail.content %>">
 							<br>
-							<label>誰的意見</label>
+
+							<label>
+								誰的意見
+								<h6 style="color: rgb(128,128,128);display: inline-block;">
+									附註：若非個人，請填團體名或代表人(如: 乖乖黨、乖乖黨發言人、乖乖報、乖乖報社論....等
+								</h6>
+							</label>
 							<% if @person.nil? %>
 								<% person_name = "" %>
 							<% else %>
 								<% person_name = @person.name %>
 							<% end %>
 							<input type="text" class="form-control" name="people_id" value = "<%= person_name %>" id="queryPeople">
-                            <div id="queryPeopleDiv" class="queryDiv" style="display: none;">
-                            </div>
+							<div id="queryPeopleDiv" class="queryDiv" style="display: none;">
+							</div>
 							<br>
-							<br>
+							
 							<label>當時頭銜</label>
 							<input type="text" class="form-control" name="title_at_that_time" value = "<%= @detail.title_at_that_time %>">
 							<br>
-							<% check = "" %>
-							<% if @detail.is_support %>
-								<% check = "checked"%>
-							<% end %>
-							<label>Is supported</label>
-							<input type="checkbox" class="form-control" name="is_support" <%= check %> >
+							
+							<label>贊成或反對</label>
+							<div>
+  								<input type="radio" name="is_support" value = "true" 
+  									<%if @detail.is_support%>
+  										checked = "true"
+  									<%end%>
+  								>
+  								贊成
+  								<input type="radio" name="is_support" value = "false"
+  									<%if !@detail.is_support%>
+  										checked = "true"
+  									<%end%>
+  								>反對
+							</div>
 							<br>
-							<% check = "" %>
-							<% if @detail.is_direct %>
-								<% check = "checked"%>
-							<% end %>
-							<label>是否為直接意見</label>
-							<input type="checkbox" class="form-control" name="is_direct" <%= check %>  id="directClick">
+							
+							
+							<label>屬於間接意見?</label>
+							<div>
+								<input type="radio" name="is_direct" value = "true" checked = "true" id = "directClick"
+									<%if @detail.is_direct%>
+  										checked = "true"
+  									<%end%>
+								>直接意見
+								<input type="radio" name="is_direct" value = "false" id = "not_directClick"
+									<%if !@detail.is_direct%>
+  										checked = "true"
+  									<%end%>
+								>間接意見
+								<h6 style="color: rgb(128,128,128);display: inline-block;">
+									附註：時空不對者或不是直接針對本議題的意見均屬於間接意見
+								</h6>
+
+							</div>
 							<br>
+							
 							<label>刊載媒體</label>
 							<input type="text" class="form-control" name="news_media" value = "<%= @detail.news_media %>">
+							<div id="queryMediaDiv" class = "queryDiv" style="display: none;">
+							</div>
 							<br>
-							<label>報導時間</label>
+
+							<label>
+								發言時間
+								<h6 style="color: rgb(128,128,128);display: inline-block;">
+									附註：請儘量填年/月/日，不得已才只填年/月只或年
+								</h6>
+							</label>
 							<input type="text" class="form-control" name="report_at" value = "<%= @detail.report_at %>" id="reportTime">
 							<br>
-							<label>報導連結</label>
+							
+							<label>原文連結</label>
 							<input type="text" class="form-control" name="link" value = "<%= @detail.link %>">
 							<br>
 							<div>
@@ -71,3 +118,6 @@
 		</div>
 	</div>
 <% end %>
+
+
+

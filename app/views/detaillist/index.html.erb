@@ -32,7 +32,7 @@
 		<div class = "col-md-offset-1 col-md-10 row">
 			<div align = "right">
 				<% link = detaillist_edit_path(id: @tags) %>
-				<% if can_editor_detail()%>
+				<% if false && can_editor_detail()%>
 				<a href = "<%= link %>">編輯</a>
 				<% end %>
 				檢舉數：<%= @all_reports.length%>
