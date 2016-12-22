@@ -7,6 +7,9 @@ $(function(){
     if(window.width() < 1600 || window.height() < 750)
         $(".WindowSizeWarning").removeAttr("style");
     
+    if(getChromeVersion() < 55)
+        alert("建議使用 Chrome 版本 55 以上");
+    
     /* 視窗太小的事件 */
     $(".WindowSizeWarning div button").on("click", function(){
        $(".WindowSizeWarning").attr("style", "display: none;");
@@ -60,3 +63,8 @@ $(function(){
                 $(location).attr('href','/TreeIndex?search=' +  SearchName);
     });
 });
+function getChromeVersion () {     
+    var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+
+    return raw ? parseInt(raw[2], 10) : false;
+}

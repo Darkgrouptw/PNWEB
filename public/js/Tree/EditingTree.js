@@ -154,7 +154,7 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
     var tareaLink =  document.createElementNS('http://www.w3.org/2000/svg', 'a');
     
     tareaLink.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', "Issuelist/" + id);
-    tareaLink.setAttribute("target", "_parent");
+    tareaLink.setAttribute("target", "_blank");
     
     tareaLink.appendChild(tarea);
     
@@ -222,6 +222,7 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
     });
     
     // 新增文字
+    tarea.setAttribute("fill", "white");
     tarea.setAttribute("style", " font-size:24px; transform: translate(-60px, 0px);");
     tarea.textContent = text;
     return g;
