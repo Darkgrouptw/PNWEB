@@ -155,10 +155,6 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
     tareaLink.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', "Issuelist/" + id);
     tareaLink.setAttribute("target", "_blank");
     
-    d3plus.textwrap()
-        .container(d3.select(tarea))
-        .draw();
-    
     tareaLink.appendChild(tarea);
     
     g.appendChild(el);
