@@ -1,5 +1,5 @@
 <div class="BigTitle">
-    <h2>編輯名嘴</h2>
+    <h2>編輯名人</h2>
     <hr>
 </div>
 <% if current_user.nil? %>
@@ -11,7 +11,7 @@
 				<div class = "row">
 					<form action= "<%= peoplelist_update_path %> " method= "post">
 						<div class = "form-group">
-							<label>名嘴*</label>
+							<label>名人*</label>
 							<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 							<input type = "hidden" name = "id" value = "<%= @person.id %>">
                         	<input type="text" class="form-control" name="name" required="true" value = "<%= @person.name %>" >
