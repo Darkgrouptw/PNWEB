@@ -150,11 +150,11 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
     var g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     var el = document.createElementNS('http://www.w3.org/2000/svg', "circle");
     var tarea = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    
     var tareaLink =  document.createElementNS('http://www.w3.org/2000/svg', 'a');
     
     tareaLink.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', "Issuelist/" + id);
     tareaLink.setAttribute("target", "_blank");
+    
     
     tareaLink.appendChild(tarea);
     
