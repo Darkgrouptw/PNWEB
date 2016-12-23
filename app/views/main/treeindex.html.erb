@@ -66,13 +66,13 @@
 
     <!-- 依照什麼排序 -->
     <div class="dropdown TreeOrderByList">
-        <% orderByName= "最新" %>
+        <% orderByName= "近期人氣" %>
         <% if @OrderBy == 0.to_s %>
-            <% orderByName = "最新"%>
-        <% elsif @OrderBy == 1.to_s %>
-            <% orderByName = "歷史人氣"%>
-        <% elsif @OrderBy == 2.to_s %>
             <% orderByName = "近期人氣"%>
+        <% elsif @OrderBy == 1.to_s %>
+            <% orderByName = "最新"%>
+        <% elsif @OrderBy == 2.to_s %>
+            <% orderByName = "歷史人氣"%>
         <% end %>
             
             
@@ -80,11 +80,11 @@
         <span class="caret"></span></button>
         <ul class="dropdown-menu">
             <% link = treeindex_path(OrderBy: 0) %>
-            <li><a href= <%= link %> >最新排序</a></li>
-            <% link = treeindex_path(OrderBy: 1) %>
-            <li><a href= <%= link %> >歷史人氣排序</a></li>
-            <% link = treeindex_path(OrderBy: 2) %>
             <li><a href= <%= link %> >近期人氣排序</a></li>
+            <% link = treeindex_path(OrderBy: 1) %>
+            <li><a href= <%= link %> >最新排序</a></li>
+            <% link = treeindex_path(OrderBy: 2) %>
+            <li><a href= <%= link %> >歷史人氣排序</a></li>
         </ul>
     </div>
             
