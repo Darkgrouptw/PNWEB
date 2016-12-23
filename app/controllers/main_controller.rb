@@ -299,7 +299,8 @@ class MainController < ApplicationController
 		@nicknames = []
 		@up = []
 		@hasThumpAlready = []
-		@times = []
+        @createTimeArray = []
+		@updateTimeArray = []
 		
 		@items.each do |item|
 			temp = DataIssue.where(id: item.issue_id)[0]
@@ -319,7 +320,8 @@ class MainController < ApplicationController
 				@hasThumpAlready.push(stringHasID(item.like_list_id, current_user.id))
 			end
 			
-			@times.push(item.updated_at.strftime("%Y/%m/%d"))
+			@createTimeArray.push(item.created_at.strftime("%Y/%m/%d"))
+			@updateTimeArray.push(item.updated_at.strftime("%Y/%m/%d"))
 		end
 	end
 	

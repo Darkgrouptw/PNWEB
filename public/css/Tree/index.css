@@ -80,13 +80,6 @@
     left: 75%;
     top: 0px;
 }
-.BoxPeople
-{
-    position: absolute;
-    left: 65%;
-    top: 30px;
-    font-size: 16px;
-}
 .BoxContent
 {
     position: relative;
@@ -94,13 +87,33 @@
     width: 60%;
     font-size: 16px;
 }
+.BoxPeople
+{
+    position: absolute;
+    left: 0px;
+    top: 50px;
+    width: 45%;
+    
+    font-size: 16px;
+}
 .BoxOtherInfo
 {
     position: absolute;
-    left: 65%;
+    left: 0px;
+    top: 75px;
+    
+    width: 45%;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.BoxDateInfo
+{
+    position: absolute;
+    left: 45%;
     top: 55px;
     
-    width: 35%;
+    width: 65%;
     overflow: hidden;
     text-overflow:ellipsis;
     white-space:nowrap;

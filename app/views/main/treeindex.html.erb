@@ -23,18 +23,26 @@
                     <a href="/TreeThumbUp?id=<%= item.id  %>" class="btn btn-info disabled BoxThumbUp">請登入</a>
                 <% end %>
                 
-                <div class="BoxPeople">
-                    <%= @nicknames[index] %>
-                </div>
-                
+                <!-- 內容名稱 -->
                 <div class="BoxContent">
                     <%= @issue_info[index].post %>
                 </div>
                 
+                <!-- 人物 -->
+                <div class="BoxPeople">
+                    編者：<%= @nicknames[index] %>
+                </div>
+                
+                <!-- 日期 -->
+                <div class="BoxDateInfo">
+                    上線時間：<%= @createTimeArray[index] %>
+                    <br>
+                    最後更新：<%= @updateTimeArray[index] %>
+                </div>
+                
+                <!-- 讚數 -->
                 <div class="BoxOtherInfo">
                     讚數： <%= @up[index] %> 
-                    <br>
-                    <%= @times[index] %>
                 </div>
             </div>
             <% index += 1 %>
