@@ -119,7 +119,7 @@
 	<table class="table table-bordered">
 		<thead>
 			<tr><td colspan = "5"> 議題清單</td></tr>
-			<tr><td>議題主文</td><td>意見總數</td><td>按讚總數</td><td>上線時間</td><td>提案使用者</td></tr>
+			<tr><td>議題主文</td><td>意見總數</td><td>按讚總數</td><td>上線時間</td><td>編者</td></tr>
 		</thead>
 		<tbody>
 			<% CreateIssueContent(3) %>
@@ -131,7 +131,7 @@
 		<thead>
 			<tr><td colspan = <% if can_level_up_issue() %>"6"<% else %>"4"<% end %>> 候選議題</td></tr>
 			<tr>
-				<td>議題主文</td><td>連署數</td><td>提案時間</td><td>提案使用者</td>
+				<td>議題主文</td><td>連署數</td><td>提案時間</td><td>編者</td>
 				<% if can_level_up_issue() %><td>升為正式議題</td><% else %><% end %>
 				<% if can_hide_issue() %><td>隱藏議題</td><% else %><% end %>
 			</tr>
@@ -189,7 +189,7 @@
 						  <input type="text" name="issue_search" value="<%= @issue_search %>">
 						  <input type="hidden" name="candidated_search" value="<%=@candidated_search%>">
 						  <input type="hidden" name="candidated_order" value="<%=@candidated_order%>">
-						  <input type="hidden" name="issue_order" value="<%=@issue_order %>">
+						  <input type="hidden" name="show_hide" value="<%=@show_hide %>">
 						  <input type="submit" value="搜尋">
 						</form>
 					</td>
@@ -245,6 +245,8 @@
 						  <input type="hidden" name="candidated_order" value="<%=@candidated_order%>">
 						  <input type="hidden" name="issue_order" value="<%=@issue_order %>">
 						  <input type="hidden" name="issue_search" value="<%=@issue_search%>">
+						  <input type="hidden" name="issue_search" value="<%=@issue_search%>">
+						  <input type="hidden" name="show_hide" value="<%=@show_hide %>">
 						  <input type="submit" value="搜尋">
 						</form>
 						</td>
