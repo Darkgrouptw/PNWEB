@@ -125,6 +125,11 @@ class IssuelistController < ApplicationController
 		if @neg_show.nil? || @neg_show.empty?
 			@neg_show = "table"
 		end
+		if(true)
+			@neg_order = @pos_order
+			@neg_show = @pos_order
+			@neg_ip_select = @pos_ip_select
+		end
 		if @me ==nil
 			flash[:alert] = "議題不存在"
 			redirect_to (:back)
