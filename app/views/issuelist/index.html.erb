@@ -297,7 +297,7 @@
 								<tr align = "center"><td class = "col-md-8" colspan = "9">反對 </td></tr>
 							<% end %>
 							<tr>
-								<td style="width: 300px">意見</td>
+								<td style="width: 500px">意見</td>
 								<td><div>誰的意見</div><div>當時頭銜</div></td>
 								<td>屬於間接意見？</td>
 								<td><div>發言時間</div><div>刊載媒體</div></td>
@@ -327,7 +327,7 @@
 									<% media = @medias.where(name: detail.news_media)[0] %>
 									<!-- content -->
 									<tr>
-										<td style="width: 300px">
+										<td style="width: 500px">
 											<% link = detaillist_index_path(id: detail.id) %>
 											<a href = <%= link %>><%= detail.content %></a>
 										</td>
