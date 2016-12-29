@@ -25,6 +25,7 @@ class ReportlistController < ApplicationController
 		redirect_to(:back)
 		return
 	end
+	@is_OK = false
 	@detail_search = params[:detail_search]
 	@user_search = params[:user_search]
 	@order = params[:order]
@@ -43,7 +44,7 @@ class ReportlistController < ApplicationController
 		detail_ids.push(item.detail_id)
 	end
 	#detail_ids = detail_ids.sort_by{|item| detail_ids.count(item)}.reverse
-	if @order == "detail"
+	if @order == "detail" && @reportlist.length > 0
 		@reportlist = @reportlist.sort_by{|item| detail_ids.count(item.detail_id)}.reverse
 	end
 
@@ -58,6 +59,7 @@ class ReportlistController < ApplicationController
 	@likelist = LikeList.where(detail_id: detail_ids)
 	
 	@media = DataMedium.where(name: media_names)
+	@is_OK = true;
   end
   def add
   	if !can_report_detail()

@@ -28,6 +28,10 @@
 	<div class = "whiteText">
 		錯誤：請確認你是否有登入
 	</div>
+<% elsif !@is_OK %>
+	<div class = "whiteText">
+		錯誤：請確認資料是否正確
+	</div>
 <% else %>
 	<!-- show detail data-->
 	<div class = "whiteText row">
@@ -92,7 +96,9 @@
 						<% detail = @detaillist.where(id: item.detail_id)[0] %>
 						<% if !detail.nil? %>
 							<% issue = @issuelist.where(id: detail.issue_id)[0] %>
+							<% if issue.nil? %><% next %><% end %>
 							<% user = @userlist.where(id: detail.post_id)[0] %>
+							<% if user.nil? %><% next %><% end %>
 							<% likelist = @likelist.where(detail_id: detail.id) %>
 							<% if !String_like(user.nickname,@user_search) %>
 								<% next %>
@@ -161,6 +167,9 @@
 									</div>
 								</td>
 								<td>
+										<% if item.nil? || item.cause.nil? || item.cause.split.nil? %>
+											<% next %>
+										<% end %>
 										<% if item.cause.split(',').include?('1') %>
 											<div>原始文章的截圖不符合規定,</div>
 										<% end %>

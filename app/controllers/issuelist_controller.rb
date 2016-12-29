@@ -382,6 +382,8 @@ class IssuelistController < ApplicationController
 		@issue = DataIssue.where(id: params[:id])[0]
 
 		if @issue.nil?
+			flash[:alert] = "議題不存在"
+			redirect_to (:back)
 			return
 		end
 		if !(params[:title].nil? || params[:title].empty?)
@@ -484,6 +486,11 @@ class IssuelistController < ApplicationController
 		end
 		post_id = current_user.id
 		@issue = DataIssue.where(id: params[:id])[0]
+		if @issue.nil?
+			flash[:alert] = "議題不存在"
+			redirect_to (:back)
+			return
+		end
 		if @issue.thumb_up.nil?
 			@issue.thumb_up = ""
 		end
@@ -503,6 +510,12 @@ class IssuelistController < ApplicationController
 			return
 		end
 		@issue = DataIssue.where(id: params[:id])[0]
+		@issue = DataIssue.where(id: params[:id])[0]
+		if @issue.nil?
+			flash[:alert] = "議題不存在"
+			redirect_to (:back)
+			return
+		end
 		@issue.is_candidate = false
 		@issue.created_at = Time.now.in_time_zone('Taipei')
 		@issue.save

@@ -55,9 +55,29 @@ class DetaillistController < ApplicationController
 	end
 	def delete
 		@me = DataDetail.where(id: params[:id])[0]
+		if @me.nil?
+			flash[:alert] = "意見不存在"
+			redirect_to (:back)
+			return
+		end
 		@people = DataPerson.where(id: @me.people_id)[0]
+		if @people.nil?
+			flash[:alert] = "名人不存在"
+			redirect_to (:back)
+			return
+		end
 		@issue = DataIssue.where(id: @me.issue_id)[0]
+		if @issue.nil?
+			flash[:alert] = "議題不存在"
+			redirect_to (:back)
+			return
+		end
 		@media = DataMedium.where(name: @me.news_media)[0]
+		if @media.nil?
+			flash[:alert] = "媒體不存在"
+			redirect_to (:back)
+			return
+		end
 		@likelist = LikeList.where(detail_id: @issue.datadetail_id.split(","))
 		users = []
 		@likelist.where(detail_id: @me.id).each do |like|
@@ -155,6 +175,11 @@ class DetaillistController < ApplicationController
 		video_source = params[:video_source]
 		backup_type = params[:backup_type]
 		@issue = DataIssue.where(id: issue_id)[0]
+		if @issue.nil?
+			flash[:alert] = "議題不存在"
+			redirect_to (:back)
+			return
+		end
 		@person = DataPerson.where(name: people_id)[0]
 		#-------------------wait for media database
 		@media = DataMedium.where(name: news_media)[0]
@@ -396,6 +421,11 @@ class DetaillistController < ApplicationController
 			return
 		end
 		@detail = DataDetail.where(id: params[:id],is_report: false)[0]
+		if @detail.nil?
+			flash[:alert] = "意見不存在"
+			redirect_to (:back)
+			return
+		end
 		post_id = current_user.id
 		path = params[:path]
 		path = path.gsub('!','?').gsub('|','&')
@@ -447,10 +477,20 @@ class DetaillistController < ApplicationController
 			return
 		end
 		@detail = DataDetail.where(id: params[:id],is_report: false)[0]
+		if @detail.nil?
+			flash[:alert] = "意見不存在"
+			redirect_to (:back)
+			return
+		end
 		post_id = current_user.id
 		path = params[:path]
 		path = path.gsub('!','?').gsub('|','&')
 		@likelist = LikeList.where(detail_id: @detail.id,post_id: post_id)[0]
+		if @likelist.nil?
+			flash[:alert] = "沒按讚過"
+			redirect_to (:back)
+			return
+		end
 		if @detail.like_list_id.include?("," + @likelist.id.to_s)
 			@detail.like_list_id = @detail.like_list_id.gsub("," + @likelist.id.to_s,"")
 		else
@@ -501,6 +541,7 @@ class DetaillistController < ApplicationController
 			return
 		end
 		issue = DataIssue.where(id: details[0].issue_id)[0]
+		
 		likeList = LikeList.where(detail_id: detail_ids,post_id: current_user.id)
 		notify = NotifyList.where(user_id: current_user.id,issue_id: issue.id)[0]
 		details.each do |detail|
