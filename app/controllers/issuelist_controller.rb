@@ -146,7 +146,7 @@ class IssuelistController < ApplicationController
 		@AllLike = LikeList.where(detail_id: detail_strings)
 		#@likeList = LikeList.where(post_id: current_user)
 		@likeList = @AllLike.where(post_id: current_user)
-		# 判斷是否讚太多
+		# 判斷是否贊太多
 		likeLimit = 3
 		likeNumber = 0
 		posLikeNumber = 0

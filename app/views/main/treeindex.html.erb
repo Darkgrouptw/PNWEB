@@ -12,12 +12,12 @@
                     <%= @issue_info[index].title %>
                 </div>
                 
-                <!-- 按讚 button -->
+                <!-- 按贊 button -->
                 <% if current_user != nil %>
                     <% if !@hasThumpAlready[index] %>
-                        <a href="/TreeThumbUp?id=<%= item.id  %>" class="btn btn-primary BoxThumbUp">按讚👍</a>
+                        <a href="/TreeThumbUp?id=<%= item.id  %>" class="btn btn-primary BoxThumbUp">按贊👍</a>
                     <% else %>
-                        <a href="/TreeThumbUp?id=<%= item.id  %>" class="btn btn-info disabled BoxThumbUp">已讚過</a>
+                        <a href="/TreeThumbUp?id=<%= item.id  %>" class="btn btn-info disabled BoxThumbUp">已贊過</a>
                     <% end %>
                 <% else %>
                     <a href="/TreeThumbUp?id=<%= item.id  %>" class="btn btn-info disabled BoxThumbUp">請登入</a>
@@ -40,9 +40,9 @@
                     最後更新：<%= @updateTimeArray[index] %>
                 </div>
                 
-                <!-- 讚數 -->
+                <!-- 贊數 -->
                 <div class="BoxOtherInfo">
-                    讚數： <%= @up[index] %> 
+                    贊數： <%= @up[index] %> 
                 </div>
             </div>
             <% index += 1 %>

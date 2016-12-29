@@ -76,7 +76,7 @@
 							<td>總積分</td>
 							<td>議題被採納數</td>
 							<td>ＰＯ意見數</td>
-							<td>對意見按讚數</td>
+							<td>對意見按贊數</td>
 							<td>權限</td>
 						</tr>
 					</thead>
@@ -88,7 +88,7 @@
 							<td><%= @postedIssueNumber %></td>
 							<td>
 								<div>
-									所ＰＯ意見被按讚總數: <%= @likedNumber %>
+									所ＰＯ意見被按贊總數: <%= @likedNumber %>
 								</div>
 								<div>
 									所ＰＯ意見被排入前10總數: <%= @detailIn10Top%>
@@ -185,7 +185,7 @@
 							<tr align = "center" >
 								<td>議題</td>
 								<td>名人</td>
-								<td>讚成或反對</td>
+								<td>贊成或反對</td>
 								<td style="width: 500px" >意見</td>
 							</tr>
 						</thead>
@@ -210,7 +210,7 @@
 										</td>
 										<td>
 											<% if detail.is_support %>
-												讚成
+												贊成
 											<% else %>
 												反對
 											<% end %>
