@@ -82,23 +82,25 @@
 					<% if can_editor_people()%>
 						<div align = "right"><a href = <%= peoplelist_edit_path(id: @tags) %>>編輯</a></div>
 					<% end %>
+					<!--
 					<table class = "table table-bordered">
 						<thead>
-							<tr align = "center" ><td colspan = "2"><%= @me.name %></td></tr>
+							<tr align = "center" ><td colspan = "1"><%= @me.name %></td></tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td class = "col-md-3">
+								<!--<td class = "col-md-3">
 									<% if @me.pic_link.nil? || @me.pic_link.empty? %>
 										<%= image_tag 'http://i.imgur.com/TbBAqpV.png', width: "200" %>
 									<% else %>
 										<%= image_tag @me.pic_link, width: "200" %>
 									<% end %>
-								</td>  
-								<td class = "col-md-5"><%= @me.description %></td> 
+								</td>  -->
+								<!--<td class = "col-md-5"><%= @me.description %></td> 
 							</tr>
 						</tbody>
-					</table>
+					</table>-->
+					<h2 align="center"><%= @me.name %></h2>
 				</div>
 			</div>
 			<!-- tables with all the detail -->
