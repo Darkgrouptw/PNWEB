@@ -1,4 +1,30 @@
 <link rel="stylesheet" type="text/css" href="/css/table.css">
+<%
+	def getSelfLink(media_order,media_search,issue_order,issue_search)
+		result = ""
+		if media_order.nil? || media_order.empty?
+			result = result + "?media_order=" + "near_hot"
+		else
+			result = result + "?media_order=" + media_order
+		end
+		if media_search.nil? || media_search.empty?
+			result = result + "&media_search=" + ""
+		else
+			result = result + "&media_search=" + media_search
+		end
+		if issue_order.nil? || issue_order.empty?
+			result = result + "&issue_order=" + ""
+		else
+			result = result + "&issue_order=" + issue_order
+		end
+		if issue_search.nil? || issue_search.empty?
+			result = result + "&issue_search=" + ""
+		else
+			result = result + "&issue_search=" + issue_search
+		end
+		return media_index_path(id: @me.name) + result
+	end
+%>
 <div class="BigTitle">
     <h2>媒體頁面</h2>
     <hr>
@@ -12,7 +38,32 @@
 		<!-- the description with @me -->
 
 		<div class = "col-md-3 row">
+			<form action="<%= media_index_path(id: @me.name) %>">
+				搜尋媒體
+				<input type="text" name="media_search" value="<%= @media_search %>">
+				<input type="hidden" name="media_order" value="<%=@media_order %>">
+				<input type="hidden" name="issue_search" value="<%=@issue_search %>">
+				<input type="hidden" name="issue_order" value="<%=@issue_order %>">
+				<input type="submit" value="搜尋">
+			</form>
+			<div>
+				<select name="issue_time" onchange="location = this.value;">
+					<% temp = "time" %>
+					<% str_show = "創建時間" %>
+					<% link  = getSelfLink("time",@media_search,@issue_order,@issue_search) %>
+					<option value="<%= link %>" <%if @media_order == "time"%>selected="selected"<%end%>>
+						<%= str_show %>	
+					</option>
+					<% temp = "time" %>
+					<% str_show = "最有影響力" %>
+					<% link  = getSelfLink("influence",@media_search,@issue_order,@issue_search) %>
+					<option value="<%= link %>" <%if @media_order == "influence"%>selected="selected"<%end%>>
+						<%= str_show %>	
+					</option>
+				</select>
+			</div>
 			<div style="border-style: solid;" >所有媒體</div>
+			
 			<div style="overflow: scroll;height: 300px;border-style: solid;">
 				<% @media.each  do |item|%>
 					<% link  = media_index_path(id: item.name)%>
@@ -44,7 +95,17 @@
 			</div>
 			<!-- tables with all the detail -->
 			<div class = "whiteText row">
-				<div align = "center">由 <%= @me.name %> 刊載的意見</div>
+				<div align = "center">由 <%= @me.name %> 刊載的意見
+					<form action="<%= media_index_path(id: @me.name) %>">
+						搜尋議題
+						<input type="text" name="issue_search" value="<%= @issue_search %>">
+						<input type="hidden" name="media_order" value="<%=@media_order %>">
+						<input type="hidden" name="media_search" value="<%=@media_search %>">
+						<input type="hidden" name="issue_order" value="<%=@issue_order %>">
+						<input type="submit" value="搜尋">
+					</form>
+				</div>
+				
 				<div>
 					<table class = "table table-bordered">
 						<thead>
@@ -57,7 +118,9 @@
 						<tbody>
 							<% @details.each do |detail| %>
 								<% issue = @issues.where(id: detail.issue_id)[0] %>
+								<% if issue.nil? %><% next %><% end %>
 								<% person = @people.where(id: detail.people_id)[0] %>
+								<% if person.nil? %><% next %><% end %>
 								<tr>
 									<td>
 										<% link = issuelist_index_path(id: issue.id) %>

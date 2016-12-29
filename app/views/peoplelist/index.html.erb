@@ -22,7 +22,7 @@
 		else
 			result = result + "&issue_search=" + issue_search
 		end
-		return peoplelist_index_path(id: @me.name) + result
+		return media_index_path(id: @me.name) + result
 	end
 %>
 <% if @me == nil %>
@@ -34,7 +34,7 @@
 		<!-- the description with @me -->
 
 		<div class = "col-md-3 row">
-			<form action="<%= peoplelist_index_path(id: @me.name) %>">
+			<form action="<%= media_index_path(id: @me.name) %>">
 				搜尋名人
 				<input type="text" name="people_search" value="<%= @people_search %>">
 				<input type="hidden" name="people_order" value="<%=@people_order %>">

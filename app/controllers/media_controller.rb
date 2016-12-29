@@ -1,11 +1,35 @@
 class MediaController < ApplicationController
+
+	def findInfluenceMedia(media_list)
+		
+		return media_list.sort_by{|item|  getStringIDLength(item.datadetail_id)}.reverse
+	end
 	def index
   		@tags = params[:id]
 		@media = DataMedium.all;
+		@media_order = params[:media_order]
+		@media_search = params[:media_search]
+		@issue_order = params[:issue_order]
+		@issue_search = params[:issue_search]
+
 		@me = @media.where(name: @tags)[0]
 		if @me.nil?
 			return
 		end
+
+		if @media_search.nil? || @media_search.empty?
+			#@issues = DataIssue.where(is_candidate: false).where("title like ?", name + "%").first(5)
+			@media = @media
+		else
+			@media = @media.where("name like ?", "%" + @media_search + "%")
+		end
+
+		if @media_order == "time"
+			@media = @media.order(created_at: :desc)
+		else
+			@media = findInfluenceMedia(@media)
+		end
+
 		issue_ids = []
 		people_ids = []
 		#find all the detail is said by the @me
@@ -16,7 +40,12 @@ class MediaController < ApplicationController
 		end
 		#find all the issue connect with details
 		@people = DataPerson.where(id: people_ids)
-		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
+
+		if @issue_search.nil? || @issue_search.empty?
+			@issue_search = ""
+		end
+		@issues = DataIssue.where("title like ?","%" + @issue_search + "%").where(id: issue_ids,is_candidate: false)
+		#@issues = DataIssue.where(id: issue_ids,is_candidate: false)
   	end
 	def new
 		if !can_add_detail()
