@@ -38,7 +38,7 @@ $(function(){
             $("#directClick_blank").text("否");
         
         
-        obj = $("#news_media_blank").text($("#news_media").prop("value") + "\n（" + $("#reportTime").prop("value") + "）");
+        obj = $("#news_media_blank").text($("#queryMedia").prop("value") + "\n（" + $("#reportTime").prop("value") + "）");
         obj.html(obj.html().replace(/\n/g,'<br/>'));
         
         
