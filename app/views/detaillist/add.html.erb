@@ -131,13 +131,15 @@
 								<span class="glyphicon glyphicon-remove"></span>
 								<table class="table table-bordered">
 									<tr>
+										<td>議題主文</td>
 										<td>名人<br>（當時頭銜）</td>
-										<td>內容</td>
+										<td style="width: 300px;">內容</td>
 										<td>是否為直接意見</td>
 										<td>刊載媒體<br>報導時間</td>
 										<td>上線時間</td>
 									</tr>
 									<tr>
+										<td><%= @issue.title %></td>
 										<td id="queryPeople_blank"></td>
 										<td id="content_blank"></td>
 										<td id="directClick_blank"></td>
