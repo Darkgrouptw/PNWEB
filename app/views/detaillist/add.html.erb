@@ -40,11 +40,12 @@
 									附註：若非個人，請填團體名或代表人(如: 乖乖黨、乖乖黨發言人、乖乖報、乖乖報社論....等
 								</h6>
 							</label>
-							<input type="text" class="form-control" name="people_id" id="queryPeople">
-							<div id="queryPeopleDiv" class="queryDiv" style="display: none;">
-							</div>
-							<br>
+							<input list="1browsers" class="form-control peopleList" name="people_id" id="queryPeople">
 							
+							<datalist id="1browsers">
+							</datalist>
+							
+							<br>
 							<label>當時頭銜</label>
 							<input type="text" class="form-control" name="title_at_that_time" id="title_at_that_time">
 							<br>
@@ -72,12 +73,12 @@
 							</div>
 							<br>
 							
-							<label>刊載媒體</label>
-							<input type="text" class="form-control" name="queryMedia" id="queryMedia" >
-							<div id="queryMediaDiv" class = "queryDiv" style="display: none;">
-							</div>
-							<br>
+							<label>刊載媒體</label>  
 
+							<input list="2browsers" class="form-control mediaList" name="news_media" id="queryMedia">
+							<datalist id="2browsers">
+							</datalist>
+							<br>
 							<label>
 								發言時間
 								<h6 style="color: rgb(128,128,128);display: inline-block;">
