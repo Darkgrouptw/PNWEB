@@ -32,7 +32,7 @@ $(function(){
         
         $("#content_blank").text($("#content").prop("value"));
         
-        if($("#directClick").prop("value"))
+        if($("#directClick").prop("checked") == true)
             $("#directClick_blank").text("是");
         else
             $("#directClick_blank").text("否");
