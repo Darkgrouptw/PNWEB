@@ -31,12 +31,16 @@ $(function(){
         
         
         $("#content_blank").text($("#content").prop("value"));
-        
+        //support_blank
         if($("#directClick").prop("checked") == true)
             $("#directClick_blank").text("是");
         else
             $("#directClick_blank").text("否");
         
+        if($("#supportClick").prop("checked") == true)
+            $("#support_blank").text("是");
+        else
+            $("#support_blank").text("否");
         
         obj = $("#news_media_blank").text($("#queryMedia").prop("value") + "\n（" + $("#reportTime").prop("value") + "）");
         obj.html(obj.html().replace(/\n/g,'<br/>'));
