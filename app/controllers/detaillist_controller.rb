@@ -454,6 +454,8 @@ class DetaillistController < ApplicationController
 			if ipinfo['country'].nil? || ipinfo['country'].empty?
 				if ipinfo['query'] == "::1"
 					@likelist.ip = "Taiwan"
+				elsif ipinfo['country'] == "Taiwan"
+					@likelist.ip = "Taiwan"
 				else
 					@likelist.ip = "none"
 				end
@@ -541,7 +543,7 @@ class DetaillistController < ApplicationController
 			return
 		end
 		issue = DataIssue.where(id: details[0].issue_id)[0]
-		
+
 		likeList = LikeList.where(detail_id: detail_ids,post_id: current_user.id)
 		notify = NotifyList.where(user_id: current_user.id,issue_id: issue.id)[0]
 		details.each do |detail|
