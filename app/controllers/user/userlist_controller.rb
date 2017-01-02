@@ -4,7 +4,7 @@ class User::UserlistController < ApplicationController
 
 	def getScore(dataDetail,dataIssue,likeList,user)
 
-		details = dataDetail.where(post_id: user.id)
+		details = dataDetail.where(post_id: user.id,is_report: false)
 		issue_ids = []
 		details.each do |item|
 			issue_ids.push(item.issue_id)
@@ -38,7 +38,7 @@ class User::UserlistController < ApplicationController
 
 		
 		@me = User.where(id: params[:id])[0]
-		@details = DataDetail.where(post_id: @me.id)
+		@details = DataDetail.where(post_id: @me.id,is_report: false)
 		detail_ids = []
 		issue_ids = []
 		people_ids = []
@@ -58,7 +58,7 @@ class User::UserlistController < ApplicationController
 		@reportedNumber = ReportDetail.where(detail_id: detail_ids).length
 
 		@detailIn10Top = 0
-		@all_detail = DataDetail.where(issue_id: issue_ids)
+		@all_detail = DataDetail.where(issue_id: issue_ids,is_report: false,is_report: false)
 		all_detail_ids=[]
 		@all_detail.each do |item|
 			all_detail_ids.push(item.id)
