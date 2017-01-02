@@ -33,9 +33,9 @@ $(function(){
         $("#content_blank").text($("#content").prop("value"));
         //support_blank
         if($("#directClick").prop("checked") == true)
-            $("#directClick_blank").text("是");
+            $("#directClick_blank").text("直接意見");
         else
-            $("#directClick_blank").text("否");
+            $("#directClick_blank").text("間接意見");
         
         if($("#supportClick").prop("checked") == true)
             $("#support_blank").text("是");
