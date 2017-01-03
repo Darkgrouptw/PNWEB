@@ -80,7 +80,7 @@
 				<thead>
 					<tr align = "center" >
 						<td>議題</td>
-						<td style="width: 500px">意見</td>
+						<td style="max-width: 400px;min-width: 400px">意見</td>
 						<td><div>誰的意見</div><div>當時頭銜</div></td>
 						<td>屬於間接意見</td>
 						<td><div>發言時間</div><div>刊載媒體</div></td>
@@ -114,7 +114,7 @@
 									</a>
 								</td>
 								
-								<td style="width: 500px">
+								<td style="word-break: break-all;width: 400px !important;">
 									<% link = detaillist_index_path(id: detail.id) %>
 									<a href = <%= link %>>
 										<%= detail.content %>
