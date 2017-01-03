@@ -56,15 +56,44 @@ $(function(){
     
     $("#TreeIndexSearch").on("click", function(){
         var SearchName = $("#queryIssue2").prop("value");
+        
+        var orderParams = getUrlParameter("OrderBy");
+        if(orderParams != "undefined")
+           orderParams = "/TreeIndex?OrderBy=" + orderParams;
+        else
+            orderParams = "/TreeIndex";
+        
         if(typeof SearchName != "undefined")
             if (SearchName == "")
-                $(location).attr('href','/TreeIndex');
+                $(location).attr('href', orderParams);
             else
-                $(location).attr('href','/TreeIndex?search=' +  SearchName);
+                $(location).attr('href', orderParams + '&search=' + SearchName);
     });
 });
+
+/*
+拿 Chrome 的版本
+*/
 function getChromeVersion () {     
     var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
 
     return raw ? parseInt(raw[2], 10) : false;
 }
+
+/*
+拿目前所在的連結，有沒有哪一個參數
+*/
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};

@@ -75,16 +75,22 @@
             <% orderByName = "歷史人氣"%>
         <% end %>
             
-            
+        
+        <% # 如果有搜尋東西的話，需要再連結後面加上額外的參數 %>
+        <% if @searchParams != "" %>
+            <% addLink = "&search=" + @searchParams %>
+        <% else %>
+            <% addLink = "" %>
+        <% end %>
         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">依照 <%= orderByName %> 排序
         <span class="caret"></span></button>
         <ul class="dropdown-menu">
             <% link = treeindex_path(OrderBy: 0) %>
-            <li><a href= <%= link %> >近期人氣排序</a></li>
+            <li><a href= <%= link + addLink %> >近期人氣排序</a></li>
             <% link = treeindex_path(OrderBy: 1) %>
-            <li><a href= <%= link %> >最新排序</a></li>
+            <li><a href= <%= link + addLink %> >最新排序</a></li>
             <% link = treeindex_path(OrderBy: 2) %>
-            <li><a href= <%= link %> >歷史人氣排序</a></li>
+            <li><a href= <%= link + addLink %> >歷史人氣排序</a></li>
         </ul>
     </div>
             
