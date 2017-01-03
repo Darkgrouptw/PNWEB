@@ -59,9 +59,9 @@ $(function(){
         
         var orderParams = getUrlParameter("OrderBy");
         if(typeof(getUrlParameter("OrderBy")) != "undefined")
-           orderParams = "/TreeIndex?OrderBy=" + orderParams;
+            orderParams = "/TreeIndex?OrderBy=" + orderParams;
         else
-            orderParams = "/TreeIndex";
+            orderParams = "/TreeIndex?OrderBy=0";
         
         if(typeof SearchName != "undefined")
             if (SearchName == "")
@@ -69,13 +69,6 @@ $(function(){
             else
                 $(location).attr('href', orderParams + '&search=' + SearchName);
     });
-    
-    // 在東西沒有儲存的時候關閉視窗，會跳出警告說，沒有儲存
-    /*$(".RightCanvas").bind("beforeunload", function() { 
-        //return 'Are you sure you want to leave?';
-        if($(".RightCanvas")[0].contentWindow.$IsChangeTree)
-            return "東西尚未儲存";
-    })*/
 });
 
 /*
