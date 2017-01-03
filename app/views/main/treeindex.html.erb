@@ -15,9 +15,9 @@
                 <!-- 按贊 button -->
                 <% if current_user != nil %>
                     <% if !@hasThumpAlready[index] %>
-                        <a href="/TreeThumbUp?id=<%= item.id  %>" class="btn btn-primary BoxThumbUp">按贊👍</a>
+                        <a href="/TreeThumbUp?id=<%= item.id  %>" class="btn btn-primary BoxThumbUp">按讚👍</a>
                     <% else %>
-                        <a href="/TreeThumbUp?id=<%= item.id  %>" class="btn btn-info disabled BoxThumbUp">已贊過</a>
+                        <a href="/TreeThumbUp?id=<%= item.id  %>" class="btn btn-info disabled BoxThumbUp">已讚過</a>
                     <% end %>
                 <% else %>
                     <a href="/TreeThumbUp?id=<%= item.id  %>" class="btn btn-info disabled BoxThumbUp">請登入</a>
@@ -42,7 +42,7 @@
                 
                 <!-- 贊數 -->
                 <div class="BoxOtherInfo">
-                    贊數： <%= @up[index] %> 
+                    讚數： <%= @up[index] %> 
                 </div>
             </div>
             <% index += 1 %>
@@ -90,7 +90,7 @@
             
     <!-- 搜尋的 DIV -->
     <div class="TreeIndexSearch">
-        <input type="text" class="form-control" placeholder="搜尋議題" id="queryIssue2"  value="<%= @searchParams %>">
+        <input type="text" class="form-control" placeholder="搜尋議題樹" id="queryIssue2"  value="<%= @searchParams %>">
     </div>
     <span class="input-group-btn TreeIndexSearchButton">
         <button class="btn btn-default" type="button" id="TreeIndexSearch">

@@ -28,12 +28,12 @@
         <% if current_user != nil %>
             <% if current_user.id == @id || current_user.level == 3 %>
                 <ul id="ListAddNode" class="custom-menu">
-                    <li index="0" class="textArea">新增下一層議題</li>
-                    <li index="1" class="textArea">新增同一層議題</li>
-                    <li index="2" class="textArea">上移</li>
-                    <li index="3" class="textArea">下移</li>
-                    <li index="4" class="textArea">刪除</li>
-                    <li index="5" class="textArea">儲存</li> 
+                    <li index="0">新增下一層議題</li>
+                    <li index="1">新增同一層議題</li>
+                    <li index="2">上移</li>
+                    <li index="3">下移</li>
+                    <li index="4">刪除</li>
+                    <li index="5">儲存</li> 
                 </ul>
             <% end %>
         <% end %>
