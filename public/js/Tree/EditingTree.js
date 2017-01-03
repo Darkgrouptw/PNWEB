@@ -62,11 +62,12 @@ $(function(){
                 }, 500);
                 break;
             case "2":
-                MoveToParent();
+                //MoveToParent();
+                MoveClockWise();
                 $(this).hide(100);
                 break;
             case "3":
-                MoveToChild();
+                MoveCounterClockWise();
                 $(this).hide(100);
                 break;
             case "4":
@@ -245,12 +246,20 @@ function RandomColor()
 
 /*
 五種操作
+*********************
+裡面所有的 parent 都是 child
+名字取的不好抱歉
+ＸＤ
+*********************
 */
 function AddNodeToChild(NodeName, nodeID)
 {
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
+    
+    // 要搜尋的名稱
+    var n = $(clickNode.children()[1]).children()[0].textContent;
     while(!IsFind)
     {
         if(checkList.length == 0)
@@ -259,7 +268,6 @@ function AddNodeToChild(NodeName, nodeID)
             break;
         }
         
-        var n = $(clickNode.children()[1]).children()[0].textContent;
         if(n != checkList[0].name)
             for(var i = 0; i < checkList[0].parent.length; i++)
                 checkList.push(checkList[0].parent[i]);
@@ -285,6 +293,9 @@ function AddNodeInSameLevel(NodeName, nodeID)
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
+    
+    // 要搜尋的名稱
+    var n = $(clickNode.children()[1]).children()[0].textContent;
     while(!IsFind)
     {
         if(checkList.length == 0)
@@ -293,7 +304,6 @@ function AddNodeInSameLevel(NodeName, nodeID)
             break;
         }
         
-        var n = $(clickNode.children()[1]).children()[0].textContent;
         if(n != checkList[0].name)
             for(var i = 0; i < checkList[0].parent.length; i++)
             {
@@ -323,54 +333,54 @@ function AddNodeInSameLevel(NodeName, nodeID)
         TreeManager(sJsonData);
     }
 }
-function MoveToParent()
+function MoveClockWise()
 {
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
+    
+    // 要搜尋的名稱
+    var n = $(clickNode.children()[1]).children()[0].textContent;
     while(!IsFind)
     {
         if(checkList.length == 0)
         {
             console.log("Bug");
-            IsFind = true;
             break;
         }
         
-        var n = clickNode.children()[1].textContent;
         if(n != checkList[0].name)
-            for(var i = 0; i < checkList[0].parent.length && !IsFind; i++)
+            for(var i = 0; i < checkList[0].parent.length; i++)
             {
-                if(n == checkList[0].parent[i].name)
-                {
-                    alert("不能上移到跟 Root 同一層！！");
-                    IsFind = true;
-                    break;
-                }
+                if(n != checkList[0].parent[i].name)
+                    checkList.push(checkList[0].parent[i]);
                 else
                 {
-                    for(var j = 0; j < checkList[0].parent[i].parent.length; j++)
-                        if(n == checkList[0].parent[i].parent[j].name)
-                        {
-                            //var name = checkList[0].parent[i].parent[j].name;
-                            checkList[0]['parent'].push(checkList[0].parent[i].parent[j]);
-                            checkList[0].parent[i]['parent'].splice(j, 1);
-                            IsFind = true;
-                            break;
-                        }
-                    checkList.push(checkList[0].parent[i]);
+                    // 拿出上一個的 index
+                    if(i - 1 < 0)
+                        previousIndex = i + checkList[0].parent.length - 1; 
+                    else
+                        previousIndex = i - 1;
+                    
+                    // 掉換位置
+                    var tempN = checkList[0]['parent'][i];
+                    
+                    checkList[0]['parent'][i] = checkList[0]['parent'][previousIndex];
+                    checkList[0]['parent'][previousIndex] = tempN;
+                                                                
+                    IsFind = true;
+                    break;
                 }
             }
         else
         {
-            alert("已經是最上層了！！");
+            alert("Root 無法順時鐘移動喔！！");
             break;
         }
         
         // 刪除第一個
         checkList.splice(0, 1);
     }
-    
     
     if(IsFind)
     {
@@ -379,11 +389,14 @@ function MoveToParent()
         TreeManager(sJsonData);
     }
 }
-function MoveToChild()
+function MoveCounterClockWise()
 {
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
+    
+    // 要搜尋的名稱
+    var n = $(clickNode.children()[1]).children()[0].textContent;
     while(!IsFind)
     {
         if(checkList.length == 0)
@@ -392,7 +405,6 @@ function MoveToChild()
             break;
         }
         
-        var n = clickNode.children()[1].textContent;
         if(n != checkList[0].name)
             for(var i = 0; i < checkList[0].parent.length; i++)
             {
@@ -400,22 +412,25 @@ function MoveToChild()
                     checkList.push(checkList[0].parent[i]);
                 else
                 {
-                    if(checkList[0].parent[i].parent.length == 0)
-                        alert("已經在最下層囉！！");
+                    // 拿出下一個的 index
+                    if(i + 1 >= checkList[0].parent.length)
+                        previousIndex = i + 1 - checkList[0].parent.length; 
                     else
-                    {
-                        var NodeNumber = checkList[0].parent[i].parent.length;
-                        for(var j = 0; j < NodeNumber; j++)
-                            checkList[0]['parent'].splice(i + j, 0, checkList[0].parent[i + j].parent[j]);
-                        checkList[0].parent[i + NodeNumber]['parent'].splice(0, NodeNumber);
-                    }
+                        previousIndex = i + 1;
+                    
+                    // 掉換位置
+                    var tempN = checkList[0]['parent'][i];
+                    
+                    checkList[0]['parent'][i] = checkList[0]['parent'][previousIndex];
+                    checkList[0]['parent'][previousIndex] = tempN;
+                                                                
                     IsFind = true;
                     break;
                 }
             }
         else
         {
-            alert("不能移動 Root ！！");
+            alert("Root 無法順時鐘移動喔！！");
             break;
         }
         
