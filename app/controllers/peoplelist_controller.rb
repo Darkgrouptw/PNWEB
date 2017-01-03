@@ -43,6 +43,9 @@ class PeoplelistController < ApplicationController
 		issue_ids = []
 		#find all the detail is said by the @me
 		@details = DataDetail.where(people_id: @me.id,is_report: false).order(:created_at)
+		#people_list.sort_by{|item| likelist.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(detail_id: item.datadetail_id.split(',')).length}.reverse
+		@details = @details.sort_by{|item| item.report_at}.reverse
+		@details = @details.sort_by{|item| item.is_direct ?  1 : 0}.reverse
 		@details.each do |detail|
 			issue_ids.push(detail.issue_id)
 		end
