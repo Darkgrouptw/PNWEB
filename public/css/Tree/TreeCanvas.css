@@ -5,6 +5,12 @@
     height: 100%;
     background-color: rgb(242, 238, 228);
 }
+.ReminderSave
+{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
 .custom-menu
 {
     display: none;

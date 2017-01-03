@@ -3,6 +3,7 @@ $(window).resize(function() {
     //console.log("Resize");
 });
 $(function(){
+    
     var window = $( document );
     if(window.width() < 1600 || window.height() < 750)
         $(".WindowSizeWarning").removeAttr("style");
@@ -53,7 +54,6 @@ $(function(){
         );
     });
     
-    
     $("#TreeIndexSearch").on("click", function(){
         var SearchName = $("#queryIssue2").prop("value");
         
@@ -69,6 +69,13 @@ $(function(){
             else
                 $(location).attr('href', orderParams + '&search=' + SearchName);
     });
+    
+    // 在東西沒有儲存的時候關閉視窗，會跳出警告說，沒有儲存
+    /*$(".RightCanvas").bind("beforeunload", function() { 
+        //return 'Are you sure you want to leave?';
+        if($(".RightCanvas")[0].contentWindow.$IsChangeTree)
+            return "東西尚未儲存";
+    })*/
 });
 
 /*

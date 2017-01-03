@@ -1,12 +1,10 @@
 var CircleScale = 0.8;
-var Colur = ["#FFFFFF", "#88D365", "#F72758", "#6495ED", "#FFD905", "#F7F7F7", "#FCC2C2", "#2E3192", "#ECA400", "#FBF2C0", "#6FB722", "#FF9900", "#2364AA", "#3DA5D9", "#73BFB8", "#00B6CC", "#99CC33"]
+var Colur = ["#FFFFFF", "#88D365", "#F72758", "#6495ED", "#FFD905", "#F7F7F7", "#FCC2C2", "#2E3192", "#ECA400", "#FBF2C0", "#6FB722", "#FF9900", "#2364AA", "#3DA5D9", "#73BFB8", "#00B6CC", "#99CC33"];
 $(function(){
     // 變數宣告
     $NodeNumber = 0;                        // 判斷總共有幾個 Node
     $clickID = "";                          // 判斷點擊的 Index
     $chooseIndex = "";                      // Chooose 的選項
-    
-    $boolIsCreate = false;                  // 是否正屬於創建 Node 的時候
     
     /*
     加東西的 Div 事件
@@ -254,6 +252,8 @@ function RandomColor()
 */
 function AddNodeToChild(NodeName, nodeID)
 {
+    $(".ReminderSave").show();
+    
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
@@ -290,6 +290,8 @@ function AddNodeToChild(NodeName, nodeID)
 }
 function AddNodeInSameLevel(NodeName, nodeID)
 {
+    $(".ReminderSave").show();
+    
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
@@ -335,6 +337,8 @@ function AddNodeInSameLevel(NodeName, nodeID)
 }
 function MoveClockWise()
 {
+    $(".ReminderSave").show();
+    
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
@@ -391,6 +395,8 @@ function MoveClockWise()
 }
 function MoveCounterClockWise()
 {
+    $(".ReminderSave").show();
+    
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
@@ -447,6 +453,8 @@ function MoveCounterClockWise()
 }
 function DeleteNode()
 {
+    $(".ReminderSave").show();
+    
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
@@ -490,6 +498,7 @@ function DeleteNode()
 }
 function saveAllNode()
 {
+    $(".ReminderSave").hide();
     $.post("TreeSaveAllNode", {"id": getUrlParameter("id"), "TreeInfo": JSON.stringify(sJsonData)}).done(function(data){
         window.top.location.reload();
     });
