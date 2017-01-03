@@ -15,12 +15,12 @@
                 <!-- 按贊 button -->
                 <% if current_user != nil %>
                     <% if !@hasThumpAlready[index] %>
-                        <a href="/TreeThumbUp?id=<%= item.id + @addLink %>" class="btn btn-primary BoxThumbUp">按讚👍</a>
+                        <a href="/TreeThumbUp?id=<%= item.id.to_s + @addLink %>" class="btn btn-primary BoxThumbUp">按讚👍</a>
                     <% else %>
-                        <a href="/TreeThumbUp?id=<%= item.id + @addLink %>" class="btn btn-info disabled BoxThumbUp">已讚過</a>
+                        <a href="/TreeThumbUp?id=<%= item.id.to_s + @addLink %>" class="btn btn-info disabled BoxThumbUp">已讚過</a>
                     <% end %>
                 <% else %>
-                    <a href="/TreeThumbUp?id=<%= item.id + @addLink %>" class="btn btn-info disabled BoxThumbUp">請登入</a>
+                    <a href="/TreeThumbUp?id=<%= item.id.to_s + @addLink %>" class="btn btn-info disabled BoxThumbUp">請登入</a>
                 <% end %>
                 
                 <!-- 內容名稱 -->

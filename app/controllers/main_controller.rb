@@ -270,7 +270,7 @@ class MainController < ApplicationController
 	def treeindex
         if params[:search] != nil &&  params[:search] != ""             # 判斷他是否有這個參數
             @searchParams = params[:search]
-            @addLink = "&" + @searchParams
+            @addLink = "&search=" + @searchParams
             @issueList = DataIssue.where(title: params[:search])
             
             if @issueList.length != 0
@@ -287,7 +287,6 @@ class MainController < ApplicationController
         
 		@OrderBy = params[:OrderBy]
 		if @OrderBy == 0.to_s
-            @addLink = @addLink + "&OrderBy=0"
 			@items = @TreeInfoList.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
 			@items = findNearHotIssueTree(@items)
 		elsif @OrderBy == 1.to_s
@@ -353,7 +352,17 @@ class MainController < ApplicationController
 			end
 		end
 		
-		redirect_to "/TreeIndex" + paramsStr
+        if params[:OrderBy] != nil
+            addLink = "?OrderBy=" + params[:OrderBy]
+        else
+            addLink = "?OrderBy=0"
+        end
+        
+        if params[:search] != nil
+            addLink = addLink + "&search=" + params[:search]
+        end
+        
+		redirect_to "/TreeIndex" + paramsStr + addLink
 	end
 	
 	def treejson
