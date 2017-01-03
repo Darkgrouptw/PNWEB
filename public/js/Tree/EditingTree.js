@@ -360,11 +360,11 @@ function MoveClockWise()
                     checkList.push(checkList[0].parent[i]);
                 else
                 {
-                    // 拿出上一個的 index
-                    if(i - 1 < 0)
-                        previousIndex = i + checkList[0].parent.length - 1; 
+                    // 拿出下一個的 index
+                    if(i + 1 >= checkList[0].parent.length)
+                        previousIndex = i + 1 - checkList[0].parent.length; 
                     else
-                        previousIndex = i - 1;
+                        previousIndex = i + 1;
                     
                     // 掉換位置
                     var tempN = checkList[0]['parent'][i];
@@ -418,11 +418,11 @@ function MoveCounterClockWise()
                     checkList.push(checkList[0].parent[i]);
                 else
                 {
-                    // 拿出下一個的 index
-                    if(i + 1 >= checkList[0].parent.length)
-                        previousIndex = i + 1 - checkList[0].parent.length; 
+                    // 拿出上一個的 index
+                    if(i - 1 < 0)
+                        previousIndex = i + checkList[0].parent.length - 1; 
                     else
-                        previousIndex = i + 1;
+                        previousIndex = i - 1;
                     
                     // 掉換位置
                     var tempN = checkList[0]['parent'][i];
