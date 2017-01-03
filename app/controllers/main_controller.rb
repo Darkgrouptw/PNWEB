@@ -287,17 +287,17 @@ class MainController < ApplicationController
         
 		@OrderBy = params[:OrderBy]
 		if @OrderBy == 0.to_s
-			@items = @TreeInfoList.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
+			@items = @TreeInfoList.where(updated_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
 			@items = findNearHotIssueTree(@items)
 		elsif @OrderBy == 1.to_s
             @addLink = @addLink + "&OrderBy=1"
-			@items = @TreeInfoList.order(created_at: :desc).first(10)
+			@items = @TreeInfoList.order(updated_at: :desc).first(10)
 		elsif @OrderBy == 2.to_s
             @addLink = @addLink + "&OrderBy=2"
-			@items = @TreeInfoList.order(created_at: :desc)
+			@items = @TreeInfoList.order(updated_at: :desc)
 			@items = findNearHotIssueTree(@items)
 		else
-			@items = @TreeInfoList.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
+			@items = @TreeInfoList.where(updated_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
 			@items = findNearHotIssueTree(@items)
 		end
 		
