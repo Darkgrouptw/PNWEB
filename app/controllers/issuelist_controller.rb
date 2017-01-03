@@ -1,6 +1,6 @@
 class IssuelistController < ApplicationController
 	def findNearHotIssue(issue_list)
-        likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
+        likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
         counter = []
         recorder = [];
         issue_list.each do |issue|
@@ -127,7 +127,7 @@ class IssuelistController < ApplicationController
 		end
 		if(true)
 			@neg_order = @pos_order
-			@neg_show = @pos_order
+			@neg_show = @pos_show
 			@neg_ip_select = @pos_ip_select
 		end
 		if @me ==nil
@@ -472,7 +472,7 @@ class IssuelistController < ApplicationController
 		elsif params[:order] == "thumb_up"
 			@issues = @issueList.where(is_candidate: true).order(:thumb_up).reverse
 		elsif params[:order] == "thumb_up_day"
-			@issues = @issueList.where(is_candidate: true).where(updated_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei')).order(:thumb_up).reverse
+			@issues = @issueList.where(is_candidate: true).where(updated_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).order(:thumb_up).reverse
 		else
 			@issues = @issueList.where(is_candidate: true).order(:created_at).reverse
 		end

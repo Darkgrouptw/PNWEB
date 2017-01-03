@@ -1,6 +1,6 @@
 class MainController < ApplicationController
 	def findNearHotIssue(issue_list)
-		likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei')).where(ip: "Taiwan")
+		likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(ip: "Taiwan")
 		counter = []
 		recorder = [];
 		issue_list.each do |issue|

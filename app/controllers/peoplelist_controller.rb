@@ -1,7 +1,7 @@
 class PeoplelistController < ApplicationController
 	def findNearHotPeople(people_list)
 		likelist = LikeList.all
-		return people_list.sort_by{|item| likelist.where(created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei')).where(detail_id: item.datadetail_id.split(',')).length}.reverse
+		return people_list.sort_by{|item| likelist.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(detail_id: item.datadetail_id.split(',')).length}.reverse
 	end
 
 	def findInfluencePeople(people_list)
