@@ -58,7 +58,7 @@ $(function(){
         var SearchName = $("#queryIssue2").prop("value");
         
         var orderParams = getUrlParameter("OrderBy");
-        if(typeof(getUrlParameter("OrderBy")) != "undefined")
+        if(typeof getUrlParameter("OrderBy") != "undefined")
             orderParams = "/TreeIndex?OrderBy=" + orderParams;
         else
             orderParams = "/TreeIndex?OrderBy=0";
