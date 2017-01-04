@@ -35,6 +35,7 @@ class MainController < ApplicationController
 		#@issues = @issues.sort_by{|item| item.datadetail_id.length}.reverse
 	end
 	def findNearHotIssueTree(treeInfo)
+		return @treeInfo.where(updated_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
 		counter = []
 		recorder = [];
 		treeInfo.each do |item|

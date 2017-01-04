@@ -9,7 +9,7 @@
 <% end %>
 <% def CreateHotIssueTreeContent(maxContentNumber) %>
 	<% @NearHotIssueTree.each do |item|%>
-		<% link = "#" %>
+		<% link = "/TreeIndex?OrderBy=1&search=" + @issues.where(id: item.issue_id)[0].title %>
 		<tr><td><a href=<%= link %>><%= @issues.where(id: item.issue_id)[0].title %></a></td></tr>
 	<% end %>
 <% end %>
@@ -50,9 +50,10 @@
 <% def CreateHotIssueTreeTable() %>
 	<table class="table table-bordered">
 		<thead>
-			<tr><td><% link = treeindex_path %><a href = <%=link%>>近期熱門議題樹</a></td></tr>
+			<tr><td>近期熱門議題樹</td></tr>
 		</thead>
 		<tbody>
+			<% CreateHotIssueTreeContent(1) %>
 		</tbody>
 	</table>
 <% end %>
@@ -108,7 +109,7 @@
 			
 			<td><div><% CreateMostInfluenceMediaTable() %></div></td>
 			<td><div><% CreateMostBalenceMediaTable() %></div></td>
-			<!--<td><div ><% CreateHotIssueTreeTable() %></div></td>-->
+			<td><div ><% CreateHotIssueTreeTable() %></div></td>
 		</tr>
 	</table>
 </div>
