@@ -193,7 +193,7 @@
 							<% if can_editor_issue() %>
 								<%= link_to "編輯", issuelist_edit_path(id: @me.id) %>
 							<% end %>
-							
+				            <%= link_to "相關議題樹", "/TreeIndex?OrderBy=1&search=" + @me.title, style: "padding-left: 10px;" %>
 						</td>
 						<td style="padding-right: 0px;padding-bottom: 0px;padding-left: 0px;padding-top: 0px;background-color:white;"></td>
 						<td align = "right">
