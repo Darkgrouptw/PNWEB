@@ -9,13 +9,20 @@ module Common
 		require 'net/http'
 		@ip = params[:ip]
 		@ip = current_user.ip
-		url = URI.parse('http://ip-api.com/json/'+@ip)
-		req = Net::HTTP::Get.new(url.to_s)
-		res = Net::HTTP.start(url.host, url.port) {|http|
-		  http.request(req)
-		}
-		@result = JSON.parse(res.body)
-		return res.body;
+		#@ip = "140.118.175.92"
+		begin
+			url = URI.parse('http://ip-api.com/json/'+@ip)
+			req = Net::HTTP::Get.new(url.to_s)
+			res = Net::HTTP.start(url.host, url.port) {|http|
+			  http.request(req)
+			}
+			@result = JSON.parse(res.body)
+			return res.body;
+		rescue Exception
+			return "";
+		else
+			return "";
+		end
 		#@result = @result['country']
 	end
 	

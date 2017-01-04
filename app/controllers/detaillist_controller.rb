@@ -446,24 +446,30 @@ class DetaillistController < ApplicationController
 		end
 		@detail.save
 		#countryCode
-		ipinfo = ipInfo()
-		if ipinfo.nil? || ipinfo.empty?
-			@likelist.ip = "none"
+		if(true)
+			@likelist.ip = "Taiwan"
 		else
-			ipinfo = JSON.parse(ipinfo)
-			if ipinfo['country'].nil? || ipinfo['country'].empty?
-				if ipinfo['query'] == "::1"
-					@likelist.ip = "Taiwan"
-				elsif ipinfo['country'] == "Taiwan"
-					@likelist.ip = "Taiwan"
-				else
-					@likelist.ip = "none"
-				end
-				
+			ipinfo = ipInfo()
+			if ipinfo.nil? || ipinfo.empty?
+				@likelist.ip = "none"
 			else
-				@likelist.ip = "ipinfo['country']"
+				ipinfo = JSON.parse(ipinfo)
+				if ipinfo['country'].nil? || ipinfo['country'].empty?
+					if ipinfo['query'] == "::1"
+						@likelist.ip = "Taiwan"
+					elsif ipinfo['country'] != "Taiwan"
+						@likelist.ip = "none"
+					else
+						@likelist.ip = "Taiwan"
+					end
+					
+				else
+					@likelist.ip = "ipinfo['country']"
+				end
 			end
 		end
+				
+		
 		#@result = @result['country']
 		
 
