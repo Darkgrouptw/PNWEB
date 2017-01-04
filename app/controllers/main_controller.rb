@@ -272,10 +272,10 @@ class MainController < ApplicationController
         if params[:search] != nil &&  params[:search] != ""             # 判斷他是否有這個參數
             @searchParams = params[:search]
             @addLink = "&search=" + @searchParams
-            @issueList = DataIssue.where(title: params[:search])
+            @issueList = DataIssue.where("title like ?", "%" + @searchParams + "%")
             
             if @issueList.length != 0
-                @TreeInfoList = TreeInfo.where(issue_id: @issueList[0])
+                @TreeInfoList = TreeInfo.where(issue_id: @issueList)
             else
                 # 找不到東西，所以用 id 是 -1 來找
                 @TreeInfoList = TreeInfo.where(id: -1)
