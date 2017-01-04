@@ -90,7 +90,7 @@ class User::UserlistController < ApplicationController
 			@users = @users.sort_by{|item| DataIssue.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(post_id: item.id) + DataDetail.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(post_id: item.id)}.reverse
 			#likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
 		elsif @user_order == "hot"
-			@users = @users.sort_by{|item| DataIssue.where(post_id: item.id) + DataDetail.where(post_id: item.id)}.reverse
+			@users = @users.sort_by{|item| DataIssue.where(post_id: item.id).length + DataDetail.where(post_id: item.id).length}.reverse
 		else
 			@users = @users.sort_by{|item| getScore(DataDetail.all,DataIssue.all,LikeList.all,item)}.reverse
 		end
