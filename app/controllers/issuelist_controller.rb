@@ -33,6 +33,20 @@ class IssuelistController < ApplicationController
         end
         return result
     end
+    def findNearHotCandidated(issue_list)
+    	if issue_list.nil?
+    		return issue_list
+    	end
+    	if issue_list.length <= 0
+    		return issue_list
+    	end
+    	#@issues = @issues.sort_by{|item| item.datadetail_id.length}.reverse
+    	#issue_hot = issue_list.sort_by{|item| getStringIDLength(item.thumb_up)}
+    	issue_near = issue_list.where( created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
+    	issue_nearhot = issue_near.sort_by{|item| getStringIDLength(item.thumb_up)}.reverse
+    	#issue_hotnear = issue_hot.sort_by{|item| item.created_at}.reverse;
+    	return issue_nearhot
+    end
     def findHotIsssue(issue_list)
     	likelist = LikeList.all
         #counter = []
@@ -440,7 +454,7 @@ class IssuelistController < ApplicationController
 		end
 
 		if @issue_order == "time"
-			@issues = @issues.order(created_at: :desc)
+			@issues = @issues.order(:created_at)
 		elsif @issue_order == "hot"
 			@issues = findHotIsssue(@issues)
 			#@issues.sort_by{|item| item.datadetail_id.length}
@@ -457,9 +471,9 @@ class IssuelistController < ApplicationController
 		end
 
 		if @candidated_order == "time"
-			@candidates = @candidates.order(created_at: :desc)
+			@candidates = @candidates.order(:created_at).reverse
 		else
-			@candidates = findNearHotIssue(@candidates)
+			@candidates =   findNearHotCandidated(@candidates)
 		end
 				
 
