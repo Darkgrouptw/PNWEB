@@ -353,8 +353,16 @@ class MainController < ApplicationController
 			end
 		end
 		
+        addLink = ""
         if params[:OrderBy] != nil
-            addLink = "?OrderBy=" + params[:OrderBy]
+            addLink = "OrderBy=" + params[:OrderBy]
+            
+            # 加上參數
+            if paramsStr != ""
+                addLink = "&" + addLink
+            else
+                addLink = "?" + addLink
+            end
         end
         
 		redirect_to "/TreeIndex" + paramsStr + addLink
