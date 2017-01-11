@@ -26,7 +26,7 @@
             </svg>
         </div>
         <% if current_user != nil %>
-            <% if current_user.id == @id || current_user.level == 3 %>
+            <% if current_user.level == 3 || (current_user.id == @id && current_user.level == 2) %>
                 <ul id="ListAddNode" class="custom-menu">
                     <li index="0">新增下一層議題</li>
                     <li index="1">新增同一層議題</li>
