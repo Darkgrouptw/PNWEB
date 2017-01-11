@@ -169,8 +169,8 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
     
     // 超過一定範圍，就不縮小了
     var scale = 1;
-    if(nowLevel >= 7)
-        scale = Math.pow(0.8, 7);
+    if(nowLevel >= 4)
+        scale = Math.pow(0.8, 4);
     else
         scale = Math.pow(0.8, nowLevel);
     
@@ -251,7 +251,7 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
         if(i == 2)
         {
             // 判斷還有沒有殘留的字
-            if(SplitCount >= 3)
+            if(SplitCount > 3)
                 tarea.appendChild(makeTSpanSVG('80px', '1.2em', '......'));
             break;
         }
