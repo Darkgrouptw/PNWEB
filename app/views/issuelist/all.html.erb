@@ -37,6 +37,7 @@
 	end
 %>
 <% def CreateIssueValue(issue) %>
+	<% if issue.nil? %><% return %><% end %>
 	<% if issue.is_candidate %>
 		<td>
 			<%= issue.title %>
@@ -97,7 +98,11 @@
 			<%= issue.created_at.to_date %>
 		</td>
 		<td>
+			
 			<% user = @users.where(id: issue.post_id)[0] %>
+			<% if user.nil? %>
+				<% return %>
+			<% end %>
 			<% link = userlist_index_path(id: user.id) %>
 			<a href="<%= link %>"><%= user.nickname %></a>
 		</td>
