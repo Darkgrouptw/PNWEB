@@ -1,4 +1,5 @@
 var CircleScale = 0.8;
+var splitLineWordCount = 8;                     // 要分段字的字數
 var Colur = ["#FFFFFF", "#88D365", "#F72758", "#6495ED", "#FFD905", "#F7F7F7", "#FCC2C2", "#2E3192", "#ECA400", "#FBF2C0", "#6FB722", "#FF9900", "#2364AA", "#3DA5D9", "#73BFB8", "#00B6CC", "#99CC33"];
 $(function(){
     // 變數宣告
@@ -210,6 +211,8 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
         // 確保拿到的是 g 才能拿到 id，拿到其他的要做處理
         if(clickItem.prop("nodeName") == 'a')
             clickItem = clickItem.parent();
+        else if(clickItem.prop("nodeName") == 'text')
+            clickItem = clickItem.parent().parent();
         
         $clickID = clickItem.attr("id");
         
@@ -221,11 +224,50 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
     
     // 新增文字
     tarea.setAttribute("fill", "white");
-    tarea.setAttribute("style", " font-size:24px; transform: translate(-60px, 0px);");
-    tarea.textContent = text;
+    tarea.setAttribute("style", "font-size:24px; transform: translate(-100px, -50px);");
+    
+    // 總共要幾條來顯示
+    var SplitCount = Math.ceil(text.length / splitLineWordCount);
+    for(var i = 0; i < SplitCount; i++)
+    {
+        // 這行有幾格
+        var blankLength = (((i+1) * splitLineWordCount > text.length) ? text.length - i * splitLineWordCount : splitLineWordCount);
+        console.log(blankLength);
+        // 這行的文字是什麼
+        var lineText = text.substr(i * splitLineWordCount, blankLength);
+        
+        // 如果字沒有滿，要置中
+        var xAppend = 0;
+        if(blankLength < splitLineWordCount)
+            xAppend = (splitLineWordCount - blankLength) * 15;
+        
+        // 產生 tSpan
+        var tspan = makeTSpanSVG(xAppend + "px", '1.2em', lineText);
+        
+        
+        // 把它加進 tarea 裡
+        tarea.appendChild(tspan);
+            
+        if(i == 2)
+        {
+            // 判斷還有沒有殘留的字
+            if(SplitCount >= 3)
+                tarea.appendChild(makeTSpanSVG('80px', '1.2em', '......'));
+            break;
+        }
+    }
+    /*tarea.textContent = "測試測試測試測試<br>測試測試測試";*/
+    
     return g;
 };
-
+function makeTSpanSVG(x, dy, text)
+{
+    var tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+    tspan.setAttribute('x', x);
+    tspan.setAttribute('dy', dy);
+    tspan.textContent = text.substr(text);
+    return tspan;
+}
 function makeLineSVG(attrs, fromID, toID) 
 {
     var l = document.createElementNS('http://www.w3.org/2000/svg', "line");
