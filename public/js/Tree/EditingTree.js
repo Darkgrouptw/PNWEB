@@ -165,6 +165,7 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
     
     // 判斷他是否是現在要加進去的
     $(g).attr("id", "Node" + $NodeNumber);
+    
     $(tarea).attr("class", "textArea");
     
     // 超過一定範圍，就不縮小了
@@ -225,6 +226,7 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
     // 新增文字
     tarea.setAttribute("fill", "white");
     tarea.setAttribute("style", "font-size:24px; transform: translate(-100px, -50px);");
+    tarea.setAttribute("full-text", text);                                                       // 把文字加進去
     
     // 總共要幾條來顯示
     var SplitCount = Math.ceil(text.length / splitLineWordCount);
@@ -232,7 +234,7 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
     {
         // 這行有幾格
         var blankLength = (((i+1) * splitLineWordCount > text.length) ? text.length - i * splitLineWordCount : splitLineWordCount);
-        console.log(blankLength);
+        
         // 這行的文字是什麼
         var lineText = text.substr(i * splitLineWordCount, blankLength);
         
@@ -256,7 +258,6 @@ function makeCircleSVG(attrs, text, id, nowLevel, Degree, pos, parentID)
             break;
         }
     }
-    /*tarea.textContent = "測試測試測試測試<br>測試測試測試";*/
     
     return g;
 };
@@ -301,7 +302,8 @@ function AddNodeToChild(NodeName, nodeID)
     var IsFind = false;
     
     // 要搜尋的名稱
-    var n = $(clickNode.children()[1]).children()[0].textContent;
+    var Node = $(clickNode.children()[1]).children()[0];
+    var n = $(Node).attr("full-text");
     while(!IsFind)
     {
         if(checkList.length == 0)
@@ -339,7 +341,8 @@ function AddNodeInSameLevel(NodeName, nodeID)
     var IsFind = false;
     
     // 要搜尋的名稱
-    var n = $(clickNode.children()[1]).children()[0].textContent;
+    var Node = $(clickNode.children()[1]).children()[0];
+    var n = $(Node).attr("full-text");
     while(!IsFind)
     {
         if(checkList.length == 0)
@@ -386,7 +389,8 @@ function MoveClockWise()
     var IsFind = false;
     
     // 要搜尋的名稱
-    var n = $(clickNode.children()[1]).children()[0].textContent;
+    var Node = $(clickNode.children()[1]).children()[0];
+    var n = $(Node).attr("full-text");
     while(!IsFind)
     {
         if(checkList.length == 0)
@@ -444,7 +448,8 @@ function MoveCounterClockWise()
     var IsFind = false;
     
     // 要搜尋的名稱
-    var n = $(clickNode.children()[1]).children()[0].textContent;
+    var Node = $(clickNode.children()[1]).children()[0];
+    var n = $(Node).attr("full-text");
     while(!IsFind)
     {
         if(checkList.length == 0)
@@ -500,6 +505,10 @@ function DeleteNode()
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
+    
+    var Node = clickNode.children()[1].children[0];
+    var n = $(Node).attr("full-text");
+    
     while(!IsFind)
     {
         if(checkList.length == 0)
@@ -508,7 +517,6 @@ function DeleteNode()
             break;
         }
         
-        var n = clickNode.children()[1].textContent;
         if(n != checkList[0].name)
             for(var i = 0; i < checkList[0].parent.length && !IsFind; i++)
             {
@@ -548,11 +556,11 @@ function saveAllNode()
 
 function IsAppearedBefore(NodeName)
 {
-    //alert($NodeNumber);
     for(var i = 0; i < $NodeNumber; i++)
     {
         var GetLink = $("#Node" + i).children()[1];
-        var name = $(GetLink).children()[0].textContent;
+        var Node = $(GetLink).children()[0];
+        var name = $(Node).attr("full-text");
         if(NodeName == name)
             return true
     }
