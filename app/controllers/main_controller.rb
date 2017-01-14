@@ -335,7 +335,8 @@ class MainController < ApplicationController
 	def treecanvas
 		@id = -1
 		if params[:id] != nil
-			@id = TreeInfo.where(id: params[:id])[0].people_id
+			@tree = TreeInfo.where(id: params[:id])[0]
+			@id = @tree.people_id
 		end
 	end
 	

@@ -53,16 +53,14 @@ end
             
             
         </div>
-        <div id = "old_type" style="display: none;">
-                <% treeInfos = @id %>
-                <% if treeInfos.nil? || treeInfos.length <= 0 %>
-                <% else %>
-                    <% treeInfo = treeInfos[0] %>
-                    <% runTree(parseTree(treejsonInfo(params[:id])),0) %>
-
-                <% end %>
-                    
-            </div>
+        <div id = "old_type" style="display: none;overflow-y: scroll;height: 10000px;">
+            <% treeInfos = @tree %>
+            <% if treeInfos.nil?%>
+            <% else %>
+                <% treeInfo = treeInfos[0] %>
+                <% runTree(parseTree(treejsonInfo(params[:id])),0) %>
+            <% end %>
+        </div>
         <% if current_user != nil %>
             <% if current_user.level >= 2 || (current_user.id == @id && current_user.level == 1) %>
                 <ul id="ListAddNode" class="custom-menu">
