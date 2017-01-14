@@ -288,7 +288,7 @@ class MainController < ApplicationController
         
 		@OrderBy = params[:OrderBy]
 		if @OrderBy == 0.to_s
-			@items = @TreeInfoList.where(updated_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
+			@items = @TreeInfoList.where(updated_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).order(updated_at: :desc)
 			@items = findNearHotIssueTree(@items)
 		elsif @OrderBy == 1.to_s
             @addLink = @addLink + "&OrderBy=1"
@@ -298,7 +298,7 @@ class MainController < ApplicationController
 			@items = @TreeInfoList.order(updated_at: :desc)
 			@items = findNearHotIssueTree(@items)
 		else
-			@items = @TreeInfoList.where(updated_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
+			@items = @TreeInfoList.where(updated_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).order(updated_at: :desc)
 			@items = findNearHotIssueTree(@items)
 		end
 		
@@ -335,8 +335,7 @@ class MainController < ApplicationController
 	def treecanvas
 		@id = -1
 		if params[:id] != nil
-			@id = TreeInfo.where(id: params[:id])
-			
+			@id = TreeInfo.where(id: params[:id])[0].people_id
 		end
 	end
 	
@@ -354,8 +353,16 @@ class MainController < ApplicationController
 			end
 		end
 		
+        addLink = ""
         if params[:OrderBy] != nil
-            addLink = "?OrderBy=" + params[:OrderBy]
+            addLink = "OrderBy=" + params[:OrderBy]
+            
+            # 加上參數
+            if paramsStr != ""
+                addLink = "&" + addLink
+            else
+                addLink = "?" + addLink
+            end
         end
         
 		redirect_to "/TreeIndex" + paramsStr + addLink
