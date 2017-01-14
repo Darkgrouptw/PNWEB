@@ -127,6 +127,10 @@ class IssuelistController < ApplicationController
 		@pos_ip_select = params[:pos_ip_select]
 		@neg_ip_select = params[:neg_ip_select]
 		@me = @issues.where(id: @tags)[0]
+		if @me.nil?
+			@me = @issues.where(title: @tags)[0]
+		else
+		end
 		if @pos_order.nil? || @pos_order.empty?
 			@pos_order = "thumb"
 		end

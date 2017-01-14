@@ -7,6 +7,20 @@ $(function(){
     $chooseIndex = "";                      // Chooose 的選項
     
     /*
+    切換顯示的樹形式
+    */
+    $("#switch").on("click",function(){
+        if($("#new_type").css("display") == "block"){
+            $("#new_type").css("display","none")
+            $("#old_type").css("display","block")
+        }else{
+            $("#new_type").css("display","block")
+            $("#old_type").css("display","none")
+        }
+        console.log($("#new_type").css("display"))
+        console.log($("#old_type").css("display"))
+    });
+    /*
     加東西的 Div 事件
     */
     $(".AddItemDiv .glyphicon-remove").on("click", function(){

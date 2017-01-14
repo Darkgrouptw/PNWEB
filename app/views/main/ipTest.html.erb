@@ -1,1 +1,17 @@
-<div><%= @result %></div>
+<% 
+def parseTree(treeS) 
+	require 'json'
+	data = JSON.parse(treeS)
+	return data["item"]
+end
+%>
+<% def runTree(tree,layer) %>	
+	<div>
+		<%= layer.to_s + tree["name"].to_s %> 
+		<% tree["parent"].each do |sub_tree|%>
+			<% runTree(sub_tree,layer + 1) %>
+		<% end %>
+	
+<% end %>
+<div><%= runTree(parseTree(@result),0) %>
+</div>

@@ -26,6 +26,20 @@ module Common
 		#@result = @result['country']
 	end
 	
+	def treejsonInfo(id)
+		treeInfo = TreeInfo.where(id: id.to_s)[0]
+		if treeInfo.nil?
+			return ""
+		else
+			string_info = treeInfo.info
+			if string_info.nil?
+				return ""
+			else
+				return string_info.gsub("\'","\"")
+			end
+		end
+	end
+
 	def removeIDFromString(str,id)
 		result = str
 		if result.nil? || result.empty?

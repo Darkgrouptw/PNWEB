@@ -1,4 +1,29 @@
 <!DOCTYPE html>
+<% 
+def parseTree(treeS) 
+    require 'json'
+    data = JSON.parse(treeS)
+    return data["item"]
+end
+%>
+<% def runTree(tree,layer) %>   
+    <div>
+
+        <% for i in 0..layer %>
+            <blockquote>
+        <% end %>
+        <% link = issuelist_index_path(id: tree["name"].to_s) %>
+        <a href = <%= link %> target="_blank">
+            <%= tree["name"].to_s %>
+        </a>
+        <% for i in 0..layer %>
+            </blockquote>
+        <% end %>
+    </div>
+    <% tree["parent"].each do |sub_tree|%>
+            <% runTree(sub_tree,layer + 1) %>
+    <% end %>
+<% end %>
 <html>
     <head>
         <title>PNWEB</title>
@@ -21,10 +46,23 @@
         <link rel="stylesheet" type="text/css" href="/css/Tree/TreeCanvas.css">
     </head>
     <body>
-        <div class="MenuBox">
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <div style="background-color: rgb(242, 238, 228);"><input type = "button" id = "switch" value = "切換顯示模式" style="background-color: rgb(242, 238, 228);"></div>
+        <div class="MenuBox" id = "new_type" >
+                <svg   width="100%" height="100%"  xmlns="http://www.w3.org/2000/svg">
             </svg>
+            
+            
         </div>
+        <div id = "old_type" style="display: none;">
+                <% treeInfos = @id %>
+                <% if treeInfos.nil? || treeInfos.length <= 0 %>
+                <% else %>
+                    <% treeInfo = treeInfos[0] %>
+                    <% runTree(parseTree(treejsonInfo(params[:id])),0) %>
+
+                <% end %>
+                    
+            </div>
         <% if current_user != nil %>
             <% if current_user.id == @id || current_user.level == 3 %>
                 <ul id="ListAddNode" class="custom-menu">

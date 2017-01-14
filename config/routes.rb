@@ -74,7 +74,7 @@ Rails.application.routes.draw do
     get     "TreeIndex"         =>  "main#treeindex",			:as =>	"treeindex"
     get     "TreeCanvas"        =>  "main#treecanvas"
     get     "TreeThumbUp"       =>  "main#tree_thumb_up"
-    get     "TreeJson"          =>  "main#treejson"
+    get     "TreeJson"          =>  "main#treejson",			:as =>  "treejson"
     get     "TreeCheck"         =>  "main#tree_check"
     get     "TreeAddRoot"       =>  "main#root_add"
     post    "TreeSaveAllNode"   =>  "main#tree_save_all_node"

@@ -336,6 +336,7 @@ class MainController < ApplicationController
 		@id = -1
 		if params[:id] != nil
 			@id = TreeInfo.where(id: params[:id])
+			
 		end
 	end
 	
@@ -536,7 +537,11 @@ class MainController < ApplicationController
 		puts @content
 	end
 	def ipTest
-		@result = ipInfo()
+		id = params[:id]
+		if id.nil? 
+			id = 0
+		end
+		@result = treejsonInfo(id)
 	end
 	
 
