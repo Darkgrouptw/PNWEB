@@ -176,8 +176,14 @@ module Common
 		end
 		@people = DataPerson.where(id: @me.people_id)[0]
 		@issue = DataIssue.where(id: @me.issue_id)[0]
+
 		@media = DataMedium.where(name: @me.news_media)[0]
-		@likelist = LikeList.where(detail_id: @issue.datadetail_id.split(","))
+
+		@likelist = nil
+		if @issue.nil?
+		else
+			@likelist = LikeList.where(detail_id: @issue.datadetail_id.split(","))	
+		end
 		users = []
 		@likelist.where(detail_id: @me.id).each do |like|
 			users.push(like.post_id)
