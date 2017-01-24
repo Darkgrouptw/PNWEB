@@ -239,11 +239,26 @@ module Common
 				report.destroy
 			end
 		end
-		@people.save
-		@issue.save
-		@media.save
-		@user.save
-		@me.destroy
+		if !@people.nil?
+			@people.save
+		end
+		if !@issue.nil?
+			@issue.save
+		end
+		if !@media.nil?
+			@media.save
+		end
+		if !@user.nil?
+			@user.save
+		end
+		if !@me.nil?
+			@me.destroy
+		end
+		
+		
+		
+		
+		
 		return
 	end
 
