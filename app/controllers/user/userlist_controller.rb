@@ -67,7 +67,12 @@ class User::UserlistController < ApplicationController
 		if all_likes.length > 0
 			@details.each do |item|
 				issue = @issues.where(id: item.issue_id)[0]
-				like = all_likes.where(detail_id: issue.datadetail_id.split(','))
+				if issue.nil?
+					like = all_likes.where(detail_id: -1)
+				else
+					like = all_likes.where(detail_id: issue.datadetail_id.split(','))
+				end
+				
 				details_temp = @details
 				details_temp.sort_by{|item| like.where(detail_id: item.id).length}.reverse
 				if details_temp.index(details_temp.where(id: item.id)[0]) < 10

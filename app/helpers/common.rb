@@ -179,8 +179,8 @@ module Common
 
 		@media = DataMedium.where(name: @me.news_media)[0]
 
-		@likelist = nil
 		if @issue.nil?
+			@likelist = LikeList.where(detail_id: -1)	
 		else
 			@likelist = LikeList.where(detail_id: @issue.datadetail_id.split(","))	
 		end
