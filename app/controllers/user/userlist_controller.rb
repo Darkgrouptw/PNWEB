@@ -64,16 +64,19 @@ class User::UserlistController < ApplicationController
 			all_detail_ids.push(item.id)
 		end
 		all_likes = LikeList.where(detail_id: all_detail_ids)
-		@details.each do |item|
-			issue = @issues.where(id: item.issue_id)[0]
-			like = all_likes.where(detail_id: issue.datadetail_id.split(','))
-			details_temp = @details
-			details_temp.sort_by{|item| like.where(detail_id: item.id).length}.reverse
-			if details_temp.index(details_temp.where(id: item.id)[0]) < 10
-				@detailIn10Top = @detailIn10Top + 1
+		if all_likes.length > 0
+			@details.each do |item|
+				issue = @issues.where(id: item.issue_id)[0]
+				like = all_likes.where(detail_id: issue.datadetail_id.split(','))
+				details_temp = @details
+				details_temp.sort_by{|item| like.where(detail_id: item.id).length}.reverse
+				if details_temp.index(details_temp.where(id: item.id)[0]) < 10
+					@detailIn10Top = @detailIn10Top + 1
+				end
+				#issue_list.sort_by{|item| likelist.where(detail_id: item.datadetail_id.split(',')).length}.reverse
 			end
-			#issue_list.sort_by{|item| likelist.where(detail_id: item.datadetail_id.split(',')).length}.reverse
 		end
+		
 		
 		@score = @detailIn10Top * 3 + @details.length * 1 + @postedIssueNumber * 3
 

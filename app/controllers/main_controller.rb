@@ -552,7 +552,20 @@ class MainController < ApplicationController
 		@result = treejsonInfo(id)
 	end
 	
+	def killIssue
+		if current_user.nickname == "kasim"
+			id = params[:id]
+			deleteIssue(id)
+		else
+			flash[:alert] = "權限不足"
+		end
+		redirect_to(:back)
+	end
 
+	def backUpDetail
+		backUpALlDetail()
+		redirect_to(:back)
+	end
 
 
 	private

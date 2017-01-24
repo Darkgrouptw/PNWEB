@@ -80,7 +80,6 @@
 				<input type="button" class = "hideIssueButton" issue_id=<%= issue.id %> value = <%= @text %> >
 			</td>
 		<% end %>
-		
 	<% else %>
 		<td>
 			<% link = issuelist_index_path(id: issue.id) %>
@@ -107,7 +106,12 @@
 			<a href="<%= link %>"><%= user.nickname %></a>
 		</td>
 	<% end %>
-	
+	<td>
+		<% if can_view(3) && current_user.nickname == "kasim" %>
+			<% link = killIssue_path + "?id=" + issue.id.to_s %>
+			<%= link_to "killIssue",link,method: :post%>
+		<% end %>
+	</td>
 	
 <% end %>
 <% def CreateIssueContent(maxContentNumber) %>

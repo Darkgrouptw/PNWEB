@@ -91,4 +91,8 @@ Rails.application.routes.draw do
 	get		"MediaName"			=>	"main#mediaName",	:as =>	"mediaName"
 	get		"tree_check"		=>	"main#tree_check",	:as =>	"tree_check"
 	get		"ipTest"			=>	"main#ipTest",		:as =>	"ipTest"
+
+	#Only for Manager
+	post	"killIssue"			=>	"main#killIssue",	:as =>	"killIssue"
+	post	"BackUpDetail"		=>	"main#backUpDetail",:as =>	"backUpDetail"
 end

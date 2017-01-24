@@ -130,6 +130,9 @@
 													
 													<% if current_user.level == 3 %>
 														<li class=" headLink"><%= link_to "啟動寄信程序",open_thread_path,style: 'color:#A0D8FF;align: left;',method: :post%></li>
+														<% if current_user.nickname == "kasim" %>
+														<li class=" headLink"><%= link_to "啟動大備份",backUpDetail_path,style: 'color:#A0D8FF;align: left;',method: :post%></li>
+														<% end %>
 													<% end %>
 											</ul>
 										</li>
