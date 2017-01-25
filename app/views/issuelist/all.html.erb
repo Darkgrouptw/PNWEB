@@ -106,12 +106,14 @@
 			<a href="<%= link %>"><%= user.nickname %></a>
 		</td>
 	<% end %>
-	<td>
-		<% if can_view(3) && current_user.nickname == "kasim" %>
+	
+	<% if can_view(3) && current_user.nickname == "kasim" %>
+		<td>
 			<% link = killIssue_path + "?id=" + issue.id.to_s %>
 			<%= link_to "killIssue",link,method: :post%>
-		<% end %>
-	</td>
+		</td>
+	<% end %>
+	
 	
 <% end %>
 <% def CreateIssueContent(maxContentNumber) %>
