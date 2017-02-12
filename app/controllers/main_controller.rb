@@ -545,11 +545,12 @@ class MainController < ApplicationController
 		puts @content
 	end
 	def ipTest
-		id = params[:id]
-		if id.nil? 
-			id = 0
-		end
-		@result = treejsonInfo(id)
+		#id = params[:id]
+		#if id.nil? 
+		#	id = 0
+		#end
+		#@result = treejsonInfo(id)
+		@result = ipInfo()
 	end
 	
 	def killIssue
