@@ -133,6 +133,9 @@
 								<% if issue.nil?  %>
 									<% next %>
 								<% end %>
+								<% if !detail.is_direct %>
+									<% next %>
+								<% end %>
 								<tr>
 									<td>
 										<% link = issuelist_index_path(id: issue.id) %>
