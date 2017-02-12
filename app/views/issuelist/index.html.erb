@@ -7,15 +7,16 @@
 <%
 	for i in 0..2
 		if i < @support.length
-			description_text = description_text + @support[i].content
+			description_text = description_text + "<br>" + @support[i].content
 		end
 	end
 	for i in 0..2
 		if i < @disSupport.length
-			description_text = description_text + @disSupport[i].content
+			description_text = description_text + "<br>" + @disSupport[i].content
 		end
 	end
 %>
+<% content_for :title, @me.title %>
 <% content_for :description, description_text %>
 <% 
 	def HasUser()
