@@ -446,27 +446,10 @@ class DetaillistController < ApplicationController
 		end
 		@detail.save
 		#countryCode
-		if(true)
+		if(isTaiwan())
 			@likelist.ip = "Taiwan"
 		else
-			ipinfo = ipInfo()
-			if ipinfo.nil? || ipinfo.empty?
-				@likelist.ip = "none"
-			else
-				ipinfo = JSON.parse(ipinfo)
-				if ipinfo['country'].nil? || ipinfo['country'].empty?
-					if ipinfo['query'] == "::1"
-						@likelist.ip = "Taiwan"
-					elsif ipinfo['country'] != "Taiwan"
-						@likelist.ip = "none"
-					else
-						@likelist.ip = "Taiwan"
-					end
-					
-				else
-					@likelist.ip = "ipinfo['country']"
-				end
-			end
+			@likelist.ip = "none"
 		end
 				
 		
