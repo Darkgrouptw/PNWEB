@@ -26,6 +26,35 @@ module Common
 		#@result = @result['country']
 	end
 	
+	def isTaiwan()
+		require 'net/http'
+		if current_user.nil?
+			return false
+		end
+		@ip = current_user.ip
+		#@ip = "140.118.175.92"
+		begin
+			url = URI.parse('http://ip-api.com/json/'+@ip)
+			req = Net::HTTP::Get.new(url.to_s)
+			res = Net::HTTP.start(url.host, url.port) {|http|
+			  http.request(req)
+			}
+			data = JSON.parse(res.body)
+			if data["status"] == "success"
+				if data["country"] == "Taiwan"
+					return true
+				else
+					return false
+				end
+			else
+				return false
+			end
+		rescue Exception
+			return "";
+		else
+			return "";
+		end
+	end
 	def treejsonInfo(id)
 		treeInfo = TreeInfo.where(id: id.to_s)[0]
 		if treeInfo.nil?
