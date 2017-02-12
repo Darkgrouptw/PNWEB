@@ -18,6 +18,7 @@
 %>
 <% content_for :title, "NPWEB-" + @me.title %>
 <% content_for :description, description_text %>
+<% content_for :description2, description_text %>
 <% 
 	def HasUser()
 		if current_user.nil? || current_user.id.nil?
