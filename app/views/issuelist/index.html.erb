@@ -2,6 +2,21 @@
 <script src="/js/queryVoted.js"></script>
 <script src="/js/queryScroll.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/table.css">
+
+<% description_text = "" %>
+<%
+	for i in 0..2
+		if i < @support.length
+			description_text = description_text + @support[i].content
+		end
+	end
+	for i in 0..2
+		if i < @disSupport.length
+			description_text = description_text + @disSupport[i].content
+		end
+	end
+%>
+<% content_for :description, description_text %>
 <% 
 	def HasUser()
 		if current_user.nil? || current_user.id.nil?
