@@ -264,6 +264,31 @@ class MainController < ApplicationController
 			redirect_to "/", :notice => "已經開啟過囉 ！！"
 		end
 	end
+    
+    def traceExistItem(name, params)
+        if name.include? params
+            return true
+        end
+        return false
+    end
+    
+    def traceTree(tree, params)
+        #byebug
+        if traceExistItem(tree["name"], params)
+            return true
+        end
+        
+        if tree["parent"] == nil
+            return false
+        else
+            tree["parent"].each do |treeParent|
+                if traceTree(treeParent, params)
+                    return true
+                end
+            end
+            return false
+        end
+    end
 	
 	#
 	# 編輯樹
@@ -272,10 +297,22 @@ class MainController < ApplicationController
         if params[:search] != nil &&  params[:search] != ""             # 判斷他是否有這個參數
             @searchParams = params[:search]
             @addLink = "&search=" + @searchParams
-            @issueList = DataIssue.where("title like ?", "%" + @searchParams + "%")
             
-            if @issueList.length != 0
-                @TreeInfoList = TreeInfo.where(issue_id: @issueList)
+            # TreeJson => trace the tree
+            @dataSet = TreeInfo.all
+            
+    	    require 'json'
+            @idList = []
+            @dataSet.each do |data|
+                treeInfo = JSON.parse(data.info.gsub("\'","\""))["item"]
+                if traceTree(treeInfo, @searchParams)
+                    @idList.push(data.id)
+                end
+            end
+            
+            #@issueList = DataIssue.where("title like ?", "%" + @searchList + "%")
+            if @idList.length != 0
+                @TreeInfoList = TreeInfo.where(id: @idList)
             else
                 # 找不到東西，所以用 id 是 -1 來找
                 @TreeInfoList = TreeInfo.where(id: -1)

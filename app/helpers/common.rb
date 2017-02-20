@@ -250,18 +250,21 @@ module Common
 				@notifyList.where(user_id: user.id)[0].destroy
 			end
 		end
+        
 		#destroy like
 		@likelist.each do |like|
 			if like.detail_id == @me.id
 				like.destroy
 			end
 		end
+        
 		#destroy comment
 		@comments.each do |comment|
 			if comment.detail_id == @me.id
 				comment.destroy
 			end
 		end
+        
 		#destroy report
 		@reports.each do |report|
 			if report.detail_id == @me.id
@@ -283,10 +286,6 @@ module Common
 		if !@me.nil?
 			@me.destroy
 		end
-		
-		
-		
-		
 		
 		return
 	end
