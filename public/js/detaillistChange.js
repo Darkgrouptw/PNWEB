@@ -38,9 +38,9 @@ $(function(){
             $("#directClick_blank").text("間接意見");
         
         if($("#supportClick").prop("checked") == true)
-            $("#support_blank").text("是");
+            $("#support_blank").text("贊成");
         else
-            $("#support_blank").text("否");
+            $("#support_blank").text("反對");
         
         obj = $("#news_media_blank").text($("#queryMedia").prop("value") + "\n（" + $("#reportTime").prop("value") + "）");
         obj.html(obj.html().replace(/\n/g,'<br/>'));
