@@ -100,6 +100,12 @@
 							<td><%= @likeList.length %></td>
 							
 							<td>
+								<% if can_editor_user(@me.id) %>
+									<div>
+										編輯
+									</div>
+								<% end %>
+								
 								<div>
 									<%if @me.level == 0%>
 										一般使用者

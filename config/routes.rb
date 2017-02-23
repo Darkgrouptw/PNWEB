@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 	get     "Issuelist/:id"     =>  "issuelist#index",          :as =>  "issuelist_index"
 
 	# people page
+	get		"peoplelist/manager"=>	"peoplelist#manager",		:as =>	"peoplelist_manager"
 	get     "Peoplelist/all"    =>  "peoplelist#all",           :as =>  "peoplelist_all"
 	get     "Peoplelist/add"    =>  "peoplelist#add",           :as =>  "peoplelist_add"
 	post    "Peoplelist/new"    =>  "peoplelist#new",           :as =>  "peoplelist_new"
@@ -61,6 +62,7 @@ Rails.application.routes.draw do
 	get		"User/power/edit/:id"	=>	"user/userlist#power_edit",	:as =>	"userlist_power_edit"
 	post 	"User/power/update"	=>	"user/userlist#power_update",	:as =>	"userlist_power_update"
 	get		"User/all"			=>	"user/userlist#all",	:as =>	"userlist_all"
+	get		"User/edit/:id"		=>	"user/userlist#edit",	:as =>	"userlist_edit"
 	get     "User/:id"          =>  "user/userlist#index",  :as =>  "userlist_index"
 
 	# report

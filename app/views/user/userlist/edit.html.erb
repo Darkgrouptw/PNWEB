@@ -1,0 +1,88 @@
+<div class="BigTitle">
+    <h2>使用者資料</h2>
+    <hr>
+</div>
+<div class="container-fluid">
+    <div class="row">    
+        <div class="col-md-12" style="margin-left: 0px; padding-right: 0px;">
+            
+            <!-- Top 要剝一層 CSS -->
+            <div class="FormTop">
+            </div>
+            
+            <!-- 中間的內容 -->
+            <form action="<%= register_success_path %>" method="post">
+                <div class="FormInside">
+                    <div class="form-group" style="margin: 0px;">
+                        <!-- 左半部的內容 -->
+                        <div class="row">
+                            <div class="col-md-offset-2 col-md-4">
+                                <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                                <input type="hidden" name="token" value="<%= @token %>">
+
+                                <label>信箱</label>
+                                <input type="text" class="form-control" name="email" value="<%= @me.email %>" required="true" readonly="readonly">
+                                <br>
+
+                                
+
+                                <label>出生年月日</label>
+                                <input type="date" class="form-control" name="date" required="true">
+                                <br>
+
+                                <label>性別</label> <br>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="sex" value="male" id="male">男生</font>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="sex" value="female" id="female">女生
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="sex" value="other" id="other">其他
+                                </label>
+                                <br>
+
+                                <br>
+                            </div>
+
+                            <!-- 右半部的內容 -->
+                            <div class="col-md-4">
+                                 <label>暱稱</label>
+                                <input type="text" class="form-control" name="nickname" value = "<%= @me.nickname %>"required="true">
+                                <br>
+
+                                
+
+                                <label>居住地</label>
+                                <select class="form-control" name="liveplace">
+                                    <option value="1">台灣</option>
+                                    <option value="2">大陸</option>
+                                    <option value="3">新加坡</option>
+                                    <option value="4">馬來西亞</option>
+                                    <option value="5">泰國</option>
+                                    <option value="6">越南</option>
+                                    <option value="7">巴西</option>
+                                    <option value="8">阿根廷</option>
+                                    <option value="9">美國</option>
+                                    <option value="10">英國</option>
+                                </select>
+                                <br>
+                                <br>
+
+                                <!-- Google 驗證機制，確定 Callback Function 不會再 google api 載入後，在載入，所以最後加上 async defer -->                        
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- 底下的內容 -->
+                <div class="FormBottom">
+                    <div style="text-align:center;">
+                        <input type="submit" class="btn btn-primary" style="width: 150px; " value = "更改並送出">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

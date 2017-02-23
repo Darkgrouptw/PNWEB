@@ -178,4 +178,14 @@ class User::UserlistController < ApplicationController
 		end
 		redirect_to(:back)
 	end
+
+	def edit
+		if !can_editor_user(params[:id])
+			flash[:alert] = "權限不足"
+			redirect_to(:back)
+			return
+		end
+		@me = User.where(id: params[:id])[0]
+		
+	end
 end

@@ -52,6 +52,16 @@ module Authority
             return false
         end
     end
+    def can_editor_user(user_id)
+        if can_view(2)
+            return true
+        elsif !current_user.nil? && current_user.id == user_id
+            return true
+        else
+            return false
+        end
+                
+    end
     def can_like()
         return !been_disable(1) && can_view(0)
     end
