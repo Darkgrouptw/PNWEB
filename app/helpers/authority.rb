@@ -42,6 +42,9 @@ module Authority
     def can_add_comment()
         return !been_disable(2) && can_view(0)
     end
+    def can_editor_media()
+        return can_view(2)
+    end
     def can_editor_issue()
         if can_view(2)
             return true

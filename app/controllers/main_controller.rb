@@ -127,6 +127,10 @@ class MainController < ApplicationController
 		counter = []
 		recorder = []
 		media_list.each do |media|
+			
+			if getOtherParameter(media,"hide") == "yes"
+				next
+			end
 			counter.push(getStringIDLength(media.datadetail_id))
 			recorder.push(media.id)
 		end
@@ -155,6 +159,9 @@ class MainController < ApplicationController
 		detail_str = []
 		detail_all = DataDetail.all
 		media_list.each do |media|
+			if getOtherParameter(media,"hide") == "yes"
+				next
+			end
 			detail_str = media.datadetail_id.split(',')
 			details = detail_all.where(id: detail_str).order(:issue_id)
 			sum = 0

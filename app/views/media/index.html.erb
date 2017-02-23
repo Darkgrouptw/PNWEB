@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/css/table.css">
+<script src="/js/queryHide.js"></script>
 <%
 	def getSelfLink(media_order,media_search,issue_order,issue_search)
 		result = ""
@@ -74,7 +75,17 @@
 				<% end %>
 			</div>
 		</div>
+
+
 		<div class = "col-md-offset-1 col-md-8 row">
+			<% if can_editor_media() %>
+				<% if getOtherParameter(@me,"hide") == "yes" %>
+					<% @text = "顯示" %>
+				<% else %>
+					<% @text = "隱藏" %>
+				<% end %>
+				<input type="button" class = "hideMediaButton" media_id=<%= @me.id %> value = <%= @text %> >
+			<% end %>
 			<div class = "whiteText row">
 				<div >
 					<% if can_view(2) %>

@@ -1,5 +1,26 @@
 module Common
 	
+	def getOtherParameter(object,paraName)
+		if object.nil? || object.other.nil?
+			return nil
+		end
+		other = object.other
+		require 'json'
+		otherJson = JSON.parse(other)
+    	return otherJson[paraName]
+	end
+
+	def setOtherParameter(object,paraName,value)
+		other = object.other
+		if other.nil? || other.empty?
+			other = "{}"
+		end
+		require 'json'
+		otherJson = JSON.parse(other)
+		otherJson[paraName] = value
+		object.other = otherJson.to_json
+		return
+	end
 	def testYou(kasim,john)
 		return kasim + john
 	end

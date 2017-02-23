@@ -51,6 +51,7 @@ Rails.application.routes.draw do
 
 	#media page
 	post 	"Media/new"			=>	"media#new",				:as =>	"media_new"
+	post 	"Media/hide"		=>	"media#hide",				:as =>	"media_hide"
 	get		"Media/all"			=>	"media#all",				:as =>	"media_all"
 	get  	"Media/:id"			=>	"media#index",				:as =>	"media_index"
 	# poster page

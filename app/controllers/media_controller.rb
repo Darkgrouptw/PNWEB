@@ -79,4 +79,21 @@ class MediaController < ApplicationController
 		end
 		
 	end
+
+	def hide
+		puts "======================================================================================"
+		id = params[:Name]
+		puts id
+		puts "======================================================================================"
+		media = DataMedium.where(id: id)[0]
+		if !media.nil?
+			if getOtherParameter(media,"hide") == "yes"
+				setOtherParameter(media,"hide","no")
+			else
+				setOtherParameter(media,"hide","yes")
+			end
+			media.save
+		end
+		return
+	end
 end
