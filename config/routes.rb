@@ -63,6 +63,7 @@ Rails.application.routes.draw do
 	post 	"User/power/update"	=>	"user/userlist#power_update",	:as =>	"userlist_power_update"
 	get		"User/all"			=>	"user/userlist#all",	:as =>	"userlist_all"
 	get		"User/edit/:id"		=>	"user/userlist#edit",	:as =>	"userlist_edit"
+	post 	"User/update"		=>	"user/userlist#update",	:as =>	"userlist_update"
 	get     "User/:id"          =>  "user/userlist#index",  :as =>  "userlist_index"
 
 	# report

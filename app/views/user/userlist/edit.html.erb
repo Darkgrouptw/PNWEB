@@ -11,7 +11,7 @@
             </div>
             
             <!-- 中間的內容 -->
-            <form action="<%= register_success_path %>" method="post">
+            <form action="<%= userlist_update_path(id: @me.id) %>" method="post">
                 <div class="FormInside">
                     <div class="form-group" style="margin: 0px;">
                         <!-- 左半部的內容 -->
@@ -27,18 +27,18 @@
                                 
 
                                 <label>出生年月日</label>
-                                <input type="date" class="form-control" name="date" required="true">
+                                <input type="date" class="form-control" name="date" value="<%= Date.parse( @me.birth) %>" required="true">
                                 <br>
 
                                 <label>性別</label> <br>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" name="sex" value="male" id="male">男生</font>
+                                    <input type="radio" name="sex" value="0" id="male" <%if @me.sex == 0%><%= "checked" %><%end%>>男生</font>
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" name="sex" value="female" id="female">女生
+                                    <input type="radio" name="sex" value="1" id="female" <%if @me.sex == 1%><%= "checked" %><%end%>>女生
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" name="sex" value="other" id="other">其他
+                                    <input type="radio" name="sex" value="2" id="other" <%if @me.sex == 2%><%= "checked" %><%end%>>其他
                                 </label>
                                 <br>
 
@@ -55,16 +55,16 @@
 
                                 <label>居住地</label>
                                 <select class="form-control" name="liveplace">
-                                    <option value="1">台灣</option>
-                                    <option value="2">大陸</option>
-                                    <option value="3">新加坡</option>
-                                    <option value="4">馬來西亞</option>
-                                    <option value="5">泰國</option>
-                                    <option value="6">越南</option>
-                                    <option value="7">巴西</option>
-                                    <option value="8">阿根廷</option>
-                                    <option value="9">美國</option>
-                                    <option value="10">英國</option>
+                                    <option value="台灣" <%if @me.liveplace == "台灣" %><%= "selected" %><%end%>>台灣</option>
+                                    <option value="大陸" <%if @me.liveplace == "大陸" %><%= "selected" %><%end%>>大陸</option>
+                                    <option value="新加坡" <%if @me.liveplace == "新加坡" %><%= "selected" %><%end%>>新加坡</option>
+                                    <option value="馬來西亞" <%if @me.liveplace == "馬來西亞" %><%= "selected" %><%end%>>馬來西亞</option>
+                                    <option value="泰國" <%if @me.liveplace == "泰國" %><%= "selected" %><%end%>>泰國</option>
+                                    <option value="越南" <%if @me.liveplace == "越南" %><%= "selected" %><%end%>>越南</option>
+                                    <option value="巴西" <%if @me.liveplace == "巴西" %><%= "selected" %><%end%>>巴西</option>
+                                    <option value="阿根" <%if @me.liveplace == "阿根" %><%= "selected" %><%end%>>阿根廷</option>
+                                    <option value="美國" <%if @me.liveplace == "美國" %><%= "selected" %><%end%>>美國</option>
+                                    <option value="英國"<%if @me.liveplace == "英國" %><%= "selected" %><%end%>>英國</option>
                                 </select>
                                 <br>
                                 <br>

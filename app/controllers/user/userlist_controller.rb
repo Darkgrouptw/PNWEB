@@ -188,4 +188,24 @@ class User::UserlistController < ApplicationController
 		@me = User.where(id: params[:id])[0]
 		
 	end
+
+	def update
+		@me = User.where(id: params[:id])[0]
+		if @me.nil?
+			flash[:alert] = "使用者不存在"
+			redirect_to(:back)
+			return
+		end
+		liveplace = params[:liveplace]
+		sex = params[:sex]
+		nickname = params[:nickname]
+		birth = params[:date]
+		@me.liveplace = liveplace
+		@me.sex = sex
+		@me.birth = birth
+		@me.nickname = nickname
+		@me.save
+		redirect_to(:back)
+		return
+	end
 end
