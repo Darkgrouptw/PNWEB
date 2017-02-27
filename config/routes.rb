@@ -82,6 +82,7 @@ Rails.application.routes.draw do
     get     "TreeCheck"         =>  "main#tree_check"
     get     "TreeAddRoot"       =>  "main#root_add"
     post    "TreeSaveAllNode"   =>  "main#tree_save_all_node"
+    post    "TreeDeleteAllNode" =>  "main#tree_delete_all_node"
 
 	# notify
 	post 	"Notify"            =>	"main#notify",	    :as =>	"notify"

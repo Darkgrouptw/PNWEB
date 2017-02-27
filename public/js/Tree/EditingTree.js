@@ -546,8 +546,9 @@ function DeleteNode()
             }
         else
         {
-            alert("不能刪除 Root ！！");
-            break;
+            // 刪除 Root
+            deleteAllNode();
+            return;
         }
         
         // 刪除第一個
@@ -561,11 +562,20 @@ function DeleteNode()
         TreeManager(sJsonData);
     }
 }
+/*
+儲存．刪除
+*/
 function saveAllNode()
 {
     $(".ReminderSave").hide();
     $.post("TreeSaveAllNode", {"id": getUrlParameter("id"), "TreeInfo": JSON.stringify(sJsonData)}).done(function(data){
         window.top.location.reload();
+    });
+}
+function deleteAllNode()
+{
+    $.post("TreeDeleteAllNode", {"id": getUrlParameter("id")}).done(function(data){
+       window.top.location.reload(); 
     });
 }
 
