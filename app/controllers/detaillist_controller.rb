@@ -145,6 +145,17 @@ class DetaillistController < ApplicationController
 			return
 		end
 		@issue = DataIssue.where(id: params[:id])[0]
+		@content = params[:content]
+		@people_id = params[:people_id]
+		@issue_id = params[:issue_id]
+		@title_at_that_time = params[:title_at_that_time]
+		@is_support = params[:is_support]
+		@is_direct = params[:is_direct]
+		@news_media = params[:news_media]
+		@report_at = params[:report_at]
+		@link = params[:link]
+		@backup_type = params[:backup_type]
+		@person = DataPerson.where(id: @people_id)[0]
 	end
 
 	def new
@@ -412,7 +423,7 @@ class DetaillistController < ApplicationController
 		#else
 		#	@detail.is_support =false
 		#end
-		if is_direct
+		if is_direct == "true"
 			@detail.is_direct = true
 		else
 			@detail.is_direct =false

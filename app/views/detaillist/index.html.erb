@@ -49,6 +49,7 @@
 				<% if can_editor_detail()%>
 					<a href = "<%= link %>">編輯</a>
 				<% end %>
+				<% link = detaillist_add_path(id: @me.issue_id ,content: @me.content,people_id: @me.people_id,title_at_that_time: @me.title_at_that_time,is_support: @me.is_support,is_direct: @me.is_direct,news_media: @me.news_media,report_at: @me.report_at,link: @me.link,backup_type: @me.backup_type) %>
 				<% if can_add_detail() %>
 					<a href = "<%= link %>">快速新增類似意見</a>
 				<% end %>

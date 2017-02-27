@@ -34,7 +34,7 @@
 									附註：最多100字，太長的意見可分成多條意見
 								</h6>
 							</label>
-							<input type="text" class="form-control" name="content" required="true" maxlength="100" id="content">
+							<input type="text" class="form-control" name="content" required="true" maxlength="100" id="content" <% if !(@content.nil? || @content.empty?) %> value = "<%=@content%>"<%end%>>
 							<br>
 
 							<label>
@@ -43,22 +43,25 @@
 									附註：若非個人，請填團體名或代表人(如: 乖乖黨、乖乖黨發言人、乖乖報、乖乖報社論....等
 								</h6>
 							</label>
-							<input list="1browsers" class="form-control peopleList" name="people_id" id="queryPeople">
+							<input list="1browsers" class="form-control peopleList" name="people_id" id="queryPeople" <%if !@person.nil? %> value="<%=@person.name %>"<%end%>>
 							
 							<datalist id="1browsers">
 							</datalist>
 							
 							<br>
 							<label>當時頭銜</label>
-							<input type="text" class="form-control" name="title_at_that_time" id="title_at_that_time">
+							<input type="text" class="form-control" name="title_at_that_time" id="title_at_that_time" <% if !(@title_at_that_time.nil? || @title_at_that_time.empty?) %> value = "<%=@title_at_that_time%>"<%end%>>
 							<br>
 							
 							<label>贊成或反對</label>
 							<div>
 								<text>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</text>
-  								<input type="radio" name="is_support" value = "true" checked = "true" id="supportClick">贊成
+
+  								<input type="radio" name="is_support" value = "true" <%if @is_support == "true" %> checked = "true" <%end%> id="supportClick">贊成
+
   								<text>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</text>
-  								<input type="radio" name="is_support" value = "false">反對
+
+  								<input type="radio" name="is_support" value = "false"<%if @is_support == "false"%> checked = "true"<%end%>>反對
 							</div>
 							<br>
 							
@@ -66,9 +69,13 @@
 							<label>屬於間接意見?</label>
 							<div>
 								<text>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</text>
-								<input type="radio" name="is_direct" value = "true" checked = "true" id = "directClick">直接意見
+
+								<input type="radio" name="is_direct" value = "true"<%if @is_direct == "true"%> checked = "true"<%end%> id = "directClick">直接意見
+
 								<text>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</text>
-								<input type="radio" name="is_direct" value = "false" id = "not_directClick"/>間接意見
+
+								<input type="radio" name="is_direct" value = "false" <%if @is_direct == "false"%> checked = "true"<%end%> id = "not_directClick"/>間接意見
+
 								<h6 style="color: rgb(128,128,128);display: inline-block;">
 									附註：時空不對者或不是直接針對本議題的意見均屬於間接意見
 								</h6>
@@ -78,7 +85,7 @@
 							
 							<label>刊載媒體</label>  
 
-							<input list="2browsers" class="form-control mediaList" name="news_media" id="queryMedia">
+							<input list="2browsers" class="form-control mediaList" name="news_media" id="queryMedia" <%if !(@news_media.nil? || @news_media.empty?)%> value="<%=@news_media%>"<%end%>>
 							<datalist id="2browsers">
 							</datalist>
 							<br>
@@ -88,7 +95,7 @@
 									附註：(請儘量填西元年/月/日，不得已才只填年/月或年，古人可寫"宋朝"...等)
 								</h6>
 							</label>
-							<input type="date" class="form-control" name="report_at" required="true" id="reportTime" value = "0001-01-01">
+							<input <%if @is_direct=="true"%> type="date"<%else%> type="text"<%end%> class="form-control" name="report_at" required="true" id="reportTime" <%if !(@report_at.nil? || @report_at.empty?)%> value = "<%=@report_at%>"<%else%> value = "0001-01-01"<%end%>>
 							<br>
 							<lable>原文備份類型</lable>
 							<div>
@@ -107,7 +114,7 @@
 								<br>
 							</div>
 							<label>原文連結</label>
-							<input type="text" class="form-control" name="link" id="web_source" required="true">
+							<input type="text" class="form-control" name="link" id="web_source" required="true" <%if !(@link.nil? || @link.empty?)%> value="<%=@link%>"<%end%>>
 							<br>
 							<div id="source_web">
 								
