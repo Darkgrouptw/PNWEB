@@ -35,16 +35,24 @@ class MainController < ApplicationController
 		#@issues = @issues.sort_by{|item| item.datadetail_id.length}.reverse
 	end
 	def findNearHotIssueTree(treeInfo)
-		return treeInfo.where(updated_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
+		##return treeInfo.where(updated_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
+		candidate = treeInfo.where(updated_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
 		counter = []
+		counter_candidate = []
 		recorder = [];
 		treeInfo.each do |item|
-			counter.push(getStringIDLength(item.like_list_id));
+			weight = 0
+			if candidate.include?(item)
+				weight = 1
+			end
+			likeNumber = getStringIDLength(item.like_list_id)
+			counter_candidate.push(likeNumber)
+			counter.push(likeNumber * weight);
 			recorder.push(item.id);
 		end
 		for i in 0..counter.length - 1
 			for j in 0..counter.length - i - 2
-				if counter[j] < counter[j + 1]
+				if counter[j] < counter[j + 1] || counter_candidate[j] < counter_candidate[j+1]
 					temp = counter[j]
 					counter[j] = counter[j + 1]
 					counter[j + 1] = temp

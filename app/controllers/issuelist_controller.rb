@@ -1,10 +1,14 @@
 class IssuelistController < ApplicationController
 	def findNearHotIssue(issue_list)
-        likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
+		candidate = LikeList.all
+        likelist = candidate.where( created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
+
         counter = []
+        counter_candidate = []
         recorder = [];
         issue_list.each do |issue|
             counter.push(0);
+            counter_candidate.push(0)
             recorder.push(issue.id);
         end
         likelist.each do |like|
@@ -15,9 +19,18 @@ class IssuelistController < ApplicationController
                 end
             end
         end
+        candidate.each do |like|
+        	for i in 0..counter_candidate.length - 1
+        		issue = issue_list.where(id: recorder[i])[0]
+        		if stringHasID(issue.datadetail_id,like.detail_id)
+        			counter_candidate[i] = counter_candidate[i] + 1
+        		end
+        	end
+        end
+
         for i in 0..counter.length - 1
             for j in 0..counter.length - i - 2
-                if counter[j] < counter[j + 1]
+                if counter[j] < counter[j + 1] || counter_candidate[j] < counter_candidate[j + 1]
                     temp = counter[j]
                     counter[j] = counter[j + 1]
                     counter[j + 1] = temp
