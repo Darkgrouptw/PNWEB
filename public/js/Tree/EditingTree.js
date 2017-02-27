@@ -1,6 +1,6 @@
 var CircleScale = 0.8;
 var splitLineWordCount = 8;                     // 要分段字的字數
-var Colur = ["#FFFFFF", "#88D365", "#F72758", "#6495ED", "#FFD905", "#F7F7F7", "#FCC2C2", "#2E3192", "#ECA400", "#FBF2C0", "#6FB722", "#FF9900", "#2364AA", "#3DA5D9", "#73BFB8", "#00B6CC", "#99CC33"];
+var Colur = ["#88D365", "#F72758", "#6495ED", "#FFD905", "#2E3192", "#ECA400", "#6FB722", "#FF9900", "#2364AA", "#3DA5D9", "#73BFB8", "#00B6CC", "#99CC33", "#210F04", "#69140E", "#F19143", "#C84C09", "#A44200"];
 $(function(){
     // 變數宣告
     $NodeNumber = 0;                        // 判斷總共有幾個 Node
