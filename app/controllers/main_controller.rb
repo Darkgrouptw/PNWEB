@@ -1,29 +1,34 @@
 class MainController < ApplicationController
 	def findNearHotIssue(issue_list)
-		likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(ip: "Taiwan")
+		candidate = LikeList.all
+		likelist = candidate.where( created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(ip: "Taiwan")
+
 		counter = []
+		counter_candidate = []
 		recorder = [];
 		issue_list.each do |issue|
 			counter.push(0);
+			counter_candidate.push(0)
 			recorder.push(issue.id);
 		end
-		likelist.each do |like|
+		candidate.each do |like|
 			for i in 0..counter.length - 1
 				issue = issue_list.where(id: recorder[i])[0]
 				if stringHasID(issue.datadetail_id,like.detail_id)
-					counter[i] = counter[i] + 1
+					if likelist.include?(like)
+						counter[i] = counter[i] + 1
+					end
+					counter_candidate[i] = counter_candidate[i] + 1
 				end
 			end
 		end
-		for i in 0..counter.length - 1
+		
+		for i in 0..counter.length - 2
 			for j in 0..counter.length - i - 2
-				if counter[j] < counter[j + 1]
-					temp = counter[j]
-					counter[j] = counter[j + 1]
-					counter[j + 1] = temp
-					temp = recorder[j]
-					recorder[j] = recorder[j + 1]
-					recorder[j + 1] = temp
+				if counter[j] < counter[j + 1] || (counter[j + 1] == 0 && counter_candidate[j] < counter_candidate[j+1])
+					counter[j],counter[j+1] = counter[j+1],counter[j]
+					counter_candidate[j],counter_candidate[j+1] = counter_candidate[j+1],counter_candidate[j]
+					recorder[j],recorder[j+1] = recorder[j+1],recorder[j]
 				end
 			end
 		end
@@ -52,13 +57,10 @@ class MainController < ApplicationController
 		end
 		for i in 0..counter.length - 1
 			for j in 0..counter.length - i - 2
-				if counter[j] < counter[j + 1] || counter_candidate[j] < counter_candidate[j+1]
-					temp = counter[j]
-					counter[j] = counter[j + 1]
-					counter[j + 1] = temp
-					temp = recorder[j]
-					recorder[j] = recorder[j + 1]
-					recorder[j + 1] = temp
+				if counter[j] < counter[j + 1] || (counter[j + 1] == 0 && counter_candidate[j] < counter_candidate[j+1])
+					counter[j],counter[j+1] = counter[j+1],counter[j]
+					counter_candidate[j],counter_candidate[j+1] = counter_candidate[j+1],counter_candidate[j]
+					recorder[j],recorder[j+1] = recorder[j+1],recorder[j]
 				end
 			end
 		end
@@ -70,30 +72,33 @@ class MainController < ApplicationController
 	end
 
 	def findNearHotPeople(people_list)
-		likelist = LikeList.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
+		candidate = LikeList.all
+		likelist = candidate.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
 		counter = []
+		counter_candidate = []
 		recorder = [];
 		people_list.each do |people|
 			counter.push(0);
+			counter_candidate.push(0)
 			recorder.push(people.id);
 		end
-		likelist.each do |like|
+		candidate.each do |like|
 			for i in 0..counter.length - 1
 				people = people_list.where(id: recorder[i])[0]
 				if stringHasID(people.datadetail_id,like.detail_id)
-					counter[i] = counter[i] + 1
+					if likelist.include?(like)
+						counter[i] = counter[i] + 1
+					end
+					counter_candidate[i] = counter_candidate[i] + 1
 				end
 			end
 		end
 		for i in 0..counter.length - 1
 			for j in 0..counter.length - i - 2
-				if counter[j] < counter[j + 1]
-					temp = counter[j]
-					counter[j] = counter[j + 1]
-					counter[j + 1] = temp
-					temp = recorder[j]
-					recorder[j] = recorder[j + 1]
-					recorder[j + 1] = temp
+				if counter[j] < counter[j + 1] || (counter[j + 1] == 0 && counter_candidate[j] < counter_candidate[j+1])
+					counter[j],counter[j+1] = counter[j+1],counter[j]
+					counter_candidate[j],counter_candidate[j+1] = counter_candidate[j+1],counter_candidate[j]
+					recorder[j],recorder[j+1] = recorder[j+1],recorder[j]
 				end
 			end
 		end

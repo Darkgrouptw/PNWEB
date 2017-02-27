@@ -11,32 +11,24 @@ class IssuelistController < ApplicationController
             counter_candidate.push(0)
             recorder.push(issue.id);
         end
-        likelist.each do |like|
+        candidate.each do |like|
             for i in 0..counter.length - 1
                 issue = issue_list.where(id: recorder[i])[0]
                 if stringHasID(issue.datadetail_id,like.detail_id)
-                    counter[i] = counter[i] + 1
+                	if likelist.include?(like)
+                    	counter[i] = counter[i] + 1
+                    end
+                    counter_candidate[i] = counter_candidate[i] + 1
                 end
             end
-        end
-        candidate.each do |like|
-        	for i in 0..counter_candidate.length - 1
-        		issue = issue_list.where(id: recorder[i])[0]
-        		if stringHasID(issue.datadetail_id,like.detail_id)
-        			counter_candidate[i] = counter_candidate[i] + 1
-        		end
-        	end
         end
 
         for i in 0..counter.length - 1
             for j in 0..counter.length - i - 2
-                if counter[j] < counter[j + 1] || counter_candidate[j] < counter_candidate[j + 1]
-                    temp = counter[j]
-                    counter[j] = counter[j + 1]
-                    counter[j + 1] = temp
-                    temp = recorder[j]
-                    recorder[j] = recorder[j + 1]
-                    recorder[j + 1] = temp
+                if counter[j] < counter[j + 1] || (counter[j + 1] == 0 && counter_candidate[j] < counter_candidate[j+1])
+                    counter[j],counter[j+1] = counter[j+1],counter[j]
+					counter_candidate[j],counter_candidate[j+1] = counter_candidate[j+1],counter_candidate[j]
+					recorder[j],recorder[j+1] = recorder[j+1],recorder[j]
                 end
             end
         end
@@ -57,8 +49,12 @@ class IssuelistController < ApplicationController
     	#issue_hot = issue_list.sort_by{|item| getStringIDLength(item.thumb_up)}
     	issue_near = issue_list.where( created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
     	issue_nearhot = issue_near.sort_by{|item| getStringIDLength(item.thumb_up)}.reverse
+
+    	issue_notNear = issue_list.select{|item| !issue_near.include?(item)}
+    	issue_notNearhot = issue_notNear.sort_by{|item| getStringIDLength(item.thumb_up)}.reverse
+    	
     	#issue_hotnear = issue_hot.sort_by{|item| item.created_at}.reverse;
-    	return issue_nearhot
+    	return (issue_nearhot << issue_notNearhot).flatten
     end
     def findHotIsssue(issue_list)
     	likelist = LikeList.all
