@@ -219,6 +219,8 @@ class IssuelistController < ApplicationController
 		# 要判斷是用什麼來排序
 		if @pos_order == "time"
 			@support = @support.order(:created_at).reverse
+		elsif @pos_order == "time_old"
+			@support = @support.order(:created_at) 
 		else
 			#issue_list.sort_by{|item| likelist.where(detail_id: item.datadetail_id.split(',')).length}.reverse
 			if !@pos_ip_select.nil? && @pos_ip_select == "off"
@@ -230,6 +232,8 @@ class IssuelistController < ApplicationController
 		end
 		if @neg_order == "time"
 			@disSupport = @disSupport.order(:created_at).reverse
+		elsif @neg_order == "time_old"
+			@disSupport = @disSupport.order(:created_at)
 		else
 			if !@neg_ip_select.nil? && @neg_ip_select == "off"
 				@disSupport = @disSupport.sort_by{|item| @likeList.where(detail_id: item.id).length}.reverse

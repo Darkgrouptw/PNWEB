@@ -258,13 +258,17 @@
 						</select>
 						<select name="pos_order" onchange="location = this.value;">
 							<% temp = "thumb" %>
-							<% str_show = "依投票排序" %>
+							<% str_show = "依人氣排序" %>
 							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,"thumb",@neg_order,@pos_show,@neg_show,@pos_ip_select,@neg_ip_select)%>
 							<option value="<%= link %>"  <%if @pos_order == "thumb"%>selected="selected"<%end%>><%= str_show %></option>
 							<% temp = "time" %>
-							<% str_show = "依時間排序" %>
+							<% str_show = "依上線時間排序(新到舊)" %>
 							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,"time",@neg_order,@pos_show,@neg_show,@pos_ip_select,@neg_ip_select)%>
 							<option value="<%= link %>" <%if @pos_order == "time"%>selected="selected"<%end%>><%= str_show %></option>
+							<% temp = "time_old" %>
+							<% str_show = "依上線時間排序(舊到新)" %>
+							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,"time_old",@neg_order,@pos_show,@neg_show,@pos_ip_select,@neg_ip_select)%>
+							<option value="<%= link %>" <%if @pos_order == "time_old"%>selected="selected"<%end%>><%= str_show %></option>
 						</select>
 						<select name="pos_ip_select" onchange="location = this.value;">
 							<% temp = "NotBlock" %>
