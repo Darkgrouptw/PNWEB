@@ -62,6 +62,10 @@ $(function(){
         changeLoad(str);
     });
 
+    $(".submit").click(function(){
+        removeButton = $(".glyphicon-remove")
+        removeButton.click();
+    });
     function changeLoad(str){
         if(str == "上傳圖檔"){
             $("#source_web").css("display", "none");
@@ -71,6 +75,11 @@ $(function(){
             $("#file_source").prop("value", "");
             $("#video_source").prop("value", "");
             $("#backup_type").prop("value", "1");
+
+            $("#web_source").prop("required",false);
+            $("#file_source").prop("required",true);
+            $("#video_source").prop("required",false);
+
         }else if (str == "網頁連結"){
             $("#source_web").css("display", "");
             $("#source_file").css("display", "none");
@@ -79,6 +88,11 @@ $(function(){
             $("#file_source").prop("value", "");
             $("#video_source").prop("value", "");
             $("#backup_type").prop("value", "0");
+
+            $("#web_source").prop("required",true);
+            $("#file_source").prop("required",false);
+            $("#video_source").prop("required",false);
+
         }else if(str == "錄音檔" ){
             $("#source_web").css("display", "none");
             $("#source_file").css("display", "");
@@ -87,6 +101,11 @@ $(function(){
             $("#file_source").prop("value", "");
             $("#video_source").prop("value", "");
             $("#backup_type").prop("value", "2");
+
+            $("#web_source").prop("required",false);
+            $("#file_source").prop("required",true);
+            $("#video_source").prop("required",false);
+
         }else if(str == "影片連結(youtube,土豆網等...)"){
             $("#source_web").css("display", "none");
             $("#source_file").css("display", "none");
@@ -95,6 +114,11 @@ $(function(){
             $("#file_source").prop("value", "");
             $("#video_source").prop("value", "");
             $("#backup_type").prop("value", "3");
+
+            $("#web_source").prop("required",false);
+            $("#file_source").prop("required",false);
+            $("#video_source").prop("required",true);
+
         }
 
     }
