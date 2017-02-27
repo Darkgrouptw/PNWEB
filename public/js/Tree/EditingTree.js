@@ -87,12 +87,13 @@ $(function(){
                 DeleteNode();
                 $(this).hide(100);
                 break;
-            case "5":
-                saveAllNode();
-                $(this).hide(100);
-                break;
         }
     });
+    
+    $("#ReminderSaving").on("click", function(){
+       saveAllNode();
+    });
+    
     $(".blackAddItemDiv").on("contextmenu", function(){
        return false; 
     });
