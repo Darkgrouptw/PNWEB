@@ -82,15 +82,14 @@ module Authority
         if can_view(2)
             return true
         end
+        if !can_add_detail()
+            return false
+        end
+        detail = DataDetail.where(id: detail_id,is_report: false)[0]
+        if detail.post_id == current_user.id
+            return true
+        end
         return false
-        #if !can_view(0)
-        #    return false
-        #end
-        #detail = DataDetail.where(id: detail_id,is_report: false)[0]
-        #if detail.post_id == current_user.id
-        #    return true
-        #end
-        #ßreturn false
     end
     def can_editor_people()
         if can_view(2)

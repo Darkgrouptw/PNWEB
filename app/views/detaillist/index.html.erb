@@ -31,10 +31,7 @@
 
 		<div class = "col-md-offset-1 col-md-10 row">
 			<div align = "right">
-				<% link = detaillist_edit_path(id: @tags) %>
-				<% if false && can_editor_detail()%>
-				<a href = "<%= link %>">編輯</a>
-				<% end %>
+				
 				檢舉數：<%= @all_reports.length%>
 				<% if !can_report_detail()%>
 					登入後才可檢舉
@@ -47,6 +44,13 @@
 					<% link = detaillist_delete_path(id: @me.id) %>
 					<%= link_to "刪除意見",link,method: :post%>
 				<% else %>
+				<% end %>
+				<% link = detaillist_edit_path(id: @tags) %>
+				<% if can_editor_detail()%>
+					<a href = "<%= link %>">編輯</a>
+				<% end %>
+				<% if can_add_detail() %>
+					<a href = "<%= link %>">快速新增類似意見</a>
 				<% end %>
 			</div>
 			
@@ -94,7 +98,9 @@
 						<td><% if detail.is_direct %><% else %>間<% end %></td>
 						<td>
 							<div><%= @me.report_at %></div>
-							<% link = media_index_path(id: media.name) %>
+							<% if !media.nil?%>
+								<% link = media_index_path(id: media.name) %>
+							<% end %>
 							<div>
 								<a href=<%= link %>>
 									<%= @me.news_media %>	

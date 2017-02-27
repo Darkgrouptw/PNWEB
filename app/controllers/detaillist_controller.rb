@@ -374,41 +374,75 @@ class DetaillistController < ApplicationController
 		news_media = params[:news_media]
 		report_at = params[:report_at]
 		link = params[:link]
+
+
 		@detail = DataDetail.where(id: params[:id],is_report: false)[0]
-		if !(content.nil? || content.empty?)
-			@detail.content = content
-		end
-		@person = DataPerson.where(name: people_id)[0]
-		if @person.nil?
-			@detail.people_id = -1
-		else
+		#if !(content.nil? || content.empty?)
+		#	@detail.content = content
+		#end		
+
+		
+		if !(people_id.nil? || people_id.empty?)
+			@person = DataPerson.where(name: people_id)[0]
+			if @person.nil?
+				@person = createPerson(people_id)
+			end
+			@oldPerson = DataPerson.where(name: @detail.people_id)[0]
+			if @oldPerson.nil?
+				@oldPerson = createPerson(@detail.people_id)
+			end
+			if @oldPerson == @person
+			else
+				@person.datadetail_id=addIDToString(@person.datadetail_id,@detail.id)
+				@oldPerson.datadetail_id = removeIDFromString(@oldPerson.datadetail_id,@detail.id)
+				@person.save
+				@oldPerson.save
+			end
 			@detail.people_id = @person.id
 		end
-		if !(issue_id.nil? || issue_id.empty?)
-			@detail.issue_id = issue_id
-		end
+
+		#if !(issue_id.nil? || issue_id.empty?)
+		#	@detail.issue_id = issue_id
+		#end
 		if !(title_at_that_time.nil? || title_at_that_time.empty?)
 			@detail.title_at_that_time = title_at_that_time
 		end
-		if is_support
-			@detail.is_support = true
-		else
-			@detail.is_support =false
-		end
+		#if is_support
+		#	@detail.is_support = true
+		#else
+		#	@detail.is_support =false
+		#end
 		if is_direct
 			@detail.is_direct = true
 		else
 			@detail.is_direct =false
 		end
+
 		if !(news_media.nil? || news_media.empty?)
+			@media = DataMedium.where(name: news_media)[0]
+			if @media.nil?
+				@media = createMedia(news_media)
+			end
+			@oldMedia = DataMedium.where(name: @detail.news_media)[0]
+			if @oldMedia.nil?
+				@oldMedia = createMedia(@detail.news_media)
+			end
+			if @oldMedia == @media
+			else
+				@media.datadetail_id = addIDToString(@media.datadetail_id,@detail.id)
+				@oldMedia.datadetail_id = removeIDFromString(@oldMedia.datadetail_id,@detail.id)
+				@media.save
+				@oldMedia.save
+			end
 			@detail.news_media = news_media
 		end
+
 		if !(report_at.nil? || report_at.empty?)
 			@detail.report_at = report_at
 		end
-		if !(link.nil? || link.empty?)
-			@detail.link = link
-		end
+		#if !(link.nil? || link.empty?)
+		#	@detail.link = link
+		#end
 		@detail.save
 		redirect_to detaillist_index_path(id: @detail.id)
 		return
