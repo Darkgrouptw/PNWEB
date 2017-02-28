@@ -214,13 +214,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<div
-							  class="fb-like"
-							  data-like="false"
-							  data-share="true"
-							  data-width="450"
-							  data-show-faces="true" display: inline-block;>
-							</div>
+						<div id="shareBtn" class="btn btn-success clearfix">Share</div>
 					</tr>
 				</tbody>
 			</table>
@@ -645,3 +639,12 @@
 		</div>
 	</div>
 </div>
+<script>
+document.getElementById('shareBtn').onclick = function() {
+  FB.ui({
+    method: 'share',
+    display: 'popup',
+    href: document.URL,
+  }, function(response){});
+}
+</script>
