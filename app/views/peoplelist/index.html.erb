@@ -127,8 +127,10 @@
 			<!-- tables with all the detail -->
 			<div class = "whiteText row">
 				<div align = "center">
-					名人語錄
-					 <form action="<%= peoplelist_index_path(id: @me.name) %>">
+					<div>
+						名人語錄&nbsp&nbsp
+					</div>
+					 <form action="<%= peoplelist_index_path(id: @me.name) %>" style="display: inline-block;">
 						搜尋議題
 						<input type="text" name="issue_search" value="<%= @issue_search %>">
 						<input type="hidden" name="people_order" value="<%=@people_order %>">
@@ -136,7 +138,7 @@
 						<input type="hidden" name="detail_order" value="<%=@detail_order %>">
 						<input type = "hidden" name = "tag_search" value="<%=@tag_search%>">
 						<input type="submit" value="搜尋">
-					</form>
+					</form>&nbsp&nbsp
 					<form action="<%= peoplelist_index_path(id: @me.name) %>" style="display: inline-block;" >
 						搜尋Tag
 						<input type="hidden" name="issue_search" value="<%= @issue_search %>">
@@ -145,8 +147,8 @@
 						<input type="hidden" name="detail_order" value="<%=@detail_order %>">
 						<input type = "text" name = "tag_search" value="<%=@tag_search%>">
 						<input type="submit" value="搜尋">
-					</form>
-					<div>
+					</form>&nbsp&nbsp
+					<div style="display: inline-block;">
 						<select name="detail_order" onchange="location = this.value;">
 							<% temp = "new" %>
 							<% str_show = "上新下舊" %>
