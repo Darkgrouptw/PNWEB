@@ -12,7 +12,7 @@
                 <div class="BoxTitle">
                     <%= @issue_info[index].title %>
                 </div>
-                <div id="shareBtn" class="btn btn-success BoxShare" >Share</div>
+                
                 <!-- 按贊 button -->
                 <% if current_user != nil %>
                     <% if !@hasThumpAlready[index] %>
@@ -72,6 +72,7 @@
     <% end %>
 
     <!-- 依照什麼排序 -->
+    <div id="shareBtn" class="btn btn-success BoxShare" >Share</div>
     <div class="dropdown TreeOrderByList">
         <% orderByName= "近期人氣" %>
         <% if @OrderBy == 0.to_s %>
@@ -155,11 +156,23 @@
 </div>
 
 <script>
+function getVideoContent() { 
+   var metas = document.getElementsByTagName('meta'); 
+
+   for (var i=0; i<metas.length; i++) { 
+      if (metas[i].getAttribute("property") == "og\:url") { 
+         return metas[i].getAttribute("content"); 
+      } 
+   } 
+
+    return "";
+} 
 document.getElementById('shareBtn').onclick = function() {
   FB.ui({
     method: 'share',
     display: 'popup',
-    href: $('meta[property="og\:url"]').contents(),
+    href: getVideoContent(),
   }, function(response){});
 }
+
 </script>
