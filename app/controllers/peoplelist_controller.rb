@@ -17,7 +17,7 @@ class PeoplelistController < ApplicationController
 		@people_search = params[:people_search]
 		@issue_order = params[:issue_order]
 		@issue_search = params[:issue_search]
-
+		@tag_search = params[:tag_search]
 		@me = @all_people.where(name: @tags)[0]
 		if @me.nil?
 			redirect_to(:back)
@@ -57,6 +57,10 @@ class PeoplelistController < ApplicationController
 			@issue_search = ""
 		end
 		@issues = DataIssue.where("title like ?","%" + @issue_search + "%").where(id: issue_ids,is_candidate: false)
+		if @tag_search.nil? || @tag_search.empty?
+			@tag_search = ""
+		end
+		@issues = @issues.where("tag like ?","%" + @tag_search + "%")
 		if @issue_order == ""
 			@issues = @issues
 		end
