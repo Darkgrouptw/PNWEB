@@ -12,7 +12,7 @@
                 <div class="BoxTitle">
                     <%= @issue_info[index].title %>
                 </div>
-                <div id="shareBtn" class="btn btn-success BoxShare" >Share</div>
+                
                 <!-- 按贊 button -->
                 <% if current_user != nil %>
                     <% if !@hasThumpAlready[index] %>
@@ -72,7 +72,7 @@
     <% end %>
 
     <!-- 依照什麼排序 -->
-    
+    <div id="shareBtn" class="btn btn-success BoxShare" >Share</div>
     <div class="dropdown TreeOrderByList">
         <% orderByName= "近期人氣" %>
         <% if @OrderBy == 0.to_s %>
