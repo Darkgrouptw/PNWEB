@@ -62,7 +62,8 @@ class PeoplelistController < ApplicationController
 		if @issue_search.nil? || @issue_search.empty?
 			@issue_search = ""
 		end
-		@issues = DataIssue.where("title like ?","%" + @issue_search + "%").where(id: issue_ids,is_candidate: false)
+		@all_issues = DataIssue.where(id: issue_ids,is_candidate: false)
+		@issues = @all_issues.where("title like ?","%" + @issue_search + "%")
 		if @tag_search.nil? || @tag_search.empty?
 			@tag_search = ""
 		end

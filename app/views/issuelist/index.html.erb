@@ -5,7 +5,7 @@
 
 <% description_text = "" %>
 <%
-	description_text = "上線時間：" + @me.created_at.to_s + " 意見總數：" + @totalDetailNumber.to_s + " 投票總數：" + @totalLikeNumber.to_s
+	description_text =" 意見總數：" + @totalDetailNumber.to_s + " 投票總數：" + @totalLikeNumber.to_s + "上線時間：" + @me.created_at.to_s
 %>
 <% content_for :title, "NPWEB-" + @me.title %>
 <% content_for :description, description_text %>
