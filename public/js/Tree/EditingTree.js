@@ -310,8 +310,6 @@ function RandomColor()
 */
 function AddNodeToChild(NodeName, nodeID)
 {
-    $(".ReminderSave").show();
-    
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
@@ -346,11 +344,12 @@ function AddNodeToChild(NodeName, nodeID)
         $NodeNumber = 0;
         TreeManager(sJsonData);
     }
+    
+    // 儲存提醒顯示
+    $(".ReminderSave").show();
 }
 function AddNodeInSameLevel(NodeName, nodeID)
 {
-    $(".ReminderSave").show();
-    
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
@@ -394,11 +393,12 @@ function AddNodeInSameLevel(NodeName, nodeID)
         $NodeNumber = 0;
         TreeManager(sJsonData);
     }
+    
+    // 儲存提醒顯示
+    $(".ReminderSave").show();
 }
 function MoveClockWise()
 {
-    $(".ReminderSave").show();
-    
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
@@ -453,11 +453,12 @@ function MoveClockWise()
         $NodeNumber = 0;
         TreeManager(sJsonData);
     }
+    
+    // 儲存提醒顯示
+    $(".ReminderSave").show();
 }
 function MoveCounterClockWise()
-{
-    $(".ReminderSave").show();
-    
+{   
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
@@ -512,11 +513,12 @@ function MoveCounterClockWise()
         $NodeNumber = 0;
         TreeManager(sJsonData);
     }
+    
+    // 儲存提醒顯示
+    $(".ReminderSave").show();
 }
 function DeleteNode()
 {
-    $(".ReminderSave").show();
-    
     var checkList = [sJsonData.item];
     var clickNode = $("#" + $clickID);
     var IsFind = false;
@@ -547,7 +549,8 @@ function DeleteNode()
         else
         {
             // 刪除 Root
-            deleteAllNode();
+            if(confirm("確定是否要刪除 root ?"))
+                deleteAllNode();
             return;
         }
         
@@ -561,6 +564,9 @@ function DeleteNode()
         $NodeNumber = 0;
         TreeManager(sJsonData);
     }
+    
+    // 儲存提醒顯示
+    $(".ReminderSave").show();
 }
 /*
 儲存．刪除
