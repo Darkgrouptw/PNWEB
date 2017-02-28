@@ -35,6 +35,8 @@
 		錯誤的連結位置
 	</div>
 <% else %>
+<% content_for :title, "NPWEB-" + @me.name %>
+<% content_for :description, "test" %>
 	<div name = "whole">
 		<!-- the description with @me -->
 
@@ -107,6 +109,13 @@
 						</tbody>
 					</table>-->
 					<h2 align="center"><%= @me.name %></h2>
+					<div
+						class="fb-like"
+						data-like="false"
+						data-share="true"
+						data-width="450"
+						data-show-faces="true" display: inline-block;>
+					FaceBook Share</div>
 					<% if @onceUsedTitle.length >0 %>
 						<div>
 							<table class = "table table-bordered">
