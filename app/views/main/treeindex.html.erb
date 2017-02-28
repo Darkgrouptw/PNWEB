@@ -1,3 +1,5 @@
+<script src="/js/queryToggle.js"></script>
+<script src="/js/queryTreeShare.js"></script>
 <% def ListItems() %>
     <% index = 0 %>
 	<% @items.each do |item|%>
@@ -11,7 +13,7 @@
                 <div class="BoxTitle">
                     <%= @issue_info[index].title %>
                 </div>
-                
+                <div id="shareBtn" class="btn btn-success BoxShare" title="<%="NPWEB-"+@issue_info[index].title%>" description="<%= "編者：" + @nicknames[index] %>">Share</div>
                 <!-- 按贊 button -->
                 <% if current_user != nil %>
                     <% if !@hasThumpAlready[index] %>
@@ -93,7 +95,7 @@
             <li><a href= <%= link + addLink %> >歷史人氣排序</a></li>
         </ul>
     </div>
-            
+    
     <!-- 搜尋的 DIV -->
     <div class="TreeIndexSearch">
         <input type="text" class="form-control" placeholder="搜尋議題樹" id="queryIssue2"  value="<%= @searchParams %>">
@@ -146,3 +148,13 @@
         <div id="queryIssueDiv" class="queryDiv" style="width: 350px; display: none;"></div>
     </div>
 </div>
+
+<script>
+document.getElementById('shareBtn').onclick = function() {
+  FB.ui({
+    method: 'share',
+    display: 'popup',
+    href: document.URL,
+  }, function(response){});
+}
+</script>

@@ -74,6 +74,12 @@
     text-overflow:ellipsis;
     white-space:nowrap;
 }
+.BoxShare
+{
+    position: absolute;
+    left: 50%;
+    top: 0px;
+}
 .BoxThumbUp
 {
     position: absolute;
