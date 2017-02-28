@@ -159,7 +159,7 @@ document.getElementById('shareBtn').onclick = function() {
   FB.ui({
     method: 'share',
     display: 'popup',
-    href: document.URL,
+    href: $('meta[property="og\:url"]').contents();,
   }, function(response){});
 }
 </script>
