@@ -151,7 +151,7 @@
 									<div>
 										<% if can_level_up_user() %>
 											<% if @me.level == 0 %>
-												<% if @me.other.nil? || @me.other.empty? || @me.other == "0"%>
+												<% if getOtherParameter(@me,"suspended") == "0"%>
 													<div>
 														<% link = userlist_disable_path + "?user_id=" + @me.id.to_s + "&able=1"%>
 														<%= link_to "部分停權",link,method: :post%>

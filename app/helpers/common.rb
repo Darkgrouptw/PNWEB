@@ -6,6 +6,9 @@ module Common
 		end
 		other = object.other
 		require 'json'
+		if !valid_json?(other)
+			other = "{}"
+		end
 		otherJson = JSON.parse(other)
     	return otherJson[paraName]
 	end
@@ -14,6 +17,8 @@ module Common
 		other = object.other
 		if other.nil? || other.empty?
 			other = "{}"
+		elsif !valid_json?(other)
+			other = "{}"
 		end
 		require 'json'
 		otherJson = JSON.parse(other)
@@ -21,10 +26,27 @@ module Common
 		object.other = otherJson.to_json
 		return
 	end
+	def valid_json?(json)
+	  begin
+	    JSON.parse(json)
+	    return true
+	  rescue JSON::ParserError => e
+	    return false
+	  end
+	end
 	def testYou(kasim,john)
 		return kasim + john
 	end
 
+	def checkDisable()
+		if current_user.nil?
+			return
+		end
+		disableLevel = getOtherParameter(current_user,"suspended")
+		if disableLevel.to_s != "0"
+
+		end
+	end
 
 	def ipInfo()
 		require 'net/http'

@@ -169,11 +169,17 @@ class User::UserlistController < ApplicationController
 
 	def disable
 		suspended = params[:able]
+		days = params[:days]
+		if days.nil? || days.empty?
+			days = -1
+		end
 		user_id = params[:user_id]
 		user = User.where(id: user_id)[0]
 		if user.nil?
 		else
-			user.other = suspended.to_s
+			setOtherParameter(user,"suspended",suspended.to_s)
+			setOtherParameter(user,"days",days.to_s)
+			setOtherParameter(user,"lastSuspended",Time.now.to_s)
 			user.save
 		end
 		redirect_to(:back)
