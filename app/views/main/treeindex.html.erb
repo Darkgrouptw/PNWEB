@@ -1,9 +1,8 @@
 <script src="/js/queryToggle.js"></script>
-<script src="/js/queryTreeShare.js"></script>
 <% def ListItems() %>
     <% index = 0 %>
 	<% @items.each do |item|%>
-        <div class="BoxSpace" tree_id="<%= item.id %>">
+        <div class="BoxSpace" tree_id="<%= item.id %>" title="<%="NPWEB-"+@issue_info[index].title%>" description="<%= "編者：" + @nicknames[index] %>">
             <!-- 被選到時，會有 Border -->
             <div class="BoxSelectBorder" <% if index != 0 %> style = "display:none" <% end %>>
             </div>
@@ -13,7 +12,7 @@
                 <div class="BoxTitle">
                     <%= @issue_info[index].title %>
                 </div>
-                <div id="shareBtn" class="btn btn-success BoxShare" title="<%="NPWEB-"+@issue_info[index].title%>" description="<%= "編者：" + @nicknames[index] %>">Share</div>
+                <div id="shareBtn" class="btn btn-success BoxShare" >Share</div>
                 <!-- 按贊 button -->
                 <% if current_user != nil %>
                     <% if !@hasThumpAlready[index] %>
@@ -57,6 +56,12 @@
 <script src="js/Tree/TreeIndex.js"></script>
 <script src="/js/queryIssue.js"></script>
 <script src="/js/queryIssue2.js"></script>
+<% if !@tree.nil? %>
+    <% content_for :title, "NPWEB-" + @issue.title %>
+    <% x = "編者：" + @user.nickname %>
+    <% content_for :description, x.to_s%>
+<% end %>
+
 
 <!-- 左邊Canvas -->
 <div class="LeftCanvas">

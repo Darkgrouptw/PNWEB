@@ -35,6 +35,23 @@ $(function(){
         var temp = this.children[0];
         $(temp).removeAttr("style");
         $(".RightCanvas").attr("src", "/TreeCanvas?id=" + $(this).attr("tree_id"));
+        var tree_id = $(this).attr("tree_id");
+        tree_id = tree_id.toString()
+        var str1 = "<meta property=\"og\:url\" content=\"https://npweb.herokuapp.com/TreeIndex/"
+        var str2 = "\">"
+
+
+        //var title = $(this).attr("title");
+        //var description = $(this).attr("description");
+        //$('meta[property="og\:title"]').remove();
+        //$('head').append( '<meta property="og\:title" content='+title+'>' );
+        //$('meta[property="og\:description"]').remove();
+        //$('head').append( '<meta property="og\:description" content='+description+'>' );
+        $('meta[property="og\:url"]').remove();
+
+        //$('head').append( '<meta property="og\:url" content="https://npweb.herokuapp.com/TreeIndex/"'+tree_id+'>' );
+        $('head').append( str1.concat(tree_id.concat(str2)) );
+
     });
     
     $("#addRootBtn").on("click", function(){

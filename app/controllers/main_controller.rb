@@ -314,6 +314,17 @@ class MainController < ApplicationController
 	# 編輯樹
 	#
 	def treeindex
+		@id = params[:id]
+		if @id.nil? || @id.empty?
+		else
+			@tree = TreeInfo.where(id: params[:id])[0]
+			if @tree.nil?
+			else
+				@issue = DataIssue.where(id: @tree.issue_id)[0]
+				@user = User.where(id: @tree.people_id)[0]
+			end
+			params[:search] = @issue.title
+		end
         if params[:search] != nil &&  params[:search] != ""             # 判斷他是否有這個參數
             @searchParams = params[:search]
             @addLink = "&search=" + @searchParams
@@ -387,6 +398,7 @@ class MainController < ApplicationController
 			@createTimeArray.push(item.created_at.strftime("%Y/%m/%d"))
 			@updateTimeArray.push(item.updated_at.strftime("%Y/%m/%d"))
 		end
+
 	end
 	
 	def treecanvas

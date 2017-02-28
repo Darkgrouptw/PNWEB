@@ -55,6 +55,7 @@ Rails.application.routes.draw do
 	post 	"Media/hide"		=>	"media#hide",				:as =>	"media_hide"
 	get		"Media/all"			=>	"media#all",				:as =>	"media_all"
 	get  	"Media/:id"			=>	"media#index",				:as =>	"media_index"
+
 	# poster page
 	post 	"User/disable"		=>	"user/userlist#disable",	:as =>	"userlist_disable"
 	post 	"User/upgrade"		=>	"user/userlist#upgrade",:as =>	"userlist_upgrade"
@@ -83,6 +84,7 @@ Rails.application.routes.draw do
     get     "TreeAddRoot"       =>  "main#root_add"
     post    "TreeSaveAllNode"   =>  "main#tree_save_all_node"
     post    "TreeDeleteAllNode" =>  "main#tree_delete_all_node"
+    get		"TreeIndex/:id"			=>	"main#treeindex"
 
 	# notify
 	post 	"Notify"            =>	"main#notify",	    :as =>	"notify"
