@@ -37,7 +37,7 @@
 	</div>
 <% else %>
 <% content_for :title, "NPWEB-" + @me.name %>
-<% x = "發言議題數：" + @all_issues.length.to_s + "&nbsp發言意見數：" + @details.length.to_s %>
+<% x = "發言議題數：" + @all_issues.length.to_s + " 發言意見數：" + @details.length.to_s %>
 <% content_for :description, x.to_s%>
 	<div name = "whole">
 		<!-- the description with @me -->
