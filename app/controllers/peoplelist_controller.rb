@@ -15,7 +15,7 @@ class PeoplelistController < ApplicationController
 		@all_people = DataPerson.all;
 		@people_order = params[:people_order]
 		@people_search = params[:people_search]
-		@issue_order = params[:issue_order]
+		@detail_order = params[:detail_order]
 		@issue_search = params[:issue_search]
 		@tag_search = params[:tag_search]
 		@me = @all_people.where(name: @tags)[0]
@@ -44,8 +44,14 @@ class PeoplelistController < ApplicationController
 		#find all the detail is said by the @me
 		@details = DataDetail.where(people_id: @me.id,is_report: false).order(:created_at)
 		#people_list.sort_by{|item| likelist.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(detail_id: item.datadetail_id.split(',')).length}.reverse
-		@details = @details.sort_by{|item| item.report_at}.reverse
-		@details = @details.sort_by{|item| item.is_direct ?  1 : 0}.reverse
+		if @detail_order.nil? || @detail_order.empty? || @detail_order == "old"
+			@detail_order = "old"
+			@details = @details.sort_by{|item| item.report_at}
+		else
+			@details = @details.sort_by{|item| item.report_at}.reverse
+			@detail_order = "new"
+		end
+		
 		@details.each do |detail|
 			issue_ids.push(detail.issue_id)
 			if !@onceUsedTitle.include?(detail.title_at_that_time)
@@ -61,10 +67,6 @@ class PeoplelistController < ApplicationController
 			@tag_search = ""
 		end
 		@issues = @issues.where("tag like ?","%" + @tag_search + "%")
-		if @issue_order == ""
-			@issues = @issues
-		end
-
 	end
 	def add
 		if !can_add_detail()

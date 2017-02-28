@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/css/table.css">
 <%
-	def getSelfLink(people_order,people_search,issue_order,issue_search,tag_search)
+	def getSelfLink(people_order,people_search,detail_order,issue_search,tag_search)
 		result = ""
 		if people_order.nil? || people_order.empty?
 			result = result + "?people_order=" + "near_hot"
@@ -12,10 +12,10 @@
 		else
 			result = result + "&people_search=" + people_search
 		end
-		if issue_order.nil? || issue_order.empty?
-			result = result + "&issue_order=" + ""
+		if detail_order.nil? || detail_order.empty?
+			result = result + "&detail_order=" + ""
 		else
-			result = result + "&issue_order=" + issue_order
+			result = result + "&detail_order=" + detail_order
 		end
 		if issue_search.nil? || issue_search.empty?
 			result = result + "&issue_search=" + ""
@@ -44,27 +44,27 @@
 				<input type="text" name="people_search" value="<%= @people_search %>">
 				<input type="hidden" name="people_order" value="<%=@people_order %>">
 				<input type="hidden" name="issue_search" value="<%=@issue_search %>">
-				<input type="hidden" name="issue_order" value="<%=@issue_order %>">
+				<input type="hidden" name="detail_order" value="<%=@detail_order %>">
 				<input type="hidden" name ="tag_search" value="<%=@tag_search%>">
 				<input type="submit" value="搜尋">
 			</form>
 			<div>
-				<select name="issue_time" onchange="location = this.value;">
+				<select name="people_order" onchange="location = this.value;">
 					<% temp = "near_hot" %>
 					<% str_show = "近期熱門排序" %>
-					<% link  = getSelfLink("near_hot",@people_search,@issue_order,@issue_search,@tag_search) %>
+					<% link  = getSelfLink("near_hot",@people_search,@detail_order,@issue_search,@tag_search) %>
 					<option value="<%= link %>"  <%if @people_order == "near_hot"%>selected="selected"<%end%>>
 						<%= str_show %>
 					</option>
 					<% temp = "time" %>
 					<% str_show = "歷史熱門" %>
-					<% link  = getSelfLink("time",@people_search,@issue_order,@issue_search,@tag_search) %>
+					<% link  = getSelfLink("time",@people_search,@detail_order,@issue_search,@tag_search) %>
 					<option value="<%= link %>" <%if @people_order == "time"%>selected="selected"<%end%>>
 						<%= str_show %>	
 					</option>
 					<% temp = "time" %>
 					<% str_show = "最有影響力" %>
-					<% link  = getSelfLink("influence",@people_search,@issue_order,@issue_search,@tag_search) %>
+					<% link  = getSelfLink("influence",@people_search,@detail_order,@issue_search,@tag_search) %>
 					<option value="<%= link %>" <%if @people_order == "influence"%>selected="selected"<%end%>>
 						<%= str_show %>	
 					</option>
@@ -133,7 +133,7 @@
 						<input type="text" name="issue_search" value="<%= @issue_search %>">
 						<input type="hidden" name="people_order" value="<%=@people_order %>">
 						<input type="hidden" name="people_search" value="<%=@people_search %>">
-						<input type="hidden" name="issue_order" value="<%=@issue_order %>">
+						<input type="hidden" name="detail_order" value="<%=@detail_order %>">
 						<input type = "hidden" name = "tag_search" value="<%=@tag_search%>">
 						<input type="submit" value="搜尋">
 					</form>
@@ -142,10 +142,26 @@
 						<input type="hidden" name="issue_search" value="<%= @issue_search %>">
 						<input type="hidden" name="people_order" value="<%=@people_order %>">
 						<input type="hidden" name="people_search" value="<%=@people_search %>">
-						<input type="hidden" name="issue_order" value="<%=@issue_order %>">
+						<input type="hidden" name="detail_order" value="<%=@detail_order %>">
 						<input type = "text" name = "tag_search" value="<%=@tag_search%>">
 						<input type="submit" value="搜尋">
 					</form>
+					<div>
+						<select name="detail_order" onchange="location = this.value;">
+							<% temp = "new" %>
+							<% str_show = "上新下舊" %>
+							<% link  = getSelfLink(@people_order,@people_search,temp,@issue_search,@tag_search) %>
+							<option value="<%= link %>"  <%if @detail_order == temp %>selected="selected"<%end%>>
+								<%= str_show %>
+							</option>
+							<% temp = "old" %>
+							<% str_show = "上舊下新" %>
+							<% link  = getSelfLink(@people_order,@people_search,temp,@issue_search,@tag_search) %>
+							<option value="<%= link %>"  <%if @detail_order == temp %>selected="selected"<%end%>>
+								<%= str_show %>
+							</option>
+						</select>
+					</div>
 				</div>
 				<div>
 					<table class = "table table-bordered">
