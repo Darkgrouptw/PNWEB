@@ -5,16 +5,7 @@
 
 <% description_text = "" %>
 <%
-	for i in 0..2
-		if i < @support.length
-			description_text = description_text + @support[i].content
-		end
-	end
-	for i in 0..2
-		if i < @disSupport.length
-			description_text = description_text + @disSupport[i].content
-		end
-	end
+	description_text = "上線時間：" + @me.created_at + " 意見總數：" + @totalDetailNumber + " 投票總數：" + @totalLikeNumber
 %>
 <% content_for :title, "NPWEB-" + @me.title %>
 <% content_for :description, description_text %>
