@@ -101,6 +101,21 @@
 						</tbody>
 					</table>-->
 					<h2 align="center"><%= @me.name %></h2>
+					<% if @onceUsedTitle.length >0 %>
+						<div>
+							<table class = "table table-bordered">
+								<td style="width: 200px">曾經的發言頭銜</td>
+								<td>
+									<% @onceUsedTitle.each do |item| %>
+										<% if @onceUsedTitle.first != item %>
+											<%=","%>
+										<%end%>
+										<%=item%>
+									<% end %>
+								</td>
+							</table>
+						</div>
+					<% end %>
 				</div>
 			</div>
 			<!-- tables with all the detail -->

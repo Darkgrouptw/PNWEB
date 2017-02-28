@@ -39,7 +39,7 @@ class PeoplelistController < ApplicationController
 			@people = findNearHotPeople(@people)
 		end
 
-
+		@onceUsedTitle = []
 		issue_ids = []
 		#find all the detail is said by the @me
 		@details = DataDetail.where(people_id: @me.id,is_report: false).order(:created_at)
@@ -48,6 +48,9 @@ class PeoplelistController < ApplicationController
 		@details = @details.sort_by{|item| item.is_direct ?  1 : 0}.reverse
 		@details.each do |detail|
 			issue_ids.push(detail.issue_id)
+			if !@onceUsedTitle.include?(detail.title_at_that_time)
+				@onceUsedTitle.push(detail.title_at_that_time)
+			end
 		end
 		#find all the issue connect with details
 		if @issue_search.nil? || @issue_search.empty?
