@@ -35,6 +35,10 @@
         <%= render "common/footer" %>
     </body>
     </html>
+
+    <!-- 檢查使用者的停權情形 -->
+    <%checkDisable()%>
+
 <% else %>
     <%= yield %>
 <% end %>

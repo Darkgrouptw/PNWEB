@@ -153,12 +153,28 @@
 											<% if @me.level == 0 %>
 												<% if getOtherParameter(@me,"suspended") == "0"%>
 													<div>
-														<% link = userlist_disable_path + "?user_id=" + @me.id.to_s + "&able=1"%>
+														<% link = userlist_disable_path + "?user_id=" + @me.id.to_s + "&able=1&days=-1"%>
 														<%= link_to "部分停權",link,method: :post%>
+													</div>
+													<div>
+														<% link = userlist_disable_path + "?user_id=" + @me.id.to_s + "&able=1&days=30"%>
+														<%= link_to "部分停權一月",link,method: :post%>
+													</div>
+													<div>
+														<% link = userlist_disable_path + "?user_id=" + @me.id.to_s + "&able=1&days=60"%>
+														<%= link_to "部分停權二月",link,method: :post%>
 													</div>
 													<div>
 														<% link = userlist_disable_path + "?user_id=" + @me.id.to_s + "&able=2"%>
 														<%= link_to "帳號凍結",link,method: :post%>
+													</div>
+													<div>
+														<% link = userlist_disable_path + "?user_id=" + @me.id.to_s + "&able=2&days=30"%>
+														<%= link_to "帳號凍結一月",link,method: :post%>
+													</div>
+													<div>
+														<% link = userlist_disable_path + "?user_id=" + @me.id.to_s + "&able=2&days=60"%>
+														<%= link_to "帳號凍結二月",link,method: :post%>
 													</div>
 												<% else %>
 													<% link = userlist_disable_path + "?user_id=" + @me.id.to_s + "&able=0"%>

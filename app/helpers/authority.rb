@@ -23,10 +23,11 @@ module Authority
         if current_user.level >= 1
             return false 
         end
-        if current_user.other.nil? || current_user.other.empty? || current_user.other == "0"
+        disableLevel = getOtherParameter(current_user,"suspended")
+        if disableLevel.nil? || disableLevel.empty? || disableLevel == "0"
             return false
         end
-        if current_user.other.to_i >= disable_level
+        if disableLevel.to_i >= disable_level
             return true
         else
             return false

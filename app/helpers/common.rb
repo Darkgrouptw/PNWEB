@@ -44,8 +44,19 @@ module Common
 		end
 		disableLevel = getOtherParameter(current_user,"suspended")
 		if disableLevel.to_s != "0"
-
+			disableDays = getOtherParameter(current_user,"days")
+			if disableDays.nil? || disableDays.empty? || disableDays == "-1"
+			else
+				lastSuspended = Time.parse(getOtherParameter(current_user,"lastSuspended"))
+				nowTime = Time.now
+				if (nowTime - disableDays.to_i.days ) > lastSuspended
+					setOtherParameter(current_user,"suspended","0")
+					setOtherParameter(current_user,"days","-1")
+					current_user.save
+				end
+			end
 		end
+		return
 	end
 
 	def ipInfo()
