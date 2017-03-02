@@ -80,6 +80,48 @@ module Common
 		#@result = @result['country']
 	end
 	
+	def mergePeople(p1,p2)
+		people1 = DataPerson.where(name: p1)[0]
+		people2 = DataPerson.where(name: p2)[0]
+		if people1.nil? || people2.nil?
+			return
+		end
+		people1.valid_name = addIDStringToString(people1.valid_name,people2.valid_name)
+		people1.datadetail_id = addIDStringToString(people1.datadetail_id,people2.datadetail_id)
+		people2.valid_name = ""
+		people2.datadetail_id = ""
+		people_ids = []
+		people_ids.push(people1.id)
+		people_ids.push(people2.id)
+		DataDetail.where(people_id: people_ids).each do |detail|
+			detail.people_id = people1.id
+			detail.save
+		end
+		people1.save
+		people2.save
+	end
+
+	def mergeMedia(m1,m2)
+		media1 = DataMedium.where(name: m1)[0]
+		media2 = DataMedium.where(name: m2)[0]
+		if media1.nil? || media2.nil?
+			return
+		end
+		media1.valid_name = addIDStringToString(media1.valid_name,media2.valid_name)
+		media1.datadetail_id = addIDStringToString(media1.datadetail_id,media2.datadetail_id)
+		media2.valid_name = ""
+		media2.datadetail_id =""
+		media_names = []
+		media_names.push(media1.name)
+		media_names.push(media2.name)
+		DataDetail.where(news_media: media_names).each do |detail|
+			detail.news_media = media1.name
+			detail.save
+		end
+		media1.save
+		media2.save
+	end
+
 	def isTaiwan()
 		require 'net/http'
 		if current_user.nil?
@@ -158,6 +200,24 @@ module Common
 			result = id.to_s
 		else
 			result = result + "," + id.to_s
+		end
+		return result
+	end
+
+	def addIDStringToString(str1,str2)
+		result = str1
+		if str2.nil? || str2.empty?
+			return str1
+		end
+		if str1.nil? || str2.empty?
+			return str2
+		end
+		str2.split(',').each do |item|
+			if result.empty?
+				result = item.to_s
+			else
+				result = result + "," + item.to_s
+			end
 		end
 		return result
 	end
