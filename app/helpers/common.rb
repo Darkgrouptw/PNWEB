@@ -80,26 +80,6 @@ module Common
 		#@result = @result['country']
 	end
 	
-	def mergePeople(p1,p2)
-		people1 = DataPerson.where(name: p1)[0]
-		people2 = DataPerson.where(name: p2)[0]
-		if people1.nil? || people2.nil?
-			return
-		end
-		people1.valid_name = addIDStringToString(people1.valid_name,people2.valid_name)
-		people1.datadetail_id = addIDStringToString(people1.datadetail_id,people2.datadetail_id)
-		people2.valid_name = ""
-		people2.datadetail_id = ""
-		people_ids = []
-		people_ids.push(people1.id)
-		people_ids.push(people2.id)
-		DataDetail.where(people_id: people_ids).each do |detail|
-			detail.people_id = people1.id
-			detail.save
-		end
-		people1.save
-		people2.save
-	end
 
 	def mergeMedia(m1,m2)
 		media1 = DataMedium.where(name: m1)[0]

@@ -7,21 +7,22 @@
 </div>
 <div class="BigTitle">
 	<h3>名人合併功能</h3>
-	<h4>attation this won;t be a good idea</h4>
+	<h4>explain</h4>
 </div>
-<form action="/action_page.php" method="get" align="center">
+<form action="<%=mergePeople_path%>" method="post" align="center">
 	令
 	<select id="browsers" name = p1 class="js-example-basic-single">
 		<% @allPeople.each do |people| %>
-			<option value="<%= people.name + "#" + people.id.to_s%>">
+			<option value="<%= people.name%>">
 				<%= people.name + "#" + people.id.to_s%>
 			</option>
 		<% end %>
 	</select>
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 	併吞
 	<select id="browsers" name = p2 class="js-example-basic-single">
 		<% @allPeople.each do |people| %>
-			<option value="<%= people.name + "#" + people.id.to_s%>">
+			<option value="<%= people.name%>">
 				<%= people.name + "#" + people.id.to_s%>
 			</option>
 		<% end %>
@@ -30,5 +31,5 @@
 </form>
 <hr>
 <script type="text/javascript">
-  $('.js-example-basic-single').select2();
+	$('.js-example-basic-single').select2();
 </script>

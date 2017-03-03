@@ -658,7 +658,30 @@ class MainController < ApplicationController
 	end
 
 	def mergePeople
-		mergePeople(params[:p1],params[:p2])
+		if params[:p1] == params[:p2]
+			redirect_to(:back)
+			return;
+		end
+		people1 = DataPerson.where(name: params[:p1])[0]
+		people2 = DataPerson.where(name: params[:p2])[0]
+		if people1.nil? || people2.nil? || people1 == people2
+			redirect_to(:back)
+			return
+		end
+		people1.valid_name = addIDStringToString(people1.valid_name,people2.valid_name)
+		people1.datadetail_id = addIDStringToString(people1.datadetail_id,people2.datadetail_id)
+		people2.valid_name = ""
+		people2.datadetail_id = ""
+		people_ids = []
+		people_ids.push(people1.id)
+		people_ids.push(people2.id)
+		DataDetail.where(people_id: people_ids).each do |detail|
+			detail.people_id = people1.id
+			detail.save
+		end
+		people1.save
+		people2.save
+		redirect_to(:back)
 		return
 	end
 
