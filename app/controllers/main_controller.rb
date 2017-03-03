@@ -657,6 +657,23 @@ class MainController < ApplicationController
 		redirect_to(:back)
 	end
 
+	def mergePeople
+		mergePeople(params[:p1],params[:p2])
+		return
+	end
+
+	def mergeMedia
+		mergeMedia(params[:m1],params[:m2])
+		return
+	end
+
+	def manager
+		return
+	end
+	
+	def manager_people
+		@allPeople = DataPerson.all
+	end
 
 	private
 	#寄信
@@ -676,17 +693,4 @@ class MainController < ApplicationController
 			end
 		end
 	end
-
-	def mergePeople
-		mergePeople(params[:p1],params[:p2])
-		return
-	end
-	def mergeMedia
-		mergeMedia(params[:m1],params[:m2])
-		return
-	end
-
-	def manager
-	end
-
 end

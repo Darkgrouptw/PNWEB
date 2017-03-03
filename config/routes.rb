@@ -107,6 +107,8 @@ Rails.application.routes.draw do
 	get		"ipTest"			=>	"main#ipTest",		:as =>	"ipTest"
 
 	#Only for Manager
+	get		"manager_people"	=>	"main#manager_people",	:as =>	"manager_people"
+	get		"manager_media"	=>	"main#manager_media",	:as =>	"manager_media"
 	get		"manager"			=>	"main#manager",		:as =>	"manager"
 	post	"killIssue"			=>	"main#killIssue",	:as =>	"killIssue"
 	post	"BackUpDetail"		=>	"main#backUpDetail",:as =>	"backUpDetail"

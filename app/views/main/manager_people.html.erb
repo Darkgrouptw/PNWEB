@@ -1,0 +1,34 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
+<div class="BigTitle">
+	<h2>名人控管頁面</h2>
+	<hr>
+</div>
+<div class="BigTitle">
+	<h3>名人合併功能</h3>
+	<h4>attation this won;t be a good idea</h4>
+</div>
+<form action="/action_page.php" method="get" align="center">
+	令
+	<select id="browsers" name = p1 class="js-example-basic-single">
+		<% @allPeople.each do |people| %>
+			<option value="<%= people.name + "#" + people.id.to_s%>">
+				<%= people.name + "#" + people.id.to_s%>
+			</option>
+		<% end %>
+	</select>
+	併吞
+	<select id="browsers" name = p2 class="js-example-basic-single">
+		<% @allPeople.each do |people| %>
+			<option value="<%= people.name + "#" + people.id.to_s%>">
+				<%= people.name + "#" + people.id.to_s%>
+			</option>
+		<% end %>
+	</select>
+	<input type="submit" value="確定合併(無法復原)">
+</form>
+<hr>
+<script type="text/javascript">
+  $('.js-example-basic-single').select2();
+</script>
