@@ -1,0 +1,23 @@
+<div class="BigTitle">
+    <h2>忘記密碼</h2>
+    <hr>
+</div>
+<div class="container">
+    <div class="jumbotron" style="margin-bottom: 0px; padding-bottom: 40px; margin-top: 100px;">
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+                <form action="/ForgetPassword/SendMail" method="post">
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+                    <label>信箱，然後會發一封信去信箱做重設密碼的動作</label>
+                    <input type="text" class="form-control" name="email" required="true" placeholder="請輸入信箱">
+                    <br>
+                    
+                    <div style="text-align:center; margin-top: 10px;">
+                        <input type="submit" class="btn btn-primary" style="width: 150px;">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -9,8 +9,8 @@ Rails.application.routes.draw do
     
     # 忘記密碼
     get     "ForgetPassword"    =>  "user/forget#send_email_form"
-    post    "ForgetSendMail"    =>  "user/forget#send_email"
-    get     "VerifyForgetLink"  =>  "user/forget#verify"
+    post    "ForgetPassword/SendMail"  =>  "user/forget#send_email"
+    get     "ForgetPassword/VerifyForgetLink"  =>  "user/forget#verify"
     get     "ForgetForm"        =>  "user/forget#form"
     post    "ResetPassword"     =>  "user/forget#reset_password"    
 	
