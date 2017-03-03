@@ -30,6 +30,102 @@ class User::ForgetController < ApplicationController
         send_forget_email_email(users[0].token ,users[0].email)
     end
     
+    #
+    # 要確定東西能不能
+    #
+    def verify
+        if params[:email] == nil || params[:token] == nil
+            flash[:alert] = "錯誤參數"
+            redirect_to "/"
+            return
+        end
+        
+        users = User.where(email: params[:email])
+        if users.length == 0
+            flash[:alert] = "沒有這個使用者喔！！"
+            redirect_to "/"
+            return
+        end
+        
+        if users.token != params[:token]
+            flash[:alert] = "資料不符合"
+            redirect_to "/"
+            return
+        end
+        
+        session[:email] = params[:email]
+        session[:token] = params[:token]
+        redirect_to "/ForgetForm"
+    end
+    
+    #
+    # 填寫表單
+    #
+    def form
+        @token = session[:token]
+        @email = session[:email]
+        
+        if @token == nil || @email == nil
+            redirect_to "/"
+            flash[:alert] = "流程錯誤！！"
+            return
+        end
+    end
+    
+    #
+    # 最後更改密碼的地方
+    #
+    def reset_password
+        if !is_uuid(params[:token]) || ! is_email(params[:email])
+            redirect_to :back
+            flash[:alert] = "請勿擅自修改資料喔！！"
+            return
+        end
+        
+        # 接下來要判斷參數對不對，有沒有沒勾的或沒值的
+        require 'rest-client'
+        require 'rubygems'
+        require 'json'
+        response = RestClient.post "https://www.google.com/recaptcha/api/siteverify",
+                :secret => "6LeX2SQTAAAAAKbIPMl-1aYU63KgVEQRWPs6o7Bv",
+                :response => params["g-recaptcha-response"],
+                :remoteip => request.remote_ip
+        reCaptcha = JSON.parse(response.to_s)
+        
+        if !reCaptcha["success"]
+            redirect_to :back
+            flash[:alert] = "機器人驗證碼有錯誤！！"
+            return
+        end
+        
+        # 驗證輸入的東西對不對
+        if params[:password] != params[:password_confirm]
+            redirect_to :back
+            flash[:alert] = "兩個密碼不太一樣！！"
+            return
+        end
+        
+        
+        if params[:password][/[a-zA-Z0-9]+/] != params[:password]
+            redirect_to :back
+            flash[:alert] = "有不合法的字，請重新填寫"
+            return
+        end
+        
+        if params[:password].length < 6 
+            redirect_to :back
+            flash[:alert] = "密碼小於 6 個字！！"
+            return
+        end 
+        
+        # 刪除 session
+        session.delete(:token)
+        session.delete(:email)
+        
+        redirect_to "/"
+        flash[:notice] = "重設成功！！"
+    end
+
     
     private
 	#寄信
