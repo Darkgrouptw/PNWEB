@@ -6,6 +6,13 @@ Rails.application.routes.draw do
 	get     "User/Login"        =>  "user/login#login",         :as =>  "login"
 	delete  "User/Logout"       =>  "user/login#logout",        :as =>  "logout"
 	post    "User/VerifyAccout" =>  "user/login#verify",        :as =>  "login_verify"
+    
+    # 忘記密碼
+    get     "ForgetPassword"    =>  "user/forget#send_email_form"
+    post    "ForgetSendMail"    =>  "user/forget#send_email"
+    get     "VerifyForgetLink"  =>  "user/forget#verify"
+    get     "ForgetForm"        =>  "user/forget#form"
+    post    "ResetPassword"     =>  "user/forget#reset_password"    
 	
 	# 註冊頁面
 	get     "RegisterEmail"     =>  "user/register#index",      :as =>  "register_email"

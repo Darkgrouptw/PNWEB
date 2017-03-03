@@ -1,0 +1,2 @@
+module User::ForgetHelper
+end
