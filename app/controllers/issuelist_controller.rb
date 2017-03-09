@@ -268,7 +268,7 @@ class IssuelistController < ApplicationController
 			@PositiveHasNextPage = false
 		end
 
-		#增加名人 編者
+		#增加名人 提案者
 		user = []
 		person = []
 		media = []
@@ -471,7 +471,7 @@ class IssuelistController < ApplicationController
 		end
 
 		if @issue_order == "time"
-			@issues = @issues.order(:created_at)
+			@issues = @issues.order(:created_at).reverse
 		elsif @issue_order == "hot"
 			@issues = findHotIsssue(@issues)
 			#@issues.sort_by{|item| item.datadetail_id.length}
