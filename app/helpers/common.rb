@@ -81,27 +81,6 @@ module Common
 	end
 	
 
-	def mergeMedia(m1,m2)
-		media1 = DataMedium.where(name: m1)[0]
-		media2 = DataMedium.where(name: m2)[0]
-		if media1.nil? || media2.nil?
-			return
-		end
-		media1.valid_name = addIDStringToString(media1.valid_name,media2.valid_name)
-		media1.datadetail_id = addIDStringToString(media1.datadetail_id,media2.datadetail_id)
-		media2.valid_name = ""
-		media2.datadetail_id =""
-		media_names = []
-		media_names.push(media1.name)
-		media_names.push(media2.name)
-		DataDetail.where(news_media: media_names).each do |detail|
-			detail.news_media = media1.name
-			detail.save
-		end
-		media1.save
-		media2.save
-	end
-
 	def isTaiwan()
 		require 'net/http'
 		if current_user.nil?

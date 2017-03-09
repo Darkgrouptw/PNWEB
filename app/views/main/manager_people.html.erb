@@ -7,7 +7,7 @@
 </div>
 <div class="BigTitle">
 	<h3>名人合併功能</h3>
-	<h4>explain</h4>
+	<h4>將名人合併，會將後者的意見全部導向至前者（後者不會刪除），此步驟無法復原請小心使用。</h4>
 </div>
 <form action="<%=mergePeople_path%>" method="post" align="center">
 	令
@@ -28,6 +28,69 @@
 		<% end %>
 	</select>
 	<input type="submit" value="確定合併(無法復原)">
+</form>
+
+<div class="BigTitle">
+	<h3>名人更名功能</h3>
+	<h4>將名人更名，此步驟無法復原請小心使用。</h4>
+</div>
+<form action="<%= changePeopleName_path %>" method="post" align="center">
+	令
+	<select id="browsers" name = p1 class="js-example-basic-single">
+		<% @allPeople.each do |people| %>
+			<option value="<%= people.name %>">
+				<%= people.name + "#" + people.id.to_s%>
+			</option>
+		<% end %>
+	</select>
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	更名為
+	<input type="text" name= p2 maxlength="30"/>
+	<input type="submit" value="確定更名(無法復原)">
+</form>
+
+<div class="BigTitle">
+	<h3>頭銜合併功能</h3>
+	<h4>將使用過的頭銜合併，會將有後者頭銜的意見全部更改為前者頭銜，此步驟無法復原請小心使用。</h4>
+</div>
+<form action="<%= mergePeopleTitle_path %>" method="post" align="center">
+	令
+	<select id="browsers" name = p1 class="js-example-basic-single">
+		<% @titles.each do |title| %>
+			<option value="<%= title %>">
+				<%= title %>
+			</option>
+		<% end %>
+	</select>
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	併吞
+	<select id="browsers" name = p2 class="js-example-basic-single">
+		<% @titles.each do |title| %>
+			<option value="<%= title %>">
+				<%= title %>
+			</option>
+		<% end %>
+	</select>
+	<input type="submit" value="確定合併(無法復原)">
+</form>
+
+<div class="BigTitle">
+	<h3>頭銜更名功能</h3>
+	<h4>將頭銜更名，此步驟無法復原請小心使用。</h4>
+</div>
+<form action="<%= changePeopleTitle_path %>" method="post" align="center">
+	令
+	<select id="browsers" name = p1 class="js-example-basic-single">
+		<% @titles.each do |title| %>
+			<option value="<%= title %>">
+				<%= title %>
+			</option>
+		<% end %>
+	</select>
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	更名為
+	<input type="text" name= p2 maxlength="30"/>
+	<input type="submit" value="確定更名(無法復原)">
 </form>
 <hr>
 <script type="text/javascript">

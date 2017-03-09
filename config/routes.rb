@@ -113,5 +113,9 @@ Rails.application.routes.draw do
 	post	"killIssue"			=>	"main#killIssue",	:as =>	"killIssue"
 	post	"BackUpDetail"		=>	"main#backUpDetail",:as =>	"backUpDetail"
 	post 	"mergePeople"		=>	"main#mergePeople",	:as =>	"mergePeople"
+	post 	"changePeopleName"	=>	"main#changePeopleName",	:as =>	"changePeopleName"
+	post 	"mergePeopleTitle"	=>	"main#mergePeopleTitle",	:as =>	"mergePeopleTitle"
+	post 	"changePeopleTitle"	=>	"main#changePeopleTitle",	:as =>	"changePeopleTitle"
 	post 	"mergeMedia"		=>	"main#mergeMedia",	:as =>	"mergeMedia"
+	post 	"changeMediaName"		=>	"main#changeMediaName",	:as =>	"changeMediaName"
 end

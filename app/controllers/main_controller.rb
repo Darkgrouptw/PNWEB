@@ -669,6 +669,7 @@ class MainController < ApplicationController
 			return
 		end
 		people1.valid_name = addIDStringToString(people1.valid_name,people2.valid_name)
+		people1.valid_name = addIDStringToString(people1.valid_name,people2.name)
 		people1.datadetail_id = addIDStringToString(people1.datadetail_id,people2.datadetail_id)
 		people2.valid_name = ""
 		people2.datadetail_id = ""
@@ -686,8 +687,31 @@ class MainController < ApplicationController
 	end
 
 	def mergeMedia
-		mergeMedia(params[:m1],params[:m2])
-		return
+		if params[:m1] == params[:m2]
+			redirect_to(:back)
+			return;
+		end
+		media1 = DataMedium.where(name: params[:m1])[0]
+		media2 = DataMedium.where(name: params[:m2])[0]
+		if media1.nil? || media2.nil?
+			return
+		end
+		media1.valid_name = addIDStringToString(media1.valid_name,media2.valid_name)
+		media1.valid_name = addIDStringToString(media1.valid_name,media2.name)
+		media1.datadetail_id = addIDStringToString(media1.datadetail_id,media2.datadetail_id)
+		media2.valid_name = ""
+		media2.datadetail_id =""
+		media_names = []
+		media_names.push(media1.name)
+		media_names.push(media2.name)
+		DataDetail.where(news_media: media_names).each do |detail|
+			detail.news_media = media1.name
+			detail.save
+		end
+		media1.save
+		media2.save
+		redirect_to(:back)
+		return;
 	end
 
 	def manager
@@ -696,6 +720,66 @@ class MainController < ApplicationController
 	
 	def manager_people
 		@allPeople = DataPerson.all
+		@allDetail = DataDetail.all
+		@titles = []
+		@allDetail.each do |detail|
+			if !@titles.include?(detail.title_at_that_time)
+				@titles.push(detail.title_at_that_time)
+			end
+		end
+	end
+
+	def changePeopleName
+		if params[:p1] == params[:p2]
+			redirect_to(:back)
+			return;
+		end
+		people1 = DataPerson.where(name: params[:p1])[0]
+		if people1.nil?
+			redirect_to(:back)
+			return
+		end
+		people1.valid_name = addIDStringToString(people1.valid_name,people1.name)
+		people1.name = params[:p2]
+		people1.save
+		redirect_to(:back)
+		return
+	end
+
+	def mergePeopleTitle
+		if params[:p1].nil? || params[:p2].nil?
+			redirect_to(:back)
+			return;
+		end
+		titles = []
+		titles.push(params[:p1])
+		titles.push(params[:p2])
+		DataDetail.where(title_at_that_time: titles).each do |detail|
+			detail.title_at_that_time = params[:p1]
+			detail.save
+		end
+		redirect_to(:back)
+		return
+	end
+
+	def changePeopleTitle
+		if params[:p1].nil? || params[:p2].nil?
+			redirect_to(:back)
+			return;
+		end
+		titles = []
+		titles.push(params[:p1])
+		titles.push(params[:p2])
+		DataDetail.where(title_at_that_time: titles).each do |detail|
+			detail.title_at_that_time = params[:p2]
+			detail.save
+		end
+		redirect_to(:back)
+		return
+	end
+
+	def changeMediaName
+
 	end
 
 	private
