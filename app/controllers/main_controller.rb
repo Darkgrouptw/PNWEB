@@ -687,12 +687,12 @@ class MainController < ApplicationController
 	end
 
 	def mergeMedia
-		if params[:m1] == params[:m2]
+		if params[:p1] == params[:p2]
 			redirect_to(:back)
 			return;
 		end
-		media1 = DataMedium.where(name: params[:m1])[0]
-		media2 = DataMedium.where(name: params[:m2])[0]
+		media1 = DataMedium.where(name: params[:p1])[0]
+		media2 = DataMedium.where(name: params[:p2])[0]
 		if media1.nil? || media2.nil?
 			return
 		end
@@ -778,8 +778,34 @@ class MainController < ApplicationController
 		return
 	end
 
-	def changeMediaName
+	def manager_media
+		@allMedia = DataMedium.all
+	end
 
+	def changeMediaName
+		if params[:p1].nil? || params[:p2].nil?
+			redirect_to(:back)
+			return;
+		end
+		media = DataMedium.where(name: params[:p1])[0]
+		if media.nil?
+			redirect_to(:back)
+			return
+		end
+		media.valid_name = addIDStringToString(media.valid_name,media.name)
+		media.name = params[:p2]
+		media.save
+		
+		medias = []
+		medias.push(params[:p1])
+		medias.push(params[:p2])
+
+		DataDetail.where(news_media: medias).each do |detail|
+			detail.news_media = params[:p2]
+			detail.save
+		end
+		redirect_to(:back)
+		return
 	end
 
 	private

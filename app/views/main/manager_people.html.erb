@@ -14,7 +14,7 @@
 	<select id="browsers" name = p1 class="js-example-basic-single">
 		<% @allPeople.each do |people| %>
 			<option value="<%= people.name%>">
-				<%= people.name + "#" + people.id.to_s%>
+				<%= people.name %>
 			</option>
 		<% end %>
 	</select>
@@ -23,7 +23,7 @@
 	<select id="browsers" name = p2 class="js-example-basic-single">
 		<% @allPeople.each do |people| %>
 			<option value="<%= people.name%>">
-				<%= people.name + "#" + people.id.to_s%>
+				<%= people.name %>
 			</option>
 		<% end %>
 	</select>
@@ -39,7 +39,7 @@
 	<select id="browsers" name = p1 class="js-example-basic-single">
 		<% @allPeople.each do |people| %>
 			<option value="<%= people.name %>">
-				<%= people.name + "#" + people.id.to_s%>
+				<%= people.name %>
 			</option>
 		<% end %>
 	</select>
