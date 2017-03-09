@@ -94,6 +94,7 @@ class MediaController < ApplicationController
 			end
 			media.save
 		end
+		redirect_to(:back)
 		return
 	end
 end

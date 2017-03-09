@@ -49,6 +49,38 @@
 	<input type="submit" value="確定更名(無法復原)">
 </form>
 
+<div class="BigTitle">
+	<h3>媒體影藏功能</h3>
+	<h4>將媒體隱藏，使之不會出現在首頁的排行版上。</h4>
+</div>
+<form action="<%= media_hide_path %>" method="post" align="center">
+	令
+	<select id="browsers" name = Name class="js-example-basic-single">
+		<% @allMedia.each do |media| %>
+			<% if getOtherParameter(media,"hide") != "yes" %>
+				<option value="<%= media.id %>">
+					<%= media.name %>
+				</option>
+			<% end %>
+		<% end %>
+	</select>
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	<input type="submit" value="隱藏">
+</form>
+<form action="<%= media_hide_path %>" method="post" align="center">
+	令
+	<select id="browsers" name = Name class="js-example-basic-single">
+		<% @allMedia.each do |media| %>
+			<% if getOtherParameter(media,"hide") == "yes" %>
+				<option value="<%= media.id %>">
+					<%= media.name %>
+				</option>
+			<% end %>
+		<% end %>
+	</select>
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	<input type="submit" value="顯示">
+</form>
 <hr>
 <script type="text/javascript">
 	$('.js-example-basic-single').select2();
