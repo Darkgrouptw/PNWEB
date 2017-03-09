@@ -4,11 +4,13 @@ $(function(){
         {
             $("#reportTime").attr("type", "date");
             $("#reportTime").prop("value", "");
+            $("#data_description").text("請儘量填年/月/日，不得已才只填年/月只或年" );
         }
         else
         {
             $("#reportTime").attr("type", "text");
             $("#reportTime").prop("value", "");
+            $("#data_description").text("請儘量填西元年/月/日，不得已才只填年/月或年，古人可寫\"宋朝\"...等");
         }
     });
     $("#directClick").change(function(){
@@ -16,11 +18,13 @@ $(function(){
         {
             $("#reportTime").attr("type", "date");
             $("#reportTime").prop("value", "");
+            $("#data_description").text("請儘量填年/月/日，不得已才只填年/月只或年" );
         }
         else
         {
             $("#reportTime").attr("type", "text");
             $("#reportTime").prop("value", "");
+            $("#data_description").text("請儘量填西元年/月/日，不得已才只填年/月或年，古人可寫\"宋朝\"...等");
         }
     });
     $("#previewButton").click(function(){
