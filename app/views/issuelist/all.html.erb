@@ -46,12 +46,12 @@
 			<div><%= issue.thumb_up.split(',').length %></div>
 			<div>
 				<% if !can_like() %>
-					登入後才能連署
+					登入後才能附議
 				<% elsif issue.thumb_up.include?(current_user.id.to_s) %>
-					你已連署過
+					你已附議過
 				<% else %>
 					<% link = issuelist_thumb_up_path + "?id=" + issue.id.to_s %>
-					<%= link_to "連署",link,method: :post%>
+					<%= link_to "附議",link,method: :post%>
 				<% end %>
 			</div>
 		</td>
@@ -142,7 +142,7 @@
 		<thead>
 			<tr><td colspan = <% if can_level_up_issue() %>"6"<% else %>"4"<% end %>> 候選議題</td></tr>
 			<tr>
-				<td>議題主文</td><td>連署數</td><td>提案時間</td><td>提案者</td>
+				<td>議題主文</td><td>附議數</td><td>提案時間</td><td>提案者</td>
 				<% if can_level_up_issue() %><td>升為正式議題</td><% else %><% end %>
 				<% if can_hide_issue() %><td>隱藏議題</td><% else %><% end %>
 			</tr>
