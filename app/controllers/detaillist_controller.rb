@@ -572,7 +572,7 @@ class DetaillistController < ApplicationController
 		detail_ids = detail_ids.split(',')
 		details = DataDetail.where(id: detail_ids)
 		if details.length == 0
-			flash[:alert] = "沒有贊可以回收"
+			flash[:alert] = "沒有讚可以回收"
 			redirect_to(:back)
 			return
 		end

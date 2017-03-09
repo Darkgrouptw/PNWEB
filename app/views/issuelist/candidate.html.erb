@@ -31,7 +31,7 @@
 							<div><%= issue.thumb_up.split(',').length %></div>
 							<div>
 								<% if !can_like() %>
-									登入後才能按贊
+									登入後才能按讚
 								<% elsif issue.thumb_up.include?(current_user.id.to_s) %>
 									你已投過票
 								<% else %>

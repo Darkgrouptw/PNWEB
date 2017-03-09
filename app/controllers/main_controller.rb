@@ -389,7 +389,7 @@ class MainController < ApplicationController
 				@nicknames.push(temp.nickname)
 			end
 			
-			# 按贊的個數
+			# 按讚的個數
 			@up.push(getStringIDLength(item.like_list_id))
 			if current_user != nil
 				@hasThumpAlready.push(stringHasID(item.like_list_id, current_user.id))

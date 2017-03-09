@@ -13,7 +13,7 @@
                     <%= @issue_info[index].title %>
                 </div>
                 
-                <!-- 按贊 button -->
+                <!-- 按讚 button -->
                 <% if current_user != nil %>
                     <% if !@hasThumpAlready[index] %>
                         <a href="/TreeThumbUp?id=<%= item.id.to_s + @addLink %>" class="btn btn-primary BoxThumbUp">按讚👍</a>
@@ -41,7 +41,7 @@
                     最後更新：<%= @updateTimeArray[index] %>
                 </div>
                 
-                <!-- 贊數 -->
+                <!-- 讚數 -->
                 <div class="BoxOtherInfo">
                     讚數： <%= @up[index] %> 
                 </div>
