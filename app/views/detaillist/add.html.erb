@@ -40,7 +40,7 @@
 							<label>
 								誰的意見
 								<h6 style="color: rgb(128,128,128);display: inline-block;">
-									附註：若非個人，請填團體名或代表人(如: 乖乖黨、乖乖黨發言人、乖乖報、乖乖報社論....等
+									附註：若非個人，請填團體名或代表人(如: 乖乖黨、乖乖黨發言人、乖乖報、乖乖報社論....等)
 								</h6>
 							</label>
 							<input list="1browsers" class="form-control peopleList" name="people_id" id="queryPeople" <%if !@person.nil? %> value="<%=@person.name %>"<%end%>>
@@ -77,7 +77,8 @@
 								<input type="radio" name="is_direct" value = "false" <%if @is_direct == "false"%> checked = "true"<%end%> id = "not_directClick"/>間接意見
 
 								<h6 style="color: rgb(128,128,128);display: inline-block;">
-									附註：時空不對者或不是直接針對本議題的意見均屬於間接意見
+									附註：時空不對者或不是直接針對本議題的意見均屬於間接意見; 不列入名人語錄
+
 								</h6>
 
 							</div>
