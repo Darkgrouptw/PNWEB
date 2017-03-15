@@ -78,7 +78,7 @@ module Authority
     def can_level_up_user()
         return can_view(2) 
     end
-    def can_editor_detail()
+    def can_editor_detail(detail_id = -1)
 
         if can_view(2)
             return true

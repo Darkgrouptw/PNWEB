@@ -360,7 +360,7 @@ class DetaillistController < ApplicationController
 	end
 
 	def edit
-		if !can_editor_detail()
+		if !can_editor_detail(params[:id])
 			flash[:alert] = "權限不足"
 			redirect_to(:back)
 			return
@@ -371,7 +371,7 @@ class DetaillistController < ApplicationController
 	end
 
 	def update
-		if !can_editor_detail()
+		if !can_editor_detail(params[:id])
 			flash[:alert] = "權限不足"
 			redirect_to(:back)
 			return
