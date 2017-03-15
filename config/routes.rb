@@ -121,4 +121,5 @@ Rails.application.routes.draw do
 
 	#其他頁面
 	get 	"about_us"			=>	"main#about_us",	:as =>	"about_us"
+	get		"tutorial"			=>	"main#tutorial",	:as =>	"tutorial"
 end

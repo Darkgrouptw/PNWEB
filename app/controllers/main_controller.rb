@@ -809,6 +809,10 @@ class MainController < ApplicationController
 	end
 
 	def about_us
+
+	end
+
+	def tutorial
 		
 	end
 
