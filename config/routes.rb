@@ -118,4 +118,7 @@ Rails.application.routes.draw do
 	post 	"changePeopleTitle"	=>	"main#changePeopleTitle",	:as =>	"changePeopleTitle"
 	post 	"mergeMedia"		=>	"main#mergeMedia",	:as =>	"mergeMedia"
 	post 	"changeMediaName"		=>	"main#changeMediaName",	:as =>	"changeMediaName"
+
+	#其他頁面
+	get 	"about_us"			=>	"main#about_us",	:as =>	"about_us"
 end

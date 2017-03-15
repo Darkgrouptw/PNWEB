@@ -72,7 +72,7 @@
 										<% #沒有登入的時候 %>
 										<li><a href="<%= register_email_path %>" class="headLink">註冊會員</a></li>
 										<li><a href="<%= login_path %>" class="headLink">會員登入</a></li>
-										<li><a href="#" class="headLink">關於我們</a></li>
+										<li><a href="<%= about_us_path %>" class="headLink">關於我們</a></li>
 								<% else %>
 										<% #有登入的時候 %>
 										<% #通知的 Dropdown %>
@@ -97,7 +97,6 @@
 											</ul>
 										</li>
 										
-										
 										<% #帳號的 Dropdown %>
 										<li class="dropdown">
 												<a href="#" class="dropdown-toggle headLink" data-toggle="dropdown" style="padding-bottom: 10px;">
@@ -105,6 +104,7 @@
 													<span class="caret"></span>
 											</a>
 											<ul class="dropdown-menu" style="top: 85px;padding-left: 1px;padding-right: 1px;">
+													<li><a href="<%= about_us_path %>" class="headLink">關於我們</a></li>
 													<% link = userlist_edit_path(id: current_user.id)%>
 													<li><a href=<%= link%> class="headLink">使用者資料</a></li>
 													<% link = userlist_index_path(id: current_user.id)%>

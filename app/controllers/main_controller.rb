@@ -808,6 +808,10 @@ class MainController < ApplicationController
 		return
 	end
 
+	def about_us
+		
+	end
+
 	private
 	#寄信
 	def send_notify_email(email,title,content)
