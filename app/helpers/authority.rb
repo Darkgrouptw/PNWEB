@@ -87,7 +87,9 @@ module Authority
             return false
         end
         detail = DataDetail.where(id: detail_id,is_report: false)[0]
-        if detail.post_id == current_user.id
+        if detail.nil?
+            return false
+        elsif detail.post_id == current_user.id
             return true
         end
         return false
