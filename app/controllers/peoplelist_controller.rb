@@ -62,12 +62,12 @@ class PeoplelistController < ApplicationController
 		if @issue_search.nil? || @issue_search.empty?
 			@issue_search = ""
 		end
-		@all_issues = DataIssue.where(id: issue_ids,is_candidate: false)
-		@issues = @all_issues.where("title like ?","%" + @issue_search + "%")
 		if @tag_search.nil? || @tag_search.empty?
 			@tag_search = ""
 		end
-		@issues = @issues.where("tag like ?","%" + @tag_search + "%")
+		@all_issues = DataIssue.where(id: issue_ids,is_candidate: false)
+		@issues = @all_issues.where("title LIKE '%" + @issue_search + "%' OR " +"tag LIKE '%" + @issue_search +"%'")
+		#@issues = @issues.where("tag like ?","%" + @tag_search + "%")
 	end
 	def add
 		if !can_add_detail()
