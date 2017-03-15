@@ -27,18 +27,18 @@
                                 
 
                                 <label>出生年月日</label>
-                                <input type="date" class="form-control" name="date" value="<%= Date.parse( @me.birth) %>" required="true">
+                                <input type="date" class="form-control" name="date" value="<%= Date.parse( @me.birth) %>" required="true" readonly="readonly">
                                 <br>
 
                                 <label>性別</label> <br>
                                 <label class="checkbox-inline">
-                                    <input type="radio" name="sex" value="0" id="male" <%if @me.sex == 0%><%= "checked" %><%end%>>男生</font>
+                                    <input type="radio" name="sex" value="0" id="male" <%if @me.sex == 0%><%= "checked" %><%end%> disabled="true">男生</font>
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="radio" name="sex" value="1" id="female" <%if @me.sex == 1%><%= "checked" %><%end%>>女生
+                                    <input type="radio" name="sex" value="1" id="female" <%if @me.sex == 1%><%= "checked" %><%end%> disabled="true">女生
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="radio" name="sex" value="2" id="other" <%if @me.sex == 2%><%= "checked" %><%end%>>其他
+                                    <input type="radio" name="sex" value="2" id="other" <%if @me.sex == 2%><%= "checked" %><%end%> disabled="true">其他
                                 </label>
                                 <br>
 
@@ -48,7 +48,7 @@
                             <!-- 右半部的內容 -->
                             <div class="col-md-4">
                                  <label>暱稱</label>
-                                <input type="text" class="form-control" name="nickname" value = "<%= @me.nickname %>"required="true">
+                                <input type="text" class="form-control" name="nickname" value = "<%= @me.nickname %>"required="true" readonly="readonly">
                                 <br>
 
                                 

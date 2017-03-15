@@ -107,6 +107,8 @@
 											<ul class="dropdown-menu" style="top: 85px;padding-left: 1px;padding-right: 1px;">
 													<% link = userlist_edit_path(id: current_user.id)%>
 													<li><a href=<%= link%> class="headLink">使用者資料</a></li>
+													<% link = userlist_index_path(id: current_user.id)%>
+													<li><a href=<%= link%> class="headLink">使用者頁面</a></li>
 													<li><a href="<%= logout_path %>" class="headLink" data-method="delete">登出</a></li>
 													
 													<% #分隔線 %>
