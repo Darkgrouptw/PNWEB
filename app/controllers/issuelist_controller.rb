@@ -220,10 +220,10 @@ class IssuelistController < ApplicationController
 		else
 			#issue_list.sort_by{|item| likelist.where(detail_id: item.datadetail_id.split(',')).length}.reverse
 			if !@pos_ip_select.nil? && @pos_ip_select == "off"
-				@support = @support.sort_by{|item| @likeList.where(detail_id: item.id).length}.reverse
+				@support = @support.sort_by{|item| @AllLike.where(detail_id: item.id).length}.reverse
 			else
 				@pos_ip_select = "on"
-				@support = @support.sort_by{|item| @likeList.where(detail_id: item.id,ip: "Taiwan").length}.reverse
+				@support = @support.sort_by{|item| @AllLike.where(detail_id: item.id,ip: "Taiwan").length}.reverse
 			end
 		end
 		if @neg_order == "time"
@@ -232,10 +232,10 @@ class IssuelistController < ApplicationController
 			@disSupport = @disSupport.order(:created_at)
 		else
 			if !@neg_ip_select.nil? && @neg_ip_select == "off"
-				@disSupport = @disSupport.sort_by{|item| @likeList.where(detail_id: item.id).length}.reverse
+				@disSupport = @disSupport.sort_by{|item| @AllLike.where(detail_id: item.id).length}.reverse
 			else
 				@neg_ip_select = "on"
-				@disSupport = @disSupport.sort_by{|item| @likeList.where(detail_id: item.id,ip: "Taiwan").length}.reverse
+				@disSupport = @disSupport.sort_by{|item| @AllLike.where(detail_id: item.id,ip: "Taiwan").length}.reverse
 			end
 		end
 		#判斷顯示的頁數
