@@ -169,10 +169,17 @@
 								</td>
 								<td>
 									<div>
-										<% link = userlist_index_path(id: getOtherParameter(item,"reporter")) %>
-										<a href = <%= link %>>
-											<%= getOtherParameter(item,"reporter_name") %>
-										</a>
+										<% id = getOtherParameter(item,"reporter") %>
+										<% if id.nil? || id.empty? %>
+											無紀錄
+											
+										<% else %>
+											<% link = userlist_index_path(id: getOtherParameter(item,"reporter")) %>
+											<a href = <%= link %>>
+												<%= getOtherParameter(item,"reporter_name") %>
+											</a>
+										<% end %>
+										
 									</div>
 								</td>
 								<td>
