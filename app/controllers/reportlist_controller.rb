@@ -100,7 +100,8 @@ class ReportlistController < ApplicationController
 	@report.people_id = people_id
 	@report.detail_id = detail_id
 	@report.cause = tempStr
-
+	setOtherParameter(@report,"reporter",current_user.id)
+	setOtherParameter(@report,"reporter_name",current_user.nickname)
 	#@detail.is_report = true
 	@detail.save
 	@report.save

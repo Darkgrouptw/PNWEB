@@ -87,6 +87,7 @@
 						<td><div>原文連結</div><div>原文備份</div></td>
 						<td>人氣</td>
 						<td><div>上線時間</div><div>編者</div></td>
+						<td>檢舉人</td>
 						<td>原因</td>
 						<td>處置</td>
 					</tr>
@@ -163,6 +164,14 @@
 										<% link = userlist_index_path(id: user.id) %>
 										<a href = <%= link %>>
 											<%= user.nickname %>
+										</a>
+									</div>
+								</td>
+								<td>
+									<div>
+										<% link = userlist_index_path(id: getOtherParameter(item,"reporter")) %>
+										<a href = <%= link %>>
+											<%= getOtherParameter(item,"reporter_name") %>
 										</a>
 									</div>
 								</td>
