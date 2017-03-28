@@ -47,7 +47,7 @@ class User::ForgetController < ApplicationController
             return
         end
         
-        if users.token != params[:token]
+        if users[0].token != params[:token]
             flash[:alert] = "資料不符合"
             redirect_to "/"
             return
