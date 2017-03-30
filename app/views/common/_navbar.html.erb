@@ -40,7 +40,7 @@
 			<a class = "navbar-brand headLogo" href="/">
                 <img src="/blanceLogoTrans.png">
                 <div>
-                    <font size="8">天平共筆(Balnote)</font>
+                    <font size="8">天平共筆</font>
 				    <h4 style="margin-top: 20px;margin-left: 20px;">正反公平發聲，公道自在人心</h4>
                 </div>
 			</a>
@@ -54,6 +54,7 @@
 								<% if request.path == issuelist_all_path%>
 									<% black = true %>
 								<% end %>
+								<li><a href="<%= about_us_path %>" class="headLink">關於我們</a></li>
 								<li><a href="<%= link %>" class = "headLink" <%if black%> style="color:black !important;" <%end%>>議題</a></li>
 
 								<% link=peoplelist_all_path %>
@@ -72,7 +73,7 @@
 										<% #沒有登入的時候 %>
 										<li><a href="<%= register_email_path %>" class="headLink">註冊會員</a></li>
 										<li><a href="<%= login_path %>" class="headLink">會員登入</a></li>
-										<li><a href="<%= about_us_path %>" class="headLink">關於我們</a></li>
+										
 								<% else %>
 										<% #有登入的時候 %>
 										<% #通知的 Dropdown %>
@@ -104,11 +105,11 @@
 													<span class="caret"></span>
 											</a>
 											<ul class="dropdown-menu" style="top: 85px;padding-left: 1px;padding-right: 1px;">
-													<li><a href="<%= about_us_path %>" class="headLink">關於我們</a></li>
+													
 													<% link = userlist_edit_path(id: current_user.id)%>
-													<li><a href=<%= link%> class="headLink">使用者資料</a></li>
+													<li><a href=<%= link%> class="headLink">帳號設定</a></li>
 													<% link = userlist_index_path(id: current_user.id)%>
-													<li><a href=<%= link%> class="headLink">使用者頁面</a></li>
+													<li><a href=<%= link%> class="headLink">所有使用者</a></li>
 													<li><a href="<%= logout_path %>" class="headLink" data-method="delete">登出</a></li>
 													
 													<% #分隔線 %>
