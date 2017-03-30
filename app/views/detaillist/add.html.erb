@@ -6,7 +6,6 @@
 <link rel="stylesheet" type="text/css" href="/css/query.css">
 <link rel="stylesheet" type="text/css" href="/css/user/form.css">
 <link rel="stylesheet" type="text/css" href="/css/preview.css">
-
 <div class="BigTitle">
 
 	<h2>新增意見</h2>
@@ -34,7 +33,7 @@
 									附註：最多100字，太長的意見可分成多條意見
 								</h6>
 							</label>
-							<input type="text" class="form-control" name="content" required="true" maxlength="100" id="content" <% if !(@content.nil? || @content.empty?) %> value = "<%=@content%>"<%end%>>
+							<textarea rows = 5 type="text" class="form-control" name="content" required="true" maxlength="100" id="content" <% if !(@content.nil? || @content.empty?) %> value = "<%=@content%>"<%end%>></textarea>
 							<br>
 
 							<label>
@@ -77,8 +76,8 @@
 								<input type="radio" name="is_direct" value = "false" <%if @is_direct == "false"%> checked = "true"<%end%> id = "not_directClick"/>間接意見
 
 								<h6 style="color: rgb(128,128,128);display: inline-block;">
-									附註：時空不對者或不是直接針對本議題的意見均屬於間接意見; 不列入名人語錄
-
+									附註：
+									時空不對者(如引用古人的話或討論台灣的私刑時引用歐巴馬對美國死刑的看法)屬於間接意見，間接意見不納入名人語錄。
 								</h6>
 
 							</div>
@@ -140,15 +139,15 @@
 						<div class="previewDiv" style="display:none;">
 							<div>
 								<span class="glyphicon glyphicon-remove"></span>
-								<table class="table table-bordered">
-									<tr>
-										<td>主文</td>
-										<td>名人<br>（當時頭銜）</td>
-										<td style="width: 300px;">內容</td>
-										<td>贊成還是反對</td>
-										<td>是否為直接意見</td>
-										<td>刊載媒體<br>報導時間</td>
-										<td>上線時間</td>
+								<table class="table table-bordered ">
+									<tr style="background-color: rgb(14 , 97, 174)" >
+										<td style="color: white" >主文</td>
+										<td style="color: white">名人<br>（當時頭銜）</td>
+										<td style="width: 300px;color: white">內容</td>
+										<td style="color: white">贊成還是反對</td>
+										<td style="color: white">是否為直接意見</td>
+										<td style="color: white">刊載媒體<br>報導時間</td>
+										<td style="color: white">上線時間</td>
 									</tr>
 									<tr>
 										<td><%= @issue.title %></td>
