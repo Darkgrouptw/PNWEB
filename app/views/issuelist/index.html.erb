@@ -83,7 +83,7 @@
 									<%= link_to ( @positive_page.to_i - k + 1).to_s, link %>
 								<% end %>
 							<% end %>
-							<%= ( @positive_page.to_i + 1 ).to_s %>
+							<div style="color: red;display: inline-block;"><%= ( @positive_page.to_i + 1 ).to_s %></div>
 							<% for k in 1..@PageExtend %>
 								<% if(@positive_page.to_i + k < lastPage + 1) %>
 									<% p = ( @positive_page.to_i + k ).to_s %>
@@ -144,7 +144,7 @@
 									<%= link_to ( @negative_page.to_i - k + 1).to_s, link %>
 								<% end %>
 							<% end %>
-							<%= ( @negative_page.to_i + 1 ).to_s %>
+							<div style="color: red;display: inline-block;"><%= ( @negative_page.to_i + 1 ).to_s %></div>
 							<% for k in 1..@PageExtend %>
 								<% if(@negative_page.to_i + k < lastPage + 1) %>
 									<% p = @positive_page %>
@@ -244,15 +244,15 @@
 						<select name="pos_order" onchange="location = this.value;">
 							<% temp = "thumb" %>
 							<% str_show = "依人氣排序" %>
-							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,"thumb",@neg_order,@pos_show,@neg_show,@pos_ip_select,@neg_ip_select)%>
+							<% link  = getSelfLink("0","0","thumb",@neg_order,@pos_show,@neg_show,@pos_ip_select,@neg_ip_select)%>
 							<option value="<%= link %>"  <%if @pos_order == "thumb"%>selected="selected"<%end%>><%= str_show %></option>
 							<% temp = "time" %>
 							<% str_show = "依上線時間排序(新到舊)" %>
-							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,"time",@neg_order,@pos_show,@neg_show,@pos_ip_select,@neg_ip_select)%>
+							<% link  = getSelfLink("0","0","time",@neg_order,@pos_show,@neg_show,@pos_ip_select,@neg_ip_select)%>
 							<option value="<%= link %>" <%if @pos_order == "time"%>selected="selected"<%end%>><%= str_show %></option>
 							<% temp = "time_old" %>
 							<% str_show = "依上線時間排序(舊到新)" %>
-							<% link  = getSelfLink(@positive_page.to_s,@negative_page.to_s,"time_old",@neg_order,@pos_show,@neg_show,@pos_ip_select,@neg_ip_select)%>
+							<% link  = getSelfLink("0","0","time_old",@neg_order,@pos_show,@neg_show,@pos_ip_select,@neg_ip_select)%>
 							<option value="<%= link %>" <%if @pos_order == "time_old"%>selected="selected"<%end%>><%= str_show %></option>
 						</select>
 						<select name="pos_ip_select" onchange="location = this.value;">
