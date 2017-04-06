@@ -169,7 +169,7 @@
 								</td>
 								<td>
 									<div>
-										<% id = getOtherParameter(item,"reporter") %>
+										<% id = getOtherParameter(item,"reporter").to_s %>
 										<% if id.nil? || id.empty? %>
 											無紀錄
 											
