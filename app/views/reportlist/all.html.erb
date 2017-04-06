@@ -121,7 +121,15 @@
 										<%= detail.content %>
 									</a>
 								</td>
-								<td><div><%= detail.people_name %></div><div><%= detail.title_at_that_time %></div></td>
+								<td>
+									<div>
+										<% link = peoplelist_index_path(id: detail.people_name)%>
+										<a href = <%= link %>>
+											<%= detail.people_name %>
+										</a>
+									</div>
+									<div><%= detail.title_at_that_time %></div>
+								</td>
 								<td><% if detail.is_direct %><% else %>間<% end %></td>
 								<td>
 									<div><%= detail.report_at %></div>
