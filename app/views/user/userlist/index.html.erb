@@ -71,18 +71,26 @@
 				<table class = "table table-bordered">
 					<thead>
 						<tr align = "center" >
-							<td>暱稱</td>
+							<td>
+								<div>暱稱</div>
+								<div>居住地</div>
+							</td>
 							<td>註冊日期</td>
 							<td>總積分</td>
 							<td>議題被採納數</td>
 							<td>ＰＯ意見數</td>
 							<td>對意見按讚數</td>
-							<td>權限</td>
+							<% if can_level_up_user()%>
+								<td>權限</td>
+							<% end %>
 						</tr>
 					</thead>
 					<tbody>
 						<tr> 
-							<td><%= @me.nickname %></td> 
+							<td>
+								<div><%= @me.nickname %></div>
+								<div><%= @me.liveplace %></div>
+							</td> 
 							<td><%=@me.created_at.to_date %></td> 
 							<td><%= @score %></td>
 							<td><%= @postedIssueNumber %></td>
@@ -98,7 +106,7 @@
 								</div>
 							</td>
 							<td><%= @likeList.length %></td>
-							
+							<% if can_level_up_user()%>
 							<td>
 								<% if can_editor_user(@me.id) %>
 									<div>
@@ -129,7 +137,7 @@
 										<% end %>
 									<% end %>
 								<% end %>
-								<% if can_level_up_user %>
+								<% if can_level_up_user() %>
 									<div>
 										<% if can_level_up_user() %>
 											<% if current_user.level >= @me.level && @me.level < 3%>
@@ -194,7 +202,7 @@
 									</div>
 								<% end %>
 							</td>
-							
+							<% end %>
 						</tr>
 					</tbody>
 				</table>
