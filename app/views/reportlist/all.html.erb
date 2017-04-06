@@ -101,7 +101,7 @@
 							<% user = @userlist.where(id: detail.post_id)[0] %>
 							<% if user.nil? %><% next %><% end %>
 							<% likelist = @likelist.where(detail_id: detail.id) %>
-							<% if !String_like(user.nickname,@user_search) %>
+							<% if !String_like(user.nickname,@user_search) && !String_like(getOtherParameter(item,"reporter_name"),@user_search)%>
 								<% next %>
 							<% end %>
 							<% if !String_like(detail.content,@detail_search) %>
