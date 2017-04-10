@@ -58,7 +58,7 @@ class User::UserlistController < ApplicationController
 		@reportedNumber = ReportDetail.where(detail_id: detail_ids).length
 
 		@detailIn10Top = 0
-		@all_detail = DataDetail.where(issue_id: issue_ids,is_report: false,is_report: false)
+		@all_detail = DataDetail.where(issue_id: issue_ids,is_report: false)
 		all_detail_ids=[]
 		@all_detail.each do |item|
 			all_detail_ids.push(item.id)
