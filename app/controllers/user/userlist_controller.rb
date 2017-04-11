@@ -9,7 +9,7 @@ class User::UserlistController < ApplicationController
 		details.each do |item|
 			issue_ids.push(item.issue_id)
 		end
-		issues = DataIssue.where(id: issue_ids,is_candidate: false)
+		issues = dataIssue.where(id: issue_ids,is_candidate: false)
 		detailIn10Top = 0;
 
 		all_detail = details.where(issue_id: issue_ids)
@@ -36,9 +36,13 @@ class User::UserlistController < ApplicationController
 		@user_order = params[:user_order]
 		@user_search = params[:user_search]
 
-		
-		@me = User.where(id: params[:id])[0]
-		@details = DataDetail.where(post_id: @me.id,is_report: false)
+		user_all = User.all
+		detail_all = DataDetail.all
+		issue_all = DataIssue.all
+		like_all = LikeList.all
+
+		@me = user_all.where(id: params[:id])[0]
+		@details = detail_all.where(post_id: @me.id,is_report: false)
 		detail_ids = []
 		issue_ids = []
 		people_ids = []
@@ -51,19 +55,19 @@ class User::UserlistController < ApplicationController
 		@people = DataPerson.where(id: people_ids)
 		#Post.where("id = 1").or(Post.where("author_id = 3"))
 		#users.where(users[:name].eq('bob').or(users[:age].lt(25)))
-		@issues = DataIssue.where(id: issue_ids,is_candidate: false)
-		@postedIssueNumber = DataIssue.where(post_id: @me.id,is_candidate: false).length
-		@likedNumber = LikeList.where(detail_id: detail_ids).length
-		@likeList = LikeList.where(post_id: @me.id)
+		@issues = issue_all.where(id: issue_ids,is_candidate: false)
+		@postedIssueNumber = issue_all.where(post_id: @me.id,is_candidate: false).length
+		@likedNumber = like_all.where(detail_id: detail_ids).length
+		@likeList = like_all.where(post_id: @me.id)
 		@reportedNumber = ReportDetail.where(detail_id: detail_ids).length
 
 		@detailIn10Top = 0
-		@all_detail = DataDetail.where(issue_id: issue_ids,is_report: false)
+		@all_detail = detail_all.where(issue_id: issue_ids,is_report: false)
 		all_detail_ids=[]
 		@all_detail.each do |item|
 			all_detail_ids.push(item.id)
 		end
-		all_likes = LikeList.where(detail_id: all_detail_ids)
+		all_likes = like_all.where(detail_id: all_detail_ids)
 		if all_likes.length > 0
 			@details.each do |item|
 				issue = @issues.where(id: item.issue_id)[0]
@@ -86,21 +90,21 @@ class User::UserlistController < ApplicationController
 		@score = @detailIn10Top * 3 + @details.length * 1 + @postedIssueNumber * 3
 
 		if @user_search.nil? || @user_search.empty?
-			@users = User.all
+			@users = user_all
 		else
-			@users = User.where("nickname like ?", "%" + @user_search + "%")
+			@users = user_all.where("nickname like ?", "%" + @user_search + "%")
 		end
 
 		if @user_order.nil? || @user_order.empty?
 			@user_order = "hot"
 		end
 		if @user_order == "near_hot"
-			@users = @users.sort_by{|item| DataIssue.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(post_id: item.id) + DataDetail.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(post_id: item.id)}.reverse
+			@users = @users.sort_by{|item| issue_all.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(post_id: item.id) + detail_all.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(post_id: item.id)}.reverse
 			#likelist = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 1.day)..Time.now.in_time_zone('Taipei'))
 		elsif @user_order == "hot"
-			@users = @users.sort_by{|item| DataIssue.where(post_id: item.id).length + DataDetail.where(post_id: item.id).length}.reverse
+			@users = @users.sort_by{|item| issue_all.where(post_id: item.id).length + detail_all.where(post_id: item.id).length}.reverse
 		else
-			@users = @users.sort_by{|item| getScore(DataDetail.all,DataIssue.all,LikeList.all,item)}.reverse
+			@users = @users.sort_by{|item| getScore(detail_all.all,issue_all.all,like_all.all,item)}.reverse
 		end
 
 
