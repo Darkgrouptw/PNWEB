@@ -1,0 +1,30 @@
+<div class="BigTitle">
+	<h2>其他功能頁面</h2>
+	<hr>
+</div>
+<div class="BigTitle">
+	<h3>熱門度 and 使用者分數 計算功能</h3>
+	<h4>重新計算 議題，意見，名嘴，使用者的熱門度與分數</h4>
+</div>
+<form action="<%=settingData_path%>" method="post" align="center">
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	<input type="submit" value="確定重新計算">
+</form>
+<hr>
+
+<div class="BigTitle">
+	<h3>圖片大備份</h3>
+	<h4>備份意見的圖檔(在 heroku 的系統會被覆蓋回去，請注意！！)</h4>
+</div>
+<form action="<%=backUpDetail_path%>" method="post" align="center">
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	<input type="submit" value="圖片大備份！！">
+</form>
+<div class="BigTitle">
+	<h3>啟動寄信程序</h3>
+	<h4>寄信程序需在網站重啟時啟動</h4>
+</div>
+<form action="<%=open_thread_path%>" method="post" align="center">
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	<input type="submit" value="啟動程序">
+</form>

@@ -107,6 +107,7 @@ Rails.application.routes.draw do
 	get		"ipTest"			=>	"main#ipTest",		:as =>	"ipTest"
 
 	#Only for Manager
+	get		"manager_other"		=>	"main#manager_other",	:as =>	"manager_other"
 	get		"manager_people"	=>	"main#manager_people",	:as =>	"manager_people"
 	get		"manager_media"	=>	"main#manager_media",	:as =>	"manager_media"
 	get		"manager"			=>	"main#manager",		:as =>	"manager"
@@ -118,7 +119,7 @@ Rails.application.routes.draw do
 	post 	"changePeopleTitle"	=>	"main#changePeopleTitle",	:as =>	"changePeopleTitle"
 	post 	"mergeMedia"		=>	"main#mergeMedia",	:as =>	"mergeMedia"
 	post 	"changeMediaName"		=>	"main#changeMediaName",	:as =>	"changeMediaName"
-
+	post 	"settingData"		=>	"main#settingData",	:as => "settingData"
 	#其他頁面
 	get 	"about_us"			=>	"main#about_us",	:as =>	"about_us"
 	get		"tutorial"			=>	"main#tutorial",	:as =>	"tutorial"

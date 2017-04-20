@@ -781,7 +781,19 @@ class MainController < ApplicationController
 	def manager_media
 		@allMedia = DataMedium.all
 	end
+	def manager_other
 
+	end
+	def settingData
+		flash[:notice] = "計算中...需要一段時間"
+		user = User.where(id: 1)[0]
+		issue_all = DataIssue.all;
+		detail_all = DataDetail.all;
+		people_all = DataPerson.all;
+		like_all = LikeList.all;
+		redirect_to(:back)
+		return;
+	end
 	def changeMediaName
 		if params[:p1].nil? || params[:p2].nil?
 			redirect_to(:back)

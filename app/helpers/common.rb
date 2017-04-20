@@ -26,6 +26,8 @@ module Common
 		object.other = otherJson.to_json
 		return
 	end
+
+	
 	def valid_json?(json)
 	  begin
 	    JSON.parse(json)
