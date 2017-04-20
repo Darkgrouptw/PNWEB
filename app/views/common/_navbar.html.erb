@@ -54,7 +54,7 @@
 								<% if request.path == issuelist_all_path%>
 									<% black = true %>
 								<% end %>
-								<li><a href="<%= about_us_path %>" class="headLink">關於我們</a></li>
+								
 								<li><a href="<%= link %>" class = "headLink" <%if black%> style="color:black !important;" <%end%>>議題</a></li>
 
 								<% link=peoplelist_all_path %>
@@ -73,7 +73,7 @@
 										<% #沒有登入的時候 %>
 										<li><a href="<%= register_email_path %>" class="headLink">註冊會員</a></li>
 										<li><a href="<%= login_path %>" class="headLink">會員登入</a></li>
-										
+										<li><a href="<%= about_us_path %>" class="headLink">關於我們</a></li>
 								<% else %>
 										<% #有登入的時候 %>
 										<% #通知的 Dropdown %>
@@ -97,7 +97,7 @@
 												<% end %>
 											</ul>
 										</li>
-										
+										<li><a href="<%= about_us_path %>" class="headLink">關於我們</a></li>
 										<% #帳號的 Dropdown %>
 										<li class="dropdown">
 												<a href="#" class="dropdown-toggle headLink" data-toggle="dropdown" style="padding-bottom: 10px;">
