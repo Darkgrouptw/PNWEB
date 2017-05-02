@@ -239,7 +239,7 @@ class MainController < ApplicationController
 		@media = DataMedium.all
 		@treeInfo = TreeInfo.all
 		@all_detail = DataDetail.all
-		@all_like = LikeList.all
+		@all_like = LikeList.where( created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(ip: "Taiwan")
 		@NearHotIssue = findNearHotIssue(@issues,@all_like)
 		@NearHotPeople = findNearHotPeople(@people,@all_like)
 		@InfluenceMedia = findInfluenceMedia(@media)
@@ -247,11 +247,6 @@ class MainController < ApplicationController
 		@BalanceMedia = findBalanceMedia(@media,@all_detail)
 		@NearHotIssueTree = findNearHotIssueTree(@treeInfo)
 		@details=@all_detail.where(is_report: false).order(:count).reverse.first(10)
-		person = []
-		@details.each do |detail|
-			person.push([detail.people_id])
-		end
-		@persons=@people.where(id: person)
 	end
 
 	# 
