@@ -1,6 +1,6 @@
 class IssuelistController < ApplicationController
-	def findNearHotIssue(issue_list)
-		candidate = LikeList.all
+	def findNearHotIssue(issue_list,like_all)
+		candidate = like_all
         likelist = candidate.where( created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
 
         counter = []
@@ -477,7 +477,7 @@ class IssuelistController < ApplicationController
 			#@issues.sort_by{|item| item.datadetail_id.length}
 		else
 			#@issues = @issues.sort_by{|item| item.datadetail_id.length}.reverse
-			@issues = findNearHotIssue(@issues)
+			@issues = findNearHotIssue(@issues,@AllLike)
 		end
 		
 		if @show_hide == "true"

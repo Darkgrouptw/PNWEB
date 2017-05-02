@@ -1,6 +1,6 @@
 class PeoplelistController < ApplicationController
-	def findNearHotPeople(people_list)
-		likelist = LikeList.all
+	def findNearHotPeople(people_list,all_like)
+		likelist = all_like
 		return people_list.sort_by{|item| likelist.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(detail_id: item.datadetail_id.split(',')).length}.reverse
 	end
 
@@ -13,6 +13,7 @@ class PeoplelistController < ApplicationController
 
 		@tags = params[:id]
 		@all_people = DataPerson.all;
+		@all_like = LikeList.all
 		@people_order = params[:people_order]
 		@people_search = params[:people_search]
 		@detail_order = params[:detail_order]
@@ -36,7 +37,7 @@ class PeoplelistController < ApplicationController
 		elsif @people_order == "influence"
 			@people = findInfluencePeople(@people)
 		else
-			@people = findNearHotPeople(@people)
+			@people = findNearHotPeople(@people,@all_like)
 		end
 
 		@onceUsedTitle = []

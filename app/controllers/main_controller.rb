@@ -1,6 +1,6 @@
 class MainController < ApplicationController
-	def findNearHotIssue(issue_list)
-		candidate = LikeList.all
+	def findNearHotIssue(issue_list,all_like)
+		candidate = all_like
 		likelist = candidate.where( created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei')).where(ip: "Taiwan")
 
 		counter = []
@@ -71,8 +71,8 @@ class MainController < ApplicationController
 		return result
 	end
 
-	def findNearHotPeople(people_list)
-		candidate = LikeList.all
+	def findNearHotPeople(people_list,all_like)
+		candidate = all_like
 		likelist = candidate.where(created_at: (Time.now.in_time_zone('Taipei') - 7.day)..Time.now.in_time_zone('Taipei'))
 		counter = []
 		counter_candidate = []
@@ -166,11 +166,11 @@ class MainController < ApplicationController
 		return result
 	end
 
-	def findBalanceMedia(media_list)
+	def findBalanceMedia(media_list,all_detail)
 		counter = []
 		recorder = []
 		detail_str = []
-		detail_all = DataDetail.all
+		detail_all = all_detail
 		media_list.each do |media|
 			if getOtherParameter(media,"hide") == "yes"
 				next
@@ -238,18 +238,20 @@ class MainController < ApplicationController
 		@people = DataPerson.all
 		@media = DataMedium.all
 		@treeInfo = TreeInfo.all
-		@NearHotIssue = findNearHotIssue(@issues)
-		@NearHotPeople = findNearHotPeople(@people)
+		@all_detail = DataDetail.all
+		@all_like = LikeList.all
+		@NearHotIssue = findNearHotIssue(@issues,@all_like)
+		@NearHotPeople = findNearHotPeople(@people,@all_like)
 		@InfluenceMedia = findInfluenceMedia(@media)
 		@influencePeople = findInfluencePeople(@people)
-		@BalanceMedia = findBalanceMedia(@media)
+		@BalanceMedia = findBalanceMedia(@media,@all_detail)
 		@NearHotIssueTree = findNearHotIssueTree(@treeInfo)
-		@details=DataDetail.where(is_report: false).order(:count).reverse.first(10)
+		@details=@all_detail.where(is_report: false).order(:count).reverse.first(10)
 		person = []
 		@details.each do |detail|
 			person.push([detail.people_id])
 		end
-		@persons=DataPerson.where(id: person)
+		@persons=@people.where(id: person)
 	end
 
 	# 

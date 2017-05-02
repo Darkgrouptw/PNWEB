@@ -14,6 +14,22 @@
 		return userlist_index_path(id: @me.id) + result
 	end
 %>
+<% 
+	def getOtherLink(user_search,user_order,user_id)
+		result = ""
+		if user_search.nil? || user_search.empty?
+			result = result + "?user_search=" + ""
+		else
+			result = result + "?user_search=" + user_search
+		end
+		if user_order.nil? || user_order.empty?
+			result = result + "&user_order=" + ""
+		else
+			result = result + "&user_order=" + user_order
+		end
+		return userlist_index_path(id: user_id) + result
+	end
+%>
 <div class="BigTitle">
 	<h2>使用者頁面</h2>
 	<hr>
@@ -58,7 +74,7 @@
 			<div style="border-style: solid;" >所有使用者</div>
 			<div style="overflow: scroll;height: 300px;border-style: solid;">
 				<% @users.each  do |item|%>
-					<% link  = userlist_index_path(id: item.id)%>
+					<% link  = getOtherLink(@user_search,@user_order,item.id)%>
 					<a href=<%= link %>>
 						<%= item.nickname %>
 					</a>
