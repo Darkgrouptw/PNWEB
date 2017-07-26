@@ -832,7 +832,7 @@ class MainController < ApplicationController
 
 		tempSMTP = Net::SMTP.new 'smtp.gmail.com', 587
 		tempSMTP.enable_starttls
-		tempSMTP.start("gmail.com", "npwebntust@gmail.com", "oduqcabxbrhcndkq", :login) do |smtp|
+		tempSMTP.start("gmail.com", "npwebntust@gmail.com", "NTUSTCSIE2016", :login) do |smtp|
 			smtp.open_message_stream('npwebntust@gmail.com', [email]) do |f|
 				f.puts "Content-type: text/plain; charset=UTF-8"
 				f.puts "From: 正反網頁<npwebntust@gmail.com>"
